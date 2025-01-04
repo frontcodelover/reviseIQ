@@ -10,7 +10,10 @@ export class SupabaseBackend implements Backend {
     } = await supabase.auth.getSession();
 
     if (sessionError || !session) {
-      console.error('Erreur lors de la récupération de la session utilisateur :', sessionError);
+      console.error(
+        'Erreur lors de la récupération de la session utilisateur :',
+        sessionError
+      );
       throw new Error('Utilisateur non authentifié');
     }
 
@@ -25,7 +28,10 @@ export class SupabaseBackend implements Backend {
       .eq('is_public', true);
 
     if (error) {
-      console.error('Erreur lors de la récupération des decks publics :', error);
+      console.error(
+        'Erreur lors de la récupération des decks publics :',
+        error
+      );
       throw error;
     }
 
@@ -43,7 +49,10 @@ export class SupabaseBackend implements Backend {
         .eq('user_id', userId);
 
       if (error) {
-        console.error('Erreur lors de la récupération des decks utilisateur :', error);
+        console.error(
+          'Erreur lors de la récupération des decks utilisateur :',
+          error
+        );
         throw error;
       }
 

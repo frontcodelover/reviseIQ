@@ -15,7 +15,6 @@ function Dashboard() {
       <h1>Tableau de Bord</h1>
       <CreateDeckForm onDeckCreated={handleDeckCreated} />
       <UserDecks key={refreshUserDecks.toString()} />
-
     </div>
   );
 }

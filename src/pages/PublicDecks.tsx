@@ -12,7 +12,10 @@ function PublicDecks() {
         const data = await backend.getPublicDecks();
         setDecks(data);
       } catch (error) {
-        console.error('Erreur lors de la récupération des decks publics :', error);
+        console.error(
+          'Erreur lors de la récupération des decks publics :',
+          error
+        );
       } finally {
         setLoading(false);
       }

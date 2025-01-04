@@ -19,8 +19,8 @@ function Home() {
       alert('Erreur de connexion: ' + error.message);
     } else {
       console.log('Utilisateur connecté:', data.user);
-	}
-	console.log('Token :', data.session?.access_token);
+    }
+    console.log('Token :', data.session?.access_token);
   };
 
   const handleSignUp = async () => {
@@ -30,11 +30,11 @@ function Home() {
     });
 
     if (error) {
-      console.error('Erreur d\'inscription:', error.message);
-      alert('Erreur d\'inscription: ' + error.message);
+      console.error("Erreur d'inscription:", error.message);
+      alert("Erreur d'inscription: " + error.message);
     } else {
       console.log('Inscription réussie:', data);
-      alert('Vérifiez votre email pour confirmer l\'inscription!');
+      alert("Vérifiez votre email pour confirmer l'inscription!");
     }
   };
 
@@ -54,7 +54,7 @@ function Home() {
           {t('french')}
         </button>
       </div>
-      
+
       <h1 className="text-4xl font-bold text-blue-500">{t('welcome')}</h1>
       <div className="flex gap-4 mt-4">
         <button

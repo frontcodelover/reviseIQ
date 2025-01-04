@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { getBackend } from '../services/backend';
+import { Button } from '@/components/ui/button';
 
 function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
   const [name, setName] = useState('');
@@ -39,11 +40,7 @@ function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
     >
       <h2 className="text-2xl font-bold text-center mb-4">Créer un Deck</h2>
 
-      {error && (
-        <p className="text-red-500 text-sm mb-4">
-          {error}
-        </p>
-      )}
+      {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
       <div className="mb-4">
         <label className="block text-gray-700 font-medium mb-2">
@@ -80,23 +77,13 @@ function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
             onChange={(e) => setIsPublic(e.target.checked)}
             className="h-4 w-4 text-blue-500 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
           />
-          <span className="text-gray-700 font-medium">
-            Deck Public
-          </span>
+          <span className="text-gray-700 font-medium">Deck Public</span>
         </label>
       </div>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className={`w-full px-4 py-2 text-white font-medium rounded-lg ${
-          loading
-            ? 'bg-blue-300 cursor-not-allowed'
-            : 'bg-blue-500 hover:bg-blue-600'
-        } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-      >
+      <Button type="submit" disabled={loading}>
         {loading ? 'Création...' : 'Créer'}
-      </button>
+      </Button>
     </form>
   );
 }

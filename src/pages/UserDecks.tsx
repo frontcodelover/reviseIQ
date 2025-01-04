@@ -12,7 +12,10 @@ function UserDecks() {
         const data = await backend.getUserDecks();
         setDecks(data);
       } catch (error) {
-        console.error('Erreur lors de la récupération des decks utilisateur :', error);
+        console.error(
+          'Erreur lors de la récupération des decks utilisateur :',
+          error
+        );
       } finally {
         setLoading(false);
       }
@@ -21,14 +24,19 @@ function UserDecks() {
     fetchUserDecks();
   }, []);
 
-  if (loading) return <p className="text-center text-gray-500">Chargement de vos decks...</p>;
+  if (loading)
+    return (
+      <p className="text-center text-gray-500">Chargement de vos decks...</p>
+    );
 
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold text-center mb-6">Vos Decks</h1>
 
       {decks.length === 0 ? (
-        <p className="text-center text-gray-500">Vous n'avez pas encore créé de deck.</p>
+        <p className="text-center text-gray-500">
+          Vous n'avez pas encore créé de deck.
+        </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {decks.map((deck) => (
