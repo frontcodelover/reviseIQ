@@ -4,5 +4,10 @@
   "signup": "Test Inscription",
   "language": "Langue",
   "english": "Anglais",
-  "french": "Français"
+  "french": "Français",
+  "home": {
+	"title": "Créer, apprendre et réviser intelligemment",	
+	"description": "Créez des flashcards intelligentes grâce à l'IA pour vous aider à mémoriser et apprendre plus rapidement.",
+	"cta" : "Commencer"
+  }
 }

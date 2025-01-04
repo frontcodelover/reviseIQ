@@ -1,5 +1,8 @@
+import Hero from '@/components/home/hero';
 import { supabase } from '../services/supabaseClient';
 import { useTranslation } from 'react-i18next';
+import { US } from 'country-flag-icons/react/3x2';
+import { FR } from 'country-flag-icons/react/3x2';
 
 function Home() {
   const { t, i18n } = useTranslation();
@@ -39,32 +42,35 @@ function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <div className="absolute top-4 right-4 flex gap-2">
+    <div>
+      <Hero />
+      <div className="absolute right-4 top-4 z-50 flex gap-2">
         <button
-          className="px-3 py-1 text-sm border rounded hover:bg-gray-100"
+          className="flex items-center gap-2 rounded border bg-white px-3 py-1 text-sm hover:bg-gray-100"
           onClick={() => changeLanguage('en')}
         >
           {t('english')}
+          <US title="United States" className="w-5" />
         </button>
         <button
-          className="px-3 py-1 text-sm border rounded hover:bg-gray-100"
+          className="flex items-center gap-2 rounded border bg-white px-3 py-1 text-sm hover:bg-gray-100"
           onClick={() => changeLanguage('fr')}
         >
           {t('french')}
+          <FR title="United States" className="w-5" />
         </button>
       </div>
 
       <h1 className="text-4xl font-bold text-blue-500">{t('welcome')}</h1>
-      <div className="flex gap-4 mt-4">
+      <div className="mt-4 flex gap-4">
         <button
-          className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
           onClick={handleLogin}
         >
           {t('login')}
         </button>
         <button
-          className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
+          className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600"
           onClick={handleSignUp}
         >
           Test Signup

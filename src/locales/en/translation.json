@@ -4,5 +4,10 @@
   "signup": "Test Signup",
   "language": "Language",
   "english": "English",
-  "french": "French"
+  "french": "French",
+  "home": {
+	"title": "Create, learn and revise intelligently",
+	"description": "Learn and revise your courses more effectively with ReviseIQ. Create smart flashcards with AI to help you memorize faster.",
+	"cta" : "Get started"
+  }
 }
