@@ -1,13 +1,24 @@
 {
+  "title": "ReviseIQ",
   "welcome": "Bienvenue sur ReviseIQ !",
   "login": "Connexion",
   "signup": "Test Inscription",
+  "signout": "Déconnexion",
   "language": "Langue",
   "english": "Anglais",
   "french": "Français",
   "home": {
-	"title": "Créer, apprendre et réviser intelligemment",	
-	"description": "Créez des flashcards intelligentes grâce à l'IA pour vous aider à mémoriser et apprendre plus rapidement.",
-	"cta" : "Commencer"
+    "title": "Créer, apprendre et réviser intelligemment",
+    "description": "Créez des flashcards intelligentes grâce à l'IA pour vous aider à mémoriser et apprendre plus rapidement.",
+    "cta": "Commencer"
+  },
+  "dashboard": {
+    "account": "Compte",
+    "billing": "Facturation",
+	"home" : "Accueil",
+	"community" : "Communauté",
+	"deck" : "Dossiers",
+	"search" : "Recherche",
+	"calendar" : "Calendrier"
   }
 }

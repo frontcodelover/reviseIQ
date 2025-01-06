@@ -1,13 +1,24 @@
 {
+  "title": "ReviseIQ",
   "welcome": "Welcome to ReviseIQ!",
   "login": "Login",
+  "signout": "Sign out",
   "signup": "Test Signup",
   "language": "Language",
   "english": "English",
   "french": "French",
   "home": {
-	"title": "Create, learn and revise intelligently",
-	"description": "Learn and revise your courses more effectively with ReviseIQ. Create smart flashcards with AI to help you memorize faster.",
-	"cta" : "Get started"
+    "title": "Create, learn and revise intelligently",
+    "description": "Learn and revise your courses more effectively with ReviseIQ. Create smart flashcards with AI to help you memorize faster.",
+    "cta": "Get started"
+  },
+  "dashboard": {
+    "account": "Account",
+    "billing": "Billing",
+	"home" : "Home",
+	"community" : "Community",
+	"deck" : "Folders",
+	"search" : "Search",
+	"calendar" : "Calendar"
   }
 }

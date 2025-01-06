@@ -64,7 +64,11 @@ export class SupabaseBackend implements Backend {
   }
 
   // Création d'un nouveau deck
-  async createDeck(deckData: any) {
+  async createDeck(deckData: {
+    title: string;
+    description: string;
+    is_public: boolean;
+  }) {
     try {
       const userId = await this.getUserId();
 

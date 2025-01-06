@@ -27,9 +27,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const fetchUser = async () => {
       try {
         const currentUser = await getUser();
+        console.log(currentUser);
         setUser(currentUser);
       } catch (error) {
-        console.error('Erreur lors de la récupération de l\'utilisateur :', error);
+        console.error(
+          "Erreur lors de la récupération de l'utilisateur :",
+          error
+        );
       } finally {
         setLoading(false);
       }

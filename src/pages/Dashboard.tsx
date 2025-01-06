@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from '@/services/backend/auth';
 import UserDecks from './UserDecks';
-import CreateDeckForm from '../components/CreateDeckForm';
+import CreateDeckForm from '@/components/createDeckForm';
+import Layout from './dashboard/Layout';
 
 function Dashboard() {
   const [refreshUserDecks, setRefreshUserDecks] = useState(false);
@@ -22,19 +23,21 @@ function Dashboard() {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Tableau de Bord</h1>
-        <button
-          onClick={handleSignOut}
-          className="px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg"
-        >
-          Se déconnecter
-        </button>
+    <Layout>
+      <div className="container mx-auto p-6">
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className="text-3xl font-bold">Tableau de Bord</h1>
+          <button
+            onClick={handleSignOut}
+            className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+          >
+            Se déconnecter
+          </button>
+        </div>
+        <CreateDeckForm onDeckCreated={handleDeckCreated} />
+        <UserDecks key={refreshUserDecks.toString()} />
       </div>
-      <CreateDeckForm onDeckCreated={handleDeckCreated} />
-      <UserDecks key={refreshUserDecks.toString()} />
-    </div>
+    </Layout>
   );
 }
 

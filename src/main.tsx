@@ -5,14 +5,16 @@ import Home from './pages/Home.tsx';
 import './i18n';
 import Dashboard from './pages/Dashboard.tsx';
 import { AuthProvider } from './context/AuthContext';
-import ProtectedRoute from '@/components/ProtectedRoutes';
+import ProtectedRoute from '@/components/protectedRoutes.tsx';
 import Login from './pages/Login.tsx';
 import SignUp from './pages/Signup.tsx';
+import NoMatch from './pages/NoMatch.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <AuthProvider>
     <BrowserRouter>
       <Routes>
+        <Route path="*" element={<NoMatch />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
