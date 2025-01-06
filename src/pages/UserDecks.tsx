@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getBackend } from '../services/backend';
+import { useTranslation } from 'react-i18next';
+import CardFolder from '@/components/dashboard/folders/cardFolder';
 
 // Utiliser l'interface Deck du backend
 import type { Deck } from '../services/backend';
@@ -7,6 +9,7 @@ import type { Deck } from '../services/backend';
 function UserDecks(): JSX.Element {
   const [decks, setDecks] = useState<Deck[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchUserDecks = async () => {
@@ -35,30 +38,23 @@ function UserDecks(): JSX.Element {
 
   if (loading)
     return (
-      <p className="text-center text-gray-500">Chargement de vos decks...</p>
+      <p className="text-center text-gray-500">{t('loading')}</p>
     );
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="mb-6 text-center text-3xl font-bold">Vos Decks</h1>
+    <div className="container mx-auto">
+      <h1 className="mb-6 text-3xl font-bold">
+        {t('dashboard.folder.yourfolder')}
+      </h1>
 
       {decks.length === 0 ? (
         <p className="text-center text-gray-500">
-          Vous n'avez pas encore créé de deck.
+          {t('dashboard.folder.nofolder')}
         </p>
       ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
           {decks.map((deck) => (
-            <div
-              key={deck.id}
-              className="rounded-lg bg-white p-6 shadow-md transition-shadow hover:shadow-lg"
-            >
-              <h2 className="mb-2 text-xl font-semibold">{deck.name}</h2>
-              <p className="text-gray-600">{deck.description}</p>
-              <p className="mt-4 text-sm text-gray-400">
-                {deck.is_public ? 'Public' : 'Privé'}
-              </p>
-            </div>
+            <CardFolder key={deck.id} {...deck} />
           ))}
         </div>
       )}

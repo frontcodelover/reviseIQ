@@ -7,6 +7,7 @@
   "language": "Langue",
   "english": "Anglais",
   "french": "Français",
+  "loading": "Chargement...",
   "home": {
     "title": "Créer, apprendre et réviser intelligemment",
     "description": "Créez des flashcards intelligentes grâce à l'IA pour vous aider à mémoriser et apprendre plus rapidement.",
@@ -19,6 +20,14 @@
 	"community" : "Communauté",
 	"deck" : "Dossiers",
 	"search" : "Recherche",
-	"calendar" : "Calendrier"
+	"calendar" : "Calendrier",
+	"folder" : {
+		"yourfolder" : "Vos dossiers",
+		"createfolder" : "Créer un dossier",
+		"nofolder" : "Vous n'avez pas encore créé de dossier.",
+		"publicfolder" : "Public",
+		"privatefolder" : "Privé"
+	}
   }
+
 }

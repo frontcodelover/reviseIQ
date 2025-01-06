@@ -7,6 +7,7 @@
   "language": "Language",
   "english": "English",
   "french": "French",
+  "loading": "Loading...",
   "home": {
     "title": "Create, learn and revise intelligently",
     "description": "Learn and revise your courses more effectively with ReviseIQ. Create smart flashcards with AI to help you memorize faster.",
@@ -15,10 +16,17 @@
   "dashboard": {
     "account": "Account",
     "billing": "Billing",
-	"home" : "Home",
-	"community" : "Community",
-	"deck" : "Folders",
-	"search" : "Search",
-	"calendar" : "Calendar"
+    "home": "Home",
+    "community": "Community",
+    "deck": "Folders",
+    "search": "Search",
+    "calendar": "Calendar",
+    "folder": {
+      "yourfolder": "Your folders",
+      "createfolder": "Create a folder",
+	  "nofolder": "You haven't created any folder yet.",
+	  "publicfolder": "Public",
+	  "privatefolder": "Private"
+    }
   }
 }

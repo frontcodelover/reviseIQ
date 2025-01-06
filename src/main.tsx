@@ -1,14 +1,17 @@
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import Home from './pages/Home.tsx';
 import './i18n';
-import Dashboard from './pages/Dashboard.tsx';
+import Dashboard from './pages/dashboard/Dashboard.tsx';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from '@/components/protectedRoutes.tsx';
 import Login from './pages/Login.tsx';
 import SignUp from './pages/Signup.tsx';
 import NoMatch from './pages/NoMatch.tsx';
+import LayoutDashboard from './components/layoutDashboard.tsx';
+import Community from './pages/dashboard/Community.tsx';
+import Folders from './pages/dashboard/Folders.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <AuthProvider>
@@ -22,10 +25,16 @@ createRoot(document.getElementById('root')!).render(
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <LayoutDashboard>
+                <Outlet />
+              </LayoutDashboard>
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="community" element={<Community />} />
+          <Route path="folders" element={<Folders />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   </AuthProvider>
