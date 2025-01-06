@@ -3,7 +3,6 @@ import { getBackend } from '../services/backend';
 import { Button } from '@/components/ui/button';
 import ColorPicker from './dashboard/folders/colorPicker';
 
-
 function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');

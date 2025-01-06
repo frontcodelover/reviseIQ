@@ -5,6 +5,7 @@ import CardFolder from '@/components/dashboard/folders/cardFolder';
 
 // Utiliser l'interface Deck du backend
 import type { Deck } from '../services/backend';
+import CardNewFolder from '@/components/dashboard/folders/cardNewFolder';
 
 function UserDecks(): JSX.Element {
   const [decks, setDecks] = useState<Deck[]>([]);
@@ -37,27 +38,27 @@ function UserDecks(): JSX.Element {
   }, []);
 
   if (loading)
-    return (
-      <p className="text-center text-gray-500">{t('loading')}</p>
-    );
+    return <p className="text-center text-gray-500">{t('loading')}</p>;
 
   return (
     <div className="container mx-auto">
       <h1 className="mb-6 text-3xl font-bold">
         {t('dashboard.folder.yourfolder')}
       </h1>
-
-      {decks.length === 0 ? (
-        <p className="text-center text-gray-500">
-          {t('dashboard.folder.nofolder')}
-        </p>
-      ) : (
-        <div className="grid gap-6 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-          {decks.map((deck) => (
-            <CardFolder key={deck.id} {...deck} />
-          ))}
-        </div>
-      )}
+      <div className="flex flex-col gap-6">
+        <CardNewFolder />
+        {decks.length === 0 ? (
+          <p className="text-center text-gray-500">
+            {t('dashboard.folder.nofolder')}
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {decks.map((deck) => (
+              <CardFolder key={deck.id} {...deck} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
