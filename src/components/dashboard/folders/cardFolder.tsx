@@ -6,24 +6,24 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-
 import { Lock, Users } from 'lucide-react';
-
 import { useTranslation } from 'react-i18next';
 
 interface CardFolderProps {
   id: string;
   name: string;
   description: string;
+  color: string;
   is_public: boolean;
 }
 
 const CardFolder = ({ id, ...props }: CardFolderProps) => {
-  const { name, description, is_public } = props;
-  const { t } = useTranslation();
+  const { name, description, color, is_public } = props;
+	const { t } = useTranslation();
 
+  console.log('CardFolder', props);
   return (
-    <Card id={id} className="w-full border-t-4 border-t-red-500">
+    <Card id={id} className="w-full border-t-4" style={{ borderTopColor: color }}>
       <div className="flex h-full flex-col justify-between">
         <div>
           <CardHeader>

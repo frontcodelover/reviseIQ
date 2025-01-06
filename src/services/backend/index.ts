@@ -5,6 +5,7 @@ export interface Deck {
   name: string;
   description: string;
   is_public: boolean;
+  color: string;
 }
 
 export interface Backend {

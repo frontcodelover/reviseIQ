@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { getBackend } from '../services/backend';
 import { Button } from '@/components/ui/button';
+import ColorPicker from './dashboard/folders/colorPicker';
+
 
 function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(true);
+  const [color, setColor] = useState('#F0F0F0');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -20,6 +23,7 @@ function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
         name,
         description,
         is_public: isPublic,
+        color,
       });
       setName('');
       setDescription('');
@@ -32,6 +36,8 @@ function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
       setLoading(false);
     }
   };
+	
+  const colors = ['#000000', '#404040', '#b91c1c', '#b45309', '#4d7c0f', '#047857', '#0e7490', '#1d4ed8', '#6d28d9', '#a21caf', '#facc15'];
 
   return (
     <form
@@ -79,6 +85,12 @@ function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
           />
           <span className="font-medium text-gray-700">Deck Public</span>
         </label>
+      </div>
+
+   
+      <div className="mb-4">
+        <label className="mb-2 block font-medium text-gray-700">Couleur</label>
+        <ColorPicker selectedColor={color} onSelectColor={setColor} colors={colors} />
       </div>
 
       <Button type="submit" disabled={loading}>
