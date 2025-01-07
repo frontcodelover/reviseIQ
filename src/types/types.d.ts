@@ -43,10 +43,19 @@ interface ColorPickerProps {
   colors: string[];
 }
 
+interface CardFolderProps {
+  id: string;
+  name: string;
+  description: string;
+  color: string;
+  is_public: boolean;
+}
+
 interface Backend {
   getPublicDecks(): Promise<Deck[]>;
   getUserDecks(): Promise<Deck[]>;
   createDeck(deckData: Partial<Deck>): Promise<void>;
   upsertUser(userData: Partial<User>): Promise<void>;
-  getFolderById(folderId: string): Promise<{ name: string }>;
+  getFolderById(id: string): Promise<CardFolderProps>;
+  deleteFolder(id: string): Promise<void>;
 }

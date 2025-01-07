@@ -38,10 +38,6 @@ function UserDecks(): JSX.Element {
     return <p className="text-center text-gray-500">{t('loading')}</p>;
 
   return (
-    <div className="container mx-auto">
-      <h1 className="mb-6 text-3xl font-bold">
-        {t('dashboard.folder.yourfolder')}
-      </h1>
       <div className="flex flex-col gap-6">
         <CardNewFolder />
         {decks.length === 0 ? (
@@ -56,7 +52,6 @@ function UserDecks(): JSX.Element {
           </div>
         )}
       </div>
-    </div>
   );
 }
 

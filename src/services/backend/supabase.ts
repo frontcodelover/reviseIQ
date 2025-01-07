@@ -1,6 +1,5 @@
 import { supabase } from '../supabaseClient';
 
-
 export class SupabaseBackend implements Backend {
   // Private method to fetch the authenticated user's ID
   private async getUserId(): Promise<string> {
@@ -45,7 +44,8 @@ export class SupabaseBackend implements Backend {
       const { data, error } = await supabase
         .from('decks')
         .select('*')
-        .eq('user_id', userId);
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
 
       if (error) {
         console.error('Error fetching user decks:', error);
@@ -60,7 +60,11 @@ export class SupabaseBackend implements Backend {
   }
 
   // Create a new deck
-  async createDeck(deckData: { title: string; description: string; is_public: boolean }): Promise<void> {
+  async createDeck(deckData: {
+    title: string;
+    description: string;
+    is_public: boolean;
+  }): Promise<void> {
     try {
       const userId = await this.getUserId();
 
@@ -131,11 +135,11 @@ export class SupabaseBackend implements Backend {
   }
 
   // Fetch folder name by ID
-  async getFolderById(folderId: string): Promise<{ name: string }> {
+  async getFolderById(folderId: string): Promise<CardFolderProps> {
     try {
       const { data, error } = await supabase
         .from('decks')
-        .select('name')
+        .select('*')
         .eq('id', folderId)
         .single();
 
@@ -147,6 +151,23 @@ export class SupabaseBackend implements Backend {
       return data;
     } catch (error) {
       console.error('Error in getFolderById:', error);
+      throw error;
+    }
+  }
+
+  async deleteFolder(folderId: string): Promise<void> {
+    try {
+      const { error } = await supabase
+        .from('decks')
+        .delete()
+        .eq('id', folderId);
+      if (error) {
+        console.error('Error deleting folder:', error);
+        throw error;
+      }
+      console.log('Folder deleted successfully');
+    } catch (error) {
+      console.error('Error in deleteFolder:', error);
       throw error;
     }
   }

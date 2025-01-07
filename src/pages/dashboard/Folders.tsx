@@ -1,17 +1,14 @@
-import { useState } from 'react';
-import CreateDeckForm from '@/components/createDeckForm';
-import UserDecks from '@/pages/UserDecks';
+import UserDecks from '@/components/dashboard/folders/userDecks';
+import { useTranslation } from 'react-i18next';
 
 function Folders() {
-  const [refreshUserDecks, setRefreshUserDecks] = useState(false);
-
-  const handleDeckCreated = () => {
-    setRefreshUserDecks(!refreshUserDecks);
-  };
+  const { t } = useTranslation();
   return (
     <>
-      <UserDecks key={refreshUserDecks.toString()} />
-      <CreateDeckForm onDeckCreated={handleDeckCreated} />
+      <h1 className="mb-6 text-3xl font-bold">
+        {t('dashboard.folder.yourfolder')}
+      </h1>
+      <UserDecks />
     </>
   );
 }
