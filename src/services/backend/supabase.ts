@@ -1,5 +1,4 @@
 import { supabase } from '../supabaseClient';
-import { Backend } from './index';
 
 export class SupabaseBackend implements Backend {
   // Private method to fetch the authenticated user's ID

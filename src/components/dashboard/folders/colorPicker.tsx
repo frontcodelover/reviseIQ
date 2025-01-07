@@ -2,12 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import { Check } from 'lucide-react';
 
-interface ColorPickerProps {
-  selectedColor: string;
-  onSelectColor: (color: string) => void;
-  colors: string[];
-}
-
 // Fonction utilitaire pour convertir une couleur hexadécimale en rgba avec une opacité
 const hexToRgba = (hex: string, alpha: number) => {
   const r = parseInt(hex.slice(1, 3), 16);

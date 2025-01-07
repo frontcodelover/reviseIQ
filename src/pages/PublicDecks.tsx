@@ -2,12 +2,6 @@ import { useEffect, useState } from 'react';
 import { getBackend } from '../services/backend';
 
 function PublicDecks() {
-  interface Deck {
-    id: string;
-    name: string;
-    description: string;
-  }
-
   const [decks, setDecks] = useState<Deck[]>([]);
   const [loading, setLoading] = useState(true);
 

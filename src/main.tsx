@@ -13,7 +13,7 @@ import LayoutDashboard from './components/layoutDashboard.tsx';
 import Community from './pages/dashboard/Community.tsx';
 import Folders from './pages/dashboard/Folders.tsx';
 import Settings from './pages/dashboard/Settings.tsx';
-import SinglePageFolder from './pages/folder/single.tsx';
+import SinglePageFolder from './pages/folder/Single.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <AuthProvider>

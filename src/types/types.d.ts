@@ -36,3 +36,16 @@ interface User {
   phone?: string;
   status?: 'student' | 'pupil' | 'apprentice' | 'teacher' | 'other';
 }
+
+interface ColorPickerProps {
+	selectedColor: string;
+	onSelectColor: (color: string) => void;
+	colors: string[];
+}
+  
+interface Backend {
+  getPublicDecks(): Promise<Deck[]>;
+  getUserDecks(): Promise<Deck[]>;
+  createDeck(deckData: Partial<Deck>): Promise<void>;
+  upsertUser(userData: Partial<User>): Promise<void>;
+}
