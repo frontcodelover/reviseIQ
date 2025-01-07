@@ -16,18 +16,36 @@
   "dashboard": {
     "account": "Compte",
     "billing": "Facturation",
-	"home" : "Accueil",
-	"community" : "Communauté",
-	"deck" : "Dossiers",
-	"search" : "Recherche",
-	"calendar" : "Calendrier",
-	"folder" : {
-		"yourfolder" : "Vos dossiers",
-		"createfolder" : "Créer un dossier",
-		"nofolder" : "Vous n'avez pas encore créé de dossier.",
-		"publicfolder" : "Public",
-		"privatefolder" : "Privé"
-	}
+    "home": "Accueil",
+    "community": "Communauté",
+    "deck": "Dossiers",
+    "search": "Recherche",
+    "calendar": "Calendrier",
+    "firstimeForm": {
+      "title": "Complétez votre profil",	
+      "firstnameLabel": "Entrez votre prénom",
+	  "firstname": "Prénom",
+      "nameLabel": "Entrez votre nom",
+	  "name": "Nom",
+      "emailLabel": "Entrez votre email",
+	  "email": "Email",
+      "phoneLabel": "Entrez votre numéro de téléphone",
+	  "phone": "Numéro de téléphone",
+	  "statut": "Vous êtes :",
+      "student": "Étudiant",
+      "pupil": "Élève",
+      "apprentice": "Apprenti",
+      "teacher": "Enseignant",
+      "other": "Autre",
+	  "submit": "Soumettre",
+	  "loading": "Chargement..."
+    },
+    "folder": {
+      "yourfolder": "Vos dossiers",
+      "createfolder": "Créer un dossier",
+      "nofolder": "Vous n'avez pas encore créé de dossier.",
+      "publicfolder": "Public",
+      "privatefolder": "Privé"
+    }
   }
-
 }

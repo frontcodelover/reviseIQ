@@ -2,7 +2,7 @@ import { supabase } from '../supabaseClient';
 import { Backend } from './index';
 
 export class SupabaseBackend implements Backend {
-  // Méthode privée pour récupérer l'ID utilisateur connecté
+  // Private method to fetch the authenticated user's ID
   private async getUserId(): Promise<string> {
     const {
       data: { session },
@@ -10,35 +10,34 @@ export class SupabaseBackend implements Backend {
     } = await supabase.auth.getSession();
 
     if (sessionError || !session) {
-      console.error(
-        'Erreur lors de la récupération de la session utilisateur :',
-        sessionError
-      );
-      throw new Error('Utilisateur non authentifié');
+      console.error('Error fetching user session:', sessionError);
+      throw new Error('User not authenticated');
     }
 
     return session.user.id;
   }
 
-  // Récupération des decks publics
+  // Fetch public decks
   async getPublicDecks() {
-    const { data, error } = await supabase
-      .from('decks')
-      .select('*')
-      .eq('is_public', true);
+    try {
+      const { data, error } = await supabase
+        .from('decks')
+        .select('*')
+        .eq('is_public', true);
 
-    if (error) {
-      console.error(
-        'Erreur lors de la récupération des decks publics :',
-        error
-      );
+      if (error) {
+        console.error('Error fetching public decks:', error);
+        throw error;
+      }
+
+      return data || [];
+    } catch (error) {
+      console.error('Error in getPublicDecks:', error);
       throw error;
     }
-
-    return data || [];
   }
 
-  // Récupération des decks utilisateur
+  // Fetch user-specific decks
   async getUserDecks() {
     try {
       const userId = await this.getUserId();
@@ -49,21 +48,18 @@ export class SupabaseBackend implements Backend {
         .eq('user_id', userId);
 
       if (error) {
-        console.error(
-          'Erreur lors de la récupération des decks utilisateur :',
-          error
-        );
+        console.error('Error fetching user decks:', error);
         throw error;
       }
 
       return data || [];
     } catch (error) {
-      console.error('Erreur dans getUserDecks :', error);
+      console.error('Error in getUserDecks:', error);
       throw error;
     }
   }
 
-  // Création d'un nouveau deck
+  // Create a new deck
   async createDeck(deckData: {
     title: string;
     description: string;
@@ -73,18 +69,66 @@ export class SupabaseBackend implements Backend {
       const userId = await this.getUserId();
 
       const { error } = await supabase.from('decks').insert({
-        user_id: userId, // Automatiquement récupéré
+        user_id: userId,
         ...deckData,
       });
 
       if (error) {
-        console.error('Erreur lors de la création du deck :', error);
+        console.error('Error creating deck:', error);
         throw error;
       }
 
-      console.log('Deck créé avec succès');
+      console.log('Deck created successfully');
     } catch (error) {
-      console.error('Erreur dans createDeck :', error);
+      console.error('Error in createDeck:', error);
+      throw error;
+    }
+  }
+
+  // Upsert a user's profile in the "users" table
+  async upsertUser(userData: {
+    firstname: string;
+    lastname: string;
+    email: string;
+    phone?: string;
+    status: 'student' | 'pupil' | 'apprentice' | 'teacher' | 'other';
+  }): Promise<void> {
+    try {
+		const { data, error } = await supabase.from('users').upsert([userData], {
+			onConflict: 'email', // Update if the email already exists
+		  });
+
+      if (error) {
+        console.error('Error upserting user:', error);
+        throw error;
+      }
+
+      console.log('User updated successfully:', data);
+    } catch (error) {
+      console.error('Error in upsertUser:', error);
+      throw error;
+    }
+  }
+
+  // Fetch the authenticated user's profile
+  async getUserProfile() {
+    try {
+      const userId = await this.getUserId();
+
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching user profile:', error);
+        throw error;
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error in getUserProfile:', error);
       throw error;
     }
   }

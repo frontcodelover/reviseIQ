@@ -1,18 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { getUser } from '@/services/backend/auth';
 
-export interface User {
-  id: string;
-  name?: string;
-  email?: string;
-}
-
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  setUser: (user: User | null) => void;
-}
-
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,

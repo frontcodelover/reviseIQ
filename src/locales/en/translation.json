@@ -24,9 +24,28 @@
     "folder": {
       "yourfolder": "Your folders",
       "createfolder": "Create a folder",
-	  "nofolder": "You haven't created any folder yet.",
-	  "publicfolder": "Public",
-	  "privatefolder": "Private"
+      "nofolder": "You haven't created any folder yet.",
+      "publicfolder": "Public",
+      "privatefolder": "Private"
+    },
+    "firstimeForm": {
+      "title": "Complete your profile",
+      "firstnameLabel": "Enter your first name",
+	  "firstname": "First name",
+      "nameLabel": "Enter your last name",
+	  "name": "Last name",
+      "emailLabel": "Enter your email",
+	  "email": "Email",
+      "phoneLabel": "Enter your phone number",
+	  "phone": "Phone number",
+      "statut": "You are a",
+      "student": "Student",
+      "pupil": "Pupil",
+      "apprentice": "Apprentice",
+      "teacher": "Teacher",
+      "other": "Other",
+      "submit": "Submit",
+      "loading": "Loading..."
     }
   }
 }

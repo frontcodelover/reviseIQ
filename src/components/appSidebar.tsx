@@ -27,7 +27,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/context/AuthContext';
 import clsx from 'clsx';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useHandleSignOut } from '@/hooks/useSignOut';
 import { useUserDecksCount } from '@/hooks/useUserDecksCount';
 
@@ -115,7 +115,6 @@ export function AppSidebar() {
                               {item.nb}
                             </span>
                           )}
-                          
                         </NavLink>
                       )}
                     </SidebarMenuButton>
@@ -141,7 +140,9 @@ export function AppSidebar() {
                 className="w-[--radix-popper-anchor-width]"
               >
                 <DropdownMenuItem>
-                  <span>{t('dashboard.account')}</span>
+                  <Link to="/dashboard/settings">
+                    <span>{t('dashboard.account')}</span>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <span>{t('dashboard.billing')}</span>
