@@ -38,14 +38,15 @@ interface User {
 }
 
 interface ColorPickerProps {
-	selectedColor: string;
-	onSelectColor: (color: string) => void;
-	colors: string[];
+  selectedColor: string;
+  onSelectColor: (color: string) => void;
+  colors: string[];
 }
-  
+
 interface Backend {
   getPublicDecks(): Promise<Deck[]>;
   getUserDecks(): Promise<Deck[]>;
   createDeck(deckData: Partial<Deck>): Promise<void>;
   upsertUser(userData: Partial<User>): Promise<void>;
+  getFolderById(folderId: string): Promise<{ name: string }>;
 }

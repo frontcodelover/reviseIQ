@@ -1,5 +1,6 @@
 import { supabase } from '../supabaseClient';
 
+
 export class SupabaseBackend implements Backend {
   // Private method to fetch the authenticated user's ID
   private async getUserId(): Promise<string> {
@@ -17,7 +18,7 @@ export class SupabaseBackend implements Backend {
   }
 
   // Fetch public decks
-  async getPublicDecks() {
+  async getPublicDecks(): Promise<Deck[]> {
     try {
       const { data, error } = await supabase
         .from('decks')
@@ -37,7 +38,7 @@ export class SupabaseBackend implements Backend {
   }
 
   // Fetch user-specific decks
-  async getUserDecks() {
+  async getUserDecks(): Promise<Deck[]> {
     try {
       const userId = await this.getUserId();
 
@@ -59,11 +60,7 @@ export class SupabaseBackend implements Backend {
   }
 
   // Create a new deck
-  async createDeck(deckData: {
-    title: string;
-    description: string;
-    is_public: boolean;
-  }) {
+  async createDeck(deckData: { title: string; description: string; is_public: boolean }): Promise<void> {
     try {
       const userId = await this.getUserId();
 
@@ -86,6 +83,7 @@ export class SupabaseBackend implements Backend {
 
   // Upsert a user's profile in the "users" table
   async upsertUser(userData: {
+    user_id: string;
     firstname: string;
     lastname: string;
     email: string;
@@ -93,9 +91,9 @@ export class SupabaseBackend implements Backend {
     status: 'student' | 'pupil' | 'apprentice' | 'teacher' | 'other';
   }): Promise<void> {
     try {
-		const { data, error } = await supabase.from('users').upsert([userData], {
-			onConflict: 'email', // Update if the email already exists
-		  });
+      const { data, error } = await supabase.from('users').upsert([userData], {
+        onConflict: 'email', // Update if the email already exists
+      });
 
       if (error) {
         console.error('Error upserting user:', error);
@@ -110,7 +108,7 @@ export class SupabaseBackend implements Backend {
   }
 
   // Fetch the authenticated user's profile
-  async getUserProfile() {
+  async getUserProfile(): Promise<User> {
     try {
       const userId = await this.getUserId();
 
@@ -128,6 +126,27 @@ export class SupabaseBackend implements Backend {
       return data;
     } catch (error) {
       console.error('Error in getUserProfile:', error);
+      throw error;
+    }
+  }
+
+  // Fetch folder name by ID
+  async getFolderById(folderId: string): Promise<{ name: string }> {
+    try {
+      const { data, error } = await supabase
+        .from('decks')
+        .select('name')
+        .eq('id', folderId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching folder name:', error);
+        throw error;
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error in getFolderById:', error);
       throw error;
     }
   }
