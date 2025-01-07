@@ -43,7 +43,7 @@ const CardFolder = ({ id, ...props }: CardFolderProps) => {
             <CardTitle>
               <div className="flex h-full items-start justify-between">
                 <div className="flex flex-col justify-center">
-                  <h2 className="truncate pb-1 font-bold text-slate-900">
+                  <h2 className="max-w-72 truncate pb-1 font-bold text-slate-900 sm:max-w-48 xl:max-w-64">
                     <Link to={`/dashboard/folders/${id}`}>{name}</Link>
                   </h2>
                   <span className="text-sm font-normal text-slate-600">
@@ -51,12 +51,12 @@ const CardFolder = ({ id, ...props }: CardFolderProps) => {
                   </span>
                 </div>
                 <div className="flex h-full gap-1">
-                  <span className="rounded border border-green-200 bg-green-100 p-2 text-green-400">
+                  <span className="rounded border border-green-200 bg-green-100 p-2 text-green-600">
                     <Link to={`/dashboard/folders/${id}/edit`}>
                       <EditIcon className="h-4 w-4" />
                     </Link>
                   </span>
-                  <span className="rounded border border-red-200 bg-red-100 p-2 text-red-400">
+                  <span className="rounded border border-red-200 bg-red-100 p-2 text-red-600">
                     <button onClick={deleteFolder}>
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -66,8 +66,7 @@ const CardFolder = ({ id, ...props }: CardFolderProps) => {
             </CardTitle>
             <Separator className="my-1" />
           </CardHeader>
-
-          <CardDescription className="line-clamp-2 text-pretty px-6 text-base text-slate-600">
+          <CardDescription className="line-clamp-2 max-w-80 truncate text-pretty px-6 text-slate-500">
             {description}
           </CardDescription>
         </div>
@@ -75,12 +74,12 @@ const CardFolder = ({ id, ...props }: CardFolderProps) => {
         <CardFooter>
           <div className="mt-6 flex w-full items-center justify-end text-xs">
             {is_public ? (
-              <div className="flex items-center gap-1 rounded-lg bg-green-50 px-2 py-1 text-green-700">
+              <div className="flex items-center gap-1 rounded border border-green-200 bg-green-100 px-2 py-1 text-green-600">
                 <Users className="h-4" />
                 <span>{t('dashboard.folder.publicfolder')}</span>
               </div>
             ) : (
-              <div className="flex items-center gap-1 rounded-lg bg-red-50 px-2 py-1 text-red-700">
+              <div className="flex items-center gap-1 rounded border border-red-200 bg-red-100 px-2 py-1 text-red-600">
                 <Lock className="h-4" />
                 <span>{t('dashboard.folder.privatefolder')}</span>
               </div>
