@@ -8,6 +8,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Lock, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 interface CardFolderProps {
   id: string;
@@ -19,18 +20,22 @@ interface CardFolderProps {
 
 const CardFolder = ({ id, ...props }: CardFolderProps) => {
   const { name, description, color, is_public } = props;
-	const { t } = useTranslation();
+  const { t } = useTranslation();
 
   console.log('CardFolder', props);
   return (
-    <Card id={id} className="w-full border-t-4" style={{ borderTopColor: color }}>
+    <Card
+      id={id}
+      className="w-full border-t-4"
+      style={{ borderTopColor: color }}
+    >
       <div className="flex h-full flex-col justify-between">
         <div>
           <CardHeader>
             <CardTitle>
               <div>
                 <h2 className="truncate pb-1 font-bold text-slate-900">
-                  {name}
+                  <Link to={`/dashboard/folder/${id}`}>{name}</Link>	
                 </h2>
                 <span className="text-sm font-normal text-slate-600">
                   Informatique

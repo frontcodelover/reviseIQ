@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getBackend } from '../services/backend';
+import { getBackend } from '@/services/backend';
 import { useTranslation } from 'react-i18next';
 import CardFolder from '@/components/dashboard/folders/cardFolder';
-
-// Utiliser l'interface Deck du backend
-import type { Deck } from '../services/backend';
 import CardNewFolder from '@/components/dashboard/folders/cardNewFolder';
 
 function UserDecks(): JSX.Element {
