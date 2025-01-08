@@ -13,6 +13,7 @@ function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(true);
+  const [thema, setThema] = useState('');
   const [color, setColor] = useState('#F0F0F0');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -29,6 +30,7 @@ function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
         description,
         is_public: isPublic,
         color,
+        thema,
       });
       setName('');
       setDescription('');
@@ -95,7 +97,7 @@ function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
 
         <div className="mb-4">
           <Label className="mb-2 block font-medium text-gray-700">Thème</Label>
-          <Thema />
+          <Thema setThema={setThema} value={thema} />
         </div>
 
         <div className="mb-4">

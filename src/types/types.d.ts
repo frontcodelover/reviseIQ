@@ -25,6 +25,7 @@ interface Deck {
   description: string;
   is_public: boolean;
   color: string;
+  thema: string;
 }
 
 interface User {
@@ -49,6 +50,7 @@ interface CardFolderProps {
   description: string;
   color: string;
   is_public: boolean;
+  thema: string;
 }
 
 type PhoneInputProps = Omit<
@@ -73,6 +75,10 @@ interface CountrySelectOptionProps extends RPNInput.FlagProps {
   onChange: (country: RPNInput.Country) => void;
 }
 
+interface ThemaProps {
+  setThema: (value: string) => void;
+  value: string;
+}
 
 interface Backend {
   getPublicDecks(): Promise<Deck[]>;
@@ -82,4 +88,5 @@ interface Backend {
   getFolderById(id: string): Promise<CardFolderProps>;
   deleteFolder(id: string): Promise<void>;
   hasUserProfile(userId: string): Promise<boolean>;
+  getUserProfile(userId: string): Promise<User | null>;
 }

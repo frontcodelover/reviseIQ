@@ -14,7 +14,7 @@ import { useState } from 'react';
 
 const CardFolder = ({ id, ...props }: CardFolderProps) => {
   const [isVisible, setIsVisible] = useState(true);
-  const { name, description, color, is_public } = props;
+  const { name, description, color, is_public, thema } = props;
   const { t } = useTranslation();
   const backend = getBackend();
 
@@ -47,7 +47,7 @@ const CardFolder = ({ id, ...props }: CardFolderProps) => {
                     <Link to={`/dashboard/folders/${id}`}>{name}</Link>
                   </h2>
                   <span className="text-sm font-normal text-slate-600">
-                    Informatique
+                    {thema}
                   </span>
                 </div>
                 <div className="flex h-full gap-1">

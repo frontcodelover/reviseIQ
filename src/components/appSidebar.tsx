@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import {
   Calendar,
   Home,
@@ -7,7 +8,6 @@ import {
   ChevronUp,
   User2,
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import {
   Sidebar,
   SidebarContent,
@@ -25,18 +25,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAuth } from '@/context/AuthContext';
-import clsx from 'clsx';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useHandleSignOut } from '@/hooks/useSignOut';
 import { useUserDecksCount } from '@/hooks/useUserDecksCount';
+import { useProfile } from '@/hooks/useProfile';
 
 export function AppSidebar() {
   const { t } = useTranslation();
-  const { user } = useAuth();
   const location = useLocation();
   const handleSignOut = useHandleSignOut();
   const deckCount = useUserDecksCount();
+  const { profile, loading, error } = useProfile();
+
+  if (loading) return <div>Chargement...</div>;
+  if (error) return <div>Erreur: {error}</div>;
+  if (!profile) return <div>Pas de profil</div>;
 
   const items = [
     {
@@ -131,7 +135,8 @@ export function AppSidebar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton className="text-slate-300 hover:bg-slate-600 hover:text-slate-100">
-                  <User2 /> <span className="... truncate">{user?.email}</span>
+                  <User2 />{' '}
+                  <span className="... truncate">{profile?.firstname}</span>
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>

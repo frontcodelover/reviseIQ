@@ -35,23 +35,25 @@ function UserDecks(): JSX.Element {
   }, []);
 
   if (loading)
-    return <p className="text-center text-gray-500">{t('loading')}</p>;
+    return <p className="text-center text-gray-900">{t('loading')}</p>;
 
   return (
-      <div className="flex flex-col gap-6">
-        <CardNewFolder />
-        {decks.length === 0 ? (
-          <p className="text-center text-gray-500">
+    <div className="flex flex-col gap-6">
+		<CardNewFolder />
+      {decks.length === 0 ? (
+        <>
+          <p className="text-center text-slate-900">
             {t('dashboard.folder.nofolder')}
           </p>
-        ) : (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {decks.map((deck) => (
-              <CardFolder key={deck.id} {...deck} />
-            ))}
-          </div>
-        )}
-      </div>
+        </>
+      ) : (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {decks.map((deck) => (
+            <CardFolder key={deck.id} {...deck} />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

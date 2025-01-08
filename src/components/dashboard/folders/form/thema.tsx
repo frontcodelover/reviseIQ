@@ -17,15 +17,21 @@ import { ChevronsUpDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { ThemaLabelKeys } from './themaLabel';
 
-function Thema() {
+const Thema: React.FC<ThemaProps> = ({ setThema, value: initialValue }) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState(initialValue);
   const { t } = useTranslation();
 
   const ThemaLabel = ThemaLabelKeys.map((key) => ({
     value: t(key),
     label: t(key),
   }));
+
+  const handleSelect = (value: string) => {
+    setSelectedValue(value);
+    setThema(value);
+    setOpen(false);
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -36,8 +42,8 @@ function Thema() {
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {value
-            ? ThemaLabel.find((framework) => framework.value === value)?.label
+          {selectedValue
+            ? ThemaLabel.find((framework) => framework.value === selectedValue)?.label
             : 'Sélectionner une thématique...'}
           <ChevronsUpDown className="opacity-50" />
         </Button>
@@ -45,19 +51,16 @@ function Thema() {
       <PopoverContent className="w-full p-0">
         <Command className="w-full">
           <CommandInput
-            placeholder="Search framework..."
+            placeholder="Rechercher un thème..."
             className="h-9 w-full"
           />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>Aucun thème trouvé.</CommandEmpty>
             <CommandGroup>
               {ThemaLabel.map((framework) => (
                 <CommandItem
                   key={framework.value}
-                  onSelect={() => {
-                    setValue(framework.value);
-                    setOpen(false);
-                  }}
+                  onSelect={() => handleSelect(framework.value)}
                 >
                   {framework.label}
                 </CommandItem>
@@ -68,6 +71,6 @@ function Thema() {
       </PopoverContent>
     </Popover>
   );
-}
+};
 
 export default Thema;

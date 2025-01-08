@@ -34,7 +34,6 @@ export class SupabaseBackend implements Backend {
     }
   }
 
-
   // Fetch public decks
   async getPublicDecks(): Promise<Deck[]> {
     try {
@@ -131,26 +130,24 @@ export class SupabaseBackend implements Backend {
   }
 
   // Fetch the authenticated user's profile
-  async getUserProfile(): Promise<User> {
-    try {
-      const userId = await this.getUserId();
-
-      const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', userId)
-        .single();
-
-      if (error) {
-        console.error('Error fetching user profile:', error);
-        throw error;
-      }
-
-      return data;
-    } catch (error) {
-      console.error('Error in getUserProfile:', error);
-      throw error;
-    }
+  async getUserProfile(userId: string): Promise<User | null> {
+	try {
+	  const { data, error } = await supabase
+		.from('profiles')
+		.select('*')
+		.eq('user_id', userId)
+		.single();
+  
+	  if (error) {
+		console.error('Error fetching user profile:', error);
+		return null;
+	  }
+  
+	  return data as User;
+	} catch (error) {
+	  console.error('Unexpected error fetching user profile:', error);
+	  return null;
+	}
   }
 
   // Fetch folder name by ID
@@ -173,7 +170,8 @@ export class SupabaseBackend implements Backend {
       throw error;
     }
   }
-
+	
+	// Delete a folder by ID
   async deleteFolder(folderId: string): Promise<void> {
     try {
       const { error } = await supabase
