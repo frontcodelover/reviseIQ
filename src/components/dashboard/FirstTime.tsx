@@ -4,6 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { PhoneInput } from './PhoneInput';
+import {
+  Select,
+  SelectItem,
+  SelectContent,
+  SelectGroup,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 
 const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
   const [firstname, setFirstname] = useState(user.firstname || '');
@@ -17,29 +25,38 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
   const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent) => {
-	e.preventDefault();
-	setLoading(true);
-	setError('');
-  
-	try {
-	  const backend = getBackend();
-	  await backend.upsertUser({
-		user_id: user.id,
-		firstname,
-		lastname,
-		email,
-		phone,
-		status,
-	  });
-	  console.log('FirstTime: User updated successfully');
-	  onSubmit();
-	  console.log('FirstTime: onSubmit called');
-	} catch (error) {
-	  console.error('Error updating user:', error);
-	  setError('Erreur lors de la mise à jour du profil');
-	} finally {
-	  setLoading(false);
-	}
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      const backend = getBackend();
+      await backend.upsertUser({
+        user_id: user.id,
+        firstname,
+        lastname,
+        email,
+        phone,
+        status,
+      });
+      console.log('FirstTime: User updated successfully');
+
+      // Créer un CustomEvent avec des données
+      const profileEvent = new CustomEvent('profileUpdated', {
+        detail: { userId: user.id, success: true },
+      });
+      window.dispatchEvent(profileEvent);
+
+      // Attendre un peu avant la redirection
+      setTimeout(() => {
+        onSubmit();
+      }, 100);
+    } catch (error) {
+      console.error('Error updating user:', error);
+      setError('Erreur lors de la mise à jour du profil');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -77,7 +94,9 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
         />
       </div>
       <div className="mb-4">
-        <Label className="mb-2 block font-medium text-gray-700">{t('dashboard.firstimeForm.email')}</Label>
+        <Label className="mb-2 block font-medium text-gray-700">
+          {t('dashboard.firstimeForm.email')}
+        </Label>
         <Input
           type="email"
           value={email}
@@ -90,7 +109,7 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
       </div>
       <div className="mb-4">
         <Label className="mb-2 block font-medium text-gray-700">
-		{t('dashboard.firstimeForm.phone')}
+          {t('dashboard.firstimeForm.phone')}
         </Label>
         {/* <Input
           type="phone"
@@ -99,34 +118,43 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
           className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder={t('dashboard.firstimeForm.phoneLabel')}
 			  /> */}
-			  <PhoneInput value={phone} onChange={setPhone} />
+        <PhoneInput value={phone} onChange={setPhone} />
       </div>
       <div className="mb-4">
         <Label className="mb-2 block font-medium text-gray-700">
           {t('dashboard.firstimeForm.statut')}
         </Label>
-        <select
+        <Select
           value={status}
-          onChange={(e) =>
+          onValueChange={(value) =>
             setStatus(
-              e.target.value as
-                | 'student'
-                | 'pupil'
-                | 'apprentice'
-                | 'teacher'
-                | 'other'
+              value as 'student' | 'pupil' | 'apprentice' | 'teacher' | 'other'
             )
           }
-          className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <option value="student">{t('dashboard.firstimeForm.student')}</option>
-          <option value="pupil">{t('dashboard.firstimeForm.pupil')}</option>
-          <option value="apprentice">
-            {t('dashboard.firstimeForm.apprentice')}
-          </option>
-          <option value="teacher">{t('dashboard.firstimeForm.teacher')}</option>
-          <option value="other">{t('dashboard.firstimeForm.other')}</option>
-        </select>
+          <SelectTrigger className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <SelectValue placeholder={t('dashboard.firstimeForm.statut')} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="student">
+                {t('dashboard.firstimeForm.student')}
+              </SelectItem>
+              <SelectItem value="pupil">
+                {t('dashboard.firstimeForm.pupil')}
+              </SelectItem>
+              <SelectItem value="apprentice">
+                {t('dashboard.firstimeForm.apprentice')}
+              </SelectItem>
+              <SelectItem value="teacher">
+                {t('dashboard.firstimeForm.teacher')}
+              </SelectItem>
+              <SelectItem value="other">
+                {t('dashboard.firstimeForm.other')}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
       {error && <p className="text-red-500">{error}</p>}
       <button

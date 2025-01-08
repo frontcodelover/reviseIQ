@@ -51,6 +51,29 @@ interface CardFolderProps {
   is_public: boolean;
 }
 
+type PhoneInputProps = Omit<
+  React.ComponentProps<'input'>,
+  'onChange' | 'value' | 'ref'
+> &
+  Omit<RPNInput.Props<typeof RPNInput.default>, 'onChange'> & {
+    onChange?: (value: RPNInput.Value) => void;
+  };
+
+type CountryEntry = { label: string; value: RPNInput.Country | undefined };
+
+type CountrySelectProps = {
+  disabled?: boolean;
+  value: RPNInput.Country;
+  options: CountryEntry[];
+  onChange: (country: RPNInput.Country) => void;
+};
+
+interface CountrySelectOptionProps extends RPNInput.FlagProps {
+  selectedCountry: RPNInput.Country;
+  onChange: (country: RPNInput.Country) => void;
+}
+
+
 interface Backend {
   getPublicDecks(): Promise<Deck[]>;
   getUserDecks(): Promise<Deck[]>;
