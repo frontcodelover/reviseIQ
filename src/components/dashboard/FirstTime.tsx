@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { getBackend } from '@/services/backend';
 import { useTranslation } from 'react-i18next';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { PhoneInput } from './PhoneInput';
 
 const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
   const [firstname, setFirstname] = useState(user.firstname || '');
@@ -14,27 +17,29 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
   const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    try {
-      const backend = getBackend();
-      await backend.upsertUser({
-        user_id: user.id,
-        firstname,
-        lastname,
-        email,
-        phone,
-        status,
-      });
-
-      onSubmit(); // Notify the parent component
-    } catch {
-      setError('Erreur lors de la mise à jour du profil');
-    } finally {
-      setLoading(false);
-    }
+	e.preventDefault();
+	setLoading(true);
+	setError('');
+  
+	try {
+	  const backend = getBackend();
+	  await backend.upsertUser({
+		user_id: user.id,
+		firstname,
+		lastname,
+		email,
+		phone,
+		status,
+	  });
+	  console.log('FirstTime: User updated successfully');
+	  onSubmit();
+	  console.log('FirstTime: onSubmit called');
+	} catch (error) {
+	  console.error('Error updating user:', error);
+	  setError('Erreur lors de la mise à jour du profil');
+	} finally {
+	  setLoading(false);
+	}
   };
 
   return (
@@ -46,10 +51,10 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
         {t('dashboard.firstimeForm.title')}
       </h2>
       <div className="mb-4">
-        <label className="mb-2 block font-medium text-gray-700">
+        <Label className="mb-2 block font-medium text-gray-700">
           {t('dashboard.firstimeForm.firstname')}
-        </label>
-        <input
+        </Label>
+        <Input
           type="text"
           value={firstname}
           onChange={(e) => setFirstname(e.target.value)}
@@ -59,10 +64,10 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
         />
       </div>
       <div className="mb-4">
-        <label className="mb-2 block font-medium text-gray-700">
+        <Label className="mb-2 block font-medium text-gray-700">
           {t('dashboard.firstimeForm.name')}
-        </label>
-        <input
+        </Label>
+        <Input
           type="text"
           value={lastname}
           onChange={(e) => setLastname(e.target.value)}
@@ -72,8 +77,8 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
         />
       </div>
       <div className="mb-4">
-        <label className="mb-2 block font-medium text-gray-700">{t('dashboard.firstimeForm.email')}</label>
-        <input
+        <Label className="mb-2 block font-medium text-gray-700">{t('dashboard.firstimeForm.email')}</Label>
+        <Input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -84,21 +89,22 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
         />
       </div>
       <div className="mb-4">
-        <label className="mb-2 block font-medium text-gray-700">
+        <Label className="mb-2 block font-medium text-gray-700">
 		{t('dashboard.firstimeForm.phone')}
-        </label>
-        <input
-          type="text"
+        </Label>
+        {/* <Input
+          type="phone"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder={t('dashboard.firstimeForm.phoneLabel')}
-        />
+			  /> */}
+			  <PhoneInput value={phone} onChange={setPhone} />
       </div>
       <div className="mb-4">
-        <label className="mb-2 block font-medium text-gray-700">
+        <Label className="mb-2 block font-medium text-gray-700">
           {t('dashboard.firstimeForm.statut')}
-        </label>
+        </Label>
         <select
           value={status}
           onChange={(e) =>

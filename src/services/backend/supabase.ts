@@ -15,6 +15,25 @@ export class SupabaseBackend implements Backend {
 
     return session.user.id;
   }
+	
+  async hasUserProfile(userId: string): Promise<boolean> {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('user_id')
+        .eq('user_id', userId)
+        .single();
+
+      if (error) {
+        return false;
+      }
+
+      return !!data;
+    } catch {
+      return false;
+    }
+  }
+
 
   // Fetch public decks
   async getPublicDecks(): Promise<Deck[]> {
@@ -95,7 +114,7 @@ export class SupabaseBackend implements Backend {
     status: 'student' | 'pupil' | 'apprentice' | 'teacher' | 'other';
   }): Promise<void> {
     try {
-      const { data, error } = await supabase.from('users').upsert([userData], {
+      const { data, error } = await supabase.from('profiles').upsert([userData], {
         onConflict: 'email', // Update if the email already exists
       });
 

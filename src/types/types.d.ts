@@ -58,4 +58,5 @@ interface Backend {
   upsertUser(userData: Partial<User>): Promise<void>;
   getFolderById(id: string): Promise<CardFolderProps>;
   deleteFolder(id: string): Promise<void>;
+  hasUserProfile(userId: string): Promise<boolean>;
 }
