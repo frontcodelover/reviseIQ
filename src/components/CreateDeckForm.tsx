@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getBackend } from '../services/backend';
+import { getBackend } from '@/services/backend';
 import { Button } from '@/components/ui/button';
-import ColorPicker from './dashboard/folders/colorPicker';
+import ColorPicker from '@/components/dashboard/folders/colorPicker';
+import Thema from '@/components/dashboard/folders/form/thema';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
   const navigate = useNavigate();
@@ -56,14 +60,17 @@ function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
   return (
     <>
       <h2 className="mb-4 text-2xl font-bold">Créer un Deck</h2>
-      <form onSubmit={handleSubmit} className="max-w-md rounded-lg bg-white">
+      <form
+        onSubmit={handleSubmit}
+        className="flex max-w-md flex-col gap-4 rounded-lg bg-white"
+      >
         {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
 
         <div className="mb-4">
-          <label className="mb-2 block font-medium text-gray-700">
+          <Label className="mb-2 block font-medium text-gray-700">
             Nom du deck
-          </label>
-          <input
+          </Label>
+          <Input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -74,10 +81,10 @@ function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
         </div>
 
         <div className="mb-4">
-          <label className="mb-2 block font-medium text-gray-700">
+          <Label className="mb-2 block font-medium text-gray-700">
             Description
-          </label>
-          <textarea
+          </Label>
+          <Textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
@@ -87,28 +94,31 @@ function CreateDeckForm({ onDeckCreated }: { onDeckCreated: () => void }) {
         </div>
 
         <div className="mb-4">
-          <label className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              checked={isPublic}
-              onChange={(e) => setIsPublic(e.target.checked)}
-              className="h-4 w-4 rounded border-gray-300 text-blue-500 focus:ring-2 focus:ring-blue-500"
-            />
-            <span className="font-medium text-gray-700">Deck Public</span>
-          </label>
+          <Label className="mb-2 block font-medium text-gray-700">Thème</Label>
+          <Thema />
         </div>
 
         <div className="mb-4">
-          <label className="mb-2 block font-medium text-gray-700">
+          <Label className="mb-2 block font-medium text-gray-700">
             Couleur
-          </label>
+          </Label>
           <ColorPicker
             selectedColor={color}
             onSelectColor={setColor}
             colors={colors}
           />
         </div>
-
+        <div className="mb-4">
+          <Label className="flex items-center space-x-2">
+            <Input
+              type="checkbox"
+              checked={isPublic}
+              onChange={(e) => setIsPublic(e.target.checked)}
+              className="h-4 w-4 rounded border-gray-300 text-blue-500 focus:ring-2 focus:ring-blue-500"
+            />
+            <span className="font-medium text-gray-700">Dossier public</span>
+          </Label>
+        </div>
         <Button type="submit" disabled={loading}>
           {loading ? 'Création...' : 'Créer'}
         </Button>
