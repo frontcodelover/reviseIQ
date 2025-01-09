@@ -27,6 +27,7 @@
       "nofolder": "You haven't created any folder yet.",
       "publicfolder": "Public",
       "privatefolder": "Private",
+	  "by": "by",
       "thema": {
         "administration_public": "Public Administration",
         "agriculture": "Agriculture",

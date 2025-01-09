@@ -10,10 +10,12 @@ import { Trash2, EditIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getBackend } from '@/services/backend';
 import { useState } from 'react';
+import { useProfile } from '@/hooks/useProfile';
 
 const CardFolder = ({ id, ...props }: CardFolderProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const { name, description, color, thema } = props;
+  const { profile, loading } = useProfile();
 
   const backend = getBackend();
 
@@ -71,14 +73,18 @@ const CardFolder = ({ id, ...props }: CardFolderProps) => {
         </div>
 
         <CardFooter>
-          <div className="mt-6 flex w-full items-center text-xs font-semibold text-slate-600">
-            <img
-              src="/images/avatar.png"
-              alt="avatar"
-              className="h-6 w-6 rounded-full"
-            />
-            Par Createur
-          </div>
+          {!loading && profile && (
+            <div className="text- mt-6 flex w-full items-center gap-2 text-sm font-semibold">
+              <img
+                src={`/src/assets/${profile.avatar}.webp`}
+                alt="avatar"
+                className="h-8 w-8 rounded-full"
+              />
+              <span className="tracking-tight text-indigo-600">
+                {profile?.firstname}
+              </span>
+            </div>
+          )}
         </CardFooter>
       </div>
     </Card>

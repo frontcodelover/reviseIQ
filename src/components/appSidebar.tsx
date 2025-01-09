@@ -29,7 +29,6 @@ import { useTranslation } from 'react-i18next';
 import { useHandleSignOut } from '@/hooks/useSignOut';
 import { useUserDecksCount } from '@/hooks/useUserDecksCount';
 import { useProfile } from '@/hooks/useProfile';
-import Avatar from '@/assets/avatar-1.webp';
 import { Separator } from './ui/separator';
 
 export function AppSidebar() {
@@ -161,7 +160,7 @@ export function AppSidebar() {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton className="h-auto text-slate-800 hover:bg-white hover:text-slate-900 focus:bg-white">
                   <img
-                    src={Avatar}
+                    src={`/src/assets/${profile.avatar}.webp`}
                     alt="avatar"
                     className="h-10 w-10 rounded-full"
                   />
