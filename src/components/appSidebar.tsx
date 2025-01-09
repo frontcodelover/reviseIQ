@@ -75,50 +75,72 @@ export function AppSidebar() {
   ];
   return (
     <Sidebar>
-      <SidebarContent className="bg-slate-800">
+      <SidebarContent className="bg-white">
         <SidebarGroup>
-          <SidebarGroupLabel className="mb-3 text-base font-bold text-slate-100">
+          <SidebarGroupLabel className="my-4 text-2xl font-bold text-indigo-700">
             {t('title')}
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className='space-y-2'>
               {items.map((item) => {
                 const isActive = location.pathname === item.url;
                 return (
-                  <SidebarMenuItem key={item.title} className="text-slate-400">
+                  <SidebarMenuItem
+                    key={item.title}
+                    className="font-semibold text-slate-500"
+                  >
                     <SidebarMenuButton asChild>
                       {isActive ? (
                         <div
                           key={item.title}
-                          className="font-bold text-slate-100 hover:bg-none"
+                          className="font-bold text-slate-800 hover:bg-white"
                         >
-                          <item.icon />
-                          <span>{item.title}</span>
-                          {item.nb && (
-                            <span
-                              className={clsx(
-                                'ml-auto rounded-lg px-3 py-1 text-xs text-slate-100',
-                                `${item.color}`
+                          <div className="flex w-full items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <item.icon />
+                              <span className="truncate text-lg">
+                                {item.title}
+                              </span>
+                            </div>
+                            <div>
+                              {item.nb && (
+                                <span
+                                  className={clsx(
+                                    'ml-auto rounded-lg px-3 py-1 text-xs text-slate-100',
+                                    `${item.color}`
+                                  )}
+                                >
+                                  {item.nb}
+                                </span>
                               )}
-                            >
-                              {item.nb}
-                            </span>
-                          )}
+                            </div>
+                          </div>
                         </div>
                       ) : (
-                        <NavLink to={item.url} key={item.title}>
-                          <item.icon />
-                          <span>{item.title}</span>
-                          {item.nb && (
-                            <span
-                              className={clsx(
-                                'ml-auto rounded-lg px-3 py-1 text-xs text-slate-100',
-                                `${item.color}`
+                        <NavLink
+                          to={item.url}
+                          key={item.title}
+                        >
+                          <div className="flex w-full items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <item.icon />
+                              <span className="truncate text-lg">
+                                {item.title}
+                              </span>
+                            </div>
+                            <div>
+                              {item.nb && (
+                                <span
+                                  className={clsx(
+                                    'ml-auto rounded-lg px-3 py-1 text-xs text-slate-100',
+                                    `${item.color}`
+                                  )}
+                                >
+                                  {item.nb}
+                                </span>
                               )}
-                            >
-                              {item.nb}
-                            </span>
-                          )}
+                            </div>
+                          </div>
                         </NavLink>
                       )}
                     </SidebarMenuButton>
@@ -129,12 +151,12 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-slate-800">
-        <SidebarMenu className="mb-2 rounded-lg border-b border-slate-700 bg-slate-600 p-2 text-slate-300 shadow-xl">
+      <SidebarFooter className="bg-white">
+        <SidebarMenu className="rounded-lg border border-slate-300 bg-slate-50 p-2 text-slate-800">
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="text-slate-300 hover:bg-slate-600 hover:text-slate-100">
+                <SidebarMenuButton className="text-slate-800 hover:bg-slate-50 hover:text-slate-900">
                   <User2 />{' '}
                   <span className="... truncate">{profile?.firstname}</span>
                   <ChevronUp className="ml-auto" />
