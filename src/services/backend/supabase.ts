@@ -15,7 +15,7 @@ export class SupabaseBackend implements Backend {
 
     return session.user.id;
   }
-	
+
   async hasUserProfile(userId: string): Promise<boolean> {
     try {
       const { data, error } = await supabase
@@ -103,19 +103,53 @@ export class SupabaseBackend implements Backend {
     }
   }
 
-  // Upsert a user's profile in the "users" table
-  async upsertUser(userData: {
-    user_id: string;
-    firstname: string;
-    lastname: string;
-    email: string;
-    phone?: string;
-    status: 'student' | 'pupil' | 'apprentice' | 'teacher' | 'other';
-  }): Promise<void> {
+  // create flashcards table "flashcards" field id, deck_id, question, answer, created_at
+  async createFlashcard(flashcardData: Flashcard): Promise<void> {
     try {
-      const { data, error } = await supabase.from('profiles').upsert([userData], {
-        onConflict: 'email', // Update if the email already exists
-      });
+      const { error } = await supabase
+        .from('flashcards')
+        .insert([flashcardData]);
+
+      if (error) {
+        console.error('Error creating flashcard:', error);
+        throw error;
+      }
+
+      console.log('Flashcard created successfully');
+    } catch (error) {
+      console.error('Error in createFlashcard:', error);
+      throw error;
+    }
+  }
+
+  // Fetch flashcards by deck ID
+  async getFlashcards(deckId: string): Promise<Flashcard[]> {
+    try {
+      const { data, error } = await supabase
+        .from('flashcards')
+        .select('*')
+        .eq('deck_id', deckId);
+
+      if (error) {
+        console.error('Error fetching flashcards:', error);
+        throw error;
+      }
+
+      return data || [];
+    } catch (error) {
+      console.error('Error in getFlashcards:', error);
+      throw error;
+    }
+  }
+
+  // Upsert a user's profile in the "users" table
+  async upsertUser(userData: User): Promise<void> {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .upsert([userData], {
+          onConflict: 'email', // Update if the email already exists
+        });
 
       if (error) {
         console.error('Error upserting user:', error);
@@ -131,23 +165,23 @@ export class SupabaseBackend implements Backend {
 
   // Fetch the authenticated user's profile
   async getUserProfile(userId: string): Promise<User | null> {
-	try {
-	  const { data, error } = await supabase
-		.from('profiles')
-		.select('*')
-		.eq('user_id', userId)
-		.single();
-  
-	  if (error) {
-		console.error('Error fetching user profile:', error);
-		return null;
-	  }
-  
-	  return data as User;
-	} catch (error) {
-	  console.error('Unexpected error fetching user profile:', error);
-	  return null;
-	}
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching user profile:', error);
+        return null;
+      }
+
+      return data as User;
+    } catch (error) {
+      console.error('Unexpected error fetching user profile:', error);
+      return null;
+    }
   }
 
   // Fetch folder name by ID
@@ -170,8 +204,8 @@ export class SupabaseBackend implements Backend {
       throw error;
     }
   }
-	
-	// Delete a folder by ID
+
+  // Delete a folder by ID
   async deleteFolder(folderId: string): Promise<void> {
     try {
       const { error } = await supabase

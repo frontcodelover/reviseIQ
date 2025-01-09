@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { getBackend } from '@/services/backend';
+import CreateFlashcard from '@/components/flashcards/createFlashcard';
+import { useNavigate } from 'react-router-dom';
+import GetFlashcards from '@/components/flashcards/getFlashcards';
 
 function SingleFolder({ id }: { id: string | undefined }) {
   const [folder, setFolder] = useState<Deck>();
+  const navigate = useNavigate();
 
   const fetchFolder = async () => {
     try {
@@ -20,15 +24,24 @@ function SingleFolder({ id }: { id: string | undefined }) {
 
   fetchFolder();
 
+  const handleFlashcardsCreated = () => {
+    // Action après création réussie
+    navigate('/dashboard/folders');
+    // ou afficher une notification
+    // ou rafraîchir les données
+  };
+
   return (
     <>
       <div>singleFolder</div>
+      <GetFlashcards />
       {folder && (
         <div>
           <h2>{folder.name}</h2>
           <p>{folder.description}</p>
         </div>
       )}
+      <CreateFlashcard onSuccess={handleFlashcardsCreated} />
     </>
   );
 }

@@ -14,6 +14,13 @@ interface AuthContextType {
   setUser: (user: User | null) => void;
 }
 
+interface Flashcard {
+  id?: string | number;
+  deck_id?: string | undefined;
+  question: string;
+  answer: string;
+}
+
 interface FirstTimeFormProps {
   user: User;
   onSubmit: () => void;
@@ -89,4 +96,6 @@ interface Backend {
   deleteFolder(id: string): Promise<void>;
   hasUserProfile(userId: string): Promise<boolean>;
   getUserProfile(userId: string): Promise<User | null>;
+  createFlashcard(flashcardData: Flashcard): Promise<void>;
+  getFlashcards(deckId: string): Promise<Flashcard[]>;
 }
