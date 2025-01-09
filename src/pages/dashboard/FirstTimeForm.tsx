@@ -18,7 +18,7 @@ const FirstTimeFormPage = () => {
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="flex h-screen items-center justify-center bg-indigo-100">
       {user && <FirstTimeForm user={user} onSubmit={handleFormSubmit} />}
     </div>
   );

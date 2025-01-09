@@ -102,7 +102,9 @@ function GetFlashcards() {
           </div>
         </div>
       )}
-	  <p className='italic text-sm hidden sm:flex'>Astuce : Appuyez sur la touche "A" pour afficher la réponse</p>
+      <p className="hidden text-sm italic sm:flex">
+        Astuce : Appuyez sur la touche "A" pour afficher la réponse
+      </p>
 
       <div className="flex items-center gap-4">
         <button

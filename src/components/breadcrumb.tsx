@@ -18,7 +18,11 @@ const BreadcrumbDashboard = () => {
     const fetchName = async () => {
       if (pathnames.length > 0) {
         const lastSegment = pathnames[pathnames.length - 1];
-        if (lastSegment.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/)) {
+        if (
+          lastSegment.match(
+            /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
+          )
+        ) {
           const name = await fetchFolderName(lastSegment);
           setFolderName(name);
         }

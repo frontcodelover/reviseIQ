@@ -39,7 +39,7 @@ function UserDecks(): JSX.Element {
 
   return (
     <div className="flex flex-col gap-6">
-		<CardNewFolder />
+      <CardNewFolder />
       {decks.length === 0 ? (
         <>
           <p className="text-center text-slate-900">

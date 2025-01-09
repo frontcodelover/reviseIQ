@@ -17,7 +17,7 @@ function CreateFlashcard({ onSuccess }: CreateFlashcardProps) {
       answer: '',
     }));
   };
-  
+
   interface Flashcard {
     id: number;
     question: string;

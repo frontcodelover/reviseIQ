@@ -6,12 +6,18 @@ interface User {
   phone?: string;
   status?: 'student' | 'pupil' | 'apprentice' | 'teacher' | 'other';
   user_id?: string;
+  avatar?: string;
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   setUser: (user: User | null) => void;
+}
+
+interface AvatarSelectProps {
+  value: string;
+  onChange: (value: string) => void;
 }
 
 interface Flashcard {

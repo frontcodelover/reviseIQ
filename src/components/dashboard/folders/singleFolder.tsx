@@ -42,7 +42,6 @@ function SingleFolder({ id }: { id: string | undefined }) {
             <h2 className="text-4xl font-bold">{folder.name}</h2>
             <p className="text-lg">{folder.description}</p>
           </div>
-
         </div>
       )}
 

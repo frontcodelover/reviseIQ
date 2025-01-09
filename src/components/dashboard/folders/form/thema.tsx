@@ -43,7 +43,8 @@ const Thema: React.FC<ThemaProps> = ({ setThema, value: initialValue }) => {
           className="w-full justify-between"
         >
           {selectedValue
-            ? ThemaLabel.find((framework) => framework.value === selectedValue)?.label
+            ? ThemaLabel.find((framework) => framework.value === selectedValue)
+                ?.label
             : 'Sélectionner une thématique...'}
           <ChevronsUpDown className="opacity-50" />
         </Button>

@@ -6,7 +6,6 @@ import {
   MessageCircleHeart,
   Search,
   ChevronUp,
-  User2,
 } from 'lucide-react';
 import {
   Sidebar,
@@ -30,6 +29,8 @@ import { useTranslation } from 'react-i18next';
 import { useHandleSignOut } from '@/hooks/useSignOut';
 import { useUserDecksCount } from '@/hooks/useUserDecksCount';
 import { useProfile } from '@/hooks/useProfile';
+import Avatar from '@/assets/avatar-1.webp';
+import { Separator } from './ui/separator';
 
 export function AppSidebar() {
   const { t } = useTranslation();
@@ -53,14 +54,14 @@ export function AppSidebar() {
       url: '/dashboard/folders',
       icon: Inbox,
       nb: deckCount,
-      color: 'bg-green-700',
+      color: 'bg-pink-600',
     },
     {
       title: t('dashboard.community'),
       url: '/dashboard/community',
       icon: MessageCircleHeart,
       nb: '+99',
-      color: 'bg-slate-700',
+      color: 'bg-cyan-600',
     },
     {
       title: t('dashboard.search'),
@@ -77,11 +78,11 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent className="bg-white">
         <SidebarGroup>
-          <SidebarGroupLabel className="my-4 text-2xl font-bold text-indigo-700">
+          <SidebarGroupLabel className="my-6 text-2xl font-semibold tracking-tight text-sky-600">
             {t('title')}
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className='space-y-2'>
+            <SidebarMenu className="space-y-2">
               {items.map((item) => {
                 const isActive = location.pathname === item.url;
                 return (
@@ -93,12 +94,12 @@ export function AppSidebar() {
                       {isActive ? (
                         <div
                           key={item.title}
-                          className="font-bold text-slate-800 hover:bg-white"
+                          className="font-semibold text-slate-800 hover:bg-white"
                         >
                           <div className="flex w-full items-center justify-between">
                             <div className="flex items-center gap-3">
                               <item.icon />
-                              <span className="truncate text-lg">
+                              <span className="truncate text-lg tracking-tight">
                                 {item.title}
                               </span>
                             </div>
@@ -120,11 +121,12 @@ export function AppSidebar() {
                         <NavLink
                           to={item.url}
                           key={item.title}
+                          className="hover:bg-indigo-100"
                         >
-                          <div className="flex w-full items-center justify-between">
+                          <div className="flex w-full items-center justify-between py-4">
                             <div className="flex items-center gap-3">
                               <item.icon />
-                              <span className="truncate text-lg">
+                              <span className="truncate text-lg tracking-tight">
                                 {item.title}
                               </span>
                             </div>
@@ -152,13 +154,20 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="bg-white">
-        <SidebarMenu className="rounded-lg border border-slate-300 bg-slate-50 p-2 text-slate-800">
+        <Separator />
+        <SidebarMenu className="border-slate-300 p-2 text-slate-800">
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="text-slate-800 hover:bg-slate-50 hover:text-slate-900">
-                  <User2 />{' '}
-                  <span className="... truncate">{profile?.firstname}</span>
+                <SidebarMenuButton className="h-auto text-slate-800 hover:bg-white hover:text-slate-900 focus:bg-white">
+                  <img
+                    src={Avatar}
+                    alt="avatar"
+                    className="h-10 w-10 rounded-full"
+                  />
+                  <span className="... truncate text-lg font-semibold tracking-tight text-slate-600">
+                    {profile?.firstname}
+                  </span>
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>

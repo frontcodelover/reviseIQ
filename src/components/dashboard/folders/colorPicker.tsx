@@ -10,14 +10,18 @@ const hexToRgba = (hex: string, alpha: number) => {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
-const ColorPicker: React.FC<ColorPickerProps> = ({ selectedColor, onSelectColor, colors }) => {
+const ColorPicker: React.FC<ColorPickerProps> = ({
+  selectedColor,
+  onSelectColor,
+  colors,
+}) => {
   return (
     <div className="flex gap-1">
       {colors.map((color) => (
         <div
           key={color}
           className={clsx(
-            'relative w-8 h-8 rounded-full cursor-pointer shadow-inner flex items-center justify-center',
+            'relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-full shadow-inner',
             selectedColor === color ? 'shadow-lg' : ''
           )}
           style={{

@@ -12,7 +12,7 @@ function CardNewFolder() {
         <CardContent className="flex flex-col items-center justify-center p-0">
           <Link
             to="/dashboard/folders/new"
-            className="flex items-center justify-center flex-col"
+            className="flex flex-col items-center justify-center"
           >
             <div className="font-bold text-slate-700">
               {t('dashboard.folder.createfolder')}

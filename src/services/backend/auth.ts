@@ -2,36 +2,36 @@ import { supabase } from '@/services/supabaseClient';
 
 // Inscription par email
 export const signUp = async (email: string, password: string) => {
-	try {
-	  const { data, error } = await supabase.auth.signUp({ email, password });
-	  if (error) {
-		console.error('Error during sign up:', error);
-		throw error;
-	  }
-	  return data;
-	} catch (error) {
-	  console.error('Unexpected error during sign up:', error);
-	  throw error;
-	}
-  };
+  try {
+    const { data, error } = await supabase.auth.signUp({ email, password });
+    if (error) {
+      console.error('Error during sign up:', error);
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    console.error('Unexpected error during sign up:', error);
+    throw error;
+  }
+};
 
 // Connexion par email
 export const signInWithEmail = async (email: string, password: string) => {
-	try {
-	  const { data, error } = await supabase.auth.signInWithPassword({
-		email,
-		password,
-	  });
-	  if (error) {
-		console.error('Error during sign in:', error);
-		throw error;
-	  }
-	  return data;
-	} catch (error) {
-	  console.error('Unexpected error during sign in:', error);
-	  throw error;
-	}
-  };
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      console.error('Error during sign in:', error);
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    console.error('Unexpected error during sign in:', error);
+    throw error;
+  }
+};
 
 // Connexion avec un provider OAuth
 export async function signInWithProvider(provider: 'google') {

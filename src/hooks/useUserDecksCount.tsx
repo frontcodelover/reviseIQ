@@ -9,15 +9,15 @@ export const useUserDecksCount = () => {
       try {
         const backend = getBackend();
         const data = await backend.getUserDecks();
-      if (Array.isArray(data)) {
-        if (data.length > 0) {
-          setDeckCount(data.length);
+        if (Array.isArray(data)) {
+          if (data.length > 0) {
+            setDeckCount(data.length);
+          } else {
+            setDeckCount('0');
+          }
         } else {
-          setDeckCount('0');
+          setDeckCount(0);
         }
-      } else {
-        setDeckCount(0);
-      }
       } catch (error) {
         console.error(
           'Erreur lors de la récupération des decks utilisateur :',
