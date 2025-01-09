@@ -32,17 +32,25 @@ function SingleFolder({ id }: { id: string | undefined }) {
   };
 
   return (
-    <>
-      <div>singleFolder</div>
-      <GetFlashcards />
+    <div className="flex h-screen flex-col">
       {folder && (
-        <div>
-          <h2>{folder.name}</h2>
-          <p>{folder.description}</p>
+        <div className="flex flex-col gap-2">
+          <div className="w-fit rounded-md text-sm">
+            <span className="text-slate-800">Thématique : {folder.thema}</span>
+          </div>
+          <div>
+            <h2 className="text-4xl font-bold">{folder.name}</h2>
+            <p className="text-lg">{folder.description}</p>
+          </div>
+
         </div>
       )}
+
+      <div className="flex h-full flex-col justify-center">
+        <GetFlashcards />
+      </div>
       <CreateFlashcard onSuccess={handleFlashcardsCreated} />
-    </>
+    </div>
   );
 }
 

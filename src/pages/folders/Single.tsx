@@ -6,7 +6,6 @@ function SinglePageFolder() {
 
   return (
     <>
-      <div>Single</div>
       <SingleFolder id={id} />
     </>
   );
