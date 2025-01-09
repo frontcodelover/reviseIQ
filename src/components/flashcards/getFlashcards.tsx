@@ -28,7 +28,7 @@ function GetFlashcards() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const isLastCard = currentIndex === flashcards.length - 1;
+  const isLastCard = currentIndex === flashcards.length;
 
   useEffect(() => {
     const fetchFlashcards = async () => {
@@ -52,7 +52,7 @@ function GetFlashcards() {
         setShowAnswer(!showAnswer);
       } else if (
         e.code === 'ArrowRight' &&
-        currentIndex < flashcards.length - 1
+        currentIndex < flashcards.length
       ) {
         setCurrentIndex((prev) => prev + 1);
         setShowAnswer(false);
@@ -109,7 +109,7 @@ function GetFlashcards() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => {
-            setCurrentIndex((prev) => prev - 1);
+            setCurrentIndex((prev) => prev + 1);
             setShowAnswer(false);
           }}
           disabled={currentIndex === 0}
@@ -118,7 +118,7 @@ function GetFlashcards() {
           <ChevronLeft className="h-6 w-6" />
         </button>
         <span className="text-sm text-gray-500">
-          {currentIndex + 1} / {flashcards.length}
+          {currentIndex + 1} / {flashcards.length +1}
         </span>
         <button
           onClick={() => {
