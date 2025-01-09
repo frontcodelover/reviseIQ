@@ -77,8 +77,9 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent className="bg-white">
         <SidebarGroup>
-          <SidebarGroupLabel className="my-6 text-2xl font-semibold tracking-tight text-sky-600">
-            {t('title')}
+          <SidebarGroupLabel className="my-6 text-2xl font-bold tracking-tighter">
+            <span className="text-sky-950">Revise</span>
+            <span className="text-sky-500">IQ</span>
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-2">
@@ -98,7 +99,7 @@ export function AppSidebar() {
                           <div className="flex w-full items-center justify-between">
                             <div className="flex items-center gap-3">
                               <item.icon />
-                              <span className="truncate text-lg tracking-tight">
+                              <span className="truncate text-sm tracking-tight">
                                 {item.title}
                               </span>
                             </div>
@@ -106,7 +107,7 @@ export function AppSidebar() {
                               {item.nb && (
                                 <span
                                   className={clsx(
-                                    'ml-auto rounded-lg px-3 py-1 text-xs text-slate-100',
+                                    'ml-auto rounded-lg px-3 py-1 text-sm text-slate-100',
                                     `${item.color}`
                                   )}
                                 >
@@ -125,7 +126,7 @@ export function AppSidebar() {
                           <div className="flex w-full items-center justify-between py-4">
                             <div className="flex items-center gap-3">
                               <item.icon />
-                              <span className="truncate text-lg tracking-tight">
+                              <span className="truncate text-sm tracking-tight">
                                 {item.title}
                               </span>
                             </div>

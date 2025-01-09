@@ -50,10 +50,7 @@ function GetFlashcards() {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === 'a') {
         setShowAnswer(!showAnswer);
-      } else if (
-        e.code === 'ArrowRight' &&
-        currentIndex < flashcards.length
-      ) {
+      } else if (e.code === 'ArrowRight' && currentIndex < flashcards.length) {
         setCurrentIndex((prev) => prev + 1);
         setShowAnswer(false);
       } else if (e.code === 'ArrowLeft' && currentIndex > 0) {
@@ -102,7 +99,7 @@ function GetFlashcards() {
           </div>
         </div>
       )}
-      <p className="hidden text-sm italic sm:flex">
+      <p className="hidden text-sm text-slate-600 sm:flex">
         Astuce : Appuyez sur la touche "A" pour afficher la réponse
       </p>
 
@@ -118,7 +115,7 @@ function GetFlashcards() {
           <ChevronLeft className="h-6 w-6" />
         </button>
         <span className="text-sm text-gray-500">
-          {currentIndex + 1} / {flashcards.length +1}
+          {currentIndex + 1} / {flashcards.length + 1}
         </span>
         <button
           onClick={() => {

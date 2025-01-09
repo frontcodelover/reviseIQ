@@ -39,8 +39,8 @@ function SingleFolder({ id }: { id: string | undefined }) {
             <span className="text-slate-800">Thématique : {folder.thema}</span>
           </div>
           <div>
-            <h2 className="text-4xl font-bold">{folder.name}</h2>
-            <p className="text-lg">{folder.description}</p>
+            <h2 className="text-3xl font-bold text-slate-800">{folder.name}</h2>
+            <p className="text-lg text-slate-800">{folder.description}</p>
           </div>
         </div>
       )}
