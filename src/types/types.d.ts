@@ -1,8 +1,9 @@
 interface User {
   id: string;
   name?: string;
-  email?: string;
+  email: string;
   firstname?: string;
+  lastname?: string;
   phone?: string;
   status?: 'student' | 'pupil' | 'apprentice' | 'teacher' | 'other';
   user_id?: string;
@@ -40,16 +41,7 @@ interface Deck {
   color: string;
   thema: string;
 }
-
-interface User {
-  user_id: string;
-  id: string;
-  email: string;
-  firstname?: string;
-  lastname?: string;
-  phone?: string;
-  status?: 'student' | 'pupil' | 'apprentice' | 'teacher' | 'other';
-}
+// Removed duplicate User interface
 
 interface ColorPickerProps {
   selectedColor: string;
@@ -93,17 +85,32 @@ interface ThemaProps {
   value: string;
 }
 
-
-interface Backend {
-  getPublicDecks(): Promise<Deck[]>;
-  getUserDecks(): Promise<Deck[]>;
-  createDeck(deckData: Partial<Deck>): Promise<void>;
-  upsertUser(userData: Partial<User>): Promise<void>;
-  getFolderById(id: string): Promise<CardFolderProps>;
-  deleteFolder(id: string): Promise<void>;
-  hasUserProfile(userId: string): Promise<boolean>;
-  getUserProfile(userId: string): Promise<User | null>;
-  createFlashcard(flashcardData: Flashcard): Promise<void>;
-  getFlashcards(deckId: string): Promise<Flashcard[]>;
-  generateFlashcards(topic: string): Promise<Flashcard[]>;
+interface BackendType {
+	signUp(email: string, password: string);
+	signInWithEmail(email: string, password: string);
+	signInWithProvider(provider: 'google'): Promise<void>;
+	signOut(): Promise<void>;
+	getUser();
+	getUserId(): Promise<string>;
+	hasUserProfile(userId: string);
+  
+	// User Methods
+	getUserDecks(): Promise<Folder[]>;
+	createDeck(deckData: {
+	  title: string;
+	  description: string;
+	  is_public: boolean;
+	}): Promise<void>;
+	upsertUser(userData: User | { user_id: string } & Partial<User>);
+	getUserProfile(userId: string);
+  
+	// Folder Methods
+	getPublicFolders(): Promise<Folder[]>;
+	getFolderById(id: string): Promise<Folder>;
+	deleteFolder(id: string): Promise<void>;
+  
+	// Flashcard Methods
+	createFlashcard(flashcardData: Flashcard): Promise<void>;
+	getFlashcards(deckId: string): Promise<Flashcard[]>;
+	generateFlashcards(topic: string): Promise<Flashcard[]>;
 }

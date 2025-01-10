@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signUp } from '@/services/backend/auth';
+import { getBackend } from '@/services/backend';
 import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
@@ -8,6 +8,7 @@ function SignUp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const backend = getBackend();
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,7 +16,7 @@ function SignUp() {
     setError('');
 
     try {
-      await signUp(email, password);
+      await backend.signUp(email, password);
       navigate('/login'); // Redirige après inscription
     } catch (err: unknown) {
       if (err instanceof Error) {

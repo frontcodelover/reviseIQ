@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getUser } from '@/services/backend/auth';
+import { getBackend } from '@/services/backend';
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
@@ -9,12 +9,13 @@ export const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(true);
+	const backend = getBackend();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const currentUser = await getUser();
+        const currentUser = await backend.getUser();
         console.log(currentUser);
         setUser(currentUser);
       } catch (error) {

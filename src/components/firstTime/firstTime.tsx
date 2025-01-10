@@ -3,7 +3,7 @@ import { getBackend } from '@/services/backend';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { PhoneInput } from '@/components/dashboard/PhoneInput';
+import { PhoneInput } from '@/components/firstTime/phoneInput';
 import {
   Select,
   SelectItem,
@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import AvatarSelect from '@/components/dashboard/AvatarSelection';
+import { AvatarSelect } from '@/components/firstTime/avatarSelection';
 import { Button } from '@/components/ui/button';
 
 const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {

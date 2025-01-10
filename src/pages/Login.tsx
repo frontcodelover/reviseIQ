@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signInWithEmail, signInWithProvider } from '@/services/backend/auth';
+import { getBackend } from '@/services/backend';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
@@ -8,6 +8,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const backend = getBackend();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,7 +16,7 @@ function Login() {
     setError('');
 
     try {
-      await signInWithEmail(email, password);
+      await backend.signInWithEmail(email, password);
       navigate('/dashboard'); // Redirige après connexion
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -32,7 +33,7 @@ function Login() {
     setLoading(true);
     setError('');
     try {
-      await signInWithProvider(provider);
+      await backend.signInWithProvider(provider);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message || `Erreur lors de la connexion avec ${provider}`);

@@ -1,4 +1,4 @@
-import FirstTimeForm from '@/components/dashboard/FirstTime';
+import FirstTimeForm from '@/components/firstTime/firstTime';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 

@@ -1,9 +1,9 @@
-import { SupabaseBackend } from './supabase';
+import { SupabaseBackend } from '@/services/backend/supabase';
 
-let backend: Backend = new SupabaseBackend();
+let backend: BackendType = new SupabaseBackend();
 
-export const setBackend = (newBackend: Backend) => {
+export const setBackend = (newBackend: BackendType) => {
   backend = newBackend;
 };
 
-export const getBackend = (): Backend => backend;
+export const getBackend = (): BackendType => backend;

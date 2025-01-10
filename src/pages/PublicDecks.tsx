@@ -10,7 +10,7 @@ function PublicDecks() {
 		console.log("fetchPublicDecks");
       try {
         const backend = getBackend();
-        const data = await backend.getPublicDecks();
+        const data = await backend.getPublicFolders();
         setDecks(data);
       } catch (error) {
         console.error(

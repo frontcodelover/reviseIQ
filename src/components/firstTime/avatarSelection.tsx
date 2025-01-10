@@ -1,6 +1,6 @@
 import { RadioGroup } from '@/components/ui/radio-group';
 
-const AvatarSelect = ({ value, onChange }: AvatarSelectProps) => {
+export const AvatarSelect = ({ value, onChange }: AvatarSelectProps) => {
   const avatars = Array.from({ length: 8 }, (_, i) => i + 1);
 
   return (
@@ -29,5 +29,3 @@ const AvatarSelect = ({ value, onChange }: AvatarSelectProps) => {
     </RadioGroup>
   );
 };
-
-export default AvatarSelect;
