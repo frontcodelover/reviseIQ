@@ -5,7 +5,8 @@ export const useUserDecksCount = () => {
   const [deckCount, setDeckCount] = useState(null as null | number | string);
 
   useEffect(() => {
-    const fetchUserDecks = async () => {
+	  const fetchUserDecks = async () => {
+		console.log("fetchUserDecks");
       try {
         const backend = getBackend();
         const data = await backend.getUserDecks();

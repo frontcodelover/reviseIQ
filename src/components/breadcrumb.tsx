@@ -15,7 +15,8 @@ const BreadcrumbDashboard = () => {
   const [folderName, setFolderName] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchName = async () => {
+	  const fetchName = async () => {
+		console.log("fetchName");
       if (pathnames.length > 0) {
         const lastSegment = pathnames[pathnames.length - 1];
         if (
@@ -28,7 +29,7 @@ const BreadcrumbDashboard = () => {
         }
       }
     };
-
+	console.log("fetchName");
     fetchName();
   }, [pathnames]);
 

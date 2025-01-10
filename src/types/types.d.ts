@@ -93,6 +93,7 @@ interface ThemaProps {
   value: string;
 }
 
+
 interface Backend {
   getPublicDecks(): Promise<Deck[]>;
   getUserDecks(): Promise<Deck[]>;
@@ -104,4 +105,5 @@ interface Backend {
   getUserProfile(userId: string): Promise<User | null>;
   createFlashcard(flashcardData: Flashcard): Promise<void>;
   getFlashcards(deckId: string): Promise<Flashcard[]>;
+  generateFlashcards(topic: string): Promise<Flashcard[]>;
 }

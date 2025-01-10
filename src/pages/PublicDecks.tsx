@@ -6,7 +6,8 @@ function PublicDecks() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPublicDecks = async () => {
+	  const fetchPublicDecks = async () => {
+		console.log("fetchPublicDecks");
       try {
         const backend = getBackend();
         const data = await backend.getPublicDecks();

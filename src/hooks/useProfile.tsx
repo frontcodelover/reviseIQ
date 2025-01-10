@@ -9,7 +9,8 @@ export const useProfile = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+	  const fetchProfile = async () => {
+		console.log("fetchProfile");
       if (!user) {
         setProfile(null);
         setLoading(false);

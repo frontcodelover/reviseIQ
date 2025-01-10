@@ -1,28 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getBackend } from '@/services/backend';
 import CreateFlashcard from '@/components/flashcards/createFlashcard';
-import { useNavigate } from 'react-router-dom';
 import GetFlashcards from '@/components/flashcards/getFlashcards';
 
 function SingleFolder({ id }: { id: string | undefined }) {
   const [folder, setFolder] = useState<Deck>();
   const navigate = useNavigate();
 
-  const fetchFolder = async () => {
-    try {
-      const backend = getBackend();
-      if (id) {
-        const folder = await backend.getFolderById(id);
-        setFolder(folder);
-      } else {
-        console.error('ID is undefined');
+  useEffect(() => {
+    const fetchFolder = async () => {
+      try {
+        const backend = getBackend();
+        if (id) {
+          const folder = await backend.getFolderById(id);
+          setFolder(folder);
+        } else {
+          console.error('ID is undefined');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération du dossier :', error);
       }
-    } catch (error) {
-      console.error('Erreur lors de la récupération du dossier :', error);
-    }
-  };
+    };
 
-  fetchFolder();
+    fetchFolder();
+  }, [id]);
 
   const handleFlashcardsCreated = () => {
     // Action après création réussie

@@ -31,7 +31,8 @@ function GetFlashcards() {
   const isLastCard = currentIndex === flashcards.length;
 
   useEffect(() => {
-    const fetchFlashcards = async () => {
+	  const fetchFlashcards = async () => {
+		console.log("fetchFlashcards");
       if (!deckId) return;
       try {
         const backend = getBackend();
@@ -47,7 +48,8 @@ function GetFlashcards() {
   }, [deckId]);
 
   useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
+	  const handleKeyPress = (e: KeyboardEvent) => {
+		console.log("key pressed");
       if (e.key.toLowerCase() === 'a') {
         setShowAnswer(!showAnswer);
       } else if (e.code === 'ArrowRight' && currentIndex < flashcards.length) {
