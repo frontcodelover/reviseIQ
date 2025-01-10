@@ -14,7 +14,7 @@ function UserDecks(): JSX.Element {
       try {
         const backend = getBackend();
         const data = await backend.getUserDecks();
-        console.log("boucle userdecks");
+        console.log('boucle userdecks');
         if (Array.isArray(data)) {
           setDecks(data as Deck[]);
         } else {

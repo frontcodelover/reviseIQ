@@ -9,8 +9,8 @@ export const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-	const [loading, setLoading] = useState(true);
-	const backend = getBackend();
+  const [loading, setLoading] = useState(true);
+  const backend = getBackend();
 
   useEffect(() => {
     const fetchUser = async () => {

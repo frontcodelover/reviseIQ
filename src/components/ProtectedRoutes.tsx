@@ -23,8 +23,8 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   // Effet pour la vérification initiale
   useEffect(() => {
-	  checkUserProfile();
-	  console.log("checkUserProfile");
+    checkUserProfile();
+    console.log('checkUserProfile');
   }, [user, checkUserProfile]);
 
   // Écouteur d'événement pour la mise à jour du profil

@@ -2,8 +2,7 @@ import CreateDeckForm from '@/components/createDeckForm';
 import { useUserDecksCount } from '@/hooks/useUserDecksCount';
 
 function CreateFolder() {
-	const { refresh } = useUserDecksCount();
-
+  const { refresh } = useUserDecksCount();
 
   return (
     <>

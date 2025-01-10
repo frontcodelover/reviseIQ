@@ -14,54 +14,60 @@ interface Flashcard {
 function CreateFlashcard({ onSuccess }: { onSuccess?: () => void }) {
   const { id: deckId } = useParams<{ id: string }>();
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
-  const [manualFlashcards, setManualFlashcards] = useState<Flashcard[]>([{ id: Date.now(), question: '', answer: '' }]);
+  const [manualFlashcards, setManualFlashcards] = useState<Flashcard[]>([
+    { id: Date.now(), question: '', answer: '' },
+  ]);
   const [topic, setTopic] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-//   const parseFlashcardsFromText = (text?: string): Flashcard[] => {
-//     if (!text) {
-//       console.error("Le texte fourni pour le parsing est indéfini.");
-//       return [];
-//     }
-//     const flashcards: Flashcard[] = [];
-//     const lines = text.split('\n').filter((line) => line.trim() !== '');
-//     let question = '';
-//     let answer = '';
+  //   const parseFlashcardsFromText = (text?: string): Flashcard[] => {
+  //     if (!text) {
+  //       console.error("Le texte fourni pour le parsing est indéfini.");
+  //       return [];
+  //     }
+  //     const flashcards: Flashcard[] = [];
+  //     const lines = text.split('\n').filter((line) => line.trim() !== '');
+  //     let question = '';
+  //     let answer = '';
 
-//     lines.forEach((line) => {
-//       if (line.startsWith('**Question :**')) {
-//         question = line.replace('**Question :**', '').trim();
-//       } else if (line.startsWith('**Réponse :**')) {
-//         answer = line.replace('**Réponse :**', '').trim();
-//         flashcards.push({ id: Date.now() + flashcards.length, question, answer });
-//       }
-//     });
+  //     lines.forEach((line) => {
+  //       if (line.startsWith('**Question :**')) {
+  //         question = line.replace('**Question :**', '').trim();
+  //       } else if (line.startsWith('**Réponse :**')) {
+  //         answer = line.replace('**Réponse :**', '').trim();
+  //         flashcards.push({ id: Date.now() + flashcards.length, question, answer });
+  //       }
+  //     });
 
-//     return flashcards;
-//   };
+  //     return flashcards;
+  //   };
 
   const generateFlashcards = async () => {
-	setLoading(true);
-	setError(null);
-  
-	try {
-	  console.log("Début de la génération");
-	  const backend = getBackend();
-	  const result = await backend.generateFlashcards(topic);
-	  console.log("Résultat de la génération:", result);
-  
-	  if (result && result.length > 0) {
-		setFlashcards(result as Flashcard[]);
-	  } else {
-		throw new Error("Aucune flashcard générée");
-	  }
-	} catch (err) {
-	  console.error("Erreur lors de la génération:", err);
-	  setError(err instanceof Error ? err.message : "Erreur lors de la génération des flashcards");
-	} finally {
-	  setLoading(false);
-	}
+    setLoading(true);
+    setError(null);
+
+    try {
+      console.log('Début de la génération');
+      const backend = getBackend();
+      const result = await backend.generateFlashcards(topic);
+      console.log('Résultat de la génération:', result);
+
+      if (result && result.length > 0) {
+        setFlashcards(result as Flashcard[]);
+      } else {
+        throw new Error('Aucune flashcard générée');
+      }
+    } catch (err) {
+      console.error('Erreur lors de la génération:', err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Erreur lors de la génération des flashcards'
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async () => {
@@ -90,10 +96,17 @@ function CreateFlashcard({ onSuccess }: { onSuccess?: () => void }) {
   };
 
   const addManualFlashcard = () => {
-    setManualFlashcards([...manualFlashcards, { id: Date.now(), question: '', answer: '' }]);
+    setManualFlashcards([
+      ...manualFlashcards,
+      { id: Date.now(), question: '', answer: '' },
+    ]);
   };
 
-  const updateManualFlashcard = (id: number, field: keyof Flashcard, value: string) => {
+  const updateManualFlashcard = (
+    id: number,
+    field: keyof Flashcard,
+    value: string
+  ) => {
     setManualFlashcards(
       manualFlashcards.map((card) =>
         card.id === id ? { ...card, [field]: value } : card
@@ -149,13 +162,17 @@ function CreateFlashcard({ onSuccess }: { onSuccess?: () => void }) {
             type="text"
             placeholder="Question"
             value={card.question}
-            onChange={(e) => updateManualFlashcard(card.id, 'question', e.target.value)}
+            onChange={(e) =>
+              updateManualFlashcard(card.id, 'question', e.target.value)
+            }
           />
           <Input
             type="text"
             placeholder="Réponse"
             value={card.answer}
-            onChange={(e) => updateManualFlashcard(card.id, 'answer', e.target.value)}
+            onChange={(e) =>
+              updateManualFlashcard(card.id, 'answer', e.target.value)
+            }
           />
           <Button
             variant="destructive"
@@ -167,10 +184,7 @@ function CreateFlashcard({ onSuccess }: { onSuccess?: () => void }) {
         </div>
       ))}
 
-      <Button
-        onClick={addManualFlashcard}
-        className="w-full"
-      >
+      <Button onClick={addManualFlashcard} className="w-full">
         <Plus className="h-4 w-4" /> Ajouter une carte manuelle
       </Button>
 

@@ -86,31 +86,31 @@ interface ThemaProps {
 }
 
 interface BackendType {
-	signUp(email: string, password: string);
-	signInWithEmail(email: string, password: string);
-	signInWithProvider(provider: 'google'): Promise<void>;
-	signOut(): Promise<void>;
-	getUser();
-	getUserId(): Promise<string>;
-	hasUserProfile(userId: string);
-  
-	// User Methods
-	getUserDecks(): Promise<Folder[]>;
-	createDeck(deckData: {
-	  title: string;
-	  description: string;
-	  is_public: boolean;
-	}): Promise<void>;
-	upsertUser(userData: User | { user_id: string } & Partial<User>);
-	getUserProfile(userId: string);
-  
-	// Folder Methods
-	getPublicFolders(): Promise<Folder[]>;
-	getFolderById(id: string): Promise<Folder>;
-	deleteFolder(id: string): Promise<void>;
-  
-	// Flashcard Methods
-	createFlashcard(flashcardData: Flashcard): Promise<void>;
-	getFlashcards(deckId: string): Promise<Flashcard[]>;
-	generateFlashcards(topic: string): Promise<Flashcard[]>;
+  signUp(email: string, password: string);
+  signInWithEmail(email: string, password: string);
+  signInWithProvider(provider: 'google'): Promise<void>;
+  signOut(): Promise<void>;
+  getUser();
+  getUserId(): Promise<string>;
+  hasUserProfile(userId: string);
+
+  // User Methods
+  getUserDecks(): Promise<Folder[]>;
+  createDeck(deckData: {
+    title: string;
+    description: string;
+    is_public: boolean;
+  }): Promise<void>;
+  upsertUser(userData: User | ({ user_id: string } & Partial<User>));
+  getUserProfile(userId: string);
+
+  // Folder Methods
+  getPublicFolders(): Promise<Folder[]>;
+  getFolderById(id: string): Promise<Folder>;
+  deleteFolder(id: string): Promise<void>;
+
+  // Flashcard Methods
+  createFlashcard(flashcardData: Flashcard): Promise<void>;
+  getFlashcards(deckId: string): Promise<Flashcard[]>;
+  generateFlashcards(topic: string): Promise<Flashcard[]>;
 }

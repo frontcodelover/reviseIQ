@@ -8,11 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 
-function CreateDeckForm({
-	onRefresh,
-}: {
-		onRefresh: () => void;
-}) {
+function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -39,7 +35,7 @@ function CreateDeckForm({
       setName('');
       setDescription('');
       setIsPublic(true);
-		onRefresh(); // Actualise le nombre
+      onRefresh(); // Actualise le nombre
       navigate('/dashboard/folders'); // Redirige l'utilisateur vers la liste des decks
     } catch (error) {
       console.error('Erreur lors de la création du deck :', error);
