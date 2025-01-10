@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import './index.css';
+import '@/styles/index.css';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import Home from '@/pages/Home';
 import './i18n';

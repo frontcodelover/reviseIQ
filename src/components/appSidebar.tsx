@@ -107,7 +107,7 @@ export function AppSidebar() {
                               {item.nb && (
                                 <span
                                   className={clsx(
-                                    'ml-auto rounded-lg px-3 py-1 text-sm text-slate-100',
+                                    'ml-auto rounded-lg px-3 py-1 text-sm text-slate-100 font-normal',
                                     `${item.color}`
                                   )}
                                 >
@@ -134,7 +134,7 @@ export function AppSidebar() {
                               {item.nb && (
                                 <span
                                   className={clsx(
-                                    'ml-auto rounded-lg px-3 py-1 text-xs text-slate-100',
+                                    'ml-auto rounded-lg px-3 py-1 text-xs text-slate-100 font-normal',
                                     `${item.color}`
                                   )}
                                 >
