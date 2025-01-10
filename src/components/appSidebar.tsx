@@ -35,7 +35,7 @@ export function AppSidebar() {
   const { t } = useTranslation();
   const location = useLocation();
   const handleSignOut = useHandleSignOut();
-  const deckCount = useUserDecksCount();
+  const { deckCount } = useUserDecksCount();
   const { profile, loading, error } = useProfile();
 
   if (loading) return <div>Chargement...</div>;

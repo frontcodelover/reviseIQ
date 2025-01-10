@@ -1,16 +1,13 @@
-import { useState } from 'react';
 import CreateDeckForm from '@/components/createDeckForm';
+import { useUserDecksCount } from '@/hooks/useUserDecksCount';
 
 function CreateFolder() {
-  const [refreshUserDecks, setRefreshUserDecks] = useState(false);
+	const { refresh } = useUserDecksCount();
 
-  const handleDeckCreated = () => {
-    setRefreshUserDecks(!refreshUserDecks);
-  };
 
   return (
     <>
-      <CreateDeckForm onDeckCreated={handleDeckCreated} />
+      <CreateDeckForm onRefresh={refresh} />
     </>
   );
 }
