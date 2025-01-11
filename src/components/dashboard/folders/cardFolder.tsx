@@ -6,31 +6,12 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Trash2, EditIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { getBackend } from '@/services/backend';
-import { useState } from 'react';
-import { useProfile } from '@/hooks/useProfile';
+import { useProfileUserById } from '@/hooks/useProfileUserById';
 
-const CardFolder = ({ id, ...props }: CardFolderProps) => {
-  const [isVisible, setIsVisible] = useState(true);
-  const { name, description, color, thema } = props;
-  const { profile, loading } = useProfile();
-
-  const backend = getBackend();
-
-  const deleteFolder = async () => {
-    try {
-      await backend.deleteFolder(id);
-      setIsVisible(false);
-    } catch (error) {
-      console.error('Error while deleting folder', error);
-    }
-  };
-
-  if (!isVisible) {
-    return null;
-  }
+const CardFolder = ({ ...props }: Deck) => {
+  const { id, name, description, color, thema, user_id } = props;
+  const { profile, loading } = useProfileUserById(user_id || '');
 
   return (
     <Card
@@ -51,24 +32,13 @@ const CardFolder = ({ id, ...props }: CardFolderProps) => {
                     {thema}
                   </span>
                 </div>
-                <div className="flex h-full gap-1">
-                  <span className="rounded border border-green-200 bg-green-100 p-2 text-green-600">
-                    <Link to={`/dashboard/folders/${id}/edit`}>
-                      <EditIcon className="h-4 w-4" />
-                    </Link>
-                  </span>
-                  <span className="rounded border border-red-200 bg-red-100 p-2 text-red-600">
-                    <button onClick={deleteFolder}>
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </span>
-                </div>
+                
               </div>
             </CardTitle>
             <Separator className="my-1" />
           </CardHeader>
           <CardDescription className="line-clamp-2 max-w-80 truncate text-pretty px-6 text-slate-500">
-            {description}
+            {description ? description : 'Pas de description'}
           </CardDescription>
         </div>
 

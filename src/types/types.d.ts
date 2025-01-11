@@ -34,12 +34,13 @@ interface FirstTimeFormProps {
 }
 
 interface Deck {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   is_public: boolean;
   color: string;
   thema: string;
+  user_id?: string | undefined;
 }
 // Removed duplicate User interface
 
@@ -96,16 +97,13 @@ interface BackendType {
 
   // User Methods
   getUserDecks(): Promise<Folder[]>;
-  createDeck(deckData: {
-    title: string;
-    description: string;
-    is_public: boolean;
-  }): Promise<void>;
+  createDeck(deckData: Deck);
   upsertUser(userData: User | ({ user_id: string } & Partial<User>));
   getUserProfile(userId: string);
 
   // Folder Methods
   getPublicFolders(): Promise<Folder[]>;
+  getLastPublicFolders(): Promise<Folder[]>;
   getFolderById(id: string): Promise<Folder>;
   deleteFolder(id: string): Promise<void>;
 

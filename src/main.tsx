@@ -16,6 +16,7 @@ import Settings from '@/pages/dashboard/Settings';
 import SinglePageFolder from '@/pages/folders/Single';
 import CreateFolder from '@/pages/folders/CreateFolder';
 import FirstTimeFormPage from '@/pages/dashboard/FirstTimeForm';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const AppRoutes = () => {
   return (
@@ -54,11 +55,14 @@ const AppRoutes = () => {
 };
 
 const App = () => {
+  const queryClient = new QueryClient();
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </QueryClientProvider>
     </AuthProvider>
   );
 };

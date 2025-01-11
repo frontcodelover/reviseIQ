@@ -17,10 +17,17 @@ import { ChevronsUpDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { ThemaLabelKeys } from './themaLabel';
 
+interface ThemaProps {
+  setThema: (value: string) => void;
+  value: string;
+}
+
 const Thema: React.FC<ThemaProps> = ({ setThema, value: initialValue }) => {
-  const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(initialValue);
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(
+    initialValue || t('dashboard.folder.thema.other')
+  );
 
   const ThemaLabel = ThemaLabelKeys.map((key) => ({
     value: t(key),
@@ -28,12 +35,14 @@ const Thema: React.FC<ThemaProps> = ({ setThema, value: initialValue }) => {
   }));
 
   const handleSelect = (value: string) => {
-    setSelectedValue(value);
-    setThema(value);
+    const selectedValue = value || t('dashboard.folder.thema.other');
+    setSelectedValue(selectedValue);
+    setThema(selectedValue);
     setOpen(false);
   };
 
-  return (
+	return (
+		<div className="w-full">
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
@@ -42,26 +51,26 @@ const Thema: React.FC<ThemaProps> = ({ setThema, value: initialValue }) => {
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {selectedValue
-            ? ThemaLabel.find((framework) => framework.value === selectedValue)
-                ?.label
-            : 'Sélectionner une thématique...'}
+          {ThemaLabel.find(
+            (framework) => 
+              framework.value === (selectedValue || t('dashboard.folder.thema.other'))
+          )?.label || t('dashboard.folder.thema.other')}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
+      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
         <Command className="w-full">
           <CommandInput
-            placeholder="Rechercher un thème..."
-            className="h-9 w-full"
+            placeholder={t('dashboard.folder.thema.search')}
+            className="h-9"
           />
           <CommandList>
-            <CommandEmpty>Aucun thème trouvé.</CommandEmpty>
+            <CommandEmpty>{t('dashboard.folder.thema.empty')}</CommandEmpty>
             <CommandGroup>
               {ThemaLabel.map((framework) => (
                 <CommandItem
                   key={framework.value}
-                  onSelect={() => handleSelect(framework.value)}
+                  onSelect={handleSelect}
                 >
                   {framework.label}
                 </CommandItem>
@@ -71,6 +80,7 @@ const Thema: React.FC<ThemaProps> = ({ setThema, value: initialValue }) => {
         </Command>
       </PopoverContent>
     </Popover>
+  </div>
   );
 };
 

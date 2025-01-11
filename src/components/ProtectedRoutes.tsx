@@ -15,7 +15,6 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     if (user) {
       const backend = getBackend();
       const hasUserProfile = await backend.hasUserProfile(user.id);
-      console.log('Profile check result:', hasUserProfile);
       setHasProfile(hasUserProfile);
       setCheckingProfile(false);
     }
@@ -24,7 +23,6 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   // Effet pour la vérification initiale
   useEffect(() => {
     checkUserProfile();
-    console.log('checkUserProfile');
   }, [user, checkUserProfile]);
 
   // Écouteur d'événement pour la mise à jour du profil

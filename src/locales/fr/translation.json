@@ -48,6 +48,7 @@
       "privatefolder": "Privé",
       "by": "par",
       "thema": {
+		"search": "Rechercher un thème",
         "administration_public": "Administration publique",
         "agriculture": "Agriculture",
         "anthropology": "Anthropologie",

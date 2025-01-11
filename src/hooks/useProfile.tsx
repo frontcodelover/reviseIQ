@@ -10,7 +10,6 @@ export const useProfile = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      console.log('fetchProfile');
       if (!user) {
         setProfile(null);
         setLoading(false);

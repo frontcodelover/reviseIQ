@@ -20,6 +20,29 @@ export class FolderService {
       throw error;
     }
   }
+	
+	// get Last 6 public decks
+	async getLastPublicFolders(): Promise<Deck[]> {
+		try {
+			const { data, error } = await supabase
+				.from('decks')
+				.select('*')
+				.eq('is_public', true)
+				.order('created_at', { ascending: false })
+				.limit(6);
+
+			if (error) {
+				console.error('Error fetching getLastPublicFolders:', error);
+				throw error;
+			}
+
+			return data || [];
+		} catch (error) {
+			console.error('Error in getLastPublicFolders:', error);
+			throw error;
+		}
+	}
+	
   // Fetch folder name by ID
   async getFolderById(folderId: string): Promise<CardFolderProps> {
     try {

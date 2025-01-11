@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getBackend } from '@/services/backend';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import CreateFlashcard from '@/components/flashcards/createFlashcard';
+import { useNavigate } from 'react-router-dom';
+import { Card, CardContent } from '../ui/card';
 
 const EndCard = ({ onRestart }: { onRestart: () => void }) => (
   <div className="min-h-[60vh] w-[calc(100%-10vw)]">
@@ -27,12 +30,16 @@ function GetFlashcards() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const isLastCard = currentIndex === flashcards.length;
 
+  const handleFlashcardsCreated = () => {
+    navigate('/dashboard/folders');
+  };
+
   useEffect(() => {
     const fetchFlashcards = async () => {
-      console.log('fetchFlashcards');
       if (!deckId) return;
       try {
         const backend = getBackend();
@@ -72,11 +79,11 @@ function GetFlashcards() {
 
   if (loading) return <div>Chargement...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
-  if (!flashcards.length) return <div>Aucune flashcard trouvée</div>;
+  //   if (!flashcards.length) return <div>Aucune flashcard trouvée</div>;
 
   const currentCard = flashcards[currentIndex];
 
-  return (
+  return flashcards.length > 0 ? (
     <div className="flex min-h-[60vh] flex-col items-center justify-center gap-8">
       {isLastCard ? (
         <EndCard onRestart={handleRestart} />
@@ -131,6 +138,34 @@ function GetFlashcards() {
         </button>
       </div>
     </div>
+  ) : (
+    <>
+      <div className="text-balance pb-5 pt-5 text-xl font-semibold text-slate-800">
+        Comment souhaites-tu créer tes flashcards ? <br />
+        <div className="text-base font-normal text-slate-600">
+          Choisis une option ci-dessous
+        </div>
+      </div>
+      <div className="flex justify-center gap-4">
+        <Card className="flex h-80 w-1/2 flex-col items-center justify-center transition duration-700 ease-in-out hover:bg-sky-200">
+          <CardContent className="flex flex-col items-center justify-center gap-4">
+            <p className="text-5xl">🤖</p>
+            <h2 className="text-xl font-bold">
+              Générer des flashcards avec l'IA
+            </h2>
+          </CardContent>
+        </Card>
+        <Card className="flex h-80 w-1/2 flex-col items-center justify-center transition duration-700 ease-in-out hover:bg-cyan-200">
+          <CardContent className="flex flex-col items-center justify-center gap-4">
+            <p className="text-5xl">✍</p>
+            <h2 className="text-xl font-bold">
+              Créer des flashcards manuellementA
+            </h2>
+          </CardContent>
+        </Card>
+      </div>
+      <CreateFlashcard onSuccess={handleFlashcardsCreated} />
+    </>
   );
 }
 

@@ -75,7 +75,7 @@ export function AppSidebar() {
   ];
   return (
     <Sidebar>
-      <SidebarContent className="bg-white">
+      <SidebarContent className="bg-slate-200">
         <SidebarGroup>
           <SidebarGroupLabel className="my-6 text-2xl font-bold tracking-tighter">
             <span className="text-sky-950">Revise</span>
@@ -94,7 +94,7 @@ export function AppSidebar() {
                       {isActive ? (
                         <div
                           key={item.title}
-                          className="font-semibold text-slate-800 hover:bg-white"
+                          className=" text-slate-800 hover:bg-white"
                         >
                           <div className="flex w-full items-center justify-between">
                             <div className="flex items-center gap-3">
@@ -107,7 +107,7 @@ export function AppSidebar() {
                               {item.nb && (
                                 <span
                                   className={clsx(
-                                    'ml-auto rounded-lg px-3 py-1 text-sm font-normal text-slate-100',
+                                    'ml-auto font-normal!important rounded-lg px-3 py-1 text-slate-100 text-xs',
                                     `${item.color}`
                                   )}
                                 >
@@ -134,7 +134,7 @@ export function AppSidebar() {
                               {item.nb && (
                                 <span
                                   className={clsx(
-                                    'ml-auto rounded-lg px-3 py-1 text-xs font-normal text-slate-100',
+                                    'ml-auto rounded-lg px-3 py-1 text-xs font-normal!important  text-slate-100',
                                     `${item.color}`
                                   )}
                                 >
@@ -153,13 +153,13 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-white">
+      <SidebarFooter className="bg-slate-200">
         <Separator />
-        <SidebarMenu className="border-slate-300 p-2 text-slate-800">
+        <SidebarMenu className="border-slate-300 border-t p-2 text-slate-800">
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="h-auto text-slate-800 hover:bg-white hover:text-slate-900 focus:bg-white">
+                <SidebarMenuButton className="h-auto text-slate-800 hover:bg-slate-200 hover:text-slate-900 focus:bg-slate-200 focus:text-slate-900">
                   <img
                     src={`/src/assets/${profile.avatar}.webp`}
                     alt="avatar"

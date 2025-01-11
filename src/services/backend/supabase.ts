@@ -43,12 +43,8 @@ export class SupabaseBackend implements BackendType {
   public async getUserDecks() {
     return this.userService.getUserDecks();
   }
-  public async createDeck(deckData: {
-    title: string;
-    description: string;
-    is_public: boolean;
-  }): Promise<void> {
-    return this.createDeck(deckData);
+  public async createDeck(deckData: Deck): Promise<{ id: string }> {
+    return this.userService.createDeck(deckData);
   }
   public async upsertUser(userData: User) {
     return this.userService.upsertUser(userData);
@@ -61,6 +57,10 @@ export class SupabaseBackend implements BackendType {
   public async getPublicFolders() {
     return this.folderService.getPublicFolders();
   }
+	
+	public async getLastPublicFolders() {
+		return this.folderService.getLastPublicFolders();
+	}
 
   public async getFolderById(id: string) {
     return this.folderService.getFolderById(id);

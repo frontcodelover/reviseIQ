@@ -56,29 +56,30 @@ export class UserService {
   }
 
   // Create a new deck
-  async createDeck(deckData: {
-    title: string;
-    description: string;
-    is_public: boolean;
-  }): Promise<void> {
-    try {
-      const userId = await this.getUserId();
-
-      const { error } = await supabase.from('decks').insert({
-        user_id: userId,
-        ...deckData,
-      });
-
-      if (error) {
-        console.error('Error creating deck:', error);
-        throw error;
-      }
-
-      console.log('Deck created successfully');
-    } catch (error) {
-      console.error('Error in createDeck:', error);
-      throw error;
-    }
+  async createDeck(deckData: Deck): Promise<{ id: string }> {
+	try {
+	  const userId = await this.getUserId();
+  
+	  const { data, error } = await supabase
+		.from('decks')
+		.insert({
+		  user_id: userId,
+		  ...deckData,
+		})
+		.select('id')
+		.single();
+  
+	  if (error) {
+		console.error('Error creating deck:', error);
+		throw error;
+	  }
+  
+	  console.log('Deck created successfully with id:', data.id);
+	  return { id: data.id };
+	} catch (error) {
+	  console.error('Error in createDeck:', error);
+	  throw error;
+	}
   }
 
   // Upsert a user's profile in the "users" table

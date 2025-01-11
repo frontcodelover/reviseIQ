@@ -21,28 +21,6 @@ function CreateFlashcard({ onSuccess }: { onSuccess?: () => void }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  //   const parseFlashcardsFromText = (text?: string): Flashcard[] => {
-  //     if (!text) {
-  //       console.error("Le texte fourni pour le parsing est indéfini.");
-  //       return [];
-  //     }
-  //     const flashcards: Flashcard[] = [];
-  //     const lines = text.split('\n').filter((line) => line.trim() !== '');
-  //     let question = '';
-  //     let answer = '';
-
-  //     lines.forEach((line) => {
-  //       if (line.startsWith('**Question :**')) {
-  //         question = line.replace('**Question :**', '').trim();
-  //       } else if (line.startsWith('**Réponse :**')) {
-  //         answer = line.replace('**Réponse :**', '').trim();
-  //         flashcards.push({ id: Date.now() + flashcards.length, question, answer });
-  //       }
-  //     });
-
-  //     return flashcards;
-  //   };
-
   const generateFlashcards = async () => {
     setLoading(true);
     setError(null);

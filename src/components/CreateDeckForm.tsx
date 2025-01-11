@@ -25,7 +25,7 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
 
     try {
       const backend = getBackend();
-      await backend.createDeck({
+      const { id } = await backend.createDeck({
         name,
         description,
         is_public: isPublic,
@@ -36,7 +36,7 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
       setDescription('');
       setIsPublic(true);
       onRefresh(); // Actualise le nombre
-      navigate('/dashboard/folders'); // Redirige l'utilisateur vers la liste des decks
+      navigate(`/dashboard/folders/${id}`); // Redirige l'utilisateur vers la liste des decks
     } catch (error) {
       console.error('Erreur lors de la création du deck :', error);
       setError('Impossible de créer le deck. Veuillez réessayer.');

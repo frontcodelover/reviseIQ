@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getBackend } from '@/services/backend';
-import CreateFlashcard from '@/components/flashcards/createFlashcard';
 import GetFlashcards from '@/components/flashcards/getFlashcards';
 
 function SingleFolder({ id }: { id: string | undefined }) {
   const [folder, setFolder] = useState<Deck>();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFolder = async () => {
@@ -26,15 +23,8 @@ function SingleFolder({ id }: { id: string | undefined }) {
     fetchFolder();
   }, [id]);
 
-  const handleFlashcardsCreated = () => {
-    // Action après création réussie
-    navigate('/dashboard/folders');
-    // ou afficher une notification
-    // ou rafraîchir les données
-  };
-
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex flex-col">
       {folder && (
         <div className="flex flex-col gap-2">
           <div className="w-fit rounded-md text-sm">
@@ -47,10 +37,9 @@ function SingleFolder({ id }: { id: string | undefined }) {
         </div>
       )}
 
-      <div className="flex h-full flex-col justify-center">
+      <div className="flex h-full flex-col py-4">
         <GetFlashcards />
       </div>
-      <CreateFlashcard onSuccess={handleFlashcardsCreated} />
     </div>
   );
 }

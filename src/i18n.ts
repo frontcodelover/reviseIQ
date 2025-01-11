@@ -20,7 +20,7 @@ i18n
     },
     load: 'languageOnly',
     nonExplicitSupportedLngs: true,
-    debug: true,
+    // debug: true,
     interpolation: {
       escapeValue: false,
     },

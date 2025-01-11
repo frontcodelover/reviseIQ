@@ -1,3 +1,4 @@
+import { GetPublicFolders } from '@/components/dashboard/community/getPublicFolders';
 import { useProfile } from '@/hooks/useProfile';
 
 function Dashboard() {
@@ -11,7 +12,7 @@ function Dashboard() {
         <h1 className="text-3xl font-bold">Bienvenue {profile.firstname}</h1>
       </div>
       Comment fonctionne ReviseIQ ?<br />
-      Les dernières listes de Flashcard de la communauté
+		  <GetPublicFolders />
       <br />
       Les dernières listes de Flashcard de vos amis
       <br />
