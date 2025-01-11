@@ -8,20 +8,20 @@ export const useProfileUserById = (userId: string) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-	const fetchProfile = async () => {
-	  try {
-		const backend = getBackend();
-		const userProfile = await backend.getUserProfile(userId);
-		setProfile(userProfile);
-	  } catch (err) {
-		setError('Erreur lors de la récupération du profil');
-		console.error('Error fetching profile:', err);
-	  } finally {
-		setLoading(false);
-	  }
-	};
+    const fetchProfile = async () => {
+      try {
+        const backend = getBackend();
+        const userProfile = await backend.getUserProfile(userId);
+        setProfile(userProfile);
+      } catch (err) {
+        setError('Erreur lors de la récupération du profil');
+        console.error('Error fetching profile:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-	fetchProfile();
+    fetchProfile();
   }, [userId]);
 
   return { profile, loading, error };

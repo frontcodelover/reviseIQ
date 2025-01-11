@@ -15,7 +15,7 @@ export default function LayoutDashboard({
           <SidebarTrigger />
           <BreadcrumbDashboard />
         </div>
-        <div className="container mx-auto px-6 ">{children}</div>
+        <div className="container mx-auto px-6">{children}</div>
       </main>
     </SidebarProvider>
   );

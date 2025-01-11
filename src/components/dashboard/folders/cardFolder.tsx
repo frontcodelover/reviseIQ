@@ -32,7 +32,6 @@ const CardFolder = ({ ...props }: Deck) => {
                     {thema}
                   </span>
                 </div>
-                
               </div>
             </CardTitle>
             <Separator className="my-1" />

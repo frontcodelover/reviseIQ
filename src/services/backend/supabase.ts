@@ -57,10 +57,10 @@ export class SupabaseBackend implements BackendType {
   public async getPublicFolders() {
     return this.folderService.getPublicFolders();
   }
-	
-	public async getLastPublicFolders() {
-		return this.folderService.getLastPublicFolders();
-	}
+
+  public async getLastPublicFolders() {
+    return this.folderService.getLastPublicFolders();
+  }
 
   public async getFolderById(id: string) {
     return this.folderService.getFolderById(id);

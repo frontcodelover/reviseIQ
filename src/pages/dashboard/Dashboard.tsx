@@ -12,7 +12,7 @@ function Dashboard() {
         <h1 className="text-3xl font-bold">Bienvenue {profile.firstname}</h1>
       </div>
       Comment fonctionne ReviseIQ ?<br />
-		  <GetPublicFolders />
+      <GetPublicFolders />
       <br />
       Les dernières listes de Flashcard de vos amis
       <br />

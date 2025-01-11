@@ -94,7 +94,7 @@ export function AppSidebar() {
                       {isActive ? (
                         <div
                           key={item.title}
-                          className=" text-slate-800 hover:bg-white"
+                          className="text-slate-800 hover:bg-white"
                         >
                           <div className="flex w-full items-center justify-between">
                             <div className="flex items-center gap-3">
@@ -107,7 +107,7 @@ export function AppSidebar() {
                               {item.nb && (
                                 <span
                                   className={clsx(
-                                    'ml-auto font-normal!important rounded-lg px-3 py-1 text-slate-100 text-xs',
+                                    'font-normal!important ml-auto rounded-lg px-3 py-1 text-xs text-slate-100',
                                     `${item.color}`
                                   )}
                                 >
@@ -134,7 +134,7 @@ export function AppSidebar() {
                               {item.nb && (
                                 <span
                                   className={clsx(
-                                    'ml-auto rounded-lg px-3 py-1 text-xs font-normal!important  text-slate-100',
+                                    'font-normal!important ml-auto rounded-lg px-3 py-1 text-xs text-slate-100',
                                     `${item.color}`
                                   )}
                                 >
@@ -155,7 +155,7 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter className="bg-slate-200">
         <Separator />
-        <SidebarMenu className="border-slate-300 border-t p-2 text-slate-800">
+        <SidebarMenu className="border-t border-slate-300 p-2 text-slate-800">
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

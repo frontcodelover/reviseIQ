@@ -41,46 +41,47 @@ const Thema: React.FC<ThemaProps> = ({ setThema, value: initialValue }) => {
     setOpen(false);
   };
 
-	return (
-		<div className="w-full">
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full justify-between"
+  return (
+    <div className="w-full">
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full justify-between"
+          >
+            {ThemaLabel.find(
+              (framework) =>
+                framework.value ===
+                (selectedValue || t('dashboard.folder.thema.other'))
+            )?.label || t('dashboard.folder.thema.other')}
+            <ChevronsUpDown className="opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          className="w-[var(--radix-popover-trigger-width)] p-0"
+          align="start"
         >
-          {ThemaLabel.find(
-            (framework) => 
-              framework.value === (selectedValue || t('dashboard.folder.thema.other'))
-          )?.label || t('dashboard.folder.thema.other')}
-          <ChevronsUpDown className="opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
-        <Command className="w-full">
-          <CommandInput
-            placeholder={t('dashboard.folder.thema.search')}
-            className="h-9"
-          />
-          <CommandList>
-            <CommandEmpty>{t('dashboard.folder.thema.empty')}</CommandEmpty>
-            <CommandGroup>
-              {ThemaLabel.map((framework) => (
-                <CommandItem
-                  key={framework.value}
-                  onSelect={handleSelect}
-                >
-                  {framework.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  </div>
+          <Command className="w-full">
+            <CommandInput
+              placeholder={t('dashboard.folder.thema.search')}
+              className="h-9"
+            />
+            <CommandList>
+              <CommandEmpty>{t('dashboard.folder.thema.empty')}</CommandEmpty>
+              <CommandGroup>
+                {ThemaLabel.map((framework) => (
+                  <CommandItem key={framework.value} onSelect={handleSelect}>
+                    {framework.label}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 };
 
