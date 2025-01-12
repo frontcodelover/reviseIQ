@@ -1,4 +1,4 @@
-import CreateDeckForm from '@/components/createDeckForm';
+import CreateDeckForm from '@/components/dashboard/folders/createFolderForm';
 import { useUserDecksCount } from '@/hooks/useUserDecksCount';
 
 function CreateFolder() {

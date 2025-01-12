@@ -108,7 +108,7 @@ function GetFlashcards() {
           </div>
         </div>
       )}
-      <p className="hidden text-sm text-slate-600 sm:flex">
+      <p className="hidden text-sm text-gray-600 sm:flex">
         Astuce : Appuyez sur la touche "A" pour afficher la réponse
       </p>
 
@@ -140,9 +140,9 @@ function GetFlashcards() {
     </div>
   ) : (
     <>
-      <div className="text-balance pb-5 pt-5 text-xl font-semibold text-slate-800">
+      <div className="text-balance pb-5 pt-5 text-xl font-semibold text-gray-800">
         Comment souhaites-tu créer tes flashcards ? <br />
-        <div className="text-base font-normal text-slate-600">
+        <div className="text-base font-normal text-gray-600">
           Choisis une option ci-dessous
         </div>
       </div>

@@ -29,7 +29,6 @@ import { useTranslation } from 'react-i18next';
 import { useHandleSignOut } from '@/hooks/useSignOut';
 import { useUserDecksCount } from '@/hooks/useUserDecksCount';
 import { useProfile } from '@/hooks/useProfile';
-import { Separator } from './ui/separator';
 
 export function AppSidebar() {
   const { t } = useTranslation();
@@ -75,26 +74,23 @@ export function AppSidebar() {
   ];
   return (
     <Sidebar>
-      <SidebarContent className="bg-slate-200">
+      <SidebarContent className="bg-gray-50">
         <SidebarGroup>
-          <SidebarGroupLabel className="my-6 text-2xl font-bold tracking-tighter">
+          <SidebarGroupLabel className="my-6 text-2xl font-semibold tracking-tighter">
             <span className="text-sky-950">Revise</span>
             <span className="text-sky-500">IQ</span>
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-2">
+            <SidebarMenu>
               {items.map((item) => {
                 const isActive = location.pathname === item.url;
                 return (
-                  <SidebarMenuItem
-                    key={item.title}
-                    className="font-semibold text-slate-500"
-                  >
+                  <SidebarMenuItem key={item.title} className="text-gray-500">
                     <SidebarMenuButton asChild>
                       {isActive ? (
                         <div
                           key={item.title}
-                          className="text-slate-800 hover:bg-white"
+                          className="text-gray-900 hover:bg-gray-50"
                         >
                           <div className="flex w-full items-center justify-between">
                             <div className="flex items-center gap-3">
@@ -107,7 +103,7 @@ export function AppSidebar() {
                               {item.nb && (
                                 <span
                                   className={clsx(
-                                    'font-normal!important ml-auto rounded-lg px-3 py-1 text-xs text-slate-100',
+                                    'font-normal!important ml-auto rounded-lg px-3 py-1 text-xs text-gray-100',
                                     `${item.color}`
                                   )}
                                 >
@@ -121,7 +117,7 @@ export function AppSidebar() {
                         <NavLink
                           to={item.url}
                           key={item.title}
-                          className="hover:bg-indigo-100"
+                          className="hover:bg-gray-100"
                         >
                           <div className="flex w-full items-center justify-between py-4">
                             <div className="flex items-center gap-3">
@@ -134,7 +130,7 @@ export function AppSidebar() {
                               {item.nb && (
                                 <span
                                   className={clsx(
-                                    'font-normal!important ml-auto rounded-lg px-3 py-1 text-xs text-slate-100',
+                                    'font-normal!important ml-auto rounded-lg px-3 py-1 text-xs text-gray-100',
                                     `${item.color}`
                                   )}
                                 >
@@ -153,19 +149,18 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-slate-200">
-        <Separator />
-        <SidebarMenu className="border-t border-slate-300 p-2 text-slate-800">
+      <SidebarFooter className="bg-gray-50">
+        <SidebarMenu className="border-t border-gray-50 p-2 text-gray-800">
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="h-auto text-slate-800 hover:bg-slate-200 hover:text-slate-900 focus:bg-slate-200 focus:text-slate-900">
+                <SidebarMenuButton className="h-auto text-gray-800 hover:bg-gray-50 hover:text-gray-900 focus:bg-gray-50 focus:text-gray-900">
                   <img
                     src={`/src/assets/${profile.avatar}.webp`}
                     alt="avatar"
                     className="h-10 w-10 rounded-full"
                   />
-                  <span className="... truncate text-lg font-semibold tracking-tight text-slate-600">
+                  <span className="... truncate text-lg font-semibold tracking-tight text-gray-600">
                     {profile?.firstname}
                   </span>
                   <ChevronUp className="ml-auto" />

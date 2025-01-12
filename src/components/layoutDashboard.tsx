@@ -10,7 +10,7 @@ export default function LayoutDashboard({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="w-full bg-zinc-50 bg-gradient-to-b">
+      <main className="w-full bg-white bg-gradient-to-b">
         <div className="flex w-full items-center gap-2 px-4 py-2">
           <SidebarTrigger />
           <BreadcrumbDashboard />

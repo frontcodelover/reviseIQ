@@ -25,10 +25,10 @@ const CardFolder = ({ ...props }: Deck) => {
             <CardTitle>
               <div className="flex h-full items-start justify-between">
                 <div className="flex flex-col justify-center">
-                  <h2 className="max-w-72 truncate pb-1 text-lg font-bold text-slate-800 sm:max-w-48 xl:max-w-64">
+                  <h2 className="max-w-72 truncate pb-1 text-sm font-bold text-gray-800 sm:max-w-48 xl:max-w-64">
                     <Link to={`/dashboard/folders/${id}`}>{name}</Link>
                   </h2>
-                  <span className="text-sm font-normal text-slate-600">
+                  <span className="text-sm font-normal text-gray-600">
                     {thema}
                   </span>
                 </div>
@@ -36,7 +36,7 @@ const CardFolder = ({ ...props }: Deck) => {
             </CardTitle>
             <Separator className="my-1" />
           </CardHeader>
-          <CardDescription className="line-clamp-2 max-w-80 truncate text-pretty px-6 text-slate-500">
+          <CardDescription className="line-clamp-2 max-w-80 truncate text-pretty px-6 text-gray-500">
             {description ? description : 'Pas de description'}
           </CardDescription>
         </div>

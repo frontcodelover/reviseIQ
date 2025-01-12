@@ -8,15 +8,29 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 
+interface FormData {
+  name: string;
+  description: string;
+  isPublic: boolean;
+  thema: string;
+  color: string;
+}
+
 function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [isPublic, setIsPublic] = useState(true);
-  const [thema, setThema] = useState('');
-  const [color, setColor] = useState('#F0F0F0');
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    description: '',
+    isPublic: true,
+    thema: '',
+    color: '#F0F0F0',
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const handleChange = (field: keyof FormData, value: string | boolean) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,19 +40,15 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
     try {
       const backend = getBackend();
       const { id } = await backend.createDeck({
-        name,
-        description,
-        is_public: isPublic,
-        color,
-        thema,
+        name: formData.name,
+        description: formData.description,
+        is_public: formData.isPublic,
+        color: formData.color,
+        thema: formData.thema,
       });
-      setName('');
-      setDescription('');
-      setIsPublic(true);
-      onRefresh(); // Actualise le nombre
-      navigate(`/dashboard/folders/${id}`); // Redirige l'utilisateur vers la liste des decks
-    } catch (error) {
-      console.error('Erreur lors de la création du deck :', error);
+      onRefresh();
+      navigate(`/dashboard/folders/${id}`);
+    } catch {
       setError('Impossible de créer le deck. Veuillez réessayer.');
     } finally {
       setLoading(false);
@@ -64,18 +74,16 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
       <h2 className="mb-4 text-2xl font-bold">Créer un Deck</h2>
       <form
         onSubmit={handleSubmit}
-        className="flex max-w-md flex-col gap-4 rounded-lg bg-white"
+        className="flex max-w-md flex-col gap-4 rounded-lg"
       >
         {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
 
         <div className="mb-4">
-          <Label className="mb-2 block font-medium text-gray-700">
-            Nom du deck
-          </Label>
+          <Label className="mb-2 block font-medium text-gray-700">Nom du deck</Label>
           <Input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={formData.name}
+            onChange={(e) => handleChange('name', e.target.value)}
             required
             className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Entrez un nom pour votre deck"
@@ -87,8 +95,8 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
             Description
           </Label>
           <Textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={formData.description}
+            onChange={(e) => handleChange('description', e.target.value)}
             rows={3}
             className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Ajoutez une description (facultatif)"
@@ -97,7 +105,7 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
 
         <div className="mb-4">
           <Label className="mb-2 block font-medium text-gray-700">Thème</Label>
-          <Thema setThema={setThema} value={thema} />
+          <Thema setThema={(value) => handleChange('thema', value)} value={formData.thema} />
         </div>
 
         <div className="mb-4">
@@ -105,8 +113,8 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
             Couleur
           </Label>
           <ColorPicker
-            selectedColor={color}
-            onSelectColor={setColor}
+            selectedColor={formData.color}
+            onSelectColor={(value) => handleChange('color', value)}
             colors={colors}
           />
         </div>
@@ -114,8 +122,8 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
           <Label className="flex items-center space-x-2">
             <Input
               type="checkbox"
-              checked={isPublic}
-              onChange={(e) => setIsPublic(e.target.checked)}
+              checked={formData.isPublic}
+              onChange={(e) => handleChange('isPublic', e.target.checked)}
               className="h-4 w-4 rounded border-gray-300 text-blue-500 focus:ring-2 focus:ring-blue-500"
             />
             <span className="font-medium text-gray-700">Dossier public</span>

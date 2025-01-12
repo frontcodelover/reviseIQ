@@ -28,11 +28,11 @@ function SingleFolder({ id }: { id: string | undefined }) {
       {folder && (
         <div className="flex flex-col gap-2">
           <div className="w-fit rounded-md text-sm">
-            <span className="text-slate-800">Thématique : {folder.thema}</span>
+            <span className="text-gray-800">Thématique : {folder.thema}</span>
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-slate-800">{folder.name}</h2>
-            <p className="text-lg text-slate-800">{folder.description}</p>
+            <h2 className="text-3xl font-bold text-gray-800">{folder.name}</h2>
+            <p className="text-lg text-gray-800">{folder.description}</p>
           </div>
         </div>
       )}

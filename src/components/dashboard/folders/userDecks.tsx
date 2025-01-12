@@ -41,7 +41,7 @@ function UserDecks(): JSX.Element {
       <CardNewFolder />
       {decks.length === 0 ? (
         <>
-          <p className="text-center text-slate-900">
+          <p className="text-center text-gray-900">
             {t('dashboard.folder.nofolder')}
           </p>
         </>
