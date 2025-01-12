@@ -7,6 +7,8 @@ import Thema from '@/components/dashboard/folders/form/thema';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { useTranslation } from 'react-i18next';
+import { Switch } from '@/components/ui/switch';
 
 interface FormData {
   name: string;
@@ -17,6 +19,7 @@ interface FormData {
 }
 
 function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -71,70 +74,58 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
 
   return (
     <>
-      <h2 className="mb-4 text-2xl font-bold">Créer un Deck</h2>
+      <h2 className="mb-4 text-2xl font-bold">
+        {t('dashboard.folder.createfolder')}
+      </h2>
       <form
         onSubmit={handleSubmit}
-        className="flex max-w-md flex-col gap-4 rounded-lg"
+        className="flex w-full flex-col rounded-lg border p-4"
       >
         {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
 
-        <div className="mb-4">
-          <Label className="mb-2 block font-medium text-gray-700">
-            Nom du deck
-          </Label>
+        <div className='mb-2'>
           <Input
             type="text"
             value={formData.name}
             onChange={(e) => handleChange('name', e.target.value)}
             required
-            className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Entrez un nom pour votre deck"
+            className="w-full rounded-sm border-0 ring-0 placeholder:font-semibold focus:border-0 focus:outline-none focus:ring-0"
+            placeholder={t('dashboard.folder.form.nameplaceholder')}
           />
-        </div>
 
-        <div className="mb-4">
-          <Label className="mb-2 block font-medium text-gray-700">
-            Description
-          </Label>
           <Textarea
             value={formData.description}
             onChange={(e) => handleChange('description', e.target.value)}
-            rows={3}
-            className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Ajoutez une description (facultatif)"
+            rows={2}
+            className="w-full rounded-sm border-0 ring-0 placeholder:text-xs focus:border-0 focus:outline-none focus:ring-0"
+            placeholder={t('dashboard.folder.form.descriptionplaceholder')}
           />
-        </div>
 
-        <div className="mb-4">
-          <Label className="mb-2 block font-medium text-gray-700">Thème</Label>
-          <Thema
-            setThema={(value) => handleChange('thema', value)}
-            value={formData.thema}
-          />
-        </div>
+        <Thema
+          setThema={(value) => handleChange('thema', value)}
+          value={formData.thema}
+		  />
+		  </div>
 
-        <div className="mb-4">
-          <Label className="mb-2 block font-medium text-gray-700">
-            Couleur
-          </Label>
-          <ColorPicker
-            selectedColor={formData.color}
-            onSelectColor={(value) => handleChange('color', value)}
-            colors={colors}
-          />
-        </div>
-        <div className="mb-4">
-          <Label className="flex items-center space-x-2">
-            <Input
-              type="checkbox"
+        <ColorPicker
+          selectedColor={formData.color}
+          onSelectColor={(value) => handleChange('color', value)}
+          colors={colors}
+        />
+
+        <div className="my-4">
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="public-mode"
               checked={formData.isPublic}
-              onChange={(e) => handleChange('isPublic', e.target.checked)}
-              className="h-4 w-4 rounded border-gray-300 text-blue-500 focus:ring-2 focus:ring-blue-500"
+              onCheckedChange={(checked) => handleChange('isPublic', checked)}
             />
-            <span className="font-medium text-gray-700">Dossier public</span>
-          </Label>
+            <Label htmlFor="public-mode" className="font-medium text-gray-700">
+              {t('dashboard.folder.form.public')}
+            </Label>
+          </div>
         </div>
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading} className="w-fit bg-sky-500">
           {loading ? 'Création...' : 'Créer'}
         </Button>
       </form>
