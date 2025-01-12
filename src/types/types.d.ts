@@ -81,6 +81,11 @@ interface CountrySelectOptionProps extends RPNInput.FlagProps {
   onChange: (country: RPNInput.Country) => void;
 }
 
+interface ThemaGroupProps {
+	thema: string;
+	decks: Deck[];
+  }
+
 interface ThemaProps {
   setThema: (value: string) => void;
   value: string;

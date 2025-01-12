@@ -158,9 +158,9 @@ export function AppSidebar() {
                   <img
                     src={`/src/assets/${profile.avatar}.webp`}
                     alt="avatar"
-                    className="h-10 w-10 rounded-full"
+                    className="h-6 w-6 rounded-full"
                   />
-                  <span className="... truncate text-lg font-semibold tracking-tight text-gray-600">
+                  <span className="... truncate text-sm tracking-tight text-gray-600">
                     {profile?.firstname}
                   </span>
                   <ChevronUp className="ml-auto" />

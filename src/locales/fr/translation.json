@@ -43,7 +43,7 @@
     "folder": {
       "yourfolder": "Vos dossiers",
       "createfolder": "Créer un dossier",
-      "nofolder": "Vous n'avez pas encore créé de dossier.",
+      "nofolder": "Il semblerait que vous n'avez pas encore créé de dossier.",
       "publicfolder": "Public",
       "privatefolder": "Privé",
       "by": "par",
