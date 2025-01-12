@@ -47,7 +47,7 @@ function GenerateFlashCardWithIa() {
     <div className="space-y-4 p-4">
       <h2 className="text-2xl font-bold">Générer avec l'IA</h2>
       {error && <div className="text-red-500">{error}</div>}
-      
+
       <Input
         type="text"
         placeholder="Entrez un sujet (e.g., Javascript)"
@@ -68,8 +68,12 @@ function GenerateFlashCardWithIa() {
           <div className="space-y-2">
             {generatedCards.map((card, index) => (
               <div key={index} className="rounded border p-4">
-                <p><strong>Question:</strong> {card.question}</p>
-                <p><strong>Réponse:</strong> {card.answer}</p>
+                <p>
+                  <strong>Question:</strong> {card.question}
+                </p>
+                <p>
+                  <strong>Réponse:</strong> {card.answer}
+                </p>
               </div>
             ))}
           </div>

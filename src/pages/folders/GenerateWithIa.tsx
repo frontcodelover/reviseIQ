@@ -1,9 +1,7 @@
-import GenerateFlashCardWithIa from '@/components/flashcards/generateWithIa'
+import GenerateFlashCardWithIa from '@/components/flashcards/generateWithIa';
 
 const GenerateWithIa = () => {
-  return (
-	<GenerateFlashCardWithIa />
-  )
-}
+  return <GenerateFlashCardWithIa />;
+};
 
-export default GenerateWithIa
+export default GenerateWithIa;

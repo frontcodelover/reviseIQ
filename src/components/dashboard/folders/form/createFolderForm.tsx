@@ -29,7 +29,7 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
   const [error, setError] = useState('');
 
   const handleChange = (field: keyof FormData, value: string | boolean) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -79,7 +79,9 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
         {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
 
         <div className="mb-4">
-          <Label className="mb-2 block font-medium text-gray-700">Nom du deck</Label>
+          <Label className="mb-2 block font-medium text-gray-700">
+            Nom du deck
+          </Label>
           <Input
             type="text"
             value={formData.name}
@@ -105,7 +107,10 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
 
         <div className="mb-4">
           <Label className="mb-2 block font-medium text-gray-700">Thème</Label>
-          <Thema setThema={(value) => handleChange('thema', value)} value={formData.thema} />
+          <Thema
+            setThema={(value) => handleChange('thema', value)}
+            value={formData.thema}
+          />
         </div>
 
         <div className="mb-4">

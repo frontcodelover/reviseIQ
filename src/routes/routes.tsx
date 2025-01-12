@@ -2,7 +2,7 @@ import { Routes, Route, Outlet } from 'react-router-dom';
 
 import Home from '@/pages/Home';
 import Dashboard from '@/pages/dashboard/Dashboard';
-import ProtectedRoute from '@/components/protectedRoutes';
+import ProtectedRoute from '@/routes/protectedRoutes';
 import Login from '@/pages/Login';
 import SignUp from '@/pages/Signup';
 import NoMatch from '@/pages/NoMatch';
@@ -48,7 +48,10 @@ export const AppRoutes = () => {
         <Route path="folders/:id" element={<SinglePageFolder />} />
         <Route path="folders/new" element={<CreateFolder />} />
         <Route path="folders/:id/generate-ai" element={<GenerateWithIa />} />
-        <Route path="folders/:id/generate-manual" element={<GenerateManual />} />
+        <Route
+          path="folders/:id/generate-manual"
+          element={<GenerateManual />}
+        />
       </Route>
     </Routes>
   );

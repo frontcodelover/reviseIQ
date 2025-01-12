@@ -15,23 +15,32 @@ function GenerateFlashcardManual() {
   const { id: deckId } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [flashcards, setFlashcards] = useState<Flashcard[]>([
-    { id: Date.now(), question: '', answer: '' }
+    { id: Date.now(), question: '', answer: '' },
   ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const addFlashcard = () => {
-    setFlashcards([...flashcards, { id: Date.now(), question: '', answer: '' }]);
+    setFlashcards([
+      ...flashcards,
+      { id: Date.now(), question: '', answer: '' },
+    ]);
   };
 
-  const updateFlashcard = (id: number, field: keyof Flashcard, value: string) => {
-    setFlashcards(flashcards.map(card =>
-      card.id === id ? { ...card, [field]: value } : card
-    ));
+  const updateFlashcard = (
+    id: number,
+    field: keyof Flashcard,
+    value: string
+  ) => {
+    setFlashcards(
+      flashcards.map((card) =>
+        card.id === id ? { ...card, [field]: value } : card
+      )
+    );
   };
 
   const removeFlashcard = (id: number) => {
-    setFlashcards(flashcards.filter(card => card.id !== id));
+    setFlashcards(flashcards.filter((card) => card.id !== id));
   };
 
   const handleSubmit = async () => {
@@ -66,7 +75,9 @@ function GenerateFlashcardManual() {
             type="text"
             placeholder="Question"
             value={card.question}
-            onChange={(e) => updateFlashcard(card.id, 'question', e.target.value)}
+            onChange={(e) =>
+              updateFlashcard(card.id, 'question', e.target.value)
+            }
           />
           <Input
             type="text"
