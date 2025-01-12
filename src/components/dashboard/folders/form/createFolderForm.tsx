@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getBackend } from '@/services/backend';
 import { Button } from '@/components/ui/button';
-import ColorPicker from '@/components/dashboard/folders/colorPicker';
+import ColorPicker from '@/components/dashboard/folders/form/colorPicker';
 import Thema from '@/components/dashboard/folders/form/thema';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

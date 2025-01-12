@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getBackend } from '@/services/backend';
 import { useTranslation } from 'react-i18next';
 import CardFolder from '@/components/dashboard/folders/cardFolder';
-import CardNewFolder from '@/components/dashboard/folders/cardNewFolder';
+import CardNewFolder from '@/components/dashboard/folders/newFolder/cardNewFolder';
 
 function UserDecks(): JSX.Element {
   const [decks, setDecks] = useState<Deck[]>([]);

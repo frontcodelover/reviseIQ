@@ -2,26 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getBackend } from '@/services/backend';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import CreateFlashcard from '@/components/flashcards/createFlashcard';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent } from '../ui/card';
-
-const EndCard = ({ onRestart }: { onRestart: () => void }) => (
-  <div className="min-h-[60vh] w-[calc(100%-10vw)]">
-    <div className="flex h-full flex-col items-center justify-center rounded-lg border bg-white p-6 shadow">
-      <h3 className="mb-6 text-xl font-bold">Félicitations !</h3>
-      <p className="mb-8 text-center text-lg">
-        Vous avez terminé toutes les flashcards
-      </p>
-      <button
-        onClick={onRestart}
-        className="rounded-lg bg-blue-500 px-6 py-3 text-white transition-colors hover:bg-blue-600"
-      >
-        Recommencer
-      </button>
-    </div>
-  </div>
-);
+import { Card, CardContent } from '@/components/ui/card';
+import { EndCard } from '@/components/flashcards/endFlashcard';
 
 function GetFlashcards() {
   const { id: deckId } = useParams<{ id: string }>();
@@ -33,10 +16,6 @@ function GetFlashcards() {
   const navigate = useNavigate();
 
   const isLastCard = currentIndex === flashcards.length;
-
-  const handleFlashcardsCreated = () => {
-    navigate('/dashboard/folders');
-  };
 
   useEffect(() => {
     const fetchFlashcards = async () => {
@@ -79,7 +58,6 @@ function GetFlashcards() {
 
   if (loading) return <div>Chargement...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
-  //   if (!flashcards.length) return <div>Aucune flashcard trouvée</div>;
 
   const currentCard = flashcards[currentIndex];
 
@@ -140,14 +118,17 @@ function GetFlashcards() {
     </div>
   ) : (
     <>
-      <div className="text-balance pb-5 pt-5 text-xl font-semibold text-gray-800">
+      <div className="text-balance pb-5 pt-5 text-xl font-semibold">
         Comment souhaites-tu créer tes flashcards ? <br />
         <div className="text-base font-normal text-gray-600">
           Choisis une option ci-dessous
         </div>
       </div>
       <div className="flex justify-center gap-4">
-        <Card className="flex h-80 w-1/2 flex-col items-center justify-center transition duration-700 ease-in-out hover:bg-sky-200">
+        <Card
+          onClick={() => navigate(`/dashboard/folders/${deckId}/generate-ai`)}
+          className="flex h-80 w-1/2 cursor-pointer flex-col items-center justify-center transition duration-700 ease-in-out hover:bg-sky-200"
+        >
           <CardContent className="flex flex-col items-center justify-center gap-4">
             <p className="text-5xl">🤖</p>
             <h2 className="text-xl font-bold">
@@ -155,7 +136,12 @@ function GetFlashcards() {
             </h2>
           </CardContent>
         </Card>
-        <Card className="flex h-80 w-1/2 flex-col items-center justify-center transition duration-700 ease-in-out hover:bg-cyan-200">
+        <Card
+          onClick={() =>
+            navigate(`/dashboard/folders/${deckId}/generate-manual`)
+          }
+          className="flex h-80 w-1/2 cursor-pointer flex-col items-center justify-center transition duration-700 ease-in-out hover:bg-cyan-200"
+        >
           <CardContent className="flex flex-col items-center justify-center gap-4">
             <p className="text-5xl">✍</p>
             <h2 className="text-xl font-bold">
@@ -164,7 +150,6 @@ function GetFlashcards() {
           </CardContent>
         </Card>
       </div>
-      <CreateFlashcard onSuccess={handleFlashcardsCreated} />
     </>
   );
 }

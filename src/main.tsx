@@ -17,6 +17,8 @@ import SinglePageFolder from '@/pages/folders/Single';
 import CreateFolder from '@/pages/folders/CreateFolder';
 import FirstTimeFormPage from '@/pages/dashboard/FirstTimeForm';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import GenerateWithIa from '@/pages/folders/GenerateWithIa';
+import GenerateManual from '@/pages/folders/GenerateManual';
 
 const AppRoutes = () => {
   return (
@@ -49,6 +51,8 @@ const AppRoutes = () => {
         <Route path="settings" element={<Settings />} />
         <Route path="folders/:id" element={<SinglePageFolder />} />
         <Route path="folders/new" element={<CreateFolder />} />
+        <Route path="folders/:id/generate-ai" element={<GenerateWithIa />} />
+        <Route path="folders/:id/generate-manual" element={<GenerateManual />} />
       </Route>
     </Routes>
   );
