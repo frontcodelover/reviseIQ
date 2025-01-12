@@ -1,180 +1,176 @@
-import { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Plus, Trash2 } from 'lucide-react';
-import { getBackend } from '@/services/backend';
-import { useParams } from 'react-router-dom';
+// import { useState } from 'react';
+// import { Input } from '@/components/ui/input';
+// import { Button } from '@/components/ui/button';
+// import { Plus, Trash2 } from 'lucide-react';
+// import { getBackend } from '@/services/backend';
+// import { useParams } from 'react-router-dom';
 
-interface Flashcard {
-  id: number;
-  question: string;
-  answer: string;
-}
 
-function CreateFlashcard({ onSuccess }: { onSuccess?: () => void }) {
-  const { id: deckId } = useParams<{ id: string }>();
-  const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
-  const [manualFlashcards, setManualFlashcards] = useState<Flashcard[]>([
-    { id: Date.now(), question: '', answer: '' },
-  ]);
-  const [topic, setTopic] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const generateFlashcards = async () => {
-    setLoading(true);
-    setError(null);
+// function CreateFlashcard({ onSuccess }: { onSuccess?: () => void }) {
+//   const { id: deckId } = useParams<{ id: string }>();
+//   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
+//   const [manualFlashcards, setManualFlashcards] = useState<Flashcard[]>([
+//     { id: Date.now(), question: '', answer: '' },
+//   ]);
+//   const [topic, setTopic] = useState('');
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState<string | null>(null);
 
-    try {
-      console.log('Début de la génération');
-      const backend = getBackend();
-      const result = await backend.generateFlashcards(topic);
-      console.log('Résultat de la génération:', result);
+//   const generateFlashcards = async () => {
+//     setLoading(true);
+//     setError(null);
 
-      if (result && result.length > 0) {
-        setFlashcards(result as Flashcard[]);
-      } else {
-        throw new Error('Aucune flashcard générée');
-      }
-    } catch (err) {
-      console.error('Erreur lors de la génération:', err);
-      setError(
-        err instanceof Error
-          ? err.message
-          : 'Erreur lors de la génération des flashcards'
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+//     try {
+//       console.log('Début de la génération');
+//       const backend = getBackend();
+//       const result = await backend.generateFlashcards(topic);
+//       console.log('Résultat de la génération:', result);
 
-  const handleSubmit = async () => {
-    setLoading(true);
-    setError(null);
+//       if (result && result.length > 0) {
+//         setFlashcards(result as Flashcard[]);
+//       } else {
+//         throw new Error('Aucune flashcard générée');
+//       }
+//     } catch (err) {
+//       console.error('Erreur lors de la génération:', err);
+//       setError(
+//         err instanceof Error
+//           ? err.message
+//           : 'Erreur lors de la génération des flashcards'
+//       );
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-    try {
-      const backend = getBackend();
-      const allFlashcards = [...manualFlashcards, ...flashcards];
-      for (const card of allFlashcards) {
-        if (card.question.trim() && card.answer.trim()) {
-          await backend.createFlashcard({
-            deck_id: deckId,
-            question: card.question,
-            answer: card.answer,
-          });
-        }
-      }
-      onSuccess?.();
-    } catch (err) {
-      setError('Erreur lors de la création des flashcards');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+//   const handleSubmit = async () => {
+//     setLoading(true);
+//     setError(null);
 
-  const addManualFlashcard = () => {
-    setManualFlashcards([
-      ...manualFlashcards,
-      { id: Date.now(), question: '', answer: '' },
-    ]);
-  };
+//     try {
+//       const backend = getBackend();
+//       const allFlashcards = [...manualFlashcards, ...flashcards];
+//       for (const card of allFlashcards) {
+//         if (card.question.trim() && card.answer.trim()) {
+//           await backend.createFlashcard({
+//             deck_id: deckId,
+//             question: card.question,
+//             answer: card.answer,
+//           });
+//         }
+//       }
+//       onSuccess?.();
+//     } catch (err) {
+//       setError('Erreur lors de la création des flashcards');
+//       console.error(err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  const updateManualFlashcard = (
-    id: number,
-    field: keyof Flashcard,
-    value: string
-  ) => {
-    setManualFlashcards(
-      manualFlashcards.map((card) =>
-        card.id === id ? { ...card, [field]: value } : card
-      )
-    );
-  };
+//   const addManualFlashcard = () => {
+//     setManualFlashcards([
+//       ...manualFlashcards,
+//       { id: Date.now(), question: '', answer: '' },
+//     ]);
+//   };
 
-  const removeManualFlashcard = (id: number) => {
-    setManualFlashcards(manualFlashcards.filter((card) => card.id !== id));
-  };
+//   const updateManualFlashcard = (
+//     id: number,
+//     field: keyof Flashcard,
+//     value: string
+//   ) => {
+//     setManualFlashcards(
+//       manualFlashcards.map((card) =>
+//         card.id === id ? { ...card, [field]: value } : card
+//       )
+//     );
+//   };
 
-  return (
-    <div className="space-y-4">
-      {error && <div className="mb-4 text-red-500">{error}</div>}
+//   const removeManualFlashcard = (id: number) => {
+//     setManualFlashcards(manualFlashcards.filter((card) => card.id !== id));
+//   };
 
-      <Input
-        type="text"
-        placeholder="Entrez un sujet (e.g., Javascript)"
-        value={topic}
-        onChange={(e) => setTopic(e.target.value)}
-      />
+//   return (
+//     <div className="space-y-4">
+//       {error && <div className="mb-4 text-red-500">{error}</div>}
 
-      <Button
-        onClick={generateFlashcards}
-        disabled={!topic.trim() || loading}
-        className="w-full"
-      >
-        {loading ? 'Génération...' : 'Générer des flashcards'}
-      </Button>
+//       <Input
+//         type="text"
+//         placeholder="Entrez un sujet (e.g., Javascript)"
+//         value={topic}
+//         onChange={(e) => setTopic(e.target.value)}
+//       />
 
-      <h2 className="text-lg font-bold">Flashcards générées</h2>
-      {flashcards.map((card) => (
-        <div key={card.id} className="flex items-center gap-2">
-          <Input
-            type="text"
-            placeholder="Question"
-            value={card.question}
-            readOnly
-          />
-          <Input
-            type="text"
-            placeholder="Réponse"
-            value={card.answer}
-            readOnly
-          />
-        </div>
-      ))}
+//       <Button
+//         onClick={generateFlashcards}
+//         disabled={!topic.trim() || loading}
+//         className="w-full"
+//       >
+//         {loading ? 'Génération...' : 'Générer des flashcards'}
+//       </Button>
 
-      <h2 className="text-lg font-bold">Flashcards manuelles</h2>
-      {manualFlashcards.map((card) => (
-        <div key={card.id} className="flex items-center gap-2">
-          <Input
-            type="text"
-            placeholder="Question"
-            value={card.question}
-            onChange={(e) =>
-              updateManualFlashcard(card.id, 'question', e.target.value)
-            }
-          />
-          <Input
-            type="text"
-            placeholder="Réponse"
-            value={card.answer}
-            onChange={(e) =>
-              updateManualFlashcard(card.id, 'answer', e.target.value)
-            }
-          />
-          <Button
-            variant="destructive"
-            size="icon"
-            onClick={() => removeManualFlashcard(card.id)}
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
-        </div>
-      ))}
+//       <h2 className="text-lg font-bold">Flashcards générées</h2>
+//       {flashcards.map((card) => (
+//         <div key={card.id} className="flex items-center gap-2">
+//           <Input
+//             type="text"
+//             placeholder="Question"
+//             value={card.question}
+//             readOnly
+//           />
+//           <Input
+//             type="text"
+//             placeholder="Réponse"
+//             value={card.answer}
+//             readOnly
+//           />
+//         </div>
+//       ))}
 
-      <Button onClick={addManualFlashcard} className="w-full">
-        <Plus className="h-4 w-4" /> Ajouter une carte manuelle
-      </Button>
+//       <h2 className="text-lg font-bold">Flashcards manuelles</h2>
+//       {manualFlashcards.map((card) => (
+//         <div key={card.id} className="flex items-center gap-2">
+//           <Input
+//             type="text"
+//             placeholder="Question"
+//             value={card.question}
+//             onChange={(e) =>
+//               updateManualFlashcard(card.id, 'question', e.target.value)
+//             }
+//           />
+//           <Input
+//             type="text"
+//             placeholder="Réponse"
+//             value={card.answer}
+//             onChange={(e) =>
+//               updateManualFlashcard(card.id, 'answer', e.target.value)
+//             }
+//           />
+//           <Button
+//             variant="destructive"
+//             size="icon"
+//             onClick={() => removeManualFlashcard(card.id)}
+//           >
+//             <Trash2 className="h-4 w-4" />
+//           </Button>
+//         </div>
+//       ))}
 
-      <Button
-        onClick={handleSubmit}
-        disabled={loading || (!manualFlashcards.length && !flashcards.length)}
-        className="w-full"
-      >
-        {loading ? 'Sauvegarde...' : 'Sauvegarder les flashcards'}
-      </Button>
-    </div>
-  );
-}
+//       <Button onClick={addManualFlashcard} className="w-full">
+//         <Plus className="h-4 w-4" /> Ajouter une carte manuelle
+//       </Button>
 
-export default CreateFlashcard;
+//       <Button
+//         onClick={handleSubmit}
+//         disabled={loading || (!manualFlashcards.length && !flashcards.length)}
+//         className="w-full"
+//       >
+//         {loading ? 'Sauvegarde...' : 'Sauvegarder les flashcards'}
+//       </Button>
+//     </div>
+//   );
+// }
+
+// export default CreateFlashcard;
