@@ -3,6 +3,7 @@ import { UserService } from '@/services/backend/UserService';
 import { FolderService } from '@/services/backend/FolderService';
 import { FlashcardService } from '@/services/backend/FlashCardService';
 import { LogService } from '@/services/backend/LogService';
+import { BadgeService } from './BadgeService';
 
 export class SupabaseBackend implements BackendType {
   private authService: AuthService;
@@ -10,13 +11,15 @@ export class SupabaseBackend implements BackendType {
   private folderService: FolderService;
   private flashcardService: FlashcardService;
   private logService: LogService;
-
+	private badgeService: BadgeService;
+	
   constructor() {
     this.authService = new AuthService();
     this.userService = new UserService();
     this.folderService = new FolderService();
     this.flashcardService = new FlashcardService();
-    this.logService = new LogService();
+	  this.logService = new LogService();
+	  this.badgeService = new BadgeService();
   }
 
   // Authentication Services
@@ -93,5 +96,14 @@ export class SupabaseBackend implements BackendType {
 
 	public async getUsageLogsByDay(userId: string) {
 		return this.logService.getUsageLogsByDay(userId);
+	}
+
+	// Badge Services
+	public async getUserBadges(userId: string) {
+		return this.badgeService.getUserBadges(userId);
+	}
+	
+	public async checkAndUnlockBadges(userId: string, stats: { flashcards_viewed: number; folders_viewed: number }) {
+		return this.badgeService.checkAndUnlockBadges(userId, stats);
 	}
 }

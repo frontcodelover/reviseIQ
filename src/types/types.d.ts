@@ -91,6 +91,12 @@ interface ThemaProps {
   value: string;
 }
 
+interface Badge {
+    name: string;
+    image_url: string;
+    description: string;
+  }
+
 interface BackendType {
   signUp(email: string, password: string);
   signInWithEmail(email: string, password: string);
@@ -119,5 +125,9 @@ interface BackendType {
 
   // Log Methods
   getUsageLogsByDay(userId: string): Promise<Record<string, Record<string, number>>>;
-  logAction(userId: string, action: string, count?: number): Promise<void>;
+	logAction(userId: string, action: string, count?: number): Promise<void>;
+	
+	// Badge Methods
+	getUserBadges(userId: string);
+	checkAndUnlockBadges(userId: string, stats: { flashcards_viewed: number; folders_viewed: number }) : Promise<void>;
 }
