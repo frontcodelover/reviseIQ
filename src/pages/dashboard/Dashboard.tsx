@@ -8,16 +8,7 @@ function Dashboard() {
 	
 	useEffect(() => {
 	  const backend = getBackend();
-    async function logUserAction() {
-      const validUserId = "5d74560d-a62b-4e3a-8c51-0635ad4eb7e0"; // Remplace par l'ID utilisateur réel
 
-      try {
-        await backend.logAction(validUserId, "flashcard_reviewed", 1); // Incrémente de 1
-        console.log("Log ajouté avec succès !");
-      } catch (error) {
-        console.error("Erreur lors de l'ajout du log :", error);
-      }
-	}
 	async function testGetUsageLogsByDay() {
 		const userId = "5d74560d-a62b-4e3a-8c51-0635ad4eb7e0"; // Utilise un ID utilisateur valide
 	  
@@ -31,7 +22,6 @@ function Dashboard() {
 	  
 	  testGetUsageLogsByDay();
 
-    logUserAction(); // Log l'action dès que le Dashboard est chargé
   }, []);
 
   if (loading) return <div>Chargement...</div>;
