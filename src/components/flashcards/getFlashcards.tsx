@@ -8,14 +8,51 @@ import { EndCard } from '@/components/flashcards/endFlashcard';
 
 function GetFlashcards() {
   const { id: deckId } = useParams<{ id: string }>();
+  const [userId, setUserId] = useState<string | null>(null);
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasLoggedCompletion, setHasLoggedCompletion] = useState(false);
   const navigate = useNavigate();
 
   const isLastCard = currentIndex === flashcards.length;
+  useEffect(() => {
+    const getUserId = async () => {
+      try {
+        const backend = getBackend();
+        const id = await backend.getUserId();
+        setUserId(id);
+      } catch (error) {
+        console.error("Erreur lors de la récupération de l'userId:", error);
+      }
+    };
+    getUserId();
+  }, []);
+  useEffect(() => {
+    if (isLastCard && !hasLoggedCompletion && flashcards.length > 0) {
+      const logCompletion = async () => {
+        try {
+          const backend = getBackend();
+          if (userId) {
+            await backend.logAction(
+              userId,
+              'flashcard_reviewed',
+              flashcards.length
+            );
+          } else {
+            console.error('User ID is null');
+          }
+          console.log('Action logged');
+          setHasLoggedCompletion(true);
+        } catch (error) {
+          console.error("Erreur lors du log de l'action :", error);
+        }
+      };
+      logCompletion();
+    }
+  }, [isLastCard, hasLoggedCompletion, flashcards.length, userId]);
 
   useEffect(() => {
     const fetchFlashcards = async () => {

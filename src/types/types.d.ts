@@ -82,9 +82,9 @@ interface CountrySelectOptionProps extends RPNInput.FlagProps {
 }
 
 interface ThemaGroupProps {
-	thema: string;
-	decks: Deck[];
-  }
+  thema: string;
+  decks: Deck[];
+}
 
 interface ThemaProps {
   setThema: (value: string) => void;
@@ -116,4 +116,8 @@ interface BackendType {
   createFlashcard(flashcardData: Flashcard): Promise<void>;
   getFlashcards(deckId: string): Promise<Flashcard[]>;
   generateFlashcards(topic: string): Promise<Flashcard[]>;
+
+  // Log Methods
+  getUsageLogsByDay(userId: string): Promise<Record<string, number>>;
+  logAction(userId: string, action: string, count?: number): Promise<void>;
 }

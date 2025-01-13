@@ -2,18 +2,21 @@ import { AuthService } from '@/services/backend/AuthService';
 import { UserService } from '@/services/backend/UserService';
 import { FolderService } from '@/services/backend/FolderService';
 import { FlashcardService } from '@/services/backend/FlashCardService';
+import { LogService } from '@/services/backend/LogService';
 
 export class SupabaseBackend implements BackendType {
   private authService: AuthService;
   private userService: UserService;
   private folderService: FolderService;
   private flashcardService: FlashcardService;
+  private logService: LogService;
 
   constructor() {
     this.authService = new AuthService();
     this.userService = new UserService();
     this.folderService = new FolderService();
     this.flashcardService = new FlashcardService();
+    this.logService = new LogService();
   }
 
   // Authentication Services
@@ -82,4 +85,13 @@ export class SupabaseBackend implements BackendType {
   public async generateFlashcards(topic: string) {
     return this.flashcardService.generateFlashcards(topic);
   }
+	
+	// Log Services
+	public async logAction(userId: string, action: string, count: number = 1) {
+		return this.logService.logAction(userId, action, count);
+	}
+
+	public async getUsageLogsByDay(userId: string) {
+		return this.logService.getUsageLogsByDay(userId);
+	}
 }
