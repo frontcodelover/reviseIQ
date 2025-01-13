@@ -55,25 +55,29 @@ export class LogService {
 	  }
 	}
 
-  async getUsageLogsByDay(userId: string): Promise<Record<string, number>> {
-    // Récupérer les logs pour un utilisateur donné
-    const { data: logs, error } = await supabase
-      .from('usage_logs')
-      .select('timestamp, count')
-      .eq('user_id', userId);
-
-    if (error) {
-      console.error('Erreur lors de la récupération des logs :', error.message);
-      throw new Error('Impossible de récupérer les logs');
-    }
-
-    // Regrouper les logs par jour
-    const dailyUsage: Record<string, number> = {};
-    logs?.forEach((log) => {
-      const day = format(parseISO(log.timestamp), 'yyyy-MM-dd');
-      dailyUsage[day] = (dailyUsage[day] || 0) + log.count;
-    });
-
-    return dailyUsage;
-  }
+	async getUsageLogsByDay(userId: string): Promise<Record<string, Record<string, number>>> {
+		// Récupérer les logs pour un utilisateur donné
+		const { data: logs, error } = await supabase
+		  .from("usage_logs")
+		  .select("timestamp, action, count")
+		  .eq("user_id", userId);
+	
+		if (error) {
+		  console.error("Erreur lors de la récupération des logs :", error.message);
+		  throw new Error("Impossible de récupérer les logs");
+		}
+	
+		// Regrouper les logs par jour et par action
+		const dailyUsage: Record<string, Record<string, number>> = {};
+		logs?.forEach((log) => {
+		  const day = format(parseISO(log.timestamp), "yyyy-MM-dd");
+		  if (!dailyUsage[day]) {
+			dailyUsage[day] = {};
+		  }
+		  dailyUsage[day][log.action] = (dailyUsage[day][log.action] || 0) + log.count;
+		});
+	
+		return dailyUsage;
+	  }
 }
+	

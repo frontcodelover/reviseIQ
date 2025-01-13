@@ -1,27 +1,33 @@
 import { useState, useEffect } from 'react';
 import { getBackend } from '@/services/backend';
 import GetFlashcards from '@/components/flashcards/getFlashcards';
+import { useAuth } from '@/context/AuthContext';
 
 function SingleFolder({ id }: { id: string | undefined }) {
   const [folder, setFolder] = useState<Deck>();
-
+	const { user } = useAuth();
+  const user_id = user ? user.id : null;
+	
   useEffect(() => {
-    const fetchFolder = async () => {
-      try {
-        const backend = getBackend();
-        if (id) {
-          const folder = await backend.getFolderById(id);
-          setFolder(folder);
-        } else {
-          console.error('ID is undefined');
-        }
-      } catch (error) {
-        console.error('Erreur lors de la récupération du dossier :', error);
-      }
-    };
-
-    fetchFolder();
-  }, [id]);
+	if (!id || !user_id) {
+	  console.error('ID or User ID is missing');
+	  return;
+	}
+  
+	const fetchFolder = async () => {
+	  try {
+		const backend = getBackend();
+		await Promise.all([
+		  backend.logAction(user_id, 'folder_viewed', 1),
+		  backend.getFolderById(id).then(setFolder)
+		]);
+	  } catch (error) {
+		console.error('Erreur lors de la récupération du dossier :', error);
+	  }
+	};
+  
+	fetchFolder();
+  }, [id, user_id]);
 
   return (
     <div className="flex flex-col">

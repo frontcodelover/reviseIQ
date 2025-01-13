@@ -118,6 +118,6 @@ interface BackendType {
   generateFlashcards(topic: string): Promise<Flashcard[]>;
 
   // Log Methods
-  getUsageLogsByDay(userId: string): Promise<Record<string, number>>;
+  getUsageLogsByDay(userId: string): Promise<Record<string, Record<string, number>>>;
   logAction(userId: string, action: string, count?: number): Promise<void>;
 }
