@@ -7,7 +7,7 @@ function CreateFolder() {
   return (
     <>
       <CreateDeckForm onRefresh={refresh} />
-	</>
+    </>
   );
 }
 

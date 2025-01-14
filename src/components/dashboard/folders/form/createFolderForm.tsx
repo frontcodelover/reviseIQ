@@ -83,7 +83,7 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
       >
         {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
 
-        <div className='mb-2'>
+        <div className="mb-2">
           <Input
             type="text"
             value={formData.name}
@@ -101,11 +101,11 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
             placeholder={t('dashboard.folder.form.descriptionplaceholder')}
           />
 
-        <Thema
-          setThema={(value) => handleChange('thema', value)}
-          value={formData.thema}
-		  />
-		  </div>
+          <Thema
+            setThema={(value) => handleChange('thema', value)}
+            value={formData.thema}
+          />
+        </div>
 
         <ColorPicker
           selectedColor={formData.color}

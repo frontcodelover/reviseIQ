@@ -47,30 +47,30 @@
       "publicfolder": "Public",
       "privatefolder": "Privé",
       "by": "par",
-      "form" : {
-		"title": "Créer un dossier",
-		"name": "Nom du dossier",
-		"nameplaceholder": "Entrez le nom de votre dossier",
-		"description": "Description",
-		"descriptionplaceholder": "Entrez une description de votre dossier",
-		"thema": "Thème",
-		"color" : "Couleur",
-		"visibility": "Visibilité",
-		"public": "Dossier public",
-		"private": "Privé",
-		"submit": "Créer",
-		"loading": "Chargement..."
-	  },
-	  "thema": {
-		"search": "Rechercher un thème",
-		"sciences_technologies": "Sciences et technologies",
-		"sciences_humaines": "Sciences humaines et sociales",
-		"arts_culture_design": "Arts, culture et design",
-		"economy_law_politics": "Économie, droit et politique",
-		"education_communication": "Éducation et communication",
-		"environment_society": "Environnement et société",
-		"health_sports": "Santé et sport",
-		"other": "Autre"
+      "form": {
+        "title": "Créer un dossier",
+        "name": "Nom du dossier",
+        "nameplaceholder": "Entrez le nom de votre dossier",
+        "description": "Description",
+        "descriptionplaceholder": "Entrez une description de votre dossier",
+        "thema": "Thème",
+        "color": "Couleur",
+        "visibility": "Visibilité",
+        "public": "Dossier public",
+        "private": "Privé",
+        "submit": "Créer",
+        "loading": "Chargement..."
+      },
+      "thema": {
+        "search": "Rechercher un thème",
+        "sciences_technologies": "Sciences et technologies",
+        "sciences_humaines": "Sciences humaines et sociales",
+        "arts_culture_design": "Arts, culture et design",
+        "economy_law_politics": "Économie, droit et politique",
+        "education_communication": "Éducation et communication",
+        "environment_society": "Environnement et société",
+        "health_sports": "Santé et sport",
+        "other": "Autre"
       }
     }
   }

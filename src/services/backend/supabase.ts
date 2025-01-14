@@ -11,15 +11,15 @@ export class SupabaseBackend implements BackendType {
   private folderService: FolderService;
   private flashcardService: FlashcardService;
   private logService: LogService;
-	private badgeService: BadgeService;
-	
+  private badgeService: BadgeService;
+
   constructor() {
     this.authService = new AuthService();
     this.userService = new UserService();
     this.folderService = new FolderService();
     this.flashcardService = new FlashcardService();
-	  this.logService = new LogService();
-	  this.badgeService = new BadgeService();
+    this.logService = new LogService();
+    this.badgeService = new BadgeService();
   }
 
   // Authentication Services
@@ -88,22 +88,25 @@ export class SupabaseBackend implements BackendType {
   public async generateFlashcards(topic: string) {
     return this.flashcardService.generateFlashcards(topic);
   }
-	
-	// Log Services
-	public async logAction(userId: string, action: string, count: number = 1) {
-		return this.logService.logAction(userId, action, count);
-	}
 
-	public async getUsageLogsByDay(userId: string) {
-		return this.logService.getUsageLogsByDay(userId);
-	}
+  // Log Services
+  public async logAction(userId: string, action: string, count: number = 1) {
+    return this.logService.logAction(userId, action, count);
+  }
 
-	// Badge Services
-	public async getUserBadges(userId: string) {
-		return this.badgeService.getUserBadges(userId);
-	}
-	
-	public async checkAndUnlockBadges(userId: string, stats: { flashcards_viewed: number; folders_viewed: number }) {
-		return this.badgeService.checkAndUnlockBadges(userId, stats);
-	}
+  public async getUsageLogsByDay(userId: string) {
+    return this.logService.getUsageLogsByDay(userId);
+  }
+
+  // Badge Services
+  public async getUserBadges(userId: string) {
+    return this.badgeService.getUserBadges(userId);
+  }
+
+  public async checkAndUnlockBadges(
+    userId: string,
+    stats: { flashcards_viewed: number; folders_viewed: number }
+  ) {
+    return this.badgeService.checkAndUnlockBadges(userId, stats);
+  }
 }

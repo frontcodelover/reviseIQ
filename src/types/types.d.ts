@@ -91,11 +91,36 @@ interface ThemaProps {
   value: string;
 }
 
-interface Badge {
+interface BadgeData {
+  unlocked_at: string;
+  badges: {
+    id: string;
     name: string;
-    image_url: string;
     description: string;
-  }
+    image_url: string;
+  };
+}
+
+interface Badge {
+  id: string;
+  name: string;
+  description: string;
+  image_url: string;
+  obtained_at: string;
+}
+
+interface DailyActions {
+  flashcard_reviewed?: number;
+  folder_viewed?: number;
+  [key: string]: number | undefined;
+}
+
+interface LogsAndBadgesManagerProps {
+  userId: string | null;
+  onLogsUpdate: (logs: Record<string, number>) => void;
+  onBadgesUpdate: (badges: Badge[]) => void;
+  onLastBadgeUpdate?: (badge: Badge | null) => void;
+}
 
 interface BackendType {
   signUp(email: string, password: string);
@@ -124,10 +149,15 @@ interface BackendType {
   generateFlashcards(topic: string): Promise<Flashcard[]>;
 
   // Log Methods
-  getUsageLogsByDay(userId: string): Promise<Record<string, Record<string, number>>>;
-	logAction(userId: string, action: string, count?: number): Promise<void>;
-	
-	// Badge Methods
-	getUserBadges(userId: string);
-	checkAndUnlockBadges(userId: string, stats: { flashcards_viewed: number; folders_viewed: number }) : Promise<void>;
+  getUsageLogsByDay(
+    userId: string
+  ): Promise<Record<string, Record<string, number>>>;
+  logAction(userId: string, action: string, count?: number): Promise<void>;
+
+  // Badge Methods
+  getUserBadges(userId: string): Promise<Badge[]>;
+  checkAndUnlockBadges(
+    userId: string,
+    stats: { flashcards_viewed: number; folders_viewed: number }
+  ): Promise<void>;
 }

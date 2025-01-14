@@ -5,28 +5,28 @@ import { useAuth } from '@/context/AuthContext';
 
 function SingleFolder({ id }: { id: string | undefined }) {
   const [folder, setFolder] = useState<Deck>();
-	const { user } = useAuth();
+  const { user } = useAuth();
   const user_id = user ? user.id : null;
-	
+
   useEffect(() => {
-	if (!id || !user_id) {
-	  console.error('ID or User ID is missing');
-	  return;
-	}
-  
-	const fetchFolder = async () => {
-	  try {
-		const backend = getBackend();
-		await Promise.all([
-		  backend.logAction(user_id, 'folder_viewed', 1),
-		  backend.getFolderById(id).then(setFolder)
-		]);
-	  } catch (error) {
-		console.error('Erreur lors de la récupération du dossier :', error);
-	  }
-	};
-  
-	fetchFolder();
+    if (!id || !user_id) {
+      console.error('ID or User ID is missing');
+      return;
+    }
+
+    const fetchFolder = async () => {
+      try {
+        const backend = getBackend();
+        await Promise.all([
+          backend.logAction(user_id, 'folder_viewed', 1),
+          backend.getFolderById(id).then(setFolder),
+        ]);
+      } catch (error) {
+        console.error('Erreur lors de la récupération du dossier :', error);
+      }
+    };
+
+    fetchFolder();
   }, [id, user_id]);
 
   return (

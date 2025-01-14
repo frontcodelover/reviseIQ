@@ -97,14 +97,13 @@ function UserDecks(): JSX.Element {
       {decks.length === 0 ? (
         <>
           <CardNewFolder />
-          <Alert className='bg-gray-50'>
+          <Alert className="bg-gray-50">
             <Terminal className="h-4 w-4" />
             <AlertTitle>Ooops</AlertTitle>
             <AlertDescription>
-			{t('dashboard.folder.nofolder')}
+              {t('dashboard.folder.nofolder')}
             </AlertDescription>
           </Alert>
-          
         </>
       ) : (
         <>

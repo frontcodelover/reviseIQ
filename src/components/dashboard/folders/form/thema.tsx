@@ -26,21 +26,21 @@ const Thema: React.FC<ThemaProps> = ({ setThema, value: initialValue }) => {
   };
 
   return (
-	<div className="w-full max-w-full overflow-hidden py-2 px-1">
-	  <div className="flex flex-wrap gap-2">
-		{ThemaLabel.map((theme) => (
-		  <Button
-			key={theme.value}
-			type="button"
-			variant={selectedValue === theme.value ? 'default' : 'outline'}
-			className="shrink-0"
-			onClick={() => handleSelect(theme.value)}
-		  >
-			<span className="text-xs font-normal">{theme.label}</span>
-		  </Button>
-		))}
-	  </div>
-	</div>
-  )
-}
+    <div className="w-full max-w-full overflow-hidden px-1 py-2">
+      <div className="flex flex-wrap gap-2">
+        {ThemaLabel.map((theme) => (
+          <Button
+            key={theme.value}
+            type="button"
+            variant={selectedValue === theme.value ? 'default' : 'outline'}
+            className="shrink-0"
+            onClick={() => handleSelect(theme.value)}
+          >
+            <span className="text-xs font-normal">{theme.label}</span>
+          </Button>
+        ))}
+      </div>
+    </div>
+  );
+};
 export default Thema;

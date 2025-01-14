@@ -1,97 +1,89 @@
-import Badge from '@/assets/badge/badge.svg';
-import { useState, useEffect } from 'react';
-import { GetPublicFolders } from '@/components/dashboard/community/getPublicFolders';
+import { useState } from 'react';
 import { useProfile } from '@/hooks/useProfile';
-import { getBackend } from '@/services/backend';
 import { useAuth } from '@/context/AuthContext';
 import ActivityCalendar from '@/components/dashboard/stats/activityCalendar';
+import { LogsAndBadgesManager } from '@/components/dashboard/stats/logsAndBadgesManager';
+import { GetPublicFolders } from '@/components/dashboard/community/getPublicFolders';
 
 function Dashboard() {
   const { profile, loading, error } = useProfile();
   const { user } = useAuth();
   const userId = user ? user.id : null;
-
   const [logs, setLogs] = useState<Record<string, number>>({});
-
   const [badges, setBadges] = useState<Badge[]>([]);
-
-  // Récupérer les logs et vérifier les badges
-  useEffect(() => {
-    const fetchLogsAndBadges = async () => {
-      if (!userId) return;
-
-      try {
-        const backend = getBackend();
-
-        // Récupérer les logs
-        const dailyLogs = await backend.getUsageLogsByDay(userId);
-        const formattedLogs: Record<string, number> = {};
-        Object.entries(dailyLogs).forEach(([date, actions]) => {
-          formattedLogs[date] = Object.values(actions).reduce(
-            (sum, count) => sum + count,
-            0
-          );
-        });
-        setLogs(formattedLogs);
-
-        // Calcul des totaux pour les badges
-        let flashcards_viewed = 0;
-        let folders_viewed = 0;
-        Object.values(dailyLogs).forEach((actions) => {
-          flashcards_viewed += actions.flashcard_reviewed || 0;
-          folders_viewed += actions.folder_viewed || 0;
-        });
-
-        // Vérifier et débloquer les badges
-        await backend.checkAndUnlockBadges(userId, {
-          flashcards_viewed,
-          folders_viewed,
-        });
-
-        // Récupérer les badges débloqués
-        const userBadges = await backend.getUserBadges(userId);
-        setBadges(userBadges);
-      } catch (error) {
-        console.error(
-          'Erreur lors de la récupération des logs ou des badges :',
-          error
-        );
-      }
-    };
-
-    fetchLogsAndBadges();
-  }, [userId]);
+  const [lastBadge, setLastBadge] = useState<Badge | null>(null);
 
   if (loading) return <div>Chargement...</div>;
   if (error) return <div>Erreur: {error}</div>;
   if (!profile) return null;
 
+  console.log(lastBadge);
   return (
     <div className="container mx-auto">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-3xl font-bold">Bienvenue {profile.firstname}</h1>
       </div>
 
-      <p>Comment fonctionne ReviseIQ ?</p>
       <GetPublicFolders />
-      <p>Les dernières listes de Flashcards de vos amis</p>
 
-      <div className="mt-8">
-        <ActivityCalendar data={logs} />
-      </div>
+      <LogsAndBadgesManager
+        userId={userId}
+        onLogsUpdate={setLogs}
+        onBadgesUpdate={setBadges}
+        onLastBadgeUpdate={setLastBadge}
+      />
 
-      <div className="mt-8">
-        <h2 className="mb-4 text-xl font-bold">Vos Badges</h2>
-        <div className="grid grid-cols-3 gap-4">
-          {badges.map((badge) => (
-            <div key={badge.name} className="flex flex-col items-center">
-              <div>
-                <img src={badge.image_url} alt="Badge" className="h-16 w-16" />
+      <div className="mt-6 flex flex-col gap-4">
+        <h2 className="mb-4 text-xl font-bold">Statistiques</h2>
+        <div className="flex gap-6 rounded-lg border bg-slate-50 p-6">
+          <ActivityCalendar data={logs} />
+
+          {lastBadge && (
+            <div className="mb-6">
+              <h2 className="mb-4 text-sm font-bold">Dernier badge obtenu</h2>
+              <div
+                className="flex items-center rounded-lg bg-white p-4 shadow"
+                key={lastBadge.id}
+              >
+                <img
+                  src={lastBadge.image_url}
+                  alt={lastBadge.name}
+                  className="h-16 w-16 object-contain"
+                />
+                <div className="ml-4">
+                  <h3 className="font-bold">{lastBadge.name}</h3>
+                  <p className="text-sm text-gray-500">
+                    {lastBadge.description}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    Obtenu le{' '}
+                    {new Date(lastBadge.obtained_at).toLocaleDateString()}
+                  </p>
+                </div>
               </div>
-              <p className="text-sm font-bold">{badge.name}</p>
-              <p className="text-xs text-gray-500">{badge.description}</p>
             </div>
-          ))}
+          )}
+        </div>
+        <div>
+          <h2 className="mb-4 text-xl font-bold">Vos badges</h2>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            {badges.map((badge) => (
+              <div
+                key={`badge-${badge.id}`}
+                className="flex flex-col items-center rounded-lg bg-white p-4 shadow"
+              >
+                <img
+                  src={badge.image_url}
+                  alt={badge.name}
+                  className="mb-2 h-16 w-16 object-contain"
+                />
+                <h3 className="text-center text-sm font-bold">{badge.name}</h3>
+                <p className="text-center text-xs text-gray-500">
+                  {badge.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

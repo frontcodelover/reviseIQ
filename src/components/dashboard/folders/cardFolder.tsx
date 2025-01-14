@@ -14,7 +14,7 @@ const CardFolder = ({ ...props }: Deck) => {
   const { profile, loading } = useProfileUserById(user_id || '');
 
   return (
-	  <Card
+    <Card
       id={id}
       className="w-full border-t-4 shadow-sm"
       style={{ borderTopColor: color }}

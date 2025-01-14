@@ -69,7 +69,9 @@ export class BadgeService {
       .from('user_badges')
       .select(
         `
+		unlocked_at,
 		badges (
+		id,
 		  name,
 		  description,
 		  image_url
@@ -87,6 +89,16 @@ export class BadgeService {
     }
 
     // Formate les badges sous une forme plus lisible
-    return data?.map((record) => record.badges) || [];
+    if (!data) {
+      throw new Error('No data returned from the database');
+    }
+
+    return (data as unknown as BadgeData[]).map((item) => ({
+      id: item.badges.id,
+      name: item.badges.name,
+      description: item.badges.description,
+      image_url: item.badges.image_url,
+      obtained_at: item.unlocked_at,
+    }));
   }
 }
