@@ -42,7 +42,21 @@ interface Deck {
   thema: string;
   user_id?: string | undefined;
 }
-// Removed duplicate User interface
+
+interface Validation {
+	minLength: boolean;
+	hasLowerCase: boolean;
+	hasUpperCase: boolean;
+	hasNumber: boolean;
+	hasSpecialChar: boolean;
+}
+  
+interface EmailInputProps {
+	email: string;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	touched: boolean;
+	isValid: boolean;
+  }
 
 interface ColorPickerProps {
   selectedColor: string;

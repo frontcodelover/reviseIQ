@@ -14,6 +14,8 @@
     "cta": "Get started"
   },
   "auth" : {
+	
+	"baseline": "Want to succeed in your revisions and learn effectively? ReviseIQ your best asset to succeed!",
 	"password": "Password",
 	"passwordplaceholder": "Enter your password",
 	"content": "Password must contain at least:",
@@ -25,7 +27,15 @@
 	"minLowercase": "1 lowercase letter",
 	"minUppercase": "1 uppercase letter",
 	"minNumber": "1 number",
-	"minSpecial": "1 special character"
+	"minSpecial": "1 special character",
+	"alreadySignup": "Already have an account? Sign in",
+	"passwordMatch": "Passwords do not match",
+	"passwordInvalid": "Password does not meet security criteria",
+	"errorSignup": "Error during registration",
+	"passwordConfirm": "Confirm password",
+	"acceptTerms": "I accept the",
+	"terms": "terms of use",
+	"cta": "Sign up to start revising"
   },
   "dashboard": {
     "account": "Account",

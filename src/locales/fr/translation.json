@@ -14,18 +14,27 @@
     "cta": "Commencer"
   },
   "auth" : {
+	"baseline": "Envie de réussir vos révisions et d'apprendre efficacement ? ReviseIQ votre meilleur atout pour réussir !",
+	"signup": "S'insrire gratuitement",
 	"password": "Mot de passe",
 	"passwordplaceholder": "Entrez votre mot de passe",
 	"content": "Le mot de passe doit contenir :",
 	"email": "Email",
 	"emailplaceholder": "Entrez votre email",
 	"login": "Connexion",
-	"signup": "Inscription",
 	"minLength": "6 caractères",
 	"minLowercase": "1 lettre minuscule",
 	"minUppercase": "1 lettre majuscule",
 	"minNumber": "1 chiffre",
-	"minSpecial": "1 caractère spécial"
+	"minSpecial": "1 caractère spécial",
+	"alreadySignup": "Vous avez déjà un compte ? Se connecter",
+	"passwordMatch": "Les mots de passe ne correspondent pas",
+	"passwordInvalid": "Le mot de passe ne respecte pas les critères de sécurité",
+	"errorSignup": "Erreur lors de l'inscription",
+	"passwordConfirm": "Confirmer le mot de passe",
+	"acceptTerms": "J'accepte les",
+	"terms": "conditions générales d'utilisation",
+	"cta": "S'inscrire pour commencer à réviser"
   },
   "dashboard": {
     "account": "Compte",
