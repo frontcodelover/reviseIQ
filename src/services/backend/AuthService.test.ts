@@ -16,12 +16,12 @@ vi.mock('@/services/supabaseClient', () => ({
 }));
 
 describe('AuthService', () => {
-  let authService: AuthService;
+	let authService: AuthService;
+	let originalError: typeof console.error;
 
   beforeEach(() => {
     authService = new AuthService();
     vi.clearAllMocks();
-    // @ts-expect-error originalError
     originalError = console.error;
     console.error = vi.fn();
     vi.stubGlobal('window', {
@@ -33,7 +33,6 @@ describe('AuthService', () => {
 
   afterEach(() => {
     vi.unstubAllGlobals();
-    // @ts-expect-error originalError
     console.error = originalError;
   });
 
