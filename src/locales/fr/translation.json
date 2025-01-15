@@ -13,6 +13,20 @@
     "description": "Créez des flashcards intelligentes grâce à l'IA pour vous aider à mémoriser et apprendre plus rapidement.",
     "cta": "Commencer"
   },
+  "auth" : {
+	"password": "Mot de passe",
+	"passwordplaceholder": "Entrez votre mot de passe",
+	"content": "Le mot de passe doit contenir :",
+	"email": "Email",
+	"emailplaceholder": "Entrez votre email",
+	"login": "Connexion",
+	"signup": "Inscription",
+	"minLength": "6 caractères",
+	"minLowercase": "1 lettre minuscule",
+	"minUppercase": "1 lettre majuscule",
+	"minNumber": "1 chiffre",
+	"minSpecial": "1 caractère spécial"
+  },
   "dashboard": {
     "account": "Compte",
     "billing": "Facturation",

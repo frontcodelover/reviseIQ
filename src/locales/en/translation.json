@@ -13,6 +13,20 @@
     "description": "Learn and revise your courses more effectively with ReviseIQ. Create smart flashcards with AI to help you memorize faster.",
     "cta": "Get started"
   },
+  "auth" : {
+	"password": "Password",
+	"passwordplaceholder": "Enter your password",
+	"content": "Password must contain at least:",
+	"email": "Email",
+	"emailplaceholder": "Enter your email",
+	"login": "Login",
+	"signup": "Sign up",
+	"minLength": "6 characters long",
+	"minLowercase": "1 lowercase letter",
+	"minUppercase": "1 uppercase letter",
+	"minNumber": "1 number",
+	"minSpecial": "1 special character"
+  },
   "dashboard": {
     "account": "Account",
     "billing": "Billing",
