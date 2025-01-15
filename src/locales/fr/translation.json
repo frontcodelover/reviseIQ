@@ -15,6 +15,7 @@
   },
   "auth" : {
 	"baseline": "Envie de réussir vos révisions et d'apprendre efficacement ? ReviseIQ votre meilleur atout pour réussir !",
+	"signInWithGoogle": "Se connecter avec Google",
 	"signup": "S'insrire gratuitement",
 	"password": "Mot de passe",
 	"passwordplaceholder": "Entrez votre mot de passe",

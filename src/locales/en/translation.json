@@ -14,7 +14,7 @@
     "cta": "Get started"
   },
   "auth" : {
-	
+	"signInWithGoogle": "Sign in with Google",
 	"baseline": "Want to succeed in your revisions and learn effectively? ReviseIQ your best asset to succeed!",
 	"password": "Password",
 	"passwordplaceholder": "Enter your password",

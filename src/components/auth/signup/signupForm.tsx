@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next';
 
 import { getBackend } from '@/services/backend';
 
+import { EmailInput } from '@/components/auth/signup/form/emailInput';
+import { PasswordTooltip } from '@/components/auth/signup/form/passwordTooltip';
+
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { EmailInput } from '@/components/auth/signup/form/EmailInput';
-import { PasswordTooltip } from '@/components/auth/signup/form/PasswordTooltip';
 
 const validateEmail = (email: string) => {
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -92,7 +94,8 @@ function SignupForm() {
   };
 
   return (
-    <div>
+	  <div>
+		
       {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
       <form onSubmit={handleSignUp}>
         <EmailInput

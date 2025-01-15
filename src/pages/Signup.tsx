@@ -1,9 +1,12 @@
 import SignupForm from '@/components/auth/signup/signupForm';
 import Cover from '@/assets/learn-min.jpg';
 import { useTranslation } from 'react-i18next';
+import OAuthLogin from '@/components/auth/provider/oAuthLogin';
+import { Separator } from '@/components/ui/separator';
 
 function SignUp() {
   const { t } = useTranslation();
+
   return (
     <div>
       <div className="grid h-screen w-screen items-center justify-evenly md:grid-cols-2">
@@ -19,7 +22,11 @@ function SignUp() {
             <h2 className="text-center text-3xl font-bold text-gray-800">{t('auth.signup')}</h2>
             <p className="text-balance text-center text-base text-gray-500">{t('auth.baseline')}</p>
           </div>
-          <SignupForm />
+          <div className="flex flex-col gap-6">
+            <OAuthLogin />
+            <Separator className='mx-auto'/>
+            <SignupForm />
+          </div>
         </div>
       </div>
     </div>
