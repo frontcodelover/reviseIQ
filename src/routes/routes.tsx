@@ -1,27 +1,28 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
 
-import Home from '@/pages/Home';
-import Dashboard from '@/pages/dashboard/Dashboard';
+import Home from '@/presentation/pages/Home';
+import Dashboard from '@/presentation/pages/dashboard/Dashboard';
 import ProtectedRoute from '@/routes/protectedRoutes';
-import Login from '@/pages/Login';
-import SignUp from '@/pages/Signup';
-import NoMatch from '@/pages/NoMatch';
-import LayoutDashboard from '@/components/layoutDashboard';
-import Community from '@/pages/dashboard/Community';
-import Folders from '@/pages/dashboard/Folders';
-import Settings from '@/pages/dashboard/Settings';
-import SinglePageFolder from '@/pages/folders/Single';
-import CreateFolder from '@/pages/folders/CreateFolder';
-import FirstTimeFormPage from '@/pages/dashboard/FirstTimeForm';
-import GenerateWithIa from '@/pages/folders/GenerateWithIa';
-import GenerateManual from '@/pages/folders/GenerateManual';
-import LayoutAuth from '@/components/auth/layoutAuth';
+import Login from '@/presentation/pages/Login';
+import SignUp from '@/presentation/pages/Signup';
+import NoMatch from '@/presentation/pages/NoMatch';
+import LayoutDashboard from '@/presentation/shared/LayoutDashboard';
+import Community from '@/presentation/pages/dashboard/Community';
+import Folders from '@/presentation/pages/dashboard/Folders';
+import Settings from '@/presentation/pages/dashboard/Settings';
+import SinglePageFolder from '@/presentation/pages/folders/Single';
+import CreateFolder from '@/presentation/pages/folders/CreateFolder';
+import FirstTimeFormPage from '@/presentation/pages/dashboard/FirstTimeForm';
+import GenerateWithIa from '@/presentation/pages/folders/GenerateWithIa';
+import GenerateManual from '@/presentation/pages/folders/GenerateManual';
+import LayoutAuth from '@/presentation/shared/LayoutAuth';
 
 export const AppRoutes = () => {
   return (
     <Routes>
       <Route path="*" element={<NoMatch />} />
       <Route path="/" element={<Home />} />
+
       <Route
         path="/login"
         element={

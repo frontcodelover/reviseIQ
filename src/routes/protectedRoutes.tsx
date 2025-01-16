@@ -1,8 +1,14 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/presentation/context/AuthContext';
 import { useState, useEffect, useCallback } from 'react';
-import { getBackend } from '@/services/backend';
-import LoadingScreen from '@/pages/LoadingScreen';
+
+import LoadingScreen from '@/presentation/pages/LoadingScreen';
+
+import { SupabaseUserRepository } from '@/infrasctructure/backend/SupabaseUserRepository';
+import { HasUserProfileUseCase } from '@/application/useCases/HasUserProfile.usecase';
+
+const userRepository = new SupabaseUserRepository();
+const hasUserProfile = new HasUserProfileUseCase(userRepository);
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -13,9 +19,8 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   // Fonction pour vérifier le profil
   const checkUserProfile = useCallback(async () => {
     if (user) {
-      const backend = getBackend();
-      const hasUserProfile = await backend.hasUserProfile(user.id);
-      setHasProfile(hasUserProfile);
+      const profile = await hasUserProfile.execute(user.id);
+      setHasProfile(profile);
       setCheckingProfile(false);
     }
   }, [user]);
@@ -34,8 +39,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     };
 
     window.addEventListener('profileUpdated', handleProfileUpdate);
-    return () =>
-      window.removeEventListener('profileUpdated', handleProfileUpdate);
+    return () => window.removeEventListener('profileUpdated', handleProfileUpdate);
   }, [checkUserProfile]);
 
   if (loading || checkingProfile) {

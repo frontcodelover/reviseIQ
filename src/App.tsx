@@ -1,5 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from '@/context/AuthContext';
+import { AuthProvider } from '@/presentation/context/AuthContext';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AppRoutes } from './routes/routes';
 
