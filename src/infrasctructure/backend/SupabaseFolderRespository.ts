@@ -1,8 +1,9 @@
 import { supabase } from '@/infrasctructure/backend/SupabaseClient';
 import { FolderRepository } from '@/domain/repositories/FolderRepository';
+import {Folder, CardFolderProps} from '@/domain/entities/Folder';
 
 export class SupabaseFolderRepository implements FolderRepository {
-  async getPublicFolders(): Promise<Deck[]> {
+  async getPublicFolders(): Promise<Folder[]> {
     try {
       const { data, error } = await supabase.from('decks').select('*').eq('is_public', true);
 
@@ -19,7 +20,7 @@ export class SupabaseFolderRepository implements FolderRepository {
   }
 
   // get Last 6 public decks
-  async getLastPublicFolders(): Promise<Deck[]> {
+  async getLastPublicFolders(): Promise<Folder[]> {
     try {
       const { data, error } = await supabase
         .from('decks')

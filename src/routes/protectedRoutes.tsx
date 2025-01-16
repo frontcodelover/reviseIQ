@@ -19,7 +19,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   // Fonction pour vérifier le profil
   const checkUserProfile = useCallback(async () => {
     if (user) {
-      const profile = await hasUserProfile.execute(user.id);
+      const profile = await hasUserProfile.execute(user.id!);
       setHasProfile(profile);
       setCheckingProfile(false);
     }

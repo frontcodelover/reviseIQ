@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { SupabaseUserRepository } from '@/infrasctructure/backend/SupabaseUserRepository';
 import { AuthContextType } from '@/presentation/types/AuthContextTypes';
 
+import { User } from '@/domain/entities/User';
+
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,

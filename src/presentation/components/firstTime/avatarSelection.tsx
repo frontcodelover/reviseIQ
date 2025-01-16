@@ -1,5 +1,7 @@
 import { RadioGroup } from '@/components/ui/radio-group';
 
+import { AvatarSelectProps } from '@/domain/entities/User';
+
 export const AvatarSelect = ({ value, onChange }: AvatarSelectProps) => {
   const avatars = Array.from({ length: 8 }, (_, i) => i + 1);
 

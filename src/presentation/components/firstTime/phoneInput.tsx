@@ -17,10 +17,16 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 
+interface PhoneInputProps {
+  phoneNumber: string;
+  onPhoneChange: (phone: string) => void;
+  className?: string;
+}
+
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwardRef<
   React.ElementRef<typeof RPNInput.default>,
   PhoneInputProps
->(({ className, onChange, ...props }, ref) => {
+>(({ className, phoneNumber, onPhoneChange }, ref) => {
   return (
     <RPNInput.default
       ref={ref}
@@ -30,6 +36,9 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwa
       inputComponent={InputComponent}
       smartCaret={false}
       defaultCountry="FR"
+      value={phoneNumber}
+      onChange={(value) => onPhoneChange(value || '')}
+      international
       /**
        * Handles the onChange event.
        *
@@ -39,8 +48,6 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwa
        *
        * @param {E164Number | undefined} value - The entered value
        */
-      onChange={(value) => onChange?.(value || ('' as RPNInput.Value))}
-      {...props}
     />
   );
 });

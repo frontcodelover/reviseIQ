@@ -8,6 +8,8 @@ import { GenerateFlashcardsUseCase } from '@/application/useCases/GenerateFlashc
 import { CreateFlashcardUseCase } from '@/application/useCases/CreateFlashcard.usecaste';
 import { SupabaseFlashCardRepository } from '@/infrasctructure/backend/SupabaseFlashcardRepository';
 
+import { Flashcard } from '@/domain/entities/Flashcard';
+
 function GenerateFlashCardWithIa() {
   const { id: deckId } = useParams<{ id: string }>();
   const navigate = useNavigate();

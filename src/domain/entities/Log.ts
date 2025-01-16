@@ -1,3 +1,5 @@
+import { Badge } from './Badge';
+
 export interface DailyActions {
   flashcard_reviewed?: number;
   folder_viewed?: number;

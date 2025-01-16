@@ -1,16 +1,23 @@
 import { useEffect, useState } from 'react';
-import { getBackend } from '../services/backend';
+
+import { Folder } from '@/domain/entities/Folder';
+
+import { SupabaseFolderRepository } from '@/infrasctructure/backend/SupabaseFolderRespository';
+import { GetPublicFoldersUseCase } from '@/application/useCases/GetPublicFolders.usecase';
+
+const folderRepository = new SupabaseFolderRepository();
+const getPublicFoldersUseCase = new GetPublicFoldersUseCase(folderRepository);
 
 function PublicDecks() {
-  const [decks, setDecks] = useState<Deck[]>([]);
+  const [decks, setDecks] = useState<Folder[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPublicDecks = async () => {
       console.log('fetchPublicDecks');
       try {
-        const backend = getBackend();
-        const data = await backend.getPublicFolders();
+       
+        const data = await getPublicFoldersUseCase.execute();
         setDecks(data);
       } catch (error) {
         console.error('Erreur lors de la récupération des decks publics :', error);

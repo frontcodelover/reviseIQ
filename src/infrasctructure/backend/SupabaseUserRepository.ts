@@ -1,6 +1,7 @@
 import { supabase } from '@/infrasctructure/backend/SupabaseClient';
 import { UserRepository } from '@/domain/repositories/UserRepository';
 import { User } from '@/domain/entities/User';
+import { Folder } from '@/domain/entities/Folder';
 
 export class SupabaseUserRepository implements UserRepository {
   async getUser(): Promise<User> {
@@ -48,7 +49,7 @@ export class SupabaseUserRepository implements UserRepository {
     }
   }
   // Fetch user-specific decks
-  async getUserDecks(): Promise<Deck[]> {
+  async getUserDecks(): Promise<Folder[]> {
     try {
       const userId = await this.getUserId();
 
@@ -71,7 +72,7 @@ export class SupabaseUserRepository implements UserRepository {
   }
 
   // Create a new deck
-  async createDeck(deckData: Deck): Promise<{ id: string }> {
+  async createDeck(deckData: Folder): Promise<{ id: string }> {
     try {
       const userId = await this.getUserId();
 

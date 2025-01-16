@@ -4,13 +4,17 @@ import { SupabaseUserRepository } from '@/infrasctructure/backend/SupabaseUserRe
 import { GetUserDecksUseCase } from '@/application/useCases/GetUserDecks.usecase';
 
 import { useTranslation } from 'react-i18next';
-import CardNewFolder from '@/presentation/components/dashboard/folders/newFolder/cardNewFolder';
+import CardNewFolder from '@/presentation/components/dashboard/folders/newFolder/CardNewFolder';
 import { Link } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { Terminal } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+
+import { Folder } from '@/domain/entities/Folder';
+import { ThemaGroupProps } from '@/domain/entities/User';
+
 interface GroupedDecks {
-  [key: string]: Deck[];
+  [key: string]: Folder[];
 }
 
 const userReposirory = new SupabaseUserRepository();
@@ -52,7 +56,7 @@ const ThemaGroup = ({ thema, decks }: ThemaGroupProps) => {
 };
 
 function UserDecks(): JSX.Element {
-  const [decks, setDecks] = useState<Deck[]>([]);
+  const [decks, setDecks] = useState<Folder[]>([]);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
 
@@ -61,7 +65,7 @@ function UserDecks(): JSX.Element {
       try {
         const data = await getUserDecksUseCase.execute();
         if (Array.isArray(data)) {
-          setDecks(data as Deck[]);
+          setDecks(data as Folder[]);
         } else {
           setDecks([]);
         }

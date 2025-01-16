@@ -15,6 +15,8 @@ import { LogActionUseCase } from '@/application/useCases/LogAction.usecase';
 import { SupabaseFlashCardRepository } from '@/infrasctructure/backend/SupabaseFlashcardRepository';
 import { GetFlashcardsUseCase } from '@/application/useCases/GetFlashcards.usecase';
 
+import { Flashcard } from '@/domain/entities/Flashcard';
+
 const userRepository = new SupabaseUserRepository();
 const logRepository = new SupabaseLogRepository();
 const getUserIdCase = new GetUserIdUseCase(userRepository);

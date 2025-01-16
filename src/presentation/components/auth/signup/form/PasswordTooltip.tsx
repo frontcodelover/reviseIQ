@@ -4,6 +4,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Label } from '@/components/ui/label';
 import { useTranslation } from 'react-i18next';
 
+import { Validation } from '@/domain/entities/User';
+
 export function PasswordTooltip({ validation }: { validation: Validation }) {
   const { t } = useTranslation();
 

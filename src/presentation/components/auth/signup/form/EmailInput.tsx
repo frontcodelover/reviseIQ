@@ -2,6 +2,8 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
+import { EmailInputProps } from '@/domain/entities/User';
+
 export function EmailInput({ email, onChange, touched, isValid }: EmailInputProps) {
   return (
     <div className="mb-4">

@@ -5,6 +5,8 @@ import { CheckAndUnlockBadgesUseCase } from '@/application/useCases/CheckAndUnlo
 import { GetUsageLogsByDay } from '@/application/useCases/GetUsageLogsByDay.usecase';
 import { SupabaseLogRepository } from '@/infrasctructure/backend/SupabaseLogRepository';
 
+import { Badge, LogsAndBadgesManagerProps, DailyActions } from '@/domain/entities/Badge';
+
 export const LogsAndBadgesManager: React.FC<LogsAndBadgesManagerProps> = ({
   userId,
   onLogsUpdate,

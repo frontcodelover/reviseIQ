@@ -15,3 +15,12 @@ export interface FormData {
   thema: string;
   color: string;
 }
+
+export interface CardFolderProps {
+  id: string;
+  name: string;
+  description: string;
+  color: string;
+  is_public: boolean;
+  thema: string;
+}

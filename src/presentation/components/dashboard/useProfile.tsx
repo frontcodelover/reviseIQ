@@ -3,6 +3,8 @@ import { useAuth } from '@/presentation/context/AuthContext';
 import { SupabaseUserRepository } from '@/infrasctructure/backend/SupabaseUserRepository';
 import { GetUserProfileByIdUseCase } from '@/application/useCases/GetUserProfilById.usecase';
 
+import { User } from '@/domain/entities/User';
+
 export const useProfile = () => {
   const { user } = useAuth();
   const [profile, setProfile] = useState<User | null>(null);
@@ -21,7 +23,7 @@ export const useProfile = () => {
       }
 
       try {
-        const userProfile = await getUserProfileById.execute(user.id);
+        const userProfile = await getUserProfileById.execute(user.id!);
         setProfile(userProfile);
       } catch (err) {
         setError('Erreur lors de la récupération du profil');

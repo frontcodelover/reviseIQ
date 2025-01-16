@@ -16,6 +16,9 @@ import {
 import { AvatarSelect } from '@/presentation/components/firstTime/avatarSelection';
 import { Button } from '@/components/ui/button';
 
+import { FirstTimeFormProps } from '@/domain/entities/User';
+
+
 const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
   const [firstname, setFirstname] = useState(user.firstname || '');
   const [lastname, setLastname] = useState(user.name || '');
@@ -108,7 +111,7 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
           <Label className="mb-2 block font-medium text-gray-700">
             {t('dashboard.firstimeForm.phone')}
           </Label>
-          <PhoneInput value={phone} onChange={setPhone} />
+          <PhoneInput phoneNumber={phone} onPhoneChange={setPhone} />
         </div>
         <div className="mb-4">
           <Label className="mb-2 block font-medium text-gray-700">

@@ -9,13 +9,15 @@ import { LogActionUseCase } from '@/application/useCases/LogAction.usecase';
 import GetFlashcards from '@/presentation/components/dashboard/flashcards/getFlashcards';
 import { useAuth } from '@/presentation/context/AuthContext';
 
+import { Folder } from '@/domain/entities/Folder';
+
 const folderRepository = new SupabaseFolderRepository();
 const logRepository = new SupabaseLogRepository();
 const getFolderById = new GetFolderById(folderRepository);
 const logAction = new LogActionUseCase(logRepository);
 
 function SingleFolder({ id }: { id: string | undefined }) {
-  const [folder, setFolder] = useState<Deck>();
+  const [folder, setFolder] = useState<Folder>();
   const { user } = useAuth();
   const user_id = user ? user.id : null;
 

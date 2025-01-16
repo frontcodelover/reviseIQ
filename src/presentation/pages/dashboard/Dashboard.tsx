@@ -5,10 +5,12 @@ import ActivityCalendar from '@/presentation/components/dashboard/stats/activity
 import { LogsAndBadgesManager } from '@/presentation/components/dashboard/stats/logsAndBadgesManager';
 import { GetPublicFolders } from '@/presentation/components/dashboard/community/GetPublicFolders';
 
+import { Badge } from '@/domain/entities/Badge';
+
 function Dashboard() {
   const { profile, loading, error } = useProfile();
   const { user } = useAuth();
-  const userId = user ? user.id : null;
+  const userId: string | null = user?.id ?? null;
   const [logs, setLogs] = useState<Record<string, number>>({});
   const [badges, setBadges] = useState<Badge[]>([]);
   const [lastBadge, setLastBadge] = useState<Badge | null>(null);

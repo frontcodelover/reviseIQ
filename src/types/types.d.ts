@@ -1,15 +1,3 @@
-// interface User {
-//   id: string;
-//   name?: string;
-//   email: string;
-//   firstname?: string;
-//   lastname?: string;
-//   phone?: string;
-//   status?: 'student' | 'pupil' | 'apprentice' | 'teacher' | 'other';
-//   user_id?: string;
-//   avatar?: string;
-// }
-
 // interface AvatarSelectProps {
 //   value: string;
 //   onChange: (value: string) => void;
@@ -45,12 +33,6 @@
 // 	hasSpecialChar: boolean;
 // }
 
-// interface EmailInputProps {
-// 	email: string;
-// 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-// 	touched: boolean;
-// 	isValid: boolean;
-//   }
 
 // interface ColorPickerProps {
 //   selectedColor: string;
@@ -58,14 +40,7 @@
 //   colors: string[];
 // }
 
-// interface CardFolderProps {
-//   id: string;
-//   name: string;
-//   description: string;
-//   color: string;
-//   is_public: boolean;
-//   thema: string;
-// }
+
 
 // type PhoneInputProps = Omit<
 //   React.ComponentProps<'input'>,
@@ -75,29 +50,29 @@
 //     onChange?: (value: RPNInput.Value) => void;
 //   };
 
-// type CountryEntry = { label: string; value: RPNInput.Country | undefined };
+type CountryEntry = { label: string; value: RPNInput.Country | undefined };
 
-// type CountrySelectProps = {
-//   disabled?: boolean;
-//   value: RPNInput.Country;
-//   options: CountryEntry[];
-//   onChange: (country: RPNInput.Country) => void;
-// };
+type CountrySelectProps = {
+  disabled?: boolean;
+  value: RPNInput.Country;
+  options: CountryEntry[];
+  onChange: (country: RPNInput.Country) => void;
+};
 
-// interface CountrySelectOptionProps extends RPNInput.FlagProps {
-//   selectedCountry: RPNInput.Country;
-//   onChange: (country: RPNInput.Country) => void;
-// }
+interface CountrySelectOptionProps extends RPNInput.FlagProps {
+  selectedCountry: RPNInput.Country;
+  onChange: (country: RPNInput.Country) => void;
+}
 
 // interface ThemaGroupProps {
 //   thema: string;
-//   decks: Deck[];
+//   decks: Folder[];
 // }
 
-// interface ThemaProps {
-//   setThema: (value: string) => void;
-//   value: string;
-// }
+interface ThemaProps {
+  setThema: (value: string) => void;
+  value: string;
+}
 
 // interface BadgeData {
 //   unlocked_at: string;

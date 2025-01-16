@@ -3,7 +3,9 @@ import { Separator } from '@/components/ui/separator';
 import { Link } from 'react-router-dom';
 import { useProfileUserById } from '@/presentation/hooks/useProfileUserById';
 
-const CardFolder = ({ ...props }: Deck) => {
+import { Folder } from '@/domain/entities/Folder';
+
+const CardFolder = ({ ...props }: Folder) => {
   const { id, name, description, color, thema, user_id } = props;
   const { profile, loading } = useProfileUserById(user_id || '');
 
