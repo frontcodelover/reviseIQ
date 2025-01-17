@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useQuery, useMutation } from 'react-query';
 
 import { SupabaseFolderRepository } from '@/infrasctructure/backend/SupabaseFolderRespository';
 import { GetFolderById } from '@/application/useCases/GetFolderById.usecase';
@@ -17,31 +18,27 @@ const getFolderById = new GetFolderById(folderRepository);
 const logAction = new LogActionUseCase(logRepository);
 
 function SingleFolder({ id }: { id: string | undefined }) {
-  const [folder, setFolder] = useState<Folder>();
   const { user } = useAuth();
   const user_id = user ? user.id : null;
 
-  useEffect(() => {
-    if (!id || !user_id) {
-      console.error('ID or User ID is missing');
-      return;
+  const { data: folder, isLoading, error } = useQuery<Folder, Error>(
+    ['folder', id],
+    () => getFolderById.execute(id!),
+    {
+      enabled: !!id && !!user_id,
     }
+  );
 
-    const fetchFolder = async () => {
-      try {
-        await Promise.all([
-          logAction.execute(user_id, 'folder_viewed'),
-          getFolderById.execute(id).then((data) => {
-            setFolder(data);
-          }),
-        ]);
-      } catch (error) {
-        console.error('Erreur lors de la récupération du dossier :', error);
-      }
-    };
+  const logMutation = useMutation(() => logAction.execute(user_id!, 'folder_viewed'));
 
-    fetchFolder();
-  }, [id, user_id]);
+  useEffect(() => {
+    if (folder) {
+      logMutation.mutate();
+    }
+  }, [folder]);
+
+  if (isLoading) return <p>Chargement du dossier...</p>;
+  if (error) return <p>Erreur lors de la récupération du dossier.</p>;
 
   return (
     <div className="flex flex-col">
