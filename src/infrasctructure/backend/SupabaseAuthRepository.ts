@@ -3,7 +3,7 @@ import { supabase } from '@/infrasctructure/backend/SupabaseClient';
 import { User } from '@/domain/entities/User';
 
 export class SupabaseAuthRepository implements AuthRepository {
-  // Inscription par email
+  // Authentication methods
   async signUp(email: string, password: string): Promise<User> {
     const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) {
