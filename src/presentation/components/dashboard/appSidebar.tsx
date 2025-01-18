@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Calendar, Home, Inbox, MessageCircleHeart, Search, ChevronUp } from 'lucide-react';
+import { Calendar, Home, Inbox, MessageCircleHeart, ChevronUp } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -53,11 +53,6 @@ export function AppSidebar() {
       icon: MessageCircleHeart,
       nb: '+99',
       color: 'bg-cyan-600',
-    },
-    {
-      title: t('dashboard.search'),
-      url: '#',
-      icon: Search,
     },
     {
       title: t('dashboard.calendar'),
