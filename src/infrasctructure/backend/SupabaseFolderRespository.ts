@@ -72,4 +72,23 @@ export class SupabaseFolderRepository implements FolderRepository {
       throw error;
     }
   }
+  async searchFolders(search: string): Promise<Folder[]> {
+    try {
+      const { data, error } = await supabase
+        .from('decks')
+        .select('*')
+        .textSearch('name', search)
+        .eq('is_public', true);
+
+      if (error) {
+        console.error('Error fetching searchFolders:', error);
+        throw error;
+      }
+
+      return data || [];
+    } catch (error) {
+      console.error('Error in searchFolders:', error);
+      throw error;
+    }
+  }
 }

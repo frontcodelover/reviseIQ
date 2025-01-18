@@ -5,4 +5,5 @@ export interface FolderRepository {
   getLastPublicFolders(): Promise<Folder[]>;
   getFolderById(id: string): Promise<Folder>;
   deleteFolder(id: string): Promise<void>;
+  searchFolders(query: string): Promise<Folder[]>;
 }
