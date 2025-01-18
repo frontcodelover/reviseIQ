@@ -1,5 +1,5 @@
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/presentation/components/dashboard/shared/appSidebar';
+import { AppSidebar } from '@/presentation/components/dashboard/shared/AppSidebar';
 /* import BreadcrumbDashboard from '@/presentation/components/dashboard/breadcrumb'; */
 import SearchBar from '../components/dashboard/shared/SearchBar';
 
