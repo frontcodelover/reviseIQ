@@ -1,60 +1,69 @@
-/src
-├── components/ # Composants réutilisables
-├── features/ # Groupes fonctionnels (Auth, Flashcards, etc.)
-├── hooks/ # Hooks personnalisés
-├── pages/ # Pages principales
-├── services/ # Intégration avec Supabase
-├── styles/ # Fichiers CSS/Tailwind
-├── types/ # Types et interfaces TypeScript
-└── utils/ # Fonctions utilitaires
+# WARNING Work In Progress
 
-# React + TypeScript + Vite
+# ReviseIQ 📚
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ReviseIQ is a modern flashcard application that helps students learn and revise more effectively using AI-powered flashcards and quizzes.
 
-Currently, two official plugins are available:
+## Features ✨
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- AI-powered flashcard generation
+- Quiz mode with multiple choice questions
+- Manual flashcard creation
+- Public and private decks
+- Progress tracking
+- Community sharing
+- User profiles and achievements
+- Responsive design
 
-## Expanding the ESLint configuration
+## Technologies 🛠
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React + TypeScript
+- Tailwind CSS
+- Supabase (Backend & Auth)
+- Mistral AI API
+- i18n (English/French)
+- Shadcn/ui components
 
-- Configure the top-level `parserOptions` property like this:
+## Getting Started 🚀
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+### Prerequisites
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- Node.js (v16+)
+- npm
+- Supabase account
+- Mistral AI API key
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react';
+## Architecture 🏗
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-});
-```
+### Clean Architecture Layers
+
+1. **Domain Layer**
+
+   - Core business logic
+   - Entities (User, Flashcard, Quiz)
+   - Repository interfaces
+
+2. **Application Layer**
+
+   - Use cases (CreateFlashcard, GenerateQuiz)
+   - Application services
+   - DTOs
+
+3. **Infrastructure Layer**
+
+   - Supabase implementations
+   - External services (Mistral AI)
+   - Repository implementations
+
+4. **Presentation Layer**
+   - React components
+   - Pages
+   - Routing
+   - UI state management
+
+### Key Design Patterns
+
+- Repository Pattern
+- Dependency Injection
+- Factory Pattern
+- Command Pattern (for use cases)
