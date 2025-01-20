@@ -4,6 +4,7 @@ import { useAuth } from '@/presentation/context/AuthContext';
 import ActivityCalendar from '@/presentation/components/dashboard/stats/activityCalendar';
 import { LogsAndBadgesManager } from '@/presentation/components/dashboard/stats/logsAndBadgesManager';
 import { GetPublicFolders } from '@/presentation/components/dashboard/community/GetPublicFolders';
+import Button from '@/presentation/components/ui/button/Button';
 
 import { Badge } from '@/domain/entities/Badge';
 
@@ -23,6 +24,7 @@ function Dashboard() {
     <div className="container mx-auto">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-3xl font-bold">Bienvenue {profile.firstname}</h1>
+        <Button variant="primary">Ajouter un badge</Button>
       </div>
 
       <GetPublicFolders />
