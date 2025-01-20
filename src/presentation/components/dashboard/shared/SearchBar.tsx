@@ -1,14 +1,30 @@
 // presentation/components/dashboard/shared/SearchBar.tsx
 import { useState, useEffect } from 'react';
-import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { useQuery } from 'react-query';
 import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
 import { SearchFoldersUseCase } from '@/application/useCases/SearchFolders.usecase';
 import { Folder } from '@/domain/entities/Folder';
+import SearchInput from '@/presentation/components/ui/search/SearchInput';
+import styled from 'styled-components';
 
 const folderRepository = new SupabaseFolderRepository();
 const searchFoldersUseCase = new SearchFoldersUseCase(folderRepository);
+
+const SearchContainer = styled.div`
+  position: relative;
+  margin-bottom: 1rem;
+`;
+
+const SearchIcon = styled(Search)`
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1.5rem;
+  width: 1.5rem;
+  color: #9ca3af;
+`;
 
 function SearchBar() {
   const [query, setQuery] = useState('');
@@ -42,20 +58,11 @@ function SearchBar() {
 
   return (
     <>
-      <div className="relative">
-        <Search
-          className="absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400"
-          style={{ height: '1.5rem', width: '1.5rem' }}
-        />
-        <Input
-          type="text"
-          placeholder="Rechercher"
-          className="mb-6 border pl-12"
-          value={query}
-          onChange={handleSearch}
-          style={{ paddingLeft: '3rem' }} // Ajoutez ce style en ligne
-        />
-      </div>
+      <SearchContainer>
+        <SearchIcon />
+        <SearchInput type="text" placeholder="Rechercher" value={query} onChange={handleSearch} />
+      </SearchContainer>
+
       {isLoading && <p>Chargement...</p>}
       {error && <p>Erreur : {error.message}</p>}
       {folders && (
