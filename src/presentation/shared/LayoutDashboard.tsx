@@ -1,37 +1,42 @@
 // presentation/shared/LayoutDashboard.tsx
 import styled from 'styled-components';
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/presentation/components/dashboard/shared/AppSidebar';
+import Sidebar from '@/presentation/components/dashboard/shared/Sidebar';
 import SearchBar from '../components/dashboard/shared/SearchBar';
 
-// Créer des composants stylisés
 const MainContainer = styled.main`
   width: 100%;
-  background: white;
+  background: #f0f7ff;
+  color: #333;
+  height: 100vh;
 `;
 
-const ContentContainer = styled.div`
-  margin: 1.5rem 2.5rem;
+const SidebarContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px;
+
+  overflow-y: auto;
 `;
 
-const StyledSidebarTrigger = styled(SidebarTrigger)`
-  padding-left: 0.5rem;
-  @media (min-width: 768px) {
-    display: none;
-  }
+const ContentWrapper = styled.div`
+  margin-left: 250px; /* Ajustez la marge selon la largeur de la barre latérale */
+  padding: 1.5rem 2.5rem;
 `;
 
 export default function LayoutDashboard({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <StyledSidebarTrigger />
+    <>
+      <SidebarContainer>
+        <Sidebar />
+      </SidebarContainer>
       <MainContainer>
-        <ContentContainer>
+        <ContentWrapper>
           <SearchBar />
           {children}
-        </ContentContainer>
+        </ContentWrapper>
       </MainContainer>
-    </SidebarProvider>
+    </>
   );
 }
