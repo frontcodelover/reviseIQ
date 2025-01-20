@@ -1,5 +1,5 @@
 import { BadgeRepository } from '@/domain/repositories/BadgeRepository';
-import { supabase } from '@/infrasctructure/backend/SupabaseClient';
+import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { BadgeData } from '@/domain/entities/Badge';
 
 export class SupabaseBadgeRepository implements BadgeRepository {

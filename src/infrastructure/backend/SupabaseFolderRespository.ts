@@ -1,6 +1,6 @@
-import { supabase } from '@/infrasctructure/backend/SupabaseClient';
+import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { FolderRepository } from '@/domain/repositories/FolderRepository';
-import {Folder, CardFolderProps} from '@/domain/entities/Folder';
+import { Folder, CardFolderProps } from '@/domain/entities/Folder';
 
 export class SupabaseFolderRepository implements FolderRepository {
   async getPublicFolders(): Promise<Folder[]> {

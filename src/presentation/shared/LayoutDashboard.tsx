@@ -7,11 +7,11 @@ export default function LayoutDashboard({ children }: { children: React.ReactNod
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarTrigger className='md:hidden pl-2' />
+      <SidebarTrigger className="pl-2 md:hidden" />
       <main className="w-full bg-white bg-gradient-to-b">
-        <div className="mx-6 pt-4"> 
-          <SearchBar />    
-        {children}
+        <div className="mx-6 pt-4">
+          <SearchBar />
+          {children}
         </div>
       </main>
     </SidebarProvider>

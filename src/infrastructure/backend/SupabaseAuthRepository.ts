@@ -1,5 +1,5 @@
 import { AuthRepository } from '@/domain/repositories/AuthRepository';
-import { supabase } from '@/infrasctructure/backend/SupabaseClient';
+import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { User } from '@/domain/entities/User';
 
 export class SupabaseAuthRepository implements AuthRepository {

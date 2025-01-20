@@ -16,6 +16,7 @@ import FirstTimeFormPage from '@/presentation/pages/dashboard/FirstTimeForm';
 import GenerateWithIa from '@/presentation/pages/folders/GenerateWithIa';
 import GenerateManual from '@/presentation/pages/folders/GenerateManual';
 import LayoutAuth from '@/presentation/shared/LayoutAuth';
+import QuizMode from '@/presentation/components/quiz/QuizMode';
 
 export const AppRoutes = () => {
   return (
@@ -65,6 +66,7 @@ export const AppRoutes = () => {
         <Route path="folders/new" element={<CreateFolder />} />
         <Route path="folders/:id/generate-ai" element={<GenerateWithIa />} />
         <Route path="folders/:id/generate-manual" element={<GenerateManual />} />
+        <Route path="folders/:id/quiz" element={<QuizMode />} />
       </Route>
     </Routes>
   );

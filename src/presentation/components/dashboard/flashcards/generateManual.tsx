@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Plus, Trash2 } from 'lucide-react';
-import { SupabaseFlashCardRepository } from '@/infrasctructure/backend/SupabaseFlashcardRepository';
-import { CreateFlashcardUseCase } from '@/application/useCases/CreateFlashcard.usecaste';
+import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
+import { CreateFlashcardUseCase } from '@/application/useCases/CreateFlashcard.usecase';
 
 import { useParams, useNavigate } from 'react-router-dom';
 

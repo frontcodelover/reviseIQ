@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { SupabaseUserRepository } from '@/infrasctructure/backend/SupabaseUserRepository';
+import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 import { AuthContextType } from '@/presentation/types/AuthContextTypes';
 
 import { User } from '@/domain/entities/User';

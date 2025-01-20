@@ -1,4 +1,4 @@
-import { supabase } from '@/infrasctructure/backend/SupabaseClient';
+import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { UserRepository } from '@/domain/repositories/UserRepository';
 import { User } from '@/domain/entities/User';
 import { Folder } from '@/domain/entities/Folder';

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SupabaseAuthRepository } from '@/infrasctructure/backend/SupabaseAuthRepository';
+import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { SignInWithEmailUseCase } from '@/application/useCases/SignInWithEmail.usecase';
 import { SignInWithProviderUseCase } from '@/application/useCases/SignInWithProvider.usecase';
 

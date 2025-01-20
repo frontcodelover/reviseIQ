@@ -33,14 +33,11 @@
 // 	hasSpecialChar: boolean;
 // }
 
-
 // interface ColorPickerProps {
 //   selectedColor: string;
 //   onSelectColor: (color: string) => void;
 //   colors: string[];
 // }
-
-
 
 // type PhoneInputProps = Omit<
 //   React.ComponentProps<'input'>,

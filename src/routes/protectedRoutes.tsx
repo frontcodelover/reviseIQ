@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 import LoadingScreen from '@/presentation/pages/LoadingScreen';
 
-import { SupabaseUserRepository } from '@/infrasctructure/backend/SupabaseUserRepository';
+import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 import { HasUserProfileUseCase } from '@/application/useCases/HasUserProfile.usecase';
 
 const userRepository = new SupabaseUserRepository();

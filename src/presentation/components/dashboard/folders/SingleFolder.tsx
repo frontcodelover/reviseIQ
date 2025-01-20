@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useQuery, useMutation } from 'react-query';
 
-import { SupabaseFolderRepository } from '@/infrasctructure/backend/SupabaseFolderRespository';
+import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
 import { GetFolderById } from '@/application/useCases/GetFolderById.usecase';
 
-import { SupabaseLogRepository } from '@/infrasctructure/backend/SupabaseLogRepository';
+import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
 import { LogActionUseCase } from '@/application/useCases/LogAction.usecase';
 
 import GetFlashcards from '@/presentation/components/dashboard/flashcards/getFlashcards';
@@ -21,13 +21,13 @@ function SingleFolder({ id }: { id: string | undefined }) {
   const { user } = useAuth();
   const user_id = user ? user.id : null;
 
-  const { data: folder, isLoading, error } = useQuery<Folder, Error>(
-    ['folder', id],
-    () => getFolderById.execute(id!),
-    {
-      enabled: !!id && !!user_id,
-    }
-  );
+  const {
+    data: folder,
+    isLoading,
+    error,
+  } = useQuery<Folder, Error>(['folder', id], () => getFolderById.execute(id!), {
+    enabled: !!id && !!user_id,
+  });
 
   const logMutation = useMutation(() => logAction.execute(user_id!, 'folder_viewed'));
 

@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-
 import { useParams, useNavigate } from 'react-router-dom';
-
 import { GenerateFlashcardsUseCase } from '@/application/useCases/GenerateFlashcards.usecase';
-import { CreateFlashcardUseCase } from '@/application/useCases/CreateFlashcard.usecaste';
-import { SupabaseFlashCardRepository } from '@/infrasctructure/backend/SupabaseFlashcardRepository';
-
+import { CreateFlashcardUseCase } from '@/application/useCases/CreateFlashcard.usecase';
+import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
 import { Flashcard } from '@/domain/entities/Flashcard';
+
+const flashcardRepository = new SupabaseFlashCardRepository();
+const generateFlashcard = new GenerateFlashcardsUseCase(flashcardRepository);
+const createFlashcard = new CreateFlashcardUseCase(flashcardRepository);
 
 function GenerateFlashCardWithIa() {
   const { id: deckId } = useParams<{ id: string }>();
@@ -18,10 +19,6 @@ function GenerateFlashCardWithIa() {
   const [error, setError] = useState<string | null>(null);
   const [generatedCards, setGeneratedCards] = useState<Flashcard[]>([]);
 
-  const flashcardRepository = new SupabaseFlashCardRepository();
-  const generateFlashcard = new GenerateFlashcardsUseCase(flashcardRepository);
-  const createFlashcard = new CreateFlashcardUseCase(flashcardRepository);
-
   const generateFlashcards = async () => {
     setLoading(true);
     setError(null);
@@ -29,6 +26,9 @@ function GenerateFlashCardWithIa() {
     try {
       const result = await generateFlashcard.execute(topic);
       setGeneratedCards(result);
+      if (deckId) {
+        await flashcardRepository.storeQuiz(deckId, result);
+      }
     } catch {
       setError('Erreur lors de la génération des flashcards');
     } finally {
@@ -77,6 +77,9 @@ function GenerateFlashCardWithIa() {
                 </p>
                 <p>
                   <strong>Réponse:</strong> {card.answer}
+                </p>
+                <p>
+                  <strong>Mauvaises réponses:</strong> {card.wrongAnswers?.join(', ')}
                 </p>
               </div>
             ))}

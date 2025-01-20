@@ -49,6 +49,6 @@ export interface AvatarSelectProps {
 }
 
 export interface PhoneInputProps {
-	phoneNumber: string;  // renommé de 'value' à 'phoneNumber' pour plus de clarté
-	onPhoneChange: (phone: string) => void;  // renommé de 'onChange' pour plus de clarté
+  phoneNumber: string; // renommé de 'value' à 'phoneNumber' pour plus de clarté
+  onPhoneChange: (phone: string) => void; // renommé de 'onChange' pour plus de clarté
 }

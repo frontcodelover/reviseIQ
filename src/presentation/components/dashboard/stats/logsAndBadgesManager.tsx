@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { GetUserBadgesUseCase } from '@/application/useCases/GetUserBadges.usecase';
-import { SupabaseBadgeRepository } from '@/infrasctructure/backend/SupabaseBadgeRepository';
+import { SupabaseBadgeRepository } from '@/infrastructure/backend/SupabaseBadgeRepository';
 import { CheckAndUnlockBadgesUseCase } from '@/application/useCases/CheckAndUnlockBadges.usecase';
 import { GetUsageLogsByDay } from '@/application/useCases/GetUsageLogsByDay.usecase';
-import { SupabaseLogRepository } from '@/infrasctructure/backend/SupabaseLogRepository';
+import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
 
 import { Badge, LogsAndBadgesManagerProps, DailyActions } from '@/domain/entities/Badge';
 

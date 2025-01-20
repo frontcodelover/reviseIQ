@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SignUpUseCase } from '@/application/useCases/SignUp.usecase';
-import { SupabaseAuthRepository } from '@/infrasctructure/backend/SupabaseAuthRepository';
+import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 
 function SignupForm() {
   const [email, setEmail] = useState('');

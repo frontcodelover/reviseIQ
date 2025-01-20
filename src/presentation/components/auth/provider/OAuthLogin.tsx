@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { SignInWithProviderUseCase } from '@/application/useCases/SignInWithProvider.usecase';
-import { SupabaseAuthRepository } from '@/infrasctructure/backend/SupabaseAuthRepository';
+import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';

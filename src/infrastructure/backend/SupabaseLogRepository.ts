@@ -1,4 +1,4 @@
-import { supabase } from '@/infrasctructure/backend/SupabaseClient';
+import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { LogRepository } from '@/domain/repositories/LogRepository';
 import { parseISO, format, startOfDay, endOfDay } from 'date-fns';
 

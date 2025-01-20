@@ -1,17 +1,18 @@
 import { useQuery } from 'react-query';
 import { Folder } from '@/domain/entities/Folder';
-import { SupabaseFolderRepository } from '@/infrasctructure/backend/SupabaseFolderRespository';
+import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
 import { GetPublicFoldersUseCase } from '@/application/useCases/GetPublicFolders.usecase';
 
 const folderRepository = new SupabaseFolderRepository();
 const getPublicFoldersUseCase = new GetPublicFoldersUseCase(folderRepository);
 
 function PublicDecks() {
-  const { data: decks, isLoading, error } = useQuery<Folder[], Error>(
-    'publicDecks',
-	  () => getPublicFoldersUseCase.execute()
-	);
-	console.log('PUBLIC DECKS')
+  const {
+    data: decks,
+    isLoading,
+    error,
+  } = useQuery<Folder[], Error>('publicDecks', () => getPublicFoldersUseCase.execute());
+  console.log('PUBLIC DECKS');
 
   if (isLoading) return <p>Chargement des decks publics...</p>;
   if (error) return <p>Erreur lors de la récupération des decks publics.</p>;

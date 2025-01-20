@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { UpsertUserUseCase } from '@/application/useCases/UpsertUser.usecase';
-import { SupabaseUserRepository } from '@/infrasctructure/backend/SupabaseUserRepository';
+import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,7 +17,6 @@ import { AvatarSelect } from '@/presentation/components/firstTime/avatarSelectio
 import { Button } from '@/components/ui/button';
 
 import { FirstTimeFormProps } from '@/domain/entities/User';
-
 
 const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
   const [firstname, setFirstname] = useState(user.firstname || '');

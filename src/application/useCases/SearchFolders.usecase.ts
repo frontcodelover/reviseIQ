@@ -1,5 +1,5 @@
-import { FolderRepository } from "@/domain/repositories/FolderRepository";
-import { Folder } from "@/domain/entities/Folder";
+import { FolderRepository } from '@/domain/repositories/FolderRepository';
+import { Folder } from '@/domain/entities/Folder';
 
 export class SearchFoldersUseCase {
   constructor(private folderRepository: FolderRepository) {}

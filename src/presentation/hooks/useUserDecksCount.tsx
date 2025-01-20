@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { GetUserDecksUseCase } from '@/application/useCases/GetUserDecks.usecase';
-import { SupabaseUserRepository } from '@/infrasctructure/backend/SupabaseUserRepository';
+import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 
 const userRepository = new SupabaseUserRepository();
 const getUserDecks = new GetUserDecksUseCase(userRepository);

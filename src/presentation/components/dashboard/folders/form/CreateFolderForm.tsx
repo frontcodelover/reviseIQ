@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { FormData } from '@/domain/entities/Folder';
 
-import { SupabaseUserRepository } from '@/infrasctructure/backend/SupabaseUserRepository';
+import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 import { CreateFolder } from '@/application/useCases/CreateFolder.usecase';
 
 const userRepository = new SupabaseUserRepository();

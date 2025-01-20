@@ -1,5 +1,5 @@
 import Hero from '@/presentation/pages/home/Hero';
-import { supabase } from '@/infrasctructure/backend/SupabaseClient';
+import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { useTranslation } from 'react-i18next';
 import { US } from 'country-flag-icons/react/3x2';
 import { FR } from 'country-flag-icons/react/3x2';

@@ -1,5 +1,5 @@
 import { GetFolderById } from '@/application/useCases/GetFolderById.usecase';
-import { SupabaseFolderRepository } from '@/infrasctructure/backend/SupabaseFolderRespository';
+import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
 
 const folderRepository = new SupabaseFolderRepository();
 const getFolderById = new GetFolderById(folderRepository);

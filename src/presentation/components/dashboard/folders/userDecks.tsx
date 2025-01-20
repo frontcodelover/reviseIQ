@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 
-import { SupabaseUserRepository } from '@/infrasctructure/backend/SupabaseUserRepository';
+import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 import { GetUserDecksUseCase } from '@/application/useCases/GetUserDecks.usecase';
 
 import { useTranslation } from 'react-i18next';

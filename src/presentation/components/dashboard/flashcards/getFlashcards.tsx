@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -7,12 +7,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { EndCard } from '@/presentation/components/dashboard/flashcards/endFlashcard';
 
 import { GetUserIdUseCase } from '@/application/useCases/GetUserId.usecase';
-import { SupabaseUserRepository } from '@/infrasctructure/backend/SupabaseUserRepository';
+import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 
-import { SupabaseLogRepository } from '@/infrasctructure/backend/SupabaseLogRepository';
+import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
 import { LogActionUseCase } from '@/application/useCases/LogAction.usecase';
 
-import { SupabaseFlashCardRepository } from '@/infrasctructure/backend/SupabaseFlashcardRepository';
+import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
 import { GetFlashcardsUseCase } from '@/application/useCases/GetFlashcards.usecase';
 
 import { Flashcard } from '@/domain/entities/Flashcard';
@@ -83,15 +83,18 @@ function GetFlashcards() {
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      console.log('key pressed');
       if (e.key.toLowerCase() === 'a') {
         setShowAnswer(!showAnswer);
-      } else if (e.code === 'ArrowRight' && currentIndex < flashcards.length) {
-        setCurrentIndex((prev) => prev + 1);
+      } else if (e.code === 'ArrowRight' && currentIndex <= flashcards.length - 1) {
         setShowAnswer(false);
+        setTimeout(() => {
+          setCurrentIndex(currentIndex + 1);
+        }, 100); // Délai harmonisé à 1000ms
       } else if (e.code === 'ArrowLeft' && currentIndex > 0) {
-        setCurrentIndex((prev) => prev - 1);
         setShowAnswer(false);
+        setTimeout(() => {
+          setCurrentIndex(currentIndex - 1);
+        }, 1000); // Délai harmonisé à 1000ms
       }
     };
 
@@ -100,8 +103,10 @@ function GetFlashcards() {
   }, [currentIndex, showAnswer, flashcards.length]);
 
   const handleRestart = () => {
-    setCurrentIndex(0);
     setShowAnswer(false);
+    setTimeout(() => {
+      setCurrentIndex(0);
+    }, 1000);
   };
 
   if (loading) return <div>Chargement...</div>;
@@ -111,6 +116,9 @@ function GetFlashcards() {
 
   return flashcards.length > 0 ? (
     <div className="flex min-h-[60vh] flex-col items-center justify-center gap-8">
+      <Link to={`/dashboard/folders/${deckId}/quiz`} className="text-blue-500 hover:underline">
+        Activer le mode Quiz
+      </Link>
       {isLastCard ? (
         <EndCard onRestart={handleRestart} />
       ) : (

@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import CardFolder from '@/presentation/components/dashboard/folders/CardFolder';
 
-import { SupabaseFolderRepository } from '@/infrasctructure/backend/SupabaseFolderRespository';
+import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
 import { GetLastPublicFolderUseCase } from '@/application/useCases/GetLastPublicFolder.usecase';
 import { Folder } from '@/domain/entities/Folder';
 

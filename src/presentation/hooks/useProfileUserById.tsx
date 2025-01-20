@@ -1,6 +1,6 @@
 // get user infos by id
 import { useState, useEffect } from 'react';
-import { SupabaseUserRepository } from '@/infrasctructure/backend/SupabaseUserRepository';
+import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 import { GetUserProfileByIdUseCase } from '@/application/useCases/GetUserProfilById.usecase';
 
 import { User } from '@/domain/entities/User';
