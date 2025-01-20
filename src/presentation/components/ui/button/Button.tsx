@@ -8,11 +8,10 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const StyledButton = styled.button<ButtonProps>`
-  width: 100%;
-  padding: 10px 20px;
+  padding: 0.75rem 1.5rem;
   font-size: 16px;
   font-weight: 300;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   cursor: pointer;
 
   ${({ variant }) => buttonVariants[variant]}
@@ -24,11 +23,11 @@ const StyledButton = styled.button<ButtonProps>`
 `;
 
 const Button: React.FC<ButtonProps> = ({ variant, children, ...props }) => {
-    return (
-      <StyledButton variant={variant} {...props}>
-        {children}
-      </StyledButton>
-    );
-  };
-  
-  export default Button;
+  return (
+    <StyledButton variant={variant} {...props}>
+      {children}
+    </StyledButton>
+  );
+};
+
+export default Button;
