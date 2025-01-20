@@ -7,7 +7,7 @@ const MainContainer = styled.main`
   width: 100%;
   background: #f0f7ff;
   color: #333;
-  height: 100vh;
+  min-height: 100vh;
 `;
 
 const SidebarContainer = styled.div`
