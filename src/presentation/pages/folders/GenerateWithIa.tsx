@@ -1,4 +1,4 @@
-import { GenerateFlashCardWithIa } from '../../components/dashboard/flashcards/GenerateWithIa';
+import { GenerateFlashCardWithIa } from '../../components/dashboard/flashcards/GenerateFlashcardsWithIa';
 
 const GenerateWithIa = () => {
   return <GenerateFlashCardWithIa />;
