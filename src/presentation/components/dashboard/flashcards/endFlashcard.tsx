@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Button from '@/presentation/components/ui/button/Button';
 
 const Container = styled.div`
-  min-height: 60vh;
+  min-height: 70vh;
   width: calc(100% - 10vw);
 `;
 
