@@ -30,7 +30,7 @@ const Message = styled.p`
   font-size: 1.125rem;
 `;
 
-export const EndCard = ({ onRestart }: { onRestart: () => void }) => (
+const EndCard = ({ onRestart }: { onRestart: () => void }) => (
   <Container>
     <InnerDiv>
       <Title>Félicitations !</Title>
@@ -41,3 +41,5 @@ export const EndCard = ({ onRestart }: { onRestart: () => void }) => (
     </InnerDiv>
   </Container>
 );
+
+export default EndCard;

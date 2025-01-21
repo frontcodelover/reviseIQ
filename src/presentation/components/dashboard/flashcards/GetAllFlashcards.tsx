@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
-import { EndCard } from '@/presentation/components/dashboard/flashcards/EndFlashcard';
+import EndCard from './LastFlashcard';
 
 import { GetUserIdUseCase } from '@/application/useCases/GetUserId.usecase';
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
@@ -24,7 +24,7 @@ const logAction = new LogActionUseCase(logRepository);
 const flashcardRepository = new SupabaseFlashCardRepository();
 const getFlashcards = new GetFlashcardsUseCase(flashcardRepository);
 
-function GetFlashcards() {
+export function GetFlashcards() {
   const { id: deckId } = useParams<{ id: string }>();
   const [userId, setUserId] = useState<string | null>(null);
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
@@ -201,5 +201,3 @@ function GetFlashcards() {
     </>
   );
 }
-
-export default GetFlashcards;

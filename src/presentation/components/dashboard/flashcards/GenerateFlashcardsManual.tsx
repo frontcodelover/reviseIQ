@@ -49,7 +49,7 @@ const Icon = styled.span`
   width: 1rem;
 `;
 
-function GenerateFlashcardManual() {
+export function GenerateFlashcardManual() {
   const { id: deckId } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [flashcards, setFlashcards] = useState([
@@ -136,5 +136,3 @@ function GenerateFlashcardManual() {
     </Container>
   );
 }
-
-export default GenerateFlashcardManual;

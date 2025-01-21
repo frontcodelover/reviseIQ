@@ -35,11 +35,13 @@ export class SupabaseBadgeRepository implements BadgeRepository {
     for (const badge of badges || []) {
       if (unlockedBadgeIds.includes(badge.id)) continue;
 
-      const criteriaMet = eval(
-        badge.criteria
-          .replace('flashcards_viewed', stats.flashcards_viewed)
-          .replace('folders_viewed', stats.folders_viewed)
-      );
+      // Remplacer les variables dans les critères de déblocage
+      const criteria = badge.criteria
+        .replace('flashcards_viewed', stats.flashcards_viewed.toString())
+        .replace('folders_viewed', stats.folders_viewed.toString());
+
+      // Évaluer les critères de déblocage
+      const criteriaMet = this.evaluateCriteria(criteria);
       if (criteriaMet) {
         // Débloquer le badge pour l'utilisateur
         const { error: insertError } = await supabase.from('user_badges').insert({
@@ -89,5 +91,17 @@ export class SupabaseBadgeRepository implements BadgeRepository {
       image_url: item.badges.image_url,
       obtained_at: item.unlocked_at,
     }));
+  }
+
+  private evaluateCriteria(criteria: string): boolean {
+    try {
+      // Utiliser une fonction pour évaluer les critères
+      const func = new Function('return ' + criteria);
+      return func();
+    } catch (error) {
+      const errorMessage = (error as Error).message;
+      console.error("Erreur lors de l'évaluation des critères :", errorMessage);
+      return false;
+    }
   }
 }
