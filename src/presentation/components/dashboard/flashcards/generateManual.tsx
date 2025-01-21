@@ -1,14 +1,53 @@
 import { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import styled from 'styled-components';
+import TextInput from '@/presentation/components/ui/input/TextInput';
+import Button from '@/presentation/components/ui/button/Button';
 import { Plus, Trash2 } from 'lucide-react';
 import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
 import { CreateFlashcardUseCase } from '@/application/useCases/CreateFlashcard.usecase';
-
 import { useParams, useNavigate } from 'react-router-dom';
 
 const flashcardRepository = new SupabaseFlashCardRepository();
 const createFlashcard = new CreateFlashcardUseCase(flashcardRepository);
+
+const Container = styled.div`
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const Title = styled.h2`
+  font-size: 1.5rem;
+  font-weight: 700;
+`;
+
+const ErrorMessage = styled.div`
+  color: #e53e3e;
+`;
+
+const FlashcardContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 100%;
+`;
+
+const IconButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: auto 0.5rem;
+  justify-content: center;
+`;
+
+const Icon = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1rem;
+  width: 1rem;
+`;
 
 function GenerateFlashcardManual() {
   const { id: deckId } = useParams<{ id: string }>();
@@ -54,42 +93,47 @@ function GenerateFlashcardManual() {
   };
 
   return (
-    <div className="space-y-4 p-4">
-      <h2 className="text-2xl font-bold">Créer manuellement</h2>
-      {error && <div className="text-red-500">{error}</div>}
+    <Container>
+      <Title>Créer manuellement</Title>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
 
       {flashcards.map((card) => (
-        <div key={card.id} className="flex items-center gap-2">
-          <Input
+        <FlashcardContainer key={card.id}>
+          <TextInput
             type="text"
             placeholder="Question"
             value={card.question}
             onChange={(e) => updateFlashcard(card.id, 'question', e.target.value)}
           />
-          <Input
+          <TextInput
             type="text"
             placeholder="Réponse"
             value={card.answer}
             onChange={(e) => updateFlashcard(card.id, 'answer', e.target.value)}
           />
-          <Button variant="destructive" size="icon" onClick={() => removeFlashcard(card.id)}>
-            <Trash2 className="h-4 w-4" />
-          </Button>
-        </div>
+          <IconButton variant="danger" onClick={() => removeFlashcard(card.id)}>
+            <Icon>
+              <Trash2 />
+            </Icon>
+          </IconButton>
+        </FlashcardContainer>
       ))}
 
-      <Button onClick={addFlashcard} className="w-full">
-        <Plus className="h-4 w-4" /> Ajouter une carte
-      </Button>
+      <IconButton variant="primary" onClick={addFlashcard}>
+        <Icon>
+          <Plus />
+        </Icon>
+        Ajouter une carte
+      </IconButton>
 
       <Button
+        variant="success"
         onClick={handleSubmit}
         disabled={loading || flashcards.length === 0}
-        className="w-full"
       >
         {loading ? 'Sauvegarde...' : 'Sauvegarder les flashcards'}
       </Button>
-    </div>
+    </Container>
   );
 }
 

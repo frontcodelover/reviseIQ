@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
-import { EndCard } from '@/presentation/components/dashboard/flashcards/endFlashcard';
+import { EndCard } from '@/presentation/components/dashboard/flashcards/EndFlashcard';
 
 import { GetUserIdUseCase } from '@/application/useCases/GetUserId.usecase';
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
