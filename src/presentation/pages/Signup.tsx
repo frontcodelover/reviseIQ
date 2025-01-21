@@ -1,35 +1,107 @@
-import SignupForm from '@/presentation/components/auth/signup/SignupForm';
-import Cover from '@/assets/learn-min.jpg';
+import React from 'react';
+import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import Cover from '@/assets/learn-min.jpg';
 import OAuthLogin from '@/presentation/components/auth/provider/OAuthLogin';
-import { Separator } from '@/components/ui/separator';
+import SignupForm from '@/presentation/components/auth/signup/SignupForm';
+
+const PageContainer = styled.div`
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  justify-content: space-evenly;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+
+const CoverContainer = styled.div`
+  display: none;
+  height: 100%;
+  width: 100%;
+  background-color: #fecaca;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+`;
+
+const CoverImage = styled.img`
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: right;
+  transform: scaleX(-1);
+`;
+
+const FormContainer = styled.div`
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2.5rem;
+  background-color: white;
+  padding: 2rem;
+
+  @media (min-width: 768px) {
+    padding: 5rem;
+  }
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+`;
+
+const Title = styled.h1`
+  text-align: center;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #0077ff;
+`;
+
+const Subtitle = styled.h2`
+  text-align: center;
+  font-size: 1rem;
+  color: #8a8a8a;
+  text-wrap: balance;
+`;
+
+const FormSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const Separator = styled.div`
+  border: 0.1px solid;
+  border-color: #8a8a8a;
+  width: 100%;
+`;
 
 function SignUp() {
   const { t } = useTranslation();
 
   return (
-    <div>
-      <div className="grid h-screen w-screen items-center justify-evenly md:grid-cols-2">
-        <div className="hidden h-full w-full bg-red-200 md:block">
-          <img
-            src={Cover}
-            alt="cover"
-            className="h-full w-full -scale-x-100 transform object-cover object-right"
-          />
-        </div>
-        <div className="flex h-full flex-col justify-center gap-10 bg-white p-8 md:p-20">
-          <div className="flex flex-col gap-3">
-            <h2 className="text-center text-3xl font-bold text-gray-800">{t('auth.signup')}</h2>
-            <p className="text-balance text-center text-base text-gray-500">{t('auth.baseline')}</p>
-          </div>
-          <div className="flex flex-col gap-6">
-            <OAuthLogin />
-            <Separator className="mx-auto" />
-            <SignupForm />
-          </div>
-        </div>
-      </div>
-    </div>
+    <PageContainer>
+      <CoverContainer>
+        <CoverImage src={Cover} alt="cover" />
+      </CoverContainer>
+      <FormContainer>
+        <HeaderContainer>
+          <Title>{t('auth.signup')}</Title>
+          <Subtitle>{t('auth.baseline')}</Subtitle>
+        </HeaderContainer>
+        <FormSection>
+          <OAuthLogin />
+          <Separator />
+          <SignupForm />
+        </FormSection>
+      </FormContainer>
+    </PageContainer>
   );
 }
 
