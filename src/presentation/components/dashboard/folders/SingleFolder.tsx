@@ -7,7 +7,7 @@ import { GetFolderById } from '@/application/useCases/GetFolderById.usecase';
 import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
 import { LogActionUseCase } from '@/application/useCases/LogAction.usecase';
 
-import { GetFlashcards } from '@/presentation/components/dashboard/flashcards/GetFlashcards';
+import { GetFlashcards } from '../flashcards/GetFlashcards';
 import { useAuth } from '@/presentation/context/AuthContext';
 
 import { Folder } from '@/domain/entities/Folder';
