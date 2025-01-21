@@ -11,7 +11,7 @@ const flashcardRepository = new SupabaseFlashCardRepository();
 const generateFlashcard = new GenerateFlashcardsUseCase(flashcardRepository);
 const createFlashcard = new CreateFlashcardUseCase(flashcardRepository);
 
-function GenerateFlashCardWithIa() {
+export function GenerateFlashCardWithIa() {
   const { id: deckId } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [topic, setTopic] = useState('');
@@ -92,5 +92,3 @@ function GenerateFlashCardWithIa() {
     </div>
   );
 }
-
-export default GenerateFlashCardWithIa;
