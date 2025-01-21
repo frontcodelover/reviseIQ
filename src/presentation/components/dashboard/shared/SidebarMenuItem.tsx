@@ -12,7 +12,7 @@ const SidebarMenuButton = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0.2rem 0;
+  padding: 0;
 `;
 
 const ActiveItem = styled.div`
@@ -24,7 +24,7 @@ const ActiveItem = styled.div`
 const InactiveItem = styled(NavLink)`
   color: inherit;
   text-decoration: none;
-  font-weight: normal; /* Normal weight for inactive items */
+  font-weight: normal;
   width: 100%;
 `;
 
@@ -45,7 +45,7 @@ const ItemIcon = styled.div`
 const ItemTitle = styled.span`
   font-size: 0.875rem; /* text-sm */
   font-weight: 500; /* font-semibold */
-  padding: 20px 10px;
+  padding: 16px 10px;
 `;
 
 const ItemBadge = styled.span<{ color: string }>`

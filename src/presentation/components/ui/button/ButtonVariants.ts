@@ -3,7 +3,7 @@ import { css } from 'styled-components';
 
 export const buttonVariants = {
   primary: css`
-    background-color: #0077FF;
+    background-color: #0077ff;
     color: white;
     transition: background-color 0.2s;
     &:hover {
@@ -18,12 +18,14 @@ export const buttonVariants = {
   `,
   success: css`
     background-color: #28a745;
+    color: #fff;
     &:hover {
       background-color: #218838;
     }
   `,
   danger: css`
     background-color: #dc3545;
+    color: #fae5e7;
     &:hover {
       background-color: #c82333;
     }
