@@ -1,11 +1,17 @@
 import React from 'react';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8fafc;
+  margin: 0 auto;
+`;
 
 function LayoutAuth({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mx-auto flex h-screen items-center justify-center bg-slate-50 p-6">
-      {children}
-    </div>
-  );
+  return <Container>{children}</Container>;
 }
 
 export default LayoutAuth;
