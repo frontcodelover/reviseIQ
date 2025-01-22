@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Hero from '@/presentation/pages/home/Hero';
+import HeroTwo from './home/HeroTwo';
 import { useTranslation } from 'react-i18next';
 import { US } from 'country-flag-icons/react/3x2';
 import { FR } from 'country-flag-icons/react/3x2';
@@ -7,7 +8,27 @@ import { FR } from 'country-flag-icons/react/3x2';
 const Container = styled.div`
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f7ff;
+  @media (max-width: 768px) {
+  }
+
+  @media (max-width: 480px) {
+    justify-content: flex-start;
+  }
+`;
+
+const Logo = styled.h1`
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 1.5rem;
+  color: #0077ff;
+  font-weight: 600;
 `;
 
 const LanguageContainer = styled.div`
@@ -43,19 +64,25 @@ function Home() {
   };
 
   return (
-    <Container>
-      <Hero />
-      <LanguageContainer>
-        <LanguageButton onClick={() => changeLanguage('en')}>
-          {t('english')}
-          <US style={{ width: '1.25rem', height: 'auto' }} title="United States" />
-        </LanguageButton>
-        <LanguageButton onClick={() => changeLanguage('fr')}>
-          {t('french')}
-          <FR style={{ width: '1.25rem', height: 'auto' }} title="France" />
-        </LanguageButton>
-      </LanguageContainer>
-    </Container>
+    <>
+      <Container>
+        <Logo>ReviseIQ</Logo>
+        <LanguageContainer>
+          <LanguageButton onClick={() => changeLanguage('en')}>
+            {t('english')}
+            <US style={{ width: '1.25rem', height: 'auto' }} title="United States" />
+          </LanguageButton>
+          <LanguageButton onClick={() => changeLanguage('fr')}>
+            {t('french')}
+            <FR style={{ width: '1.25rem', height: 'auto' }} title="France" />
+          </LanguageButton>
+        </LanguageContainer>
+        <HeroTwo />
+      </Container>
+      <Container>
+        <Hero />
+      </Container>
+    </>
   );
 }
 
