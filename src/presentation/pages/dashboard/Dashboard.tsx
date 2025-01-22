@@ -4,9 +4,104 @@ import { useAuth } from '@/presentation/context/AuthContext';
 import ActivityCalendar from '@/presentation/components/dashboard/stats/activityCalendar';
 import { LogsAndBadgesManager } from '@/presentation/components/dashboard/stats/logsAndBadgesManager';
 import { GetPublicFolders } from '@/presentation/components/dashboard/community/GetPublicFolders';
-import Button from '@/presentation/components/ui/button/Button';
+import styled from 'styled-components';
 
 import { Badge } from '@/domain/entities/Badge';
+import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
+import HeadingThree from '@/presentation/components/ui/text/heading/HeadingThree';
+import Text from '@/presentation/components/ui/text/Text';
+import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
+
+const GreetingsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #0077ff;
+  padding: 3rem;
+  border-radius: 16px;
+  margin: 2rem 0;
+  gap: 1.5rem;
+`;
+
+const ParagraphContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
+
+const FlexContainer = styled.div`
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const MarginBottomContainer = styled.div`
+  margin-bottom: 1.5rem;
+`;
+
+const MarginBottomContainerSmall = styled.div`
+  margin-bottom: 1rem;
+`;
+
+const BadgeImage = styled.img`
+  margin-bottom: 0.5rem;
+  height: 4rem;
+  width: 4rem;
+  object-fit: contain;
+`;
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+`;
+
+const BadgeCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.5rem;
+  background-color: white;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+`;
+
+const LeftMarginContainer = styled.div`
+  margin-left: 1rem;
+`;
+
+const BadgeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  border-radius: 0.5rem;
+  background-color: white;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+`;
+
+const StatsContainer = styled.div`
+  display: flex;
+  gap: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  padding: 1.5rem;
+`;
 
 function Dashboard() {
   const { profile, loading, error } = useProfile();
@@ -21,11 +116,23 @@ function Dashboard() {
   if (!profile) return null;
 
   return (
-    <div className="container mx-auto">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Bienvenue {profile.firstname}</h1>
-        <Button variant="primary">Ajouter un badge</Button>
-      </div>
+    <Container>
+      <GreetingsContainer>
+        <HeadingOne size="xxlarge" color="white" weight="bold">
+          Bienvenue {profile.firstname} 👋
+        </HeadingOne>
+        <ParagraphContainer>
+          <Text size="medium" color="white" weight="light">
+            Commencez à explorer votre tableau de bord et apprendre de nouvelles compétences.
+          </Text>
+          <Text size="medium" color="white" weight="light">
+            Plus vous vous exercerez, plus vous obtiendrez de badges.
+          </Text>
+          <Text size="medium" color="white" weight="medium">
+            Envie de relever le défi ?
+          </Text>
+        </ParagraphContainer>
+      </GreetingsContainer>
 
       <GetPublicFolders />
 
@@ -36,52 +143,59 @@ function Dashboard() {
         onLastBadgeUpdate={setLastBadge}
       />
 
-      <div className="mt-6 flex flex-col gap-4">
-        <h2 className="mb-4 text-xl font-bold">Statistiques</h2>
-        <div className="flex gap-6 rounded-lg border bg-slate-50 p-6">
+      <FlexContainer>
+        <HeadingTwo size="large" weight="medium" color="black">
+          Statistiques
+        </HeadingTwo>
+        <StatsContainer>
           <ActivityCalendar data={logs} />
 
           {lastBadge && (
-            <div className="mb-6">
-              <h2 className="mb-4 text-sm font-bold">Dernier badge obtenu</h2>
-              <div className="flex items-center rounded-lg bg-white p-4 shadow" key={lastBadge.id}>
-                <img
-                  src={lastBadge.image_url}
-                  alt={lastBadge.name}
-                  className="h-16 w-16 object-contain"
-                />
-                <div className="ml-4">
-                  <h3 className="font-bold">{lastBadge.name}</h3>
-                  <p className="text-sm text-gray-500">{lastBadge.description}</p>
-                  <p className="text-xs text-gray-400">
+            <MarginBottomContainer>
+              <MarginBottomContainerSmall>
+                <HeadingTwo size="medium" weight="medium" color="black">
+                  Dernier badge obtenu
+                </HeadingTwo>
+              </MarginBottomContainerSmall>
+              <BadgeContainer key={lastBadge.id}>
+                <BadgeImage src={lastBadge.image_url} alt={lastBadge.name} />
+                <LeftMarginContainer>
+                  <HeadingThree weight="semibold" size="medium" color="black">
+                    {lastBadge.name}
+                  </HeadingThree>
+                  <Text color="secondary" size="medium">
+                    {lastBadge.description}
+                  </Text>
+                  <Text color="third" size="medium">
                     Obtenu le {new Date(lastBadge.obtained_at).toLocaleDateString()}
-                  </p>
-                </div>
-              </div>
-            </div>
+                  </Text>
+                </LeftMarginContainer>
+              </BadgeContainer>
+            </MarginBottomContainer>
           )}
-        </div>
-        <div>
-          <h2 className="mb-4 text-xl font-bold">Vos badges</h2>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+        </StatsContainer>
+        <>
+          <>
+            <HeadingTwo size="large" weight="medium" color="black">
+              Vos badges
+            </HeadingTwo>
+          </>
+          <GridContainer>
             {badges.map((badge) => (
-              <div
-                key={`badge-${badge.id}`}
-                className="flex flex-col items-center rounded-lg bg-white p-4 shadow"
-              >
-                <img
-                  src={badge.image_url}
-                  alt={badge.name}
-                  className="mb-2 h-16 w-16 object-contain"
-                />
-                <h3 className="text-center text-sm font-bold">{badge.name}</h3>
-                <p className="text-center text-xs text-gray-500">{badge.description}</p>
-              </div>
+              <BadgeCard key={`badge-${badge.id}`}>
+                <BadgeImage src={badge.image_url} alt={badge.name} />
+                <HeadingThree size="medium" weight="semibold" align="center" color="black">
+                  {badge.name}
+                </HeadingThree>
+                <Text size="medium" align="center" color="third">
+                  {badge.description}
+                </Text>
+              </BadgeCard>
             ))}
-          </div>
-        </div>
-      </div>
-    </div>
+          </GridContainer>
+        </>
+      </FlexContainer>
+    </Container>
   );
 }
 
