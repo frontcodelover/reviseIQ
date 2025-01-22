@@ -4,6 +4,7 @@ import CardFolder from '@/presentation/components/dashboard/folders/CardFolder';
 import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
 import { GetLastPublicFolderUseCase } from '@/application/useCases/GetLastPublicFolder.usecase';
 import { Folder } from '@/domain/entities/Folder';
+import HeadingTwo from '../../ui/text/heading/HeadingTwo';
 
 export function GetPublicFolders() {
   const folderRepository = new SupabaseFolderRepository();
@@ -21,7 +22,9 @@ export function GetPublicFolders() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold">Les derniers dossiers de la communauté</h2>
+      <HeadingTwo size="large" weight="medium" color="black">
+        Les derniers dossiers de la communauté
+      </HeadingTwo>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {folders.map((folder) => (
           <CardFolder key={folder.id} {...folder} />
