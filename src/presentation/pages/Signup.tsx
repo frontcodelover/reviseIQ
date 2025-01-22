@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import Cover from '@/assets/learn-min.jpg';
 import OAuthLogin from '@/presentation/components/auth/provider/OAuthLogin';
 import SignupForm from '@/presentation/components/auth/signup/SignupForm';
+import HeadingTwo from '../components/ui/text/heading/HeadingTwo';
+import HeadingOne from '../components/ui/text/heading/HeadingOne';
 
 const PageContainer = styled.div`
   display: grid;
@@ -56,20 +58,6 @@ const HeaderContainer = styled.div`
   gap: 0.75rem;
 `;
 
-const Title = styled.h1`
-  text-align: center;
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: #0077ff;
-`;
-
-const Subtitle = styled.h2`
-  text-align: center;
-  font-size: 1rem;
-  color: #8a8a8a;
-  text-wrap: balance;
-`;
-
 const FormSection = styled.div`
   display: flex;
   flex-direction: column;
@@ -92,8 +80,12 @@ function SignUp() {
       </CoverContainer>
       <FormContainer>
         <HeaderContainer>
-          <Title>{t('auth.signup')}</Title>
-          <Subtitle>{t('auth.baseline')}</Subtitle>
+          <HeadingOne align="center" size="xlarge" weight="semibold" color="primary">
+            {t('auth.signup')}
+          </HeadingOne>
+          <HeadingTwo align="center" size="medium" weight="regular">
+            {t('auth.baseline')}
+          </HeadingTwo>
         </HeaderContainer>
         <FormSection>
           <OAuthLogin />

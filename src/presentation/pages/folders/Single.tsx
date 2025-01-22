@@ -4,11 +4,7 @@ import { useParams } from 'react-router-dom';
 function SinglePageFolder() {
   const { id } = useParams();
 
-  return (
-    <>
-      <SingleFolder id={id} />
-    </>
-  );
+  return <SingleFolder id={id} />;
 }
 
 export default SinglePageFolder;

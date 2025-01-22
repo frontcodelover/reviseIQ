@@ -4,11 +4,7 @@ import { useUserDecksCount } from '@/presentation/hooks/useUserDecksCount';
 function CreateFolder() {
   const { refresh } = useUserDecksCount();
 
-  return (
-    <>
-      <CreateDeckForm onRefresh={refresh} />
-    </>
-  );
+  return <CreateDeckForm onRefresh={refresh} />;
 }
 
 export default CreateFolder;
