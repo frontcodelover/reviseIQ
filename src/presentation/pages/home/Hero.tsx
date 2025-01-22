@@ -28,43 +28,24 @@ const Container = styled.div`
 const SectionHero = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 2rem;
 
   @media (min-width: 768px) {
     flex-direction: row;
-    justify-content: space-between;
   }
 `;
 
 const Heading = styled.div`
   display: flex;
   flex-direction: column;
-  text-align: center;
-  gap: 2.5rem;
-
-  div {
-    color: #374151;
-
-    &:last-child {
-      color: #6b7280;
-    }
-  }
-
-  @media (min-width: 768px) {
-    text-align: left;
-    div {
-      font-size: 1rem;
-      &:last-child {
-        font-size: 1rem;
-      }
-    }
-  }
+  gap: 2rem;
 `;
 
 const ImgContainer = styled.div`
   gap: 1rem;
-  max-width: 300px;
-  height: 350px;
+  max-width: 250px;
+  height: 300px;
   border-radius: 32px;
   display: none;
 
@@ -75,8 +56,8 @@ const ImgContainer = styled.div`
 
 const ImgContainerTwo = styled.div`
   gap: 1rem;
-  max-width: 300px;
-  height: 350px;
+  max-width: 250px;
+  height: 300px;
   border-radius: 32px;
   display: none;
 
@@ -102,7 +83,6 @@ const ImgSection = styled.div`
   display: flex;
   gap: 2rem;
   align-items: end;
-  width: 100%;
   height: auto;
 `;
 
@@ -124,19 +104,19 @@ function HeroTwo() {
       <SectionHero>
         <Heading>
           <TitleGroup>
-            <Text variant="heading" style={{ color: '#0077FF' }}>
-              Créez et apprenez
+            <Text size="xxxlarge" weight="semibold" style={{ color: '#0077FF' }}>
+              Apprenez de nouvelles
             </Text>
-            <Text variant="heading" style={{ color: '#0091ff' }}>
-              Grâce aux flashcards
+            <Text size="xxxlarge" weight="semibold" style={{ color: '#0091ff' }}>
+              compétences grâce à des
             </Text>
-            <Text variant="heading" style={{ color: '#00bbff' }}>
-              Intelligentes et l'IA
+            <Text size="xxxlarge" weight="semibold" style={{ color: '#00bbff' }}>
+              flashcards intelligentes.
             </Text>
           </TitleGroup>
-          <Text variant="body">
-            Créez des flashcards intelligentes grâce à l'IA pour vous aider à mémoriser et apprendre
-            plus rapidement.
+          <Text size="medium" weight="regular" color="third">
+            Créez des flashcards intelligentes grâce à l'IA pour vous <br />
+            aider à mémoriser et apprendre plus rapidement.
           </Text>
           <Button variant="primary" style={{ width: 'fit-content' }}>
             Commencez gratuitement
