@@ -160,13 +160,13 @@ function Dashboard() {
               <BadgeContainer key={lastBadge.id}>
                 <BadgeImage src={lastBadge.image_url} alt={lastBadge.name} />
                 <LeftMarginContainer>
-                  <HeadingThree weight="semibold" size="medium" color="black">
+                  <HeadingThree weight="medium" size="medium" color="black">
                     {lastBadge.name}
                   </HeadingThree>
-                  <Text color="secondary" size="medium">
+                  <Text color="secondary" size="medium" weight="regular">
                     {lastBadge.description}
                   </Text>
-                  <Text color="third" size="medium">
+                  <Text color="secondary" size="small" weight="light">
                     Obtenu le {new Date(lastBadge.obtained_at).toLocaleDateString()}
                   </Text>
                 </LeftMarginContainer>
@@ -184,10 +184,10 @@ function Dashboard() {
             {badges.map((badge) => (
               <BadgeCard key={`badge-${badge.id}`}>
                 <BadgeImage src={badge.image_url} alt={badge.name} />
-                <HeadingThree size="medium" weight="semibold" align="center" color="black">
+                <HeadingThree size="medium" weight="medium" align="center" color="black">
                   {badge.name}
                 </HeadingThree>
-                <Text size="medium" align="center" color="third">
+                <Text size="medium" align="center" color="secondary">
                   {badge.description}
                 </Text>
               </BadgeCard>
