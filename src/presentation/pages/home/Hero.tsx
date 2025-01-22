@@ -1,44 +1,34 @@
 import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
 import Button from '@/presentation/components/ui/button/Button';
 import learn from '@/assets/learn-min.jpg';
+import Text from '@/presentation/components/ui/text/Text';
 
 const Container = styled.div`
-  position: relative;
-  height: 100vh;
-  width: 100%;
-`;
-
-const ImageWrapper = styled.div`
-  position: absolute;
-  inset: 0;
-  opacity: 1;
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to right, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 0) 65%);
-    pointer-events: none;
-  }
-`;
-
-const BackgroundImage = styled.img`
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  object-position: right top;
-`;
-
-const ContentContainer = styled.div`
-  position: absolute;
-  inset: 2.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  max-width: 1280px;
+  margin: 0 auto;
+  min-height: 40vh;
+  background-color: #fff;
+  padding: 4rem;
+  border-radius: 32px;
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+    margin: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+    margin: 5rem 1rem;
+  }
+`;
+const SectionHero = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -46,51 +36,127 @@ const ContentContainer = styled.div`
   }
 `;
 
-const TextContainer = styled.div`
-  margin-bottom: 1rem;
+const Heading = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 2.5rem;
+
+  div {
+    color: #374151;
+
+    &:last-child {
+      color: #6b7280;
+    }
+  }
 
   @media (min-width: 768px) {
-    margin-bottom: 0;
-    width: 50%;
+    text-align: left;
+    div {
+      font-size: 1rem;
+      &:last-child {
+        font-size: 1rem;
+      }
+    }
   }
 `;
 
-const Title = styled.h1`
-  color: #333;
-  margin-bottom: 1.5rem;
-  font-size: 2.25rem;
-  font-weight: 800;
-  line-height: 1.2;
+const ImgContainer = styled.div`
+  gap: 1rem;
+  max-width: 300px;
+  height: 350px;
+  border-radius: 32px;
+  display: none;
 
   @media (min-width: 768px) {
-    font-size: 3.75rem;
+    display: flex;
   }
 `;
 
-const Description = styled.p`
-  font-size: 1.25rem;
-  margin-top: 0.5rem;
-  margin-bottom: 2rem;
-  color: #8a8a8a;
+const ImgContainerTwo = styled.div`
+  gap: 1rem;
+  max-width: 300px;
+  height: 350px;
+  border-radius: 32px;
+  display: none;
+
+  @media (min-width: 768px) {
+    display: flex;
+  }
 `;
 
-const Hero = () => {
-  const { t } = useTranslation();
+const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 32px;
+`;
 
+const TitleGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+`;
+
+const ImgSection = styled.div`
+  display: flex;
+  gap: 2rem;
+  align-items: end;
+  width: 100%;
+  height: auto;
+`;
+
+const ImgOneSection = styled.div`
+  display: flex;
+  height: 100%;
+  align-items: flex-start;
+`;
+
+const ImgTwoSection = styled.div`
+  display: flex;
+  height: 100%;
+  align-items: end;
+`;
+
+function HeroTwo() {
   return (
-    <Container id="home">
-      <ImageWrapper>
-        <BackgroundImage src={learn} alt="Background Image" />
-      </ImageWrapper>
-      <ContentContainer>
-        <TextContainer>
-          <Title>{t('home.title')}</Title>
-          <Description>{t('home.description')}</Description>
-          <Button variant="primary">{t('home.cta')}</Button>
-        </TextContainer>
-      </ContentContainer>
+    <Container>
+      <SectionHero>
+        <Heading>
+          <TitleGroup>
+            <Text variant="heading" style={{ color: '#0077FF' }}>
+              Créez et apprenez
+            </Text>
+            <Text variant="heading" style={{ color: '#0091ff' }}>
+              Grâce aux flashcards
+            </Text>
+            <Text variant="heading" style={{ color: '#00bbff' }}>
+              Intelligentes et l'IA
+            </Text>
+          </TitleGroup>
+          <Text variant="body">
+            Créez des flashcards intelligentes grâce à l'IA pour vous aider à mémoriser et apprendre
+            plus rapidement.
+          </Text>
+          <Button variant="primary" style={{ width: 'fit-content' }}>
+            Commencez gratuitement
+          </Button>
+        </Heading>
+        <ImgSection>
+          <ImgOneSection>
+            <ImgContainer>
+              <StyledImage src={learn} alt="Learn" />
+            </ImgContainer>
+          </ImgOneSection>
+          <ImgTwoSection>
+            <ImgContainerTwo>
+              <StyledImage src={learn} alt="Learn" />
+            </ImgContainerTwo>
+          </ImgTwoSection>
+        </ImgSection>
+      </SectionHero>
     </Container>
   );
-};
+}
 
-export default Hero;
+export default HeroTwo;

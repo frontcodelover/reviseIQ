@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import Hero from '@/presentation/pages/home/Hero';
-import HeroTwo from './home/HeroTwo';
+import { Brain } from 'lucide-react';
+import HeroTwo from './home/Hero';
 import { useTranslation } from 'react-i18next';
 import { US } from 'country-flag-icons/react/3x2';
 import { FR } from 'country-flag-icons/react/3x2';
@@ -24,6 +24,9 @@ const Container = styled.div`
 
 const Logo = styled.h1`
   position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   top: 1rem;
   left: 1rem;
   font-size: 1.5rem;
@@ -64,25 +67,23 @@ function Home() {
   };
 
   return (
-    <>
-      <Container>
-        <Logo>ReviseIQ</Logo>
-        <LanguageContainer>
-          <LanguageButton onClick={() => changeLanguage('en')}>
-            {t('english')}
-            <US style={{ width: '1.25rem', height: 'auto' }} title="United States" />
-          </LanguageButton>
-          <LanguageButton onClick={() => changeLanguage('fr')}>
-            {t('french')}
-            <FR style={{ width: '1.25rem', height: 'auto' }} title="France" />
-          </LanguageButton>
-        </LanguageContainer>
-        <HeroTwo />
-      </Container>
-      <Container>
-        <Hero />
-      </Container>
-    </>
+    <Container>
+      <Logo>
+        <Brain />
+        ReviseIQ
+      </Logo>
+      <LanguageContainer>
+        <LanguageButton onClick={() => changeLanguage('en')}>
+          {t('english')}
+          <US style={{ width: '1.25rem', height: 'auto' }} title="United States" />
+        </LanguageButton>
+        <LanguageButton onClick={() => changeLanguage('fr')}>
+          {t('french')}
+          <FR style={{ width: '1.25rem', height: 'auto' }} title="France" />
+        </LanguageButton>
+      </LanguageContainer>
+      <HeroTwo />
+    </Container>
   );
 }
 
