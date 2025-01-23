@@ -8,5 +8,6 @@ export interface UserRepository {
   getUserDecks(): Promise<Folder[]>;
   createDeck(deckData: Folder): Promise<{ id: string }>;
   upsertUser(userData: User): Promise<void>;
+  upsertProfile(user: User): Promise<void>;
   getUserProfile(userId: string): Promise<User | null>;
 }

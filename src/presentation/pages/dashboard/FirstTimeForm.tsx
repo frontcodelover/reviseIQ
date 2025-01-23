@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import FirstTimeForm from '@/presentation/components/firstTime/firstTime';
 import { useAuth } from '@/presentation/context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -14,15 +14,24 @@ const Container = styled.div`
 const FirstTimeFormPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation(); // Ajouter useLocation
 
-  const handleFormSubmit = async () => {
-    console.log('FirstTimeFormPage: handleFormSubmit called');
-    try {
-      localStorage.setItem('isFirstTime', 'false');
-      navigate('/dashboard');
-      console.log('Navigation successful');
-    } catch (error) {
-      console.error('Navigation failed:', error);
+  const handleFormSubmit = async (success: boolean) => {
+    console.log('🔄 Début handleFormSubmit, success:', success);
+    if (success) {
+      try {
+        localStorage.setItem('isFirstTime', 'false');
+        navigate('/dashboard', { replace: true });
+
+        // Vérification de la navigation
+        if (location.pathname !== '/dashboard') {
+          window.location.href = '/dashboard';
+        }
+      } catch (error) {
+        console.error('❌ Erreur:', error);
+        // Forcer la navigation en cas d'erreur
+        window.location.href = '/dashboard';
+      }
     }
   };
 

@@ -6,12 +6,12 @@ import { AppRoutes } from './routes/routes';
 export const App = () => {
   const queryClient = new QueryClient();
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <AuthProvider>
           <AppRoutes />
-        </BrowserRouter>
-      </QueryClientProvider>
-    </AuthProvider>
+        </AuthProvider>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 };

@@ -30,7 +30,7 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
   const { t } = useTranslation();
 
   const userRepository = new SupabaseUserRepository();
-  const upsertUser = new UpsertUserUseCase(userRepository);
+  const upsertProfile = new UpsertUserUseCase(userRepository);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +38,7 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
     setError('');
 
     try {
-      await upsertUser.execute({
+      await upsertProfile.execute({
         user_id: user.id,
         firstname,
         lastname,
@@ -46,23 +46,15 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
         phone,
         status,
         avatar,
+        created_at: user.created_at,
       });
 
-      console.log('FirstTime: User updated successfully');
-
-      // Créer un CustomEvent avec des données
-      const profileEvent = new CustomEvent('profileUpdated', {
-        detail: { userId: user.id, success: true },
-      });
-      window.dispatchEvent(profileEvent);
-
-      // Attendre un peu avant la redirection
-      setTimeout(() => {
-        onSubmit();
-      }, 100);
+      console.log('✅ Profil mis à jour avec succès');
+      onSubmit(true); // Passer true directement au parent
     } catch (error) {
-      console.error('Error updating user:', error);
+      console.error('❌ Erreur:', error);
       setError('Erreur lors de la mise à jour du profil');
+      onSubmit(false); // Passer false en cas d'erreur
     } finally {
       setLoading(false);
     }

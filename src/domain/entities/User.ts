@@ -3,18 +3,19 @@ import { Folder } from '@/domain/entities/Folder';
 export interface User {
   id?: string;
   name?: string;
-  email: string;
+  email?: string;
   firstname?: string;
   lastname?: string;
   phone?: string;
   status?: 'student' | 'pupil' | 'apprentice' | 'teacher' | 'other';
   user_id?: string;
   avatar?: string;
+  created_at?: string;
 }
 
 export interface FirstTimeFormProps {
   user: User;
-  onSubmit: () => void;
+  onSubmit: (success: boolean) => void;
 }
 
 export interface EmailInputProps {

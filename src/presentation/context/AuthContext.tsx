@@ -1,44 +1,94 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
+import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { AuthContextType } from '@/presentation/types/AuthContextTypes';
-
+import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 import { User } from '@/domain/entities/User';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
-  setUser: () => undefined,
+  setUser: () => {},
+  hasProfile: false,
 });
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+export interface AuthState {
+  user: User | null;
+  hasProfile: boolean;
+  loading: boolean;
+}
 
-  const backend = new SupabaseUserRepository();
+const userRepository = new SupabaseUserRepository();
+
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [state, setState] = useState<AuthState>({
+    user: null,
+    hasProfile: false,
+    loading: true,
+  });
+
+  const setUser = (user: User | null) => {
+    setState((prev) => ({ ...prev, user }));
+  };
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUser = async () => {
+    let mounted = true;
+    const checkUserAndProfile = async () => {
       try {
-        const currentUser = await backend.getUser();
-        console.log('Context de new archi', currentUser);
-        setUser(currentUser);
+        console.log('🔄 Démarrage vérification session...');
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+
+        if (!mounted) return;
+
+        if (!session?.user) {
+          console.log('❌ Pas de session utilisateur');
+          setState((prev) => ({ ...prev, loading: false }));
+          return;
+        }
+
+        console.log('✅ Session utilisateur trouvée');
+        const hasProfile = await userRepository.hasUserProfile(session.user.id);
+
+        setState({
+          user: session.user,
+          hasProfile,
+          loading: false,
+        });
+
+        // Redirection après connexion réussie
+        if (hasProfile) {
+          navigate('/dashboard');
+        } else {
+          navigate('/first-time');
+        }
       } catch (error) {
-        console.error("Erreur lors de la récupération de l'utilisateur :", error);
-      } finally {
-        setLoading(false);
+        console.error('🚨 Erreur:', error);
+        if (mounted) {
+          setState((prev) => ({ ...prev, loading: false }));
+        }
       }
     };
 
-    fetchUser();
+    checkUserAndProfile();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event) => {
+      console.log('🔄 Changement état auth:', event);
+      checkUserAndProfile();
+    });
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
-  return <AuthContext.Provider value={{ user, loading, setUser }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ ...state, setUser }}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = (): AuthContextType => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export const useAuth = () => useContext(AuthContext);

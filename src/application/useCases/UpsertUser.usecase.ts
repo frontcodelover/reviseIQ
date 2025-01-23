@@ -5,6 +5,6 @@ export class UpsertUserUseCase {
   constructor(private userRepository: UserRepository) {}
 
   async execute(user: User): Promise<void> {
-    return this.userRepository.upsertUser(user);
+    return this.userRepository.upsertProfile(user);
   }
 }

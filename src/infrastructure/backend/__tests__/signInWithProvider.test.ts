@@ -1,6 +1,6 @@
 // Unit tests for: signInWithProvider
 
-import { supabase } from '@/infrastructure/backend/SupabaseClient';
+import { supabase } from '../SupabaseClient';
 import { SupabaseAuthRepository } from '../SupabaseAuthRepository';
 import '../__mocks__/window.mock';
 
