@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import Sidebar from '@/presentation/components/dashboard/shared/Sidebar';
 import SearchBar from '../components/dashboard/shared/SearchBar';
+import Notification from '../components/dashboard/Notification';
 
 const MainContainer = styled.main`
   width: 100%;
@@ -25,6 +26,17 @@ const ContentWrapper = styled.div`
   padding: 1.5rem 2.5rem;
 `;
 
+const LayoutFlex = styled.div`
+  display: flex;
+  align-items: center;
+  height: auto;
+  justify-content: center;
+`;
+
+const SearchBarLayout = styled.div`
+  flex: 1;
+`;
+
 export default function LayoutDashboard({ children }: { children: React.ReactNode }) {
   return (
     <>
@@ -33,7 +45,12 @@ export default function LayoutDashboard({ children }: { children: React.ReactNod
       </SidebarContainer>
       <MainContainer>
         <ContentWrapper>
-          <SearchBar />
+          <LayoutFlex>
+            <SearchBarLayout>
+              <SearchBar />
+            </SearchBarLayout>
+            <Notification />
+          </LayoutFlex>
           {children}
         </ContentWrapper>
       </MainContainer>
