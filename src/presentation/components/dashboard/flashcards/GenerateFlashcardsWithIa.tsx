@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import LoadingScreen from '@/presentation/pages/LoadingScreen';
 import { useParams, useNavigate } from 'react-router-dom';
 import { GenerateFlashcardsUseCase } from '@/application/useCases/GenerateFlashcards.usecase';
 import { CreateFlashcardUseCase } from '@/application/useCases/CreateFlashcard.usecase';
 import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
 import { Flashcard } from '@/domain/entities/Flashcard';
+import Text from '../../ui/text/Text';
 
 const flashcardRepository = new SupabaseFlashCardRepository();
 const generateFlashcard = new GenerateFlashcardsUseCase(flashcardRepository);
@@ -24,6 +26,12 @@ export function GenerateFlashCardWithIa() {
     setError(null);
 
     try {
+      // Ajout d'un indicateur de progression
+      if (loading) {
+        // Ici, vous pourriez ajouter une logique de mise à jour de la progression si disponible
+        console.log('Génération en cours...');
+      }
+
       const result = await generateFlashcard.execute(topic);
       setGeneratedCards(result);
       if (deckId) {
@@ -64,8 +72,24 @@ export function GenerateFlashCardWithIa() {
       />
 
       <Button onClick={generateFlashcards} disabled={!topic.trim() || loading} className="w-full">
-        {loading ? 'Génération...' : 'Générer des flashcards'}
+        {loading ? (
+          <>
+            <span>Génération en cours...</span>
+          </>
+        ) : (
+          'Générer des flashcards'
+        )}
       </Button>
+
+      {loading && (
+        <div className="mt-4 flex flex-col items-center">
+          <LoadingScreen aria-label="Generating flashcards" />
+          <Text color="black" align="center">
+            La génération des flashcards est en cours... La durée de ce processus dépend de la
+            taille du sujet (environ 30 secondes).
+          </Text>
+        </div>
+      )}
 
       {generatedCards.length > 0 && (
         <>
@@ -77,9 +101,6 @@ export function GenerateFlashCardWithIa() {
                 </p>
                 <p>
                   <strong>Réponse:</strong> {card.answer}
-                </p>
-                <p>
-                  <strong>Mauvaises réponses:</strong> {card.wrongAnswers?.join(', ')}
                 </p>
               </div>
             ))}
