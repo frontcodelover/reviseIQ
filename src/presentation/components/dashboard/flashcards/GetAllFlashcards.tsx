@@ -24,7 +24,7 @@ const logAction = new LogActionUseCase(logRepository);
 const flashcardRepository = new SupabaseFlashCardRepository();
 const getFlashcards = new GetFlashcardsUseCase(flashcardRepository);
 
-export function GetFlashcards() {
+export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
   const { id: deckId } = useParams<{ id: string }>();
   const [userId, setUserId] = useState<string | null>(null);
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
@@ -172,7 +172,7 @@ export function GetFlashcards() {
         </button>
       </div>
     </div>
-  ) : (
+  ) : isOwner ? (
     <>
       <div className="text-balance pb-5 pt-5 text-xl font-semibold">
         Comment souhaites-tu créer tes flashcards ? <br />
@@ -199,5 +199,12 @@ export function GetFlashcards() {
         </Card>
       </div>
     </>
+  ) : (
+    <div className="text-balance pb-5 pt-5 text-xl font-semibold">
+      Aucune flashcard n'a été trouvée. <br />
+      <div className="text-base font-normal text-gray-600">
+        Le propriétaire de ce deck n'a pas encore créé de flashcard
+      </div>
+    </div>
   );
 }

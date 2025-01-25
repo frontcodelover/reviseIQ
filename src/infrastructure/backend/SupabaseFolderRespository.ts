@@ -91,4 +91,23 @@ export class SupabaseFolderRepository implements FolderRepository {
       throw error;
     }
   }
+  async isFolderOwner(folderId: string, user_id: string): Promise<boolean> {
+    try {
+      const { data, error } = await supabase
+        .from('decks')
+        .select('user_id')
+        .eq('id', folderId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching isFolderOwner:', error);
+        throw error;
+      }
+
+      return data?.user_id === user_id;
+    } catch (error) {
+      console.error('Error in isFolderOwner:', error);
+      throw error;
+    }
+  }
 }

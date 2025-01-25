@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
 
 import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
@@ -18,6 +18,7 @@ const getFolderById = new GetFolderById(folderRepository);
 const logAction = new LogActionUseCase(logRepository);
 
 function SingleFolder({ id }: { id: string | undefined }) {
+  const [isOwner, setIsOwner] = useState(false);
   const { user } = useAuth();
   const user_id = user ? user.id : null;
 
@@ -35,6 +36,15 @@ function SingleFolder({ id }: { id: string | undefined }) {
     if (folder) {
       logMutation.mutate();
     }
+    const checkOwnerShip = async () => {
+      if (!user_id) return;
+      const isOwner = await folderRepository.isFolderOwner(id!, user_id!);
+      setIsOwner(isOwner);
+      if (!isOwner) {
+        return console.log('You are not the owner of this folder');
+      }
+    };
+    checkOwnerShip();
   }, [folder]);
 
   if (isLoading) return <p>Chargement du dossier...</p>;
@@ -55,7 +65,7 @@ function SingleFolder({ id }: { id: string | undefined }) {
       )}
 
       <div className="flex h-full flex-col py-4">
-        <GetFlashcards />
+        <GetFlashcards isOwner={isOwner} />
       </div>
     </div>
   );

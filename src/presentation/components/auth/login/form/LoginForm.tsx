@@ -1,15 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { SignInWithEmailUseCase } from '@/application/useCases/SignInWithEmail.usecase';
 import { SignInWithProviderUseCase } from '@/application/useCases/SignInWithProvider.usecase';
+import { useAuth } from '@/presentation/context/AuthContext';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const { user, hasProfile } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user && !hasProfile) {
+      navigate('/first-time');
+    }
+  }, [user, hasProfile]);
 
   const authRepository = new SupabaseAuthRepository();
   const signInWithEmail = new SignInWithEmailUseCase(authRepository);
