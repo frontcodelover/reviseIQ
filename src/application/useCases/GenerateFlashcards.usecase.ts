@@ -5,7 +5,7 @@ export class GenerateFlashcardsUseCase {
   // Notez aussi le nom en PascalCase
   constructor(private flashCardRepository: FlashcardRepository) {}
 
-  async execute(content: string): Promise<Flashcard[]> {
-    return this.flashCardRepository.generateFlashcards(content);
+  async execute(content: string, number: number): Promise<Flashcard[]> {
+    return this.flashCardRepository.generateFlashcards(content, number);
   }
 }

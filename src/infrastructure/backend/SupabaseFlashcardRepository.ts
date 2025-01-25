@@ -39,14 +39,14 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
     }
   }
 
-  async generateFlashcards(topic: string): Promise<Flashcard[]> {
+  async generateFlashcards(topic: string, number: number): Promise<Flashcard[]> {
     const apiKey = import.meta.env.VITE_MISTRAL_API_KEY;
     if (!apiKey) {
       throw new Error('Clé API Mistral non définie');
     }
 
     const client = new Mistral({ apiKey });
-    const prompt = `Génère un maximum de 10 flashcards pour apprendre ${topic}. Donne chaque flashcard sous le format 'Question : ... Réponse : ... Mauvaise réponse 1 : ... Mauvaise réponse 2 : ... Mauvaise réponse 3 : ...'`;
+    const prompt = `Génère un maximum de ${number} flashcards pour apprendre ${topic}. Donne chaque flashcard sous le format 'Question : ... Réponse : ... Mauvaise réponse 1 : ... Mauvaise réponse 2 : ... Mauvaise réponse 3 : ...'`;
 
     try {
       console.log('Envoi de la requête à Mistral');

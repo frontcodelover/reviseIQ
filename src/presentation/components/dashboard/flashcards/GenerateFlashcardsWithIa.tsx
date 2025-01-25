@@ -20,6 +20,7 @@ export function GenerateFlashCardWithIa() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [generatedCards, setGeneratedCards] = useState<Flashcard[]>([]);
+  const [number, setNumber] = useState(5);
 
   const generateFlashcards = async () => {
     setLoading(true);
@@ -32,7 +33,7 @@ export function GenerateFlashCardWithIa() {
         console.log('Génération en cours...');
       }
 
-      const result = await generateFlashcard.execute(topic);
+      const result = await generateFlashcard.execute(topic, number);
       setGeneratedCards(result);
       if (deckId) {
         await flashcardRepository.storeQuiz(deckId, result);
@@ -69,6 +70,13 @@ export function GenerateFlashCardWithIa() {
         placeholder="Entrez un sujet (e.g., Javascript)"
         value={topic}
         onChange={(e) => setTopic(e.target.value)}
+      />
+
+      <Input
+        type="number"
+        placeholder="Nombre de flashcards"
+        value={number}
+        onChange={(e) => setNumber(Number(e.target.value))}
       />
 
       <Button onClick={generateFlashcards} disabled={!topic.trim() || loading} className="w-full">
