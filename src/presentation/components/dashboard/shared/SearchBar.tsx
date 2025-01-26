@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { useQuery } from 'react-query';
 import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
-import { SearchFoldersUseCase } from '@/application/useCases/SearchFolders.usecase';
+import { SearchFoldersUseCase } from '@/application/useCases/folder/SearchFolders.usecase';
 import { Folder } from '@/domain/entities/Folder';
 import SearchInput from '@/presentation/components/ui/search/SearchInput';
 import styled from 'styled-components';

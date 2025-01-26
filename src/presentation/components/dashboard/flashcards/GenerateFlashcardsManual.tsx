@@ -4,7 +4,7 @@ import TextInput from '@/presentation/components/ui/input/TextInput';
 import Button from '@/presentation/components/ui/button/Button';
 import { Plus, Trash2 } from 'lucide-react';
 import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
-import { CreateFlashcardUseCase } from '@/application/useCases/CreateFlashcard.usecase';
+import { CreateFlashcardUseCase } from '@/application/useCases/flashcard/CreateFlashcard.usecase';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const flashcardRepository = new SupabaseFlashCardRepository();

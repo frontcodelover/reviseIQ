@@ -12,7 +12,7 @@ import { Switch } from '@/components/ui/switch';
 import { FormData } from '@/domain/entities/Folder';
 
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
-import { CreateFolder } from '@/application/useCases/CreateFolder.usecase';
+import { CreateFolder } from '@/application/useCases/folder/CreateFolder.usecase';
 
 const userRepository = new SupabaseUserRepository();
 const createFolder = new CreateFolder(userRepository);

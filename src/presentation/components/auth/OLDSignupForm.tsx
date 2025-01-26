@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SignUpUseCase } from '@/application/useCases/SignUp.usecase';
+import { SignUpUseCase } from '@/application/useCases/auth/SignUp.usecase';
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 
 function SignupForm() {

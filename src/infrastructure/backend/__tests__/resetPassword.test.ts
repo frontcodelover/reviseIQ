@@ -1,5 +1,3 @@
-// Unit tests for: resetPassword
-
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { SupabaseAuthRepository } from '../SupabaseAuthRepository';
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
-import { ResetPasswordUseCase } from '@/application/useCases/ResetPassword.usecase';
+import { ResetPasswordUseCase } from '@/application/useCases/auth/ResetPassword.usecase';
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
 
 export default function ResetPassword() {

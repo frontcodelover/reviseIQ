@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { Folder } from '@/domain/entities/Folder';
 import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
-import { GetPublicFoldersUseCase } from '@/application/useCases/GetPublicFolders.usecase';
+import { GetPublicFoldersUseCase } from '@/application/useCases/folder/GetPublicFolders.usecase';
 
 const folderRepository = new SupabaseFolderRepository();
 const getPublicFoldersUseCase = new GetPublicFoldersUseCase(folderRepository);

@@ -1,17 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import LoadingScreen from '@/presentation/pages/LoadingScreen';
 import { useParams, useNavigate } from 'react-router-dom';
-import { GenerateFlashcardsUseCase } from '@/application/useCases/GenerateFlashcards.usecase';
-import { CreateFlashcardUseCase } from '@/application/useCases/CreateFlashcard.usecase';
+import { GenerateFlashcardsUseCase } from '@/application/useCases/flashcard/GenerateFlashcards.usecase';
+import { CreateFlashcardUseCase } from '@/application/useCases/flashcard/CreateFlashcard.usecase';
 import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
 import { Flashcard } from '@/domain/entities/Flashcard';
-import Text from '../../ui/text/Text';
+import Text from '@/presentation/components/ui/text/Text';
+import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
+import { GetFolderById } from '@/application/useCases/folder/GetFolderById.usecase';
 
 const flashcardRepository = new SupabaseFlashCardRepository();
 const generateFlashcard = new GenerateFlashcardsUseCase(flashcardRepository);
 const createFlashcard = new CreateFlashcardUseCase(flashcardRepository);
+
+const folderRepository = new SupabaseFolderRepository();
+const getFolderById = new GetFolderById(folderRepository);
 
 export function GenerateFlashCardWithIa() {
   const { id: deckId } = useParams<{ id: string }>();
@@ -22,17 +27,21 @@ export function GenerateFlashCardWithIa() {
   const [generatedCards, setGeneratedCards] = useState<Flashcard[]>([]);
   const [number, setNumber] = useState(5);
 
+  useEffect(() => {
+    async function fetchData() {
+      if (deckId) {
+        const folder = await getFolderById.execute(deckId);
+        setTopic(folder.name);
+      }
+    }
+    fetchData();
+  }, [deckId]);
+
   const generateFlashcards = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      // Ajout d'un indicateur de progression
-      if (loading) {
-        // Ici, vous pourriez ajouter une logique de mise à jour de la progression si disponible
-        console.log('Génération en cours...');
-      }
-
       const result = await generateFlashcard.execute(topic, number);
       setGeneratedCards(result);
       if (deckId) {

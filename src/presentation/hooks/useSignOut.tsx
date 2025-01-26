@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
-import { SignOutUseCase } from '@/application/useCases/SignOut.usecase';
+import { SignOutUseCase } from '@/application/useCases/auth/SignOut.usecase';
 
 const authRepository = new SupabaseAuthRepository();
 const signOut = new SignOutUseCase(authRepository);

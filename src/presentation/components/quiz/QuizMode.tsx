@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Quiz } from '@/domain/entities/Quiz';
-import { GetQuizByDeckIdUseCase } from '@/application/useCases/GetQuizByDeckId.usecase';
+import { GetQuizByDeckIdUseCase } from '@/application/useCases/folder/GetQuizByDeckId.usecase';
 import { Button } from '@/components/ui/button';
 import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
 

@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
 
 import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
-import { GetFolderById } from '@/application/useCases/GetFolderById.usecase';
+import { GetFolderById } from '@/application/useCases/folder/GetFolderById.usecase';
 
 import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
-import { LogActionUseCase } from '@/application/useCases/LogAction.usecase';
+import { LogActionUseCase } from '@/application/useCases/badge/LogAction.usecase';
 
 import { GetFlashcards } from '@/presentation/components/dashboard/flashcards/GetAllFlashcards';
 import { useAuth } from '@/presentation/context/AuthContext';
@@ -54,9 +54,6 @@ function SingleFolder({ id }: { id: string | undefined }) {
     <div className="flex flex-col">
       {folder && (
         <div className="flex flex-col gap-2">
-          <div className="w-fit rounded-md text-sm">
-            <span className="text-gray-800">Thématique : {folder.thema}</span>
-          </div>
           <div>
             <h2 className="text-3xl font-bold text-gray-800">{folder.name}</h2>
             <p className="text-lg text-gray-800">{folder.description}</p>

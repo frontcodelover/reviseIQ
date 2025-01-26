@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
-import { ResetPasswordUseCase } from '@/application/useCases/ResetPassword.usecase';
+import { ResetPasswordUseCase } from '@/application/useCases/auth/ResetPassword.usecase';
 import { useAuth } from '@/presentation/context/AuthContext';
 
 export default function UpdatePassword() {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UpsertUserUseCase } from '@/application/useCases/UpsertUser.usecase';
+import { UpsertUserUseCase } from '@/application/useCases/auth/UpsertUser.usecase';
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';

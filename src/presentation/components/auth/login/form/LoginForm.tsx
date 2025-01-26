@@ -1,27 +1,64 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
-import { SignInWithEmailUseCase } from '@/application/useCases/SignInWithEmail.usecase';
-import { SignInWithProviderUseCase } from '@/application/useCases/SignInWithProvider.usecase';
 import { useAuth } from '@/presentation/context/AuthContext';
+import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
+import { SignInWithEmailUseCase } from '@/application/useCases/auth/SignInWithEmail.usecase';
+import Button from '@/presentation/components/ui/button/Button';
 
+const InputField = styled.div`
+  width: 100%;
+  margin-bottom: 16px;
+
+  label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #555;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+
+    &:focus {
+      border-color: #007bff;
+    }
+  }
+`;
+
+const ForgotPasswordLink = styled.a`
+  display: block;
+  font-size: 12px;
+  color: #007bff;
+  text-decoration: none;
+  text-align: right;
+  margin-bottom: 16px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { user, hasProfile } = useAuth();
+  const { user, hasProfile, checkSession } = useAuth();
   const navigate = useNavigate();
+
+  const authRepository = new SupabaseAuthRepository();
+  const signInWithEmail = new SignInWithEmailUseCase(authRepository);
 
   useEffect(() => {
     if (user && !hasProfile) {
       navigate('/first-time');
     }
-  }, [user, hasProfile]);
-
-  const authRepository = new SupabaseAuthRepository();
-  const signInWithEmail = new SignInWithEmailUseCase(authRepository);
-  const signInWithProvider = new SignInWithProviderUseCase(authRepository);
+  }, [user, hasProfile, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +67,7 @@ function LoginForm() {
 
     try {
       await signInWithEmail.execute(email, password);
-      navigate('/dashboard'); // Redirige après connexion
+      await checkSession(false, true);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message || 'Erreur lors de la connexion');
@@ -42,65 +79,35 @@ function LoginForm() {
     }
   };
 
-  const handleProviderLogin = async (provider: 'google') => {
-    setLoading(true);
-    setError('');
-    try {
-      await signInWithProvider.execute(provider);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message || `Erreur lors de la connexion avec ${provider}`);
-      } else {
-        setError(`Erreur lors de la connexion avec ${provider}`);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div className="container mx-auto max-w-sm p-6">
-      <h2 className="mb-6 text-center text-2xl font-bold">Connexion</h2>
-      {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
-      <form onSubmit={handleLogin} className="mb-4 rounded-lg bg-white p-6 shadow-md">
-        <div className="mb-4">
-          <label className="mb-2 block font-medium text-gray-700">Email</label>
+    <div>
+      <form onSubmit={handleLogin}>
+        <InputField>
+          <label>Email</label>
           <input
             type="email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={loading}
           />
-        </div>
-        <div className="mb-4">
-          <label className="mb-2 block font-medium text-gray-700">Mot de passe</label>
+        </InputField>
+        <InputField>
+          <label>Mot de passe</label>
           <input
             type="password"
+            autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={loading}
           />
-        </div>
-        <button
-          type="submit"
-          disabled={loading}
-          className={`w-full rounded-lg px-4 py-2 font-medium text-white ${
-            loading ? 'cursor-not-allowed bg-blue-300' : 'bg-blue-500 hover:bg-blue-600'
-          }`}
-        >
+        </InputField>
+        <ForgotPasswordLink href="/reset-password">Mot de passe oublié ?</ForgotPasswordLink>
+        {error && <p style={{ color: 'red', marginBottom: '16px' }}>{error}</p>}
+        <Button size="regular" variant="primary" type="submit" disabled={loading}>
           {loading ? 'Connexion...' : 'Se connecter'}
-        </button>
+        </Button>
       </form>
-      <div className="flex justify-center space-x-4">
-        <button
-          onClick={() => handleProviderLogin('google')}
-          className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600"
-        >
-          Connexion avec Google
-        </button>
-      </div>
     </div>
   );
 }

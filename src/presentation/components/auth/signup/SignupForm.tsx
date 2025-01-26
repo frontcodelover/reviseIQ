@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { SignUpUseCase } from '@/application/useCases/SignUp.usecase';
+import { SignUpUseCase } from '@/application/useCases/auth/SignUp.usecase';
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 
 import { EmailInput } from '@/presentation/components/auth/signup/form/EmailInput';

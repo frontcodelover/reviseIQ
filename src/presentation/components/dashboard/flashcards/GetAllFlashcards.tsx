@@ -6,14 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import EndCard from './LastFlashcard';
 
-import { GetUserIdUseCase } from '@/application/useCases/GetUserId.usecase';
+import { GetUserIdUseCase } from '@/application/useCases/user/GetUserId.usecase';
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 
 import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
-import { LogActionUseCase } from '@/application/useCases/LogAction.usecase';
+import { LogActionUseCase } from '@/application/useCases/badge/LogAction.usecase';
 
 import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
-import { GetFlashcardsUseCase } from '@/application/useCases/GetFlashcards.usecase';
+import { GetFlashcardsUseCase } from '@/application/useCases/flashcard/GetFlashcards.usecase';
 
 import { Flashcard } from '@/domain/entities/Flashcard';
 

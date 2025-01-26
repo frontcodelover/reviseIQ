@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { SignInWithProviderUseCase } from '@/application/useCases/SignInWithProvider.usecase';
+import { SignInWithProviderUseCase } from '@/application/useCases/auth/SignInWithProvider.usecase';
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 
-import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
+import Button from '@/presentation/components/ui/button/Button';
 
 function OAuthLogin() {
   const [loading, setLoading] = useState(false);
@@ -31,10 +31,7 @@ function OAuthLogin() {
   };
   return (
     <>
-      <Button
-        onClick={() => handleProviderLogin('google')}
-        className="w-full rounded-lg border-2 bg-indigo-500 p-6 text-white shadow-none hover:bg-indigo-600"
-      >
+      <Button onClick={() => handleProviderLogin('google')} variant="success" size="regular">
         {t('auth.signInWithGoogle')}
       </Button>
       {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
