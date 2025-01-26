@@ -4,6 +4,9 @@ export const textSizeVariants = {
   small: css`
     font-size: 0.75rem !important;
   `,
+  regular: css`
+    font-size: 0.875rem !important;
+  `,
   medium: css`
     font-size: 1rem !important;
   `,

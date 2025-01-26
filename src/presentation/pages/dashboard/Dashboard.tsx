@@ -5,6 +5,7 @@ import ActivityCalendar from '@/presentation/components/dashboard/stats/activity
 import { LogsAndBadgesManager } from '@/presentation/components/dashboard/stats/logsAndBadgesManager';
 import { GetPublicFolders } from '@/presentation/components/dashboard/community/GetPublicFolders';
 import styled from 'styled-components';
+import DashboardCard from '@/presentation/components/dashboard/DashboardCard';
 
 import { Badge } from '@/domain/entities/Badge';
 import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
@@ -103,6 +104,11 @@ const StatsContainer = styled.div`
   padding: 1.5rem;
 `;
 
+const DashcardCardLayout = styled.section`
+  display: flex;
+  gap: 1rem;
+`;
+
 function Dashboard() {
   const { profile, loading, error } = useProfile();
   const { user } = useAuth();
@@ -114,6 +120,25 @@ function Dashboard() {
   if (loading) return <div>Chargement...</div>;
   if (error) return <div>Erreur: {error}</div>;
   if (!profile) return null;
+
+  const cardDashboard = [
+    {
+      title: 'Découvrir',
+      description: 'Tableau de bord personnalisé',
+    },
+    {
+      title: 'Explorez',
+      description: 'Vos statistiques de progression',
+    },
+    {
+      title: 'Communauté',
+      description: 'Apprenez et gagnez des badges',
+    },
+    {
+      title: 'Activité récente',
+      description: 'Partagez avec la communauté',
+    },
+  ];
 
   return (
     <Container>
@@ -133,6 +158,11 @@ function Dashboard() {
           </Text>
         </ParagraphContainer>
       </GreetingsContainer>
+      <DashcardCardLayout>
+        {cardDashboard.map((card, index) => (
+          <DashboardCard key={index} title={card.title} description={card.description} />
+        ))}
+      </DashcardCardLayout>
 
       <GetPublicFolders />
 

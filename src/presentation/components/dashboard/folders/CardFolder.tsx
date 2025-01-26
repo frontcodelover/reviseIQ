@@ -1,4 +1,4 @@
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Link } from 'react-router-dom';
 import { useProfileUserById } from '@/presentation/hooks/useProfileUserById';
@@ -6,7 +6,7 @@ import { useProfileUserById } from '@/presentation/hooks/useProfileUserById';
 import { Folder } from '@/domain/entities/Folder';
 
 const CardFolder = ({ ...props }: Folder) => {
-  const { id, name, description, color, thema, user_id } = props;
+  const { id, name, color, thema, user_id } = props;
   const { profile, loading } = useProfileUserById(user_id || '');
 
   return (
@@ -26,9 +26,6 @@ const CardFolder = ({ ...props }: Folder) => {
             </CardTitle>
             <Separator className="my-1" />
           </CardHeader>
-          <CardDescription className="line-clamp-2 max-w-80 truncate text-pretty px-6 text-gray-500">
-            {description ? description : 'Pas de description'}
-          </CardDescription>
         </div>
 
         <CardFooter>
