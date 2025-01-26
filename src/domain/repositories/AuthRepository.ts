@@ -5,4 +5,6 @@ export interface AuthRepository {
   signInWithEmail(email: string, password: string): Promise<User>;
   signInWithProvider(provider: 'google'): Promise<void>;
   signOut(): Promise<void>;
+  resetPassword(email: string): Promise<void>;
+  updateUserPassword(newPassword: string): Promise<void>;
 }

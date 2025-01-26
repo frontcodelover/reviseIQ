@@ -63,8 +63,6 @@ const SidebarMenuItem: React.FC<{ item: SidebarItem }> = ({ item }) => {
   const location = useLocation();
   const isActive = location.pathname === item.url;
 
-  console.log('SidebarMenuItem', isActive, location.pathname);
-
   return (
     <StyledSidebarMenuItem>
       <SidebarMenuButton>

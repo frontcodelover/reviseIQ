@@ -63,4 +63,20 @@ export class SupabaseAuthRepository implements AuthRepository {
       throw error;
     }
   }
+
+  async resetPassword(email: string) {
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    if (error) {
+      console.error('Erreur lors de la réinitialisation du mot de passe :', error);
+      throw error;
+    }
+  }
+
+  async updateUserPassword(newPassword: string) {
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) {
+      console.error('Erreur lors de la mise à jour du mot de passe :', error);
+      throw error;
+    }
+  }
 }

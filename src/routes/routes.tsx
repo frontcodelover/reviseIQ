@@ -17,12 +17,16 @@ import GenerateWithIa from '@/presentation/pages/folders/GenerateWithIa';
 import GenerateManual from '@/presentation/pages/folders/GenerateManual';
 import LayoutAuth from '@/presentation/shared/LayoutAuth';
 import QuizMode from '@/presentation/components/quiz/QuizMode';
+import ResetPassword from '@/presentation/pages/ResetPassword';
+import UpdatePassword from '@/presentation/pages/UpdatePassword';
 
 export const AppRoutes = () => {
   return (
     <Routes>
       <Route path="*" element={<NoMatch />} />
       <Route path="/" element={<Home />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/update-password" element={<UpdatePassword />} />
 
       <Route
         path="/login"
