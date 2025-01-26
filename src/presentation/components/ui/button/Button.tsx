@@ -6,7 +6,7 @@ import { textSizeVariants } from '../text/TextSize';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant: keyof typeof buttonVariants;
-  size: keyof typeof textSizeVariants;
+  size?: keyof typeof textSizeVariants;
 }
 
 const StyledButton = styled.button<ButtonProps>`
