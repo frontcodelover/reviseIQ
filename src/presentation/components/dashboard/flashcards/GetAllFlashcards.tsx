@@ -16,6 +16,9 @@ import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFl
 import { GetFlashcardsUseCase } from '@/application/useCases/flashcard/GetFlashcards.usecase';
 
 import { Flashcard } from '@/domain/entities/Flashcard';
+import DockNavigate from '../dock/DockNavigate';
+import HeadingThree from '../../ui/text/heading/HeadingThree';
+import HeadingTwo from '../../ui/text/heading/HeadingTwo';
 
 const userRepository = new SupabaseUserRepository();
 const logRepository = new SupabaseLogRepository();
@@ -115,10 +118,7 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
   const currentCard = flashcards[currentIndex];
 
   return flashcards.length > 0 ? (
-    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-8">
-      <Link to={`/dashboard/folders/${deckId}/quiz`} className="text-blue-500 hover:underline">
-        Activer le mode Quiz
-      </Link>
+    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
       {isLastCard ? (
         <EndCard onRestart={handleRestart} />
       ) : (
@@ -129,48 +129,37 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
           }`}
         >
           <div className="backface-hidden absolute h-full w-full">
-            <div className="flex h-full flex-col items-center justify-center rounded-lg border bg-white p-6 shadow">
-              <h3 className="mb-4 text-xl font-bold">Question 🤔</h3>
-              <p className="text-center text-lg">{currentCard.question}</p>
+            <div className="flex h-full flex-col items-center justify-center gap-4 rounded-lg border bg-white p-6 shadow">
+              <HeadingTwo size="xlarge" weight="semibold">
+                Question 🤔
+              </HeadingTwo>
+              <HeadingThree size="medium">{currentCard.question}</HeadingThree>
             </div>
           </div>
           <div className="backface-hidden rotate-y-180 absolute h-full w-full">
-            <div className="flex h-full flex-col items-center justify-center rounded-lg border bg-white p-6 shadow">
-              <h3 className="mb-4 text-xl font-bold">Réponse ✅</h3>
-              <p className="text-center text-lg">{currentCard.answer}</p>
+            <div className="flex h-full flex-col items-center justify-center gap-4 rounded-lg border bg-white p-6 shadow">
+              <HeadingTwo size="xlarge" weight="semibold">
+                Réponse ✅
+              </HeadingTwo>
+              <HeadingThree size="medium">{currentCard.answer}</HeadingThree>
             </div>
           </div>
         </div>
       )}
+      <span className="text-sm text-gray-500">
+        Nombre de Flascards {currentIndex + 1} / {flashcards.length + 1}
+      </span>
       <p className="hidden text-sm text-gray-600 sm:flex">
         Astuce : Appuyez sur la touche "A" pour afficher la réponse
       </p>
 
-      <div className="flex items-center gap-4">
-        <button
-          onClick={() => {
-            setCurrentIndex((prev) => prev + 1);
-            setShowAnswer(false);
-          }}
-          disabled={currentIndex === 0}
-          className="rounded p-2 hover:bg-gray-100 disabled:opacity-50"
-        >
-          <ChevronLeft className="h-6 w-6" />
-        </button>
-        <span className="text-sm text-gray-500">
-          {currentIndex + 1} / {flashcards.length + 1}
-        </span>
-        <button
-          onClick={() => {
-            setCurrentIndex((prev) => prev + 1);
-            setShowAnswer(false);
-          }}
-          disabled={currentIndex === flashcards.length - 1}
-          className="rounded p-2 hover:bg-gray-100 disabled:opacity-50"
-        >
-          <ChevronRight className="h-6 w-6" />
-        </button>
-      </div>
+      <DockNavigate
+        setCurrentIndex={setCurrentIndex}
+        setShowAnswer={setShowAnswer}
+        currentIndex={currentIndex}
+        flashcards={flashcards}
+        deckId={deckId}
+      />
     </div>
   ) : isOwner ? (
     <>

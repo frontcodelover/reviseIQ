@@ -61,6 +61,7 @@ export function GenerateFlashCardWithIa() {
           deck_id: deckId,
           question: card.question,
           answer: card.answer,
+          ia_generated: true,
         });
       }
       navigate(`/dashboard/folders/${deckId}`);

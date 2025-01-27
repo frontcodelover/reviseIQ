@@ -140,8 +140,6 @@ export class SupabaseUserRepository implements UserRepository {
         console.error('Error creating deck:', error);
         throw error;
       }
-
-      console.log('Deck created successfully with id:', data.id);
       return { id: data.id };
     } catch (error) {
       console.error('Error in createDeck:', error);

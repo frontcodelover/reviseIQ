@@ -110,7 +110,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isPasswordRecovery: true,
         loading: false,
       }));
-      navigate('/update-password', { replace: true });
+      navigate(`/update-password${window.location.search}${window.location.hash}`, {
+        replace: true,
+      });
       return;
     }
 

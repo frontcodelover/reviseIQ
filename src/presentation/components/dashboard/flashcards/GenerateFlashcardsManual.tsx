@@ -81,6 +81,7 @@ export function GenerateFlashcardManual() {
             deck_id: deckId,
             question: card.question,
             answer: card.answer,
+            ia_generated: false,
           });
         }
       }
