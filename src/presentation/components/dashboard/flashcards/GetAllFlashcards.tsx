@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import EndCard from './LastFlashcard';
@@ -36,6 +35,9 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hasLoggedCompletion, setHasLoggedCompletion] = useState(false);
+  const [shuffledCards, setShuffledCards] = useState<Flashcard[]>([]);
+  const [isShuffled, setIsShuffled] = useState(false);
+
   const navigate = useNavigate();
 
   const isLastCard = currentIndex === flashcards.length;
@@ -50,6 +52,7 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
     };
     getUserId();
   }, []);
+
   useEffect(() => {
     if (isLastCard && !hasLoggedCompletion && flashcards.length > 0) {
       const logCompletion = async () => {
@@ -109,13 +112,21 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
     setShowAnswer(false);
     setTimeout(() => {
       setCurrentIndex(0);
-    }, 1000);
+    }, 200);
+  };
+
+  const handleShuffle = () => {
+    const shuffled = [...flashcards].sort(() => Math.random() - 0.5);
+    setShuffledCards(shuffled);
+    setIsShuffled(true);
+    setCurrentIndex(0);
+    setShowAnswer(false);
   };
 
   if (loading) return <div>Chargement...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
 
-  const currentCard = flashcards[currentIndex];
+  const currentCard = isShuffled ? shuffledCards[currentIndex] : flashcards[currentIndex];
 
   return flashcards.length > 0 ? (
     <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
@@ -147,7 +158,7 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
         </div>
       )}
       <span className="text-sm text-gray-500">
-        Nombre de Flascards {currentIndex + 1} / {flashcards.length + 1}
+        Nombre de Flascards {currentIndex + 1} / {flashcards.length}
       </span>
       <p className="hidden text-sm text-gray-600 sm:flex">
         Astuce : Appuyez sur la touche "A" pour afficher la réponse
@@ -159,6 +170,7 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
         currentIndex={currentIndex}
         flashcards={flashcards}
         deckId={deckId}
+        handleShuffle={handleShuffle}
       />
     </div>
   ) : isOwner ? (
