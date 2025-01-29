@@ -8,12 +8,12 @@ import { FR } from 'country-flag-icons/react/3x2';
 const Container = styled.div`
   position: relative;
   width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+  min-height: 80vh;
   align-items: center;
   justify-content: center;
-  background-color: #f0f7ff;
+  display: flex;
+  flex-direction: column;
+
   @media (max-width: 768px) {
   }
 

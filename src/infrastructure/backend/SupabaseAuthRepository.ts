@@ -37,7 +37,7 @@ export class SupabaseAuthRepository implements AuthRepository {
     }
   }
 
-  async signInWithProvider(provider: 'google') {
+  async signInWithProvider(provider: 'google'): Promise<void> {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: provider,

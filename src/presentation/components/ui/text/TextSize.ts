@@ -22,4 +22,10 @@ export const textSizeVariants = {
   xxxlarge: css`
     font-size: 2.5rem !important;
   `,
+  xxxxlarge: css`
+    font-size: 3rem !important;
+  `,
+  monster: css`
+    font-size: 4rem !important;
+  `,
 };
