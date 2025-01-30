@@ -1,6 +1,6 @@
 {
   "title": "ReviseIQ",
-  "welcome": "Welcome to ReviseIQ!",
+  "welcome": "Master any subject faster, transform your learning with smart <WaveImage>flashcards</WaveImage>",
   "login": "Login",
   "signout": "Sign out",
   "signup": "Test Signup",
@@ -9,9 +9,10 @@
   "french": "French",
   "loading": "Loading...",
   "home": {
-    "title": "Create, learn and revise intelligently",
-    "description": "Learn and revise your courses more effectively with ReviseIQ. Create smart flashcards with AI to help you memorize faster.",
-    "cta": "Get started"
+    "title": "Master any subject faster, transform your learning with smart <WaveImage>flashcards</WaveImage>.",
+    "description": "Learn and revise your courses more effectively with ReviseIQ. <br />Create smart flashcards with AI to help you memorize faster.",
+    "cta": "Sign up for free",
+    "community": "Join the community"
   },
   "auth": {
     "signInWithGoogle": "Sign in with Google",

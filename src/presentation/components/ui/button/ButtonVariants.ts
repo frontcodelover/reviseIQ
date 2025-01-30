@@ -1,33 +1,48 @@
-// src/styles/ButtonVariants.js
 import { css } from 'styled-components';
+import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 
 export const buttonVariants = {
   primary: css`
-    background-color: #0077ff;
-    color: white;
+    background-color: ${COLORS.primary};
+    color: ${COLORS.white};
     transition: background-color 0.2s;
     &:hover {
-      background-color: #0056b3;
+      background-color: ${COLORS.primaryHover};
     }
   `,
   secondary: css`
-    background-color: #6c757d;
+    background-color: ${COLORS.secondary};
+    color: ${COLORS.white};
     &:hover {
-      background-color: #5a6268;
+      background-color: ${COLORS.third};
     }
   `,
   success: css`
-    background-color: #28a745;
-    color: #fff;
+    background-color: ${COLORS.success};
+    color: ${COLORS.white};
     &:hover {
-      background-color: #218838;
+      background-color: ${COLORS.success}dd;
     }
   `,
   danger: css`
-    background-color: #dc3545;
-    color: #fae5e7;
+    background-color: ${COLORS.danger};
+    color: ${COLORS.white};
     &:hover {
-      background-color: #c82333;
+      background-color: ${COLORS.danger}dd;
+    }
+  `,
+  warning: css`
+    background-color: ${COLORS.warning};
+    color: ${COLORS.black};
+    &:hover {
+      background-color: ${COLORS.warning}dd;
+    }
+  `,
+  info: css`
+    background-color: ${COLORS.info};
+    color: ${COLORS.white};
+    &:hover {
+      background-color: ${COLORS.info}dd;
     }
   `,
 };

@@ -1,0 +1,16 @@
+export const COLORS = {
+  black: '#101f33',
+  white: '#ffffff',
+  primary: '#057eff',
+  primaryHover: '#0a6dff',
+  lightBlue: 'hsla(211, 100%, 80%, 0.35)',
+  secondary: '#6d7278',
+  third: '#9a9a9a',
+  lightgray: '#f8f8f8',
+  success: '#28a745',
+  danger: '#ff2d55',
+  warning: '#ffc107',
+  info: '#17a2b8',
+  lightPinky: 'hsla(311, 87%, 46%, 0.22)',
+  pinky: '#db0fb6',
+} as const;

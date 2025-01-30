@@ -2,8 +2,8 @@ import React from 'react';
 import { styled } from 'styled-components';
 import { textSizeVariants } from '@/presentation/components/ui/text/TextSize';
 import { textAlignVariants } from '@/presentation/components/ui/text/TextAlign';
-import { textFontWeightVariants } from '../weight/FontWeight';
-import { colorsVariant } from '../colors/ColorsVariant';
+import { textFontWeightVariants } from '@/presentation/components/ui/text/weight/FontWeight';
+import { colorsVariant } from '@/presentation/components/ui/text/TextColors';
 
 interface HeadingOneProps extends React.HTMLAttributes<HTMLHeadingElement> {
   size?: keyof typeof textSizeVariants;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { textAlignVariants } from '@/presentation/components/ui/text/TextAlign';
 import { textSizeVariants } from '@/presentation/components/ui/text/TextSize';
 import { textFontWeightVariants } from '@/presentation/components/ui/text/weight/FontWeight';
-import { colorsVariant } from '@/presentation/components/ui/text/colors/ColorsVariant';
+import { colorsVariant } from '@/presentation/components/ui/text/TextColors';
 import { textFontVariants } from '@/presentation/components/ui/text/TextFont';
 
 interface TextProps extends React.HTMLAttributes<HTMLDivElement> {

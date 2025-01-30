@@ -1,6 +1,12 @@
 import styled from 'styled-components';
-import Button from '@/presentation/components/ui/button/Button';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import Text from '@/presentation/components/ui/text/Text';
+import Button from '@/presentation/components/ui/button/Button';
+import socialProof from '@/assets/socialProof.png';
+import wave from '@/assets/wave.png';
+import { useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 
 const Container = styled.div`
   display: flex;
@@ -14,10 +20,11 @@ const Container = styled.div`
   background-color: #fff;
 `;
 
-const SectionHero = styled.div`
+const SectionHero = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   gap: 2rem;
 `;
 
@@ -28,75 +35,74 @@ const TitleGroup = styled.div`
   line-height: 1;
 `;
 
-const Form = styled.div`
+const ButtonContainer = styled(Button)`
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  justify-content: center;
+  width: fit-content;
   gap: 0.5rem;
-  margin-top: 2rem;
-  width: 100%;
-  max-width: 500px;
-
-  input {
-    flex: 1;
-    padding: 0.8rem 1rem;
-    font-size: 1rem;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    outline: none;
-    transition: border 0.3s ease-in-out;
-
-    &:focus {
-      border-color: #0077ff;
-    }
-  }
-
-  button {
-    background: #111;
-    color: white;
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 0.8rem 1.2rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-
-    &:hover {
-      background: #0077ff;
-    }
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  & :hover {
+    background-color: #057eff;
   }
 `;
 
+const SocialContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
+const SocialProof = styled.img`
+  width: auto;
+`;
+
+const WaveImage = styled.span`
+  width: auto;
+  background-image: url(${wave});
+  background-size: contain;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding: 0 0 1rem 0;
+  display: inline-block;
+  margin: 0 0.5rem;
+  line-height: 1;
+`;
+
 function HeroTwo() {
+  const { t } = useTranslation();
+
   return (
     <Container>
       <SectionHero>
         <TitleGroup>
-          <Text size="monster" weight="semibold" font="secondary">
-            Apprenez de nouvelles
-          </Text>
-          <Text size="monster" weight="semibold" font="secondary">
-            compétences grâce à des
-          </Text>
-          <Text
-            size="monster"
-            weight="semibold"
-            font="secondary"
-            style={{ textDecoration: '#0077ff wavy underline' }}
-          >
-            flashcards intelligentes.
+          <Text size="monster" weight="semibold">
+            <Trans
+              i18nKey="home.title"
+              components={{
+                WaveImage: <WaveImage />,
+              }}
+            />
           </Text>
         </TitleGroup>
-        <Text size="medium" weight="regular" color="secondary" font="primary">
-          Créez des flashcards intelligentes grâce à l'IA pour vous <br />
-          aider à mémoriser et apprendre plus rapidement.
+        <Text size="xlarge" weight="regular" color="secondary">
+          <Trans i18nKey="home.description" />
         </Text>
+        <Link to="/signup">
+          <ButtonContainer size="large" variant="primary">
+            {t('home.cta')}
+            <ArrowRight size={24} />
+          </ButtonContainer>
+        </Link>
+        <SocialContainer>
+          <SocialProof src={socialProof} alt="Social proof" />
+          <Text size="regular" weight="regular" color="secondary">
+            {t('home.community')}
+          </Text>
+        </SocialContainer>
       </SectionHero>
-      <Form>
-        <input type="email" placeholder="Enter your work email" />
-        <button>Sign me up</button>
-      </Form>
     </Container>
   );
 }

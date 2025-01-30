@@ -4,6 +4,7 @@ import HeroTwo from './home/Hero';
 import { useTranslation } from 'react-i18next';
 import { US } from 'country-flag-icons/react/3x2';
 import { FR } from 'country-flag-icons/react/3x2';
+import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
 
 const Container = styled.div`
   position: relative;
@@ -70,7 +71,7 @@ function Home() {
     <Container>
       <Logo>
         <Brain />
-        ReviseIQ
+        <HeadingOne size="medium">{t(`title`)}</HeadingOne>
       </Logo>
       <LanguageContainer>
         <LanguageButton onClick={() => changeLanguage('en')}>

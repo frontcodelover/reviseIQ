@@ -1,6 +1,6 @@
 {
   "title": "ReviseIQ",
-  "welcome": "Bienvenue sur ReviseIQ !",
+  "welcome": "Apprenez de nouvelles compétences grâce à des <WaveImage>flashcards</WaveImage> intelligentes.",
   "login": "Connexion",
   "signup": "Test Inscription",
   "signout": "Déconnexion",
@@ -9,9 +9,10 @@
   "french": "Français",
   "loading": "Chargement...",
   "home": {
-    "title": "Créer, apprendre et réviser intelligemment",
-    "description": "Créez des flashcards intelligentes grâce à l'IA pour vous aider à mémoriser et apprendre plus rapidement.",
-    "cta": "Commencer"
+    "title": "Apprenez de nouvelles compétences grâce à des <WaveImage>flashcards</WaveImage> intelligentes.",
+    "description": "Créez des flashcards intelligentes grâce à l'IA pour vous<br /> aider à mémoriser et apprendre plus rapidement.",
+    "cta": "S'inscrire gratuitement",
+    "community": "Rejoignez la communauté"
   },
   "auth": {
     "baseline": "Envie de réussir vos révisions et d'apprendre efficacement ? ReviseIQ votre meilleur atout pour réussir !",
