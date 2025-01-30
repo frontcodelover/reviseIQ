@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { US } from 'country-flag-icons/react/3x2';
 import { FR } from 'country-flag-icons/react/3x2';
 import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
+import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 
 const Container = styled.div`
   position: relative;
@@ -31,7 +32,7 @@ const Logo = styled.h1`
   top: 1rem;
   left: 1rem;
   font-size: 1.5rem;
-  color: #0077ff;
+  color: ${COLORS.primary};
   font-weight: 600;
 `;
 
@@ -49,14 +50,14 @@ const LanguageButton = styled.button`
   align-items: center;
   gap: 0.5rem;
   padding: 0.25rem 0.75rem;
-  background-color: white;
-  border: 1px solid #e2e8f0;
+  background-color: ${COLORS.white};
+  border: 1px solid ${COLORS.secondary};
   border-radius: 0.375rem;
   font-size: 0.875rem;
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #f3f4f6;
+    background-color: ${COLORS.lightgray};
   }
 `;
 
