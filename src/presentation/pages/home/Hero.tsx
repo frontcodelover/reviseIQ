@@ -13,7 +13,8 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 1200px;
+  max-width: 1080px;
+  height: 80vh;
   margin: 0 auto;
   padding: 4rem 2rem;
   text-align: center;

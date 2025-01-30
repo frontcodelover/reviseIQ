@@ -6,6 +6,7 @@ import { US } from 'country-flag-icons/react/3x2';
 import { FR } from 'country-flag-icons/react/3x2';
 import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
 import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
+import Section from './home/Section';
 
 const Container = styled.div`
   position: relative;
@@ -85,6 +86,7 @@ function Home() {
         </LanguageButton>
       </LanguageContainer>
       <HeroTwo />
+      <Section />
     </Container>
   );
 }
