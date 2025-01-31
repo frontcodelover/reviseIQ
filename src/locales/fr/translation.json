@@ -14,6 +14,14 @@
     "cta": "S'inscrire gratuitement",
     "community": "Rejoignez la communauté"
   },
+  "flashcard": {
+    "question": "Question",
+    "answer": "Réponse",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "save": "Sauvegarder",
+    "cancel": "Annuler"
+  },
   "auth": {
     "baseline": "Envie de réussir vos révisions et d'apprendre efficacement ? ReviseIQ votre meilleur atout pour réussir !",
     "signInWithGoogle": "Se connecter avec Google",

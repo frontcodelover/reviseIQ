@@ -3,6 +3,8 @@ import { Mistral } from '@mistralai/mistralai';
 import { Flashcard } from '@/domain/entities/Flashcard';
 import { FlashcardRepository } from '@/domain/repositories/FlashcardRepository';
 import { Quiz } from '@/domain/entities/Quiz';
+import { SupabaseFolderRepository } from './SupabaseFolderRespository';
+import { FlashcardUpdate } from '@/domain/entities/Flashcard';
 
 export class SupabaseFlashCardRepository implements FlashcardRepository {
   // create flashcards table "flashcards" field id, deck_id, question, answer, created_at
@@ -166,6 +168,63 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
       };
     } catch (error) {
       console.error('Erreur dans getQuizByDeckId:', error);
+      throw error;
+    }
+  }
+
+  async updateFlashcard(
+    flashcardId: string,
+    deckId: string,
+    userId: string,
+    updates: FlashcardUpdate
+  ): Promise<void> {
+    try {
+      // Validation des données
+      if (!flashcardId || !deckId || !userId) {
+        throw new Error('Paramètres requis manquants');
+      }
+
+      if (!updates.question && !updates.answer && !updates.wrongAnswers) {
+        throw new Error('Aucune modification fournie');
+      }
+
+      // Vérification propriétaire
+      const folderRepo = new SupabaseFolderRepository();
+      const isOwner = await folderRepo.isFolderOwner(deckId, userId);
+
+      if (!isOwner) {
+        throw new Error("Vous n'êtes pas autorisé à modifier cette flashcard");
+      }
+
+      // Vérification existence flashcard
+      const { data: existingFlashcard } = await supabase
+        .from('flashcards')
+        .select('*')
+        .eq('id', flashcardId)
+        .eq('deck_id', deckId)
+        .single();
+
+      if (!existingFlashcard) {
+        throw new Error('Flashcard introuvable');
+      }
+
+      // Mise à jour
+      const updateData: Partial<Flashcard> = {};
+      if (updates.question) updateData.question = updates.question;
+      if (updates.answer) updateData.answer = updates.answer;
+
+      const { error } = await supabase
+        .from('flashcards')
+        .update(updateData)
+        .eq('id', flashcardId)
+        .eq('deck_id', deckId);
+
+      if (error) {
+        console.error('Erreur lors de la mise à jour de la flashcard:', error);
+        throw new Error('Échec de la mise à jour de la flashcard');
+      }
+    } catch (error) {
+      console.error('Erreur dans updateFlashcard:', error);
       throw error;
     }
   }

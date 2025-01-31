@@ -14,6 +14,14 @@
     "cta": "Sign up for free",
     "community": "Join the community"
   },
+  "flashcard": {
+    "question": "Question",
+    "answer": "Answer",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
   "auth": {
     "signInWithGoogle": "Sign in with Google",
     "baseline": "Want to succeed in your revisions and learn effectively? ReviseIQ your best asset to succeed!",

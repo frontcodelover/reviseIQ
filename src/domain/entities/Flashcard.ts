@@ -7,3 +7,9 @@ export interface Flashcard {
   ia_generated?: boolean;
   lang?: string;
 }
+
+export type FlashcardUpdate = {
+  question?: string;
+  answer?: string;
+  wrongAnswers?: string[];
+};
