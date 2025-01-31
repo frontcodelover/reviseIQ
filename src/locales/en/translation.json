@@ -36,7 +36,8 @@
     "passwordConfirm": "Confirm password",
     "acceptTerms": "I accept the",
     "terms": "terms of use",
-    "cta": "Sign up to start revising"
+    "cta": "Sign up to start revising",
+    "forgotPassword": "Forgot password ?"
   },
   "dashboard": {
     "account": "Account",

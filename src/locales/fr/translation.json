@@ -36,7 +36,8 @@
     "passwordConfirm": "Confirmer le mot de passe",
     "acceptTerms": "J'accepte les",
     "terms": "conditions générales d'utilisation",
-    "cta": "S'inscrire pour commencer à réviser"
+    "cta": "S'inscrire pour commencer à réviser",
+    "forgotPassword": "Mot de passe oublié ?"
   },
   "dashboard": {
     "account": "Compte",

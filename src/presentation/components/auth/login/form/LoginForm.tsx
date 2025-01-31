@@ -5,6 +5,7 @@ import { useAuth } from '@/presentation/context/AuthContext';
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { SignInWithEmailUseCase } from '@/application/useCases/auth/SignInWithEmail.usecase';
 import Button from '@/presentation/components/ui/button/Button';
+import { useTranslation } from 'react-i18next';
 
 const InputField = styled.div`
   width: 100%;
@@ -44,6 +45,7 @@ const ForgotPasswordLink = styled.a`
   }
 `;
 function LoginForm() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -83,7 +85,7 @@ function LoginForm() {
     <div>
       <form onSubmit={handleLogin}>
         <InputField>
-          <label>Email</label>
+          <label>{t('auth.email')}</label>
           <input
             type="email"
             autoComplete="email"
@@ -93,7 +95,7 @@ function LoginForm() {
           />
         </InputField>
         <InputField>
-          <label>Mot de passe</label>
+          <label>{t('auth.password')}</label>
           <input
             type="password"
             autoComplete="current-password"
@@ -102,10 +104,10 @@ function LoginForm() {
             disabled={loading}
           />
         </InputField>
-        <ForgotPasswordLink href="/reset-password">Mot de passe oublié ?</ForgotPasswordLink>
+        <ForgotPasswordLink href="/reset-password">{t('auth.forgotPassword')}</ForgotPasswordLink>
         {error && <p style={{ color: 'red', marginBottom: '16px' }}>{error}</p>}
         <Button size="regular" variant="primary" type="submit" disabled={loading}>
-          {loading ? 'Connexion...' : 'Se connecter'}
+          {loading ? t('loading') : t('auth.login')}
         </Button>
       </form>
     </div>

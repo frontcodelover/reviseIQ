@@ -25,7 +25,7 @@ function DashboardCard({ title, description }: DashboardCardProps) {
       <HeadingThree weight="medium" size="regular" color="black">
         {title}
       </HeadingThree>
-      <Text weight="regular" size="regular" color="third">
+      <Text weight="regular" size="regular" color="secondary">
         {description}
       </Text>
     </Box>

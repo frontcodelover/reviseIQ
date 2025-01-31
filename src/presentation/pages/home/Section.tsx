@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
 import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
 import Text from '@/presentation/components/ui/text/Text';
-import { Pen } from 'lucide-react';
+import { Wand, User } from 'lucide-react';
 
 const ContainerSection = styled.section`
   grid-template-columns: 1fr 1fr;
@@ -21,7 +21,7 @@ const SectionOne = styled.div`
 const SectionTwo = styled.div`
   display: flex;
   gap: 2rem;
-  margin-top: 3rem;
+  /* margin-top: 3rem; */
 `;
 
 const SubSection = styled.div`
@@ -45,49 +45,73 @@ const HeadingPrettyTwo = styled(HeadingTwo)`
 function Section() {
   return (
     <ContainerSection>
+      {/* Section d'introduction */}
       <SectionOne>
         <HeadingPretty size="xxxlarge" weight="semibold" color="black">
-          Apprenez avec la communauté et restez motivé
+          Apprenez plus vite, retenez plus longtemps.
         </HeadingPretty>
         <BalanceText color="secondary" size="large">
-          ReviseIQ c’est une communauté qui partage des dossiers de flashcards pour apprendre de
-          nouvelles compétences et rester motivé. Rejoignez-nous pour apprendre et partager vos
-          connaissances avec d'autres passionnés.
+          Rejoignez des milliers d’apprenants et boostez vos connaissances avec des flashcards
+          interactives créées par la communauté. 🚀
         </BalanceText>
       </SectionOne>
+
+      {/* Section des bénéfices */}
       <SectionTwo>
         <SubSection>
-          <Pen size="40" />
+          <Wand size="40" />
           <HeadingPrettyTwo size="medium" weight="semibold" color="black">
-            Plus qu'un outil de révision
+            Créez des flashcards en un clic avec l’IA
           </HeadingPrettyTwo>
           <BalanceText color="secondary" size="regular">
-            ReviseIQ c’est une communauté qui partage des dossiers de flashcards pour apprendre de
-            nouvelles compétences.
+            Générez instantanément des flashcards à partir de textes ou d’articles et
+            concentrez-vous sur l’apprentissage, pas sur la création.
           </BalanceText>
         </SubSection>
 
         <SubSection>
-          <Pen size="40" />
+          <User size="40" />
           <HeadingPrettyTwo size="medium" weight="semibold" color="black">
-            Pour les élèves et les étudiants
+            Apprenez seul ou avec la communauté
           </HeadingPrettyTwo>
           <BalanceText color="secondary" size="regular">
-            Si vous êtes un élève ou un étudiant, ReviseIQ est l'outil idéal pour vous aider à
-            réviser et à mémoriser les informations importantes.
+            Explorez des milliers de flashcards partagées par d’autres apprenants et échangez des
+            connaissances avec la communauté.
+          </BalanceText>
+        </SubSection>
+
+        {/* <SubSection>
+          <Trophy size="40" />
+          <HeadingPrettyTwo size="medium" weight="semibold" color="black">
+            Restez motivé avec des récompenses
+          </HeadingPrettyTwo>
+          <BalanceText color="secondary" size="regular">
+            Gagnez des badges et relevez des défis pour garder votre motivation intacte et suivre
+            vos progrès d’apprentissage.
+          </BalanceText>
+        </SubSection> */}
+
+        {/* <SubSection>
+          <FileQuestion size="40" />
+          <HeadingPrettyTwo size="medium" weight="semibold" color="black">
+            Testez vos connaissances avec des quiz
+          </HeadingPrettyTwo>
+          <BalanceText color="secondary" size="regular">
+            Passez en mode quiz pour valider votre apprentissage et repérer les notions à
+            approfondir.
           </BalanceText>
         </SubSection>
 
         <SubSection>
-          <Pen size="40" />
+          <WalletCards size="40" />
           <HeadingPrettyTwo size="medium" weight="semibold" color="black">
-            Pour les professionnelles
+            Un mode flashcards simple et efficace
           </HeadingPrettyTwo>
           <BalanceText color="secondary" size="regular">
-            ReviseIQ c’est une communauté qui partage des dossiers de flashcards pour apprendre de
-            nouvelles compétences.
+            Révisez facilement avec un mode flashcards optimisé pour une rétention rapide et
+            efficace.
           </BalanceText>
-        </SubSection>
+        </SubSection> */}
       </SectionTwo>
     </ContainerSection>
   );
