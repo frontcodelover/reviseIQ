@@ -39,30 +39,38 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
     }
   }
 
-  async generateFlashcards(topic: string, number: number): Promise<Flashcard[]> {
+  async generateFlashcards(topic: string, number: number, lang: string): Promise<Flashcard[]> {
     const apiKey = import.meta.env.VITE_MISTRAL_API_KEY;
     if (!apiKey) {
       throw new Error('Clé API Mistral non définie');
     }
 
     const client = new Mistral({ apiKey });
-    const prompt = `Génère un maximum de ${number} flashcards pour apprendre ${topic}. Donne chaque flashcard sous le format 'Question : ... Réponse : ... Mauvaise réponse 1 : ... Mauvaise réponse 2 : ... Mauvaise réponse 3 : ...'`;
+    const prompt = `Génère un maximum de ${number} flashcards pour apprendre ${topic} dans la langue ${lang}. Donne l'ensemble de toutes les flashcard un objet JSON brut sous cette forme UNIQUEMENT : '
+		{
+		"Question" : "...",
+		 "Réponse" : "...",
+		 "Mauvaise réponse 1" : "...",
+		 "Mauvaise réponse 2" : "...",
+		 "Mauvaise réponse 3" : "..."
+		},'`;
 
+    let flashcards: Flashcard[] = [];
     try {
       console.log('Envoi de la requête à Mistral');
+
       const result = await client.chat.complete({
         model: 'mistral-large-latest',
         messages: [{ role: 'user', content: prompt }],
       });
-      console.log('Réponse de Mistral:', result);
 
       if (!result?.choices?.[0]?.message?.content) {
         throw new Error('Format de réponse invalide');
       }
-
       const content = result.choices[0].message.content as string;
-      const flashcards = this.parseFlashcards(content);
+      flashcards = this.parseFlashcards(content);
 
+      console.log('Flashcards générées:', flashcards);
       return flashcards;
     } catch (error) {
       console.error('Erreur détaillée:', error);
@@ -70,46 +78,42 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
     }
   }
 
-  parseFlashcards(raw: string): Flashcard[] {
-    console.log('Contenu brut à parser:', raw);
-
-    // Nettoyage du texte
-    const cleanedRaw = raw.replace(/\*\*/g, '').trim();
-    const flashcards: Flashcard[] = [];
-
-    // Séparation par numéro de flashcard
-    const cardBlocks = cleanedRaw.split(/\d+\.\s+/).filter((block) => block.trim());
-
-    for (const block of cardBlocks) {
-      const lines = block
-        .split('\n')
-        .map((line) => line.trim())
-        .filter(Boolean);
-
-      const question = lines
-        .find((line) => line.startsWith('Question'))
-        ?.replace(/Question\s*:\s*/i, '')
+  private parseFlashcards(content: string): Flashcard[] {
+    try {
+      // Nettoyer le markdown et le format JSON
+      const cleanContent = content
+        .replace(/```json/g, '')
+        .replace(/```/g, '')
         .trim();
-      const answer = lines
-        .find((line) => line.startsWith('Réponse'))
-        ?.replace(/Réponse\s*:\s*/i, '')
-        .trim();
-      const wrongAnswers = lines
-        .filter((line) => line.match(/Mauvaise réponse \d+\s*:/i))
-        .map((line) => line.replace(/Mauvaise réponse \d+\s*:\s*/i, '').trim());
 
-      if (question && answer && wrongAnswers.length > 0) {
-        flashcards.push({
-          id: Date.now() + flashcards.length,
-          question,
-          answer,
-          wrongAnswers,
-        });
+      // Ajouter les crochets pour créer un tableau valide si nécessaire
+      const jsonContent = cleanContent.startsWith('[') ? cleanContent : `[${cleanContent}]`;
+
+      // Supprimer la virgule finale si elle existe avant le crochet final
+      const validJsonContent = jsonContent.replace(/,(\s*})*\s*\]$/, '$1]');
+
+      // Parser le JSON
+      const parsedContent = JSON.parse(validJsonContent);
+
+      // Vérifier si c'est un tableau
+      if (!Array.isArray(parsedContent)) {
+        console.error('Format JSON invalide: attendu un tableau');
+        return [];
       }
-    }
 
-    console.log('Flashcards créées:', flashcards);
-    return flashcards;
+      return parsedContent.map((card) => ({
+        question: card.Question,
+        answer: card.Réponse || card.Answer,
+        wrongAnswers: [
+          card['Mauvaise réponse 1'] || card['Wrong answer 1'],
+          card['Mauvaise réponse 2'] || card['Wrong answer 2'],
+          card['Mauvaise réponse 3'] || card['Wrong answer 3'],
+        ],
+      }));
+    } catch (error) {
+      console.error('Erreur parsing JSON:', error, '\nContenu:', content);
+      return [];
+    }
   }
 
   async storeQuiz(deckId: string, flashcards: Flashcard[]): Promise<void> {

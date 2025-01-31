@@ -18,6 +18,8 @@ const userRepository = new SupabaseUserRepository();
 const createFolder = new CreateFolder(userRepository);
 
 function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
+  const lang = localStorage.getItem('i18nextLng') || 'fr';
+  console.log(lang);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
@@ -26,6 +28,7 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
     isPublic: true,
     thema: '',
     color: '#F0F0F0',
+    lang: lang,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -46,6 +49,7 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
         is_public: formData.isPublic,
         color: formData.color,
         thema: formData.thema,
+        lang: formData.lang,
       });
       onRefresh();
       navigate(`/dashboard/folders/${id}`);

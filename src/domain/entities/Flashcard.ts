@@ -5,4 +5,5 @@ export interface Flashcard {
   answer: string;
   wrongAnswers?: string[];
   ia_generated?: boolean;
+  lang?: string;
 }

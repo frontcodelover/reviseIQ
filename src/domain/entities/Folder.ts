@@ -6,6 +6,7 @@ export interface Folder {
   color: string;
   thema: string;
   user_id?: string | undefined;
+  lang: string;
 }
 
 export interface FormData {
@@ -14,6 +15,7 @@ export interface FormData {
   isPublic: boolean;
   thema: string;
   color: string;
+  lang: string;
 }
 
 export interface CardFolderProps {
@@ -23,4 +25,6 @@ export interface CardFolderProps {
   color: string;
   is_public: boolean;
   thema: string;
+  lang: string;
+  user_id: string;
 }

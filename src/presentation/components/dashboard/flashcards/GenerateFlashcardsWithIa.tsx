@@ -19,6 +19,7 @@ const folderRepository = new SupabaseFolderRepository();
 const getFolderById = new GetFolderById(folderRepository);
 
 export function GenerateFlashCardWithIa() {
+  const lang = localStorage.getItem('i18nextLng') || 'fr';
   const { id: deckId } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [topic, setTopic] = useState('');
@@ -42,7 +43,8 @@ export function GenerateFlashCardWithIa() {
     setError(null);
 
     try {
-      const result = await generateFlashcard.execute(topic, number);
+      const result = await generateFlashcard.execute(topic, number, lang);
+      console.log(result);
       setGeneratedCards(result);
       if (deckId) {
         await flashcardRepository.storeQuiz(deckId, result);
