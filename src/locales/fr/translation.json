@@ -55,6 +55,8 @@
     "deck": "Dossiers",
     "search": "Recherche",
     "calendar": "Calendrier",
+    "greetings": "Bonjour",
+    "greetings2": "Que voulez-vous apprendre aujourd'hui ?",
     "firstimeForm": {
       "title": "Complétez votre profil",
       "firstnameLabel": "Entrez votre prénom",

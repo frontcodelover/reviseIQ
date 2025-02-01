@@ -2,9 +2,10 @@
 import styled from 'styled-components';
 import { NavLink, useLocation } from 'react-router-dom';
 import { SidebarItem } from '@/presentation/types/SidebarItem';
+import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 
 const StyledSidebarMenuItem = styled.div`
-  color: #8a8a8a;
+  color: ${COLORS.black};
 `;
 
 const SidebarMenuButton = styled.div`
@@ -16,8 +17,8 @@ const SidebarMenuButton = styled.div`
 `;
 
 const ActiveItem = styled.div`
-  color: #0077ff;
-  background-color: #f0f7ff;
+  color: ${COLORS.primary};
+  background-color: ${COLORS.white};
   width: 100%;
 `;
 
@@ -54,7 +55,7 @@ const ItemBadge = styled.span<{ color: string }>`
   border-radius: 0.5rem; /* rounded-lg */
   padding: 0.25rem 0.75rem; /* px-3 py-1 */
   font-size: 0.75rem; /* text-xs */
-  color: #fff; /* text-gray-100 */
+  color: ${COLORS.white};
   margin-left: 0.75rem;
   background-color: ${(props) => props.color};
 `;

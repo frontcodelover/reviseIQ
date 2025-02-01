@@ -7,6 +7,7 @@ export interface Folder {
   thema: string;
   user_id?: string | undefined;
   lang: string;
+  created_at?: string;
 }
 
 export interface FormData {

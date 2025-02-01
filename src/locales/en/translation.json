@@ -55,6 +55,8 @@
     "deck": "Folders",
     "search": "Search",
     "calendar": "Calendar",
+    "greetings": "Hello",
+    "greetings2": "What do you want to learn today?",
     "folder": {
       "yourfolder": "Your folders",
       "createfolder": "Create a folder",

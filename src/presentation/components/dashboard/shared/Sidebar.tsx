@@ -8,11 +8,12 @@ import { useUserDecksCount } from '@/presentation/hooks/useUserDecksCount';
 import { useProfile } from '@/presentation/components/dashboard/useProfile';
 import { Calendar, Home, Inbox, MessageCircleHeart } from 'lucide-react';
 import { SidebarItem } from '@/presentation/types/SidebarItem';
+import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 
-const StyledSidebar = styled.div`
+const StyledSidebar = styled.aside`
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: ${COLORS.lightgray};
   height: 100%;
   transition: width 0.5s ease-in-out;
   overflow: hidden auto;

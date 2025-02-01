@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import Sidebar from '@/presentation/components/dashboard/shared/Sidebar';
 import SearchBar from '../components/dashboard/shared/SearchBar';
 import Notification from '../components/dashboard/Notification';
+import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 
 const MainContainer = styled.main`
   width: 100%;
-  background: #f0f7ff;
   color: #333;
   min-height: 100vh;
 `;
@@ -17,8 +17,8 @@ const SidebarContainer = styled.div`
   left: 0;
   height: 100%;
   width: 250px;
-
   overflow-y: auto;
+  background: ${COLORS.lightgray};
 `;
 
 const ContentWrapper = styled.div`

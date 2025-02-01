@@ -1,14 +1,15 @@
 import styled from 'styled-components';
 import { LogOut } from 'lucide-react';
+import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 
 const StyledSidebarFooter = styled.div`
   padding: 1rem;
 `;
 
 const LogoutBtn = styled.button`
-  background-color: #fff;
+  background-color: ${COLORS.lightgray};
   padding: 20px 10px;
-  color: #e55858;
+  color: ${COLORS.danger};
   border: none;
   cursor: pointer;
   display: flex;

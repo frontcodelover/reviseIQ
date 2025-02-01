@@ -5,30 +5,13 @@ import ActivityCalendar from '@/presentation/components/dashboard/stats/activity
 import { LogsAndBadgesManager } from '@/presentation/components/dashboard/stats/logsAndBadgesManager';
 import { GetPublicFolders } from '@/presentation/components/dashboard/community/GetPublicFolders';
 import styled from 'styled-components';
-import DashboardCard from '@/presentation/components/dashboard/DashboardCard';
+
+import Greetings from '@/presentation/components/dashboard/homeBoard/Greetings';
 
 import { Badge } from '@/domain/entities/Badge';
 import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
 import HeadingThree from '@/presentation/components/ui/text/heading/HeadingThree';
 import Text from '@/presentation/components/ui/text/Text';
-import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
-
-const GreetingsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  background-color: #0077ff;
-  padding: 3rem;
-  border-radius: 16px;
-  margin: 2rem 0;
-  gap: 1.5rem;
-`;
-
-const ParagraphContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-`;
 
 const Container = styled.div`
   display: flex;
@@ -104,11 +87,6 @@ const StatsContainer = styled.div`
   padding: 1.5rem;
 `;
 
-const DashcardCardLayout = styled.section`
-  display: flex;
-  gap: 1rem;
-`;
-
 function Dashboard() {
   const { profile, loading, error } = useProfile();
   const { user } = useAuth();
@@ -121,48 +99,9 @@ function Dashboard() {
   if (error) return <div>Erreur: {error}</div>;
   if (!profile) return null;
 
-  const cardDashboard = [
-    {
-      title: 'Découvrir',
-      description: 'Tableau de bord personnalisé',
-    },
-    {
-      title: 'Explorez',
-      description: 'Vos statistiques de progression',
-    },
-    {
-      title: 'Communauté',
-      description: 'Apprenez et gagnez des badges',
-    },
-    {
-      title: 'Activité récente',
-      description: 'Partagez avec la communauté',
-    },
-  ];
-
   return (
     <Container>
-      <GreetingsContainer>
-        <HeadingOne size="xxlarge" color="white" weight="bold">
-          Bienvenue {profile.firstname} 👋
-        </HeadingOne>
-        <ParagraphContainer>
-          <Text size="medium" color="white" weight="light">
-            Commencez à explorer votre tableau de bord et apprendre de nouvelles compétences.
-          </Text>
-          <Text size="medium" color="white" weight="light">
-            Plus vous vous exercerez, plus vous obtiendrez de badges.
-          </Text>
-          <Text size="medium" color="white" weight="medium">
-            Envie de relever le défi ?
-          </Text>
-        </ParagraphContainer>
-      </GreetingsContainer>
-      <DashcardCardLayout>
-        {cardDashboard.map((card, index) => (
-          <DashboardCard key={index} title={card.title} description={card.description} />
-        ))}
-      </DashcardCardLayout>
+      <Greetings />
 
       <GetPublicFolders />
 
