@@ -64,6 +64,7 @@
       "publicfolder": "Public",
       "privatefolder": "Private",
       "by": "by",
+      "moreFolder": "More public folders",
       "form": {
         "title": "Create a folder",
         "name": "Folder name",

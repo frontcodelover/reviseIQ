@@ -5,6 +5,9 @@ import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolde
 import { GetLastPublicFolderUseCase } from '@/application/useCases/folder/GetLastPublicFolder.usecase';
 import { Folder } from '@/domain/entities/Folder';
 import styled from 'styled-components';
+import Text from '../../ui/text/Text';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled.div`
   display: flex;
@@ -18,9 +21,17 @@ const Grid = styled.div`
   gap: 1rem;
 `;
 
+const LinkText = styled(Text)`
+  width: fit-content;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 export function GetPublicFolders() {
   const folderRepository = new SupabaseFolderRepository();
   const getLastPublicFolderUseCase = new GetLastPublicFolderUseCase(folderRepository);
+  const { t } = useTranslation();
 
   const {
     data: folders,
@@ -39,6 +50,9 @@ export function GetPublicFolders() {
           <CardFolder key={folder.id} {...folder} />
         ))}
       </Grid>
+      <LinkText size="regular" color="primary" weight="regular">
+        <Link to="/dashboard/community">+ {t('dashboard.folder.moreFolder')}</Link>
+      </LinkText>
     </Container>
   );
 }

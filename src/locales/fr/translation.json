@@ -82,6 +82,7 @@
       "nofolder": "Il semblerait que vous n'avez pas encore créé de dossier.",
       "publicfolder": "Public",
       "privatefolder": "Privé",
+      "moreFolder": "Voir plus de dossiers publics",
       "by": "par",
       "form": {
         "title": "Créer un dossier",

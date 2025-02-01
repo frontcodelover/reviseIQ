@@ -3,6 +3,8 @@ import { useProfileUserById } from '@/presentation/hooks/useProfileUserById';
 import { styled } from 'styled-components';
 import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 import { useTranslation } from 'react-i18next';
+import { US } from 'country-flag-icons/react/3x2';
+import { FR } from 'country-flag-icons/react/3x2';
 
 import { Folder } from '@/domain/entities/Folder';
 import HeadingTwo from '../../ui/text/heading/HeadingTwo';
@@ -39,12 +41,43 @@ const CardFooter = styled.div`
 
 const ContainerFooter = styled.div`
   display: flex;
+  gap: 1rem;
+  align-items: center;
+`;
+
+const ConatainerLang = styled.div`
+  display: flex;
   gap: 0.5rem;
   align-items: center;
 `;
 
+const FlagIcon = styled.div`
+  width: 20px;
+  height: 20px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const Avatar = styled.img`
+  height: 3.5rem;
+  width: 3.5rem;
+  border-radius: 8px;
+`;
+
+const HeadingTwoLink = styled(HeadingTwo)`
+  color: ${COLORS.black};
+  transition: ease-in-out 0.2s;
+  width: fit-content;
+  &:hover {
+    color: ${COLORS.primary};
+  }
+`;
+
 const CardFolder = ({ ...props }: Folder) => {
-  const { id, name, thema, user_id, created_at } = props;
+  const { id, name, thema, lang, user_id, created_at } = props;
   const { profile, loading } = useProfileUserById(user_id || '');
   const { t } = useTranslation();
 
@@ -52,9 +85,9 @@ const CardFolder = ({ ...props }: Folder) => {
     <Card id={id}>
       <CardHeader>
         <CardContent>
-          <HeadingTwo size="regular" color="black" weight="semibold">
+          <HeadingTwoLink size="regular" color="black" weight="semibold">
             <Link to={`/dashboard/folders/${id}`}>{name}</Link>
-          </HeadingTwo>
+          </HeadingTwoLink>
           <HeadingThree size="small" color="secondary" weight="regular">
             {thema}
           </HeadingThree>
@@ -63,18 +96,28 @@ const CardFolder = ({ ...props }: Folder) => {
 
       {!loading && profile && (
         <ContainerFooter>
-          <img
-            src={`/src/assets/${profile.avatar}.webp`}
-            alt="avatar"
-            className="h-8 w-8 rounded-full"
-          />
+          <Avatar src={`/src/assets/${profile.avatar}.webp`} alt="avatar user" />
           <CardFooter>
-            <Text>
+            <Text color="black" weight="medium">
               {t('dashboard.folder.by')} {profile?.firstname}
             </Text>
             <Text size="small" color="secondary" weight="regular">
               {created_at ? formatDate(created_at) : ''}
             </Text>
+            <ConatainerLang>
+              <Text size="small" color="secondary" weight="regular">
+                {t('language')}
+              </Text>
+              {lang === 'fr' ? (
+                <FlagIcon>
+                  <FR />
+                </FlagIcon>
+              ) : (
+                <FlagIcon>
+                  <US />
+                </FlagIcon>
+              )}
+            </ConatainerLang>
           </CardFooter>
         </ContainerFooter>
       )}
