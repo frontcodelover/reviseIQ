@@ -78,7 +78,7 @@ const HeadingTwoLink = styled(HeadingTwo)`
 
 const CardFolder = ({ ...props }: Folder) => {
   const { id, name, thema, lang, user_id, created_at } = props;
-  const { profile, loading } = useProfileUserById(user_id || '');
+  const { profile, isLoading } = useProfileUserById(user_id || '');
   const { t } = useTranslation();
 
   return (
@@ -94,7 +94,7 @@ const CardFolder = ({ ...props }: Folder) => {
         </CardContent>
       </CardHeader>
 
-      {!loading && profile && (
+      {!isLoading && profile && (
         <ContainerFooter>
           <Avatar src={`/src/assets/${profile.avatar}.webp`} alt="avatar user" />
           <CardFooter>

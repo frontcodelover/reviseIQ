@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import CardFolder from '@/presentation/components/dashboard/folders/CardFolder';
+// import CardFolder from '@/presentation/components/dashboard/folders/CardFolder';
 
 import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
 import { GetPublicFoldersUseCase } from '@/application/useCases/folder/GetPublicFolders.usecase';
 import { Pagination } from '../../ui/Pagination';
 
 import styled from 'styled-components';
+import CommunityTable from './CommunityTable';
+import HeadingTwo from '../../ui/text/heading/HeadingTwo';
 
 const Container = styled.div`
   display: flex;
@@ -14,15 +16,15 @@ const Container = styled.div`
   gap: 1rem;
 `;
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-`;
+// const Grid = styled.div`
+//   display: grid;
+//   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+//   gap: 1rem;
+// `;
 
 export function GetAllPublicFolders() {
   const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(9);
+  const [limit, setLimit] = useState(19);
 
   const folderRepository = new SupabaseFolderRepository();
   const getPublicFoldersUseCase = new GetPublicFoldersUseCase(folderRepository);
@@ -38,22 +40,23 @@ export function GetAllPublicFolders() {
     return result;
   });
 
-  // Debug logs
-  console.log('Full Response:', response);
-  console.log('Data:', response?.data);
-  console.log('Count:', response?.count);
-
   if (isLoading) return <div>Chargement...</div>;
   if (error) return <div>Erreur : {(error as Error).message}</div>;
   if (!response?.data) return <div>Aucun dossier public trouvé</div>;
 
   return (
     <Container>
-      <Grid>
+      <HeadingTwo align="right" weight="medium">
+        {response.count} dossiers publics
+      </HeadingTwo>
+      <CommunityTable folders={response.data} />
+      {/* <Grid>
         {response.data.map((folder) => (
-          <CardFolder key={folder.id} {...folder} />
+          <>
+            <CardFolder key={folder.id} {...folder} />
+          </>
         ))}
-      </Grid>
+      </Grid> */}
       <Pagination
         page={page}
         limit={limit}

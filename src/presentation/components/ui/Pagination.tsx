@@ -63,9 +63,9 @@ export const Pagination = ({
       </PageButton>
 
       <Select value={limit} onChange={(e) => onLimitChange(Number(e.target.value))}>
-        <option value={10}>10 par page</option>
         <option value={20}>20 par page</option>
         <option value={50}>50 par page</option>
+        <option value={100}>100 par page</option>
       </Select>
     </PaginationContainer>
   );
