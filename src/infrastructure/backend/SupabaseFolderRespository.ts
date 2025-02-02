@@ -3,16 +3,21 @@ import { FolderRepository } from '@/domain/repositories/FolderRepository';
 import { Folder, CardFolderProps } from '@/domain/entities/Folder';
 
 export class SupabaseFolderRepository implements FolderRepository {
-  async getPublicFolders(): Promise<Folder[]> {
+  async getPublicFolders(start: number, end: number): Promise<{ data: Folder[]; count: number }> {
     try {
-      const { data, error } = await supabase.from('decks').select('*').eq('is_public', true);
+      const { data, count, error } = await supabase
+        .from('decks')
+        .select('*', { count: 'exact' })
+        .eq('is_public', true)
+        .order('created_at', { ascending: false })
+        .range(start, end);
 
       if (error) {
         console.error('Error fetching getPublicFolders:', error);
         throw error;
       }
 
-      return data || [];
+      return { data: data || [], count: count || 0 };
     } catch (error) {
       console.error('Error in getPublicFolders:', error);
       throw error;

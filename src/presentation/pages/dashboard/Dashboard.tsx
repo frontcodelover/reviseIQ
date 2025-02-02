@@ -3,7 +3,7 @@ import { useProfile } from '@/presentation/components/dashboard/useProfile';
 import { useAuth } from '@/presentation/context/AuthContext';
 import ActivityCalendar from '@/presentation/components/dashboard/stats/activityCalendar';
 import { LogsAndBadgesManager } from '@/presentation/components/dashboard/stats/logsAndBadgesManager';
-import { GetPublicFolders } from '@/presentation/components/dashboard/community/GetPublicFolders';
+import { GetPublicFolders } from '@/presentation/components/dashboard/homeBoard/GetLimitedPublicFolders';
 import styled from 'styled-components';
 
 import Greetings from '@/presentation/components/dashboard/homeBoard/Greetings';

@@ -1,4 +1,4 @@
-import { GetPublicFolders } from '@/presentation/components/dashboard/community/GetPublicFolders';
+import { GetAllPublicFolders } from '@/presentation/components/dashboard/community/GetAllPublicFolder';
 import { useTranslation } from 'react-i18next';
 
 function Community() {
@@ -6,7 +6,7 @@ function Community() {
   return (
     <div>
       <h1 className="mb-6 text-3xl font-bold">{t('dashboard.community')}</h1>
-      <GetPublicFolders />
+      <GetAllPublicFolders />
     </div>
   );
 }

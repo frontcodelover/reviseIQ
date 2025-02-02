@@ -1,7 +1,7 @@
 import { Folder } from '@/domain/entities/Folder';
 
 export interface FolderRepository {
-  getPublicFolders(): Promise<Folder[]>;
+  getPublicFolders(start: number, end: number): Promise<{ data: Folder[]; count: number }>;
   getLastPublicFolders(): Promise<Folder[]>;
   getFolderById(id: string): Promise<Folder>;
   deleteFolder(id: string): Promise<void>;

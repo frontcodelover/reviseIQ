@@ -1,10 +1,12 @@
 import { FolderRepository } from '@/domain/repositories/FolderRepository';
-import { Folder } from '@/domain/entities/Folder';
 
 export class GetPublicFoldersUseCase {
   constructor(private folderRepository: FolderRepository) {}
-
-  async execute(): Promise<Folder[]> {
-    return this.folderRepository.getPublicFolders();
+  async execute(start: number, end: number) {
+    const result = await this.folderRepository.getPublicFolders(start, end);
+    return {
+      data: result.data,
+      count: result.count,
+    };
   }
 }
