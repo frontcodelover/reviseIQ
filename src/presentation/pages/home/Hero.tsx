@@ -28,7 +28,7 @@ function HeroTwo() {
           <Trans i18nKey="home.description" />
         </Text>
         <Link to="/signup">
-          <ButtonContainer size="large" variant="primary">
+          <ButtonContainer $size="large" $variant="primary">
             {t('home.cta')}
             <ArrowRight size={24} />
           </ButtonContainer>

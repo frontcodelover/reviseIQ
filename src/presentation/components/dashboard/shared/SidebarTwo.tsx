@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useEffect } from 'react';
 import { useProfile } from '@/presentation/hooks/useProfile';
 import { useTranslation } from 'react-i18next';
 import { useHandleSignOut } from '@/presentation/hooks/useSignOut';
@@ -11,7 +10,7 @@ import SidebarMenuItemResponsive from '@/presentation/components/dashboard/share
 import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 import { Item } from '@/presentation/components/dashboard/shared/Item';
 
-const SIDEBAR_STATE_KEY = 'sidebar-collapsed-state';
+export const SIDEBAR_STATE_KEY = 'sidebar-collapsed-state';
 
 interface SidebarTwoProps {
   isCollapsed: boolean;
@@ -28,22 +27,15 @@ export function SidebarTwo({ isCollapsed, setIsCollapsed }: SidebarTwoProps) {
   const items = Item();
   const handleSignOut = useHandleSignOut();
 
-  useEffect(() => {
-    const savedState = localStorage.getItem(SIDEBAR_STATE_KEY);
-    if (savedState !== null) {
-      setIsCollapsed(JSON.parse(savedState));
-    }
-  }, []);
-
-  if (loading) return <div>Chargement...</div>;
-  if (error) return <div>Erreur: {error}</div>;
-  if (!profile) return <div>Pas de profil</div>;
-
   const toggleSidebar = () => {
     const newState = !isCollapsed;
     setIsCollapsed(newState);
     localStorage.setItem(SIDEBAR_STATE_KEY, JSON.stringify(newState));
   };
+
+  if (loading) return <div>Chargement...</div>;
+  if (error) return <div>Erreur: {error}</div>;
+  if (!profile) return <div>Pas de profil</div>;
 
   return (
     <>
@@ -51,6 +43,7 @@ export function SidebarTwo({ isCollapsed, setIsCollapsed }: SidebarTwoProps) {
         <ToggleButton onClick={toggleSidebar} $isCollapsed={isCollapsed}>
           <SquareChevronLeft size={24} />
         </ToggleButton>
+
         <SidebarGroupLabel $isCollapsed={isCollapsed} />
         <ItemAlign>
           {items.map((item) =>
@@ -67,17 +60,22 @@ export function SidebarTwo({ isCollapsed, setIsCollapsed }: SidebarTwoProps) {
   );
 }
 
-export const StyledSidebarTwo = styled.aside<StyledProps>`
+const StyledSidebarTwo = styled.aside<StyledProps>`
   background-color: ${COLORS.lightgray};
   min-height: 100vh;
   width: ${({ $isCollapsed }) => ($isCollapsed ? '250px' : '55px')};
   position: fixed;
-  transition: width 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
   top: 0;
   left: 0;
+  z-index: 100;
   border-right: 1px solid ${COLORS.gray};
-  padding-top: 0;
-  margin-top: 0px;
+
+  ${({ $isCollapsed }) =>
+    $isCollapsed &&
+    `
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  `}
 `;
 
 export const ToggleButton = styled.button<StyledProps>`

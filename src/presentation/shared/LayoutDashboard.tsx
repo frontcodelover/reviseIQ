@@ -3,15 +3,23 @@ import SearchBar from '@/presentation/components/dashboard/shared/SearchBar';
 import Notification from '@/presentation/components/dashboard/Notification';
 import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 import React, { useState } from 'react';
-import { SidebarTwo } from '@/presentation/components/dashboard/shared/SidebarTwo';
+import {
+  SidebarTwo,
+  SIDEBAR_STATE_KEY,
+} from '@/presentation/components/dashboard/shared/SidebarTwo';
 
 export default function LayoutDashboard({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  const handleCloseSidebar = () => {
+    setIsCollapsed(false);
+    localStorage.setItem(SIDEBAR_STATE_KEY, JSON.stringify(false));
+  };
   return (
     <>
       <SidebarContainer isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
       <MainContainer $isCollapsed={isCollapsed}>
+        <Overlay $isCollapsed={isCollapsed} onClick={handleCloseSidebar} />
         <ContentWrapper>
           <LayoutFlex>
             <SearchBarLayout>
@@ -27,9 +35,25 @@ export default function LayoutDashboard({ children }: { children: React.ReactNod
 }
 
 const MainContainer = styled.main<{ $isCollapsed: boolean }>`
-  margin-left: ${({ $isCollapsed }) => ($isCollapsed ? '250px' : '30px')};
-  transition: margin-left 0.2s ease-in-out;
   padding: 2rem 1rem;
+  margin-left: 55px;
+  position: relative;
+  max-width: 1280px;
+  min-width: 320px;
+  margin: auto;
+`;
+
+const Overlay = styled.div<{ $isCollapsed: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: ${({ $isCollapsed }) => ($isCollapsed ? 1 : 0)};
+  visibility: ${({ $isCollapsed }) => ($isCollapsed ? 'visible' : 'hidden')};
+  transition: opacity 0.3s ease-in-out;
+  z-index: 50;
 `;
 
 const SidebarContainer = styled(SidebarTwo)`

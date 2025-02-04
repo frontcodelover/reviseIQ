@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Text from '../../ui/text/Text';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { COLORS } from '../../ui/colors/ColorsVariant';
 
 export function GetPublicFolders() {
   const folderRepository = new SupabaseFolderRepository();
@@ -31,7 +32,7 @@ export function GetPublicFolders() {
           <CardFolder key={folder.id} {...folder} />
         ))}
       </Grid>
-      <LinkText $size="regular" $color="primary" $weight="regular">
+      <LinkText>
         <Link to="/dashboard/community">+ {t('dashboard.folder.moreFolder')}</Link>
       </LinkText>
     </Container>
@@ -62,7 +63,12 @@ const Grid = styled.div`
 
 const LinkText = styled(Text)`
   width: fit-content;
-  &:hover {
+  a {
+    color: ${COLORS.primary};
+    text-decoration: none;
+  }
+
+  &:hover a {
     text-decoration: underline;
   }
 `;

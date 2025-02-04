@@ -29,10 +29,10 @@ const Text: React.FC<TextProps> = ({
   $align,
   $size,
   $weight,
-  children,
   $font,
   $color,
   $decoration,
+  children,
   ...props
 }) => {
   return (
