@@ -48,23 +48,11 @@ const ItemContent = styled.div`
 const ItemIcon = styled.div`
   display: flex;
   align-items: center;
+  font-weight: 500;
   gap: 0.75rem; /* gap-3 */
 `;
 
-const ItemTitle = styled.span`
-  font-weight: 500; /* font-semibold */
-`;
-
-const ItemBadge = styled.span<{ color: string }>`
-  font-weight: 600; /* font-normal */
-  margin-left: auto;
-  border-radius: 0.5rem; /* rounded-lg */
-  font-size: 0.75rem; /* text-xs */
-  color: ${(props) => props.color};
-  margin-left: 0.75rem;
-`;
-
-const SidebarMenuItem: React.FC<{ item: SidebarItem }> = ({ item }) => {
+const SidebarMenuItemResponsive: React.FC<{ item: SidebarItem }> = ({ item }) => {
   const location = useLocation();
   const isActive = location.pathname === item.url;
 
@@ -74,21 +62,13 @@ const SidebarMenuItem: React.FC<{ item: SidebarItem }> = ({ item }) => {
         {isActive ? (
           <ActiveItem>
             <ItemContent>
-              <ItemIcon>
-                {item.icon && <item.icon />}
-                <ItemTitle>{item.title}</ItemTitle>
-              </ItemIcon>
-              {item.nb && <ItemBadge color={item.color || ''}>{item.nb}</ItemBadge>}
+              <ItemIcon>{item.icon && <item.icon />}</ItemIcon>
             </ItemContent>
           </ActiveItem>
         ) : (
           <InactiveItem to={item.url || '#'}>
             <ItemContent>
-              <ItemIcon>
-                {item.icon && <item.icon />}
-                <ItemTitle>{item.title}</ItemTitle>
-              </ItemIcon>
-              {item.nb && <ItemBadge color={item.color || ''}>{item.nb}</ItemBadge>}
+              <ItemIcon>{item.icon && <item.icon />}</ItemIcon>
             </ItemContent>
           </InactiveItem>
         )}
@@ -97,4 +77,4 @@ const SidebarMenuItem: React.FC<{ item: SidebarItem }> = ({ item }) => {
   );
 };
 
-export default SidebarMenuItem;
+export default SidebarMenuItemResponsive;

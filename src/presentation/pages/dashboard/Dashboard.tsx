@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useProfile } from '@/presentation/components/dashboard/useProfile';
+import { useProfile } from '@/presentation/hooks/useProfile';
 import { useAuth } from '@/presentation/context/AuthContext';
 import ActivityCalendar from '@/presentation/components/dashboard/stats/activityCalendar';
 import { LogsAndBadgesManager } from '@/presentation/components/dashboard/stats/logsAndBadgesManager';
@@ -12,12 +12,7 @@ import { Badge } from '@/domain/entities/Badge';
 import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
 import HeadingThree from '@/presentation/components/ui/text/heading/HeadingThree';
 import Text from '@/presentation/components/ui/text/Text';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
+import BadgeBox from '@/presentation/components/dashboard/homeBoard/BadgeBox';
 
 const FlexContainer = styled.div`
   margin-top: 1.5rem;
@@ -47,11 +42,11 @@ const GridContainer = styled.div`
   gap: 1rem;
 
   @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 
@@ -87,6 +82,19 @@ const StatsContainer = styled.div`
   padding: 1.5rem;
 `;
 
+const SectionFirst = styled.section`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 2fr;
+  }
+  @media screen and (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
 function Dashboard() {
   const { profile, loading, error } = useProfile();
   const { user } = useAuth();
@@ -100,10 +108,13 @@ function Dashboard() {
   if (!profile) return null;
 
   return (
-    <Container>
+    <>
       <Greetings />
 
-      <GetPublicFolders />
+      <SectionFirst>
+        <GetPublicFolders />
+        <BadgeBox />
+      </SectionFirst>
 
       <LogsAndBadgesManager
         userId={userId}
@@ -164,7 +175,7 @@ function Dashboard() {
           </GridContainer>
         </>
       </FlexContainer>
-    </Container>
+    </>
   );
 }
 

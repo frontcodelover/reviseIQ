@@ -13,7 +13,6 @@ const searchFoldersUseCase = new SearchFoldersUseCase(folderRepository);
 
 const SearchContainer = styled.div`
   position: relative;
-  margin: 0.5rem 1rem 0.5rem 0;
 `;
 
 const SearchIcon = styled(Search)`

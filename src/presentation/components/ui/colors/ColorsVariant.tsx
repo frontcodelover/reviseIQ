@@ -3,6 +3,7 @@ export const COLORS = {
   white: '#ffffff',
   primary: '#057eff',
   primaryHover: '#0a6dff',
+  secondaryBlue: '#79BCFF',
   lightBlue: 'hsla(211, 100%, 80%, 0.35)',
   secondary: '#6d7278',
   third: '#9a9a9a',
