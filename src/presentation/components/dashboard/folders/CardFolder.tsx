@@ -70,6 +70,7 @@ const Avatar = styled.img`
 const HeadingTwoLink = styled(HeadingTwo)`
   color: ${COLORS.black};
   transition: ease-in-out 0.2s;
+  font-weight: 600;
   width: fit-content;
   &:hover {
     color: ${COLORS.primary};
@@ -85,7 +86,7 @@ const CardFolder = ({ ...props }: Folder) => {
     <Card id={id}>
       <CardHeader>
         <CardContent>
-          <HeadingTwoLink $size="regular" color="black" $weight="semibold">
+          <HeadingTwoLink>
             <Link to={`/dashboard/folders/${id}`}>{name}</Link>
           </HeadingTwoLink>
           <HeadingThree $size="small" color="secondary" $weight="regular">
@@ -105,7 +106,7 @@ const CardFolder = ({ ...props }: Folder) => {
               {created_at ? formatDate(created_at) : ''}
             </Text>
             <ConatainerLang>
-              <Text $size="small" color="secondary" $weight="regular">
+              <Text $size="small" $color="secondary" $weight="regular">
                 {t('language')}
               </Text>
               {lang === 'fr' ? (

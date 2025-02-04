@@ -4,20 +4,6 @@ import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
 import Text from '@/presentation/components/ui/text/Text';
 import { useTranslation } from 'react-i18next';
 
-const GreetingsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border-radius: 16px;
-  margin: 2rem 0;
-`;
-
-const ParagraphContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-`;
-
 function Greetings() {
   const { profile, loading, error } = useProfile();
   const { t } = useTranslation();
@@ -39,5 +25,18 @@ function Greetings() {
     </GreetingsContainer>
   );
 }
+const GreetingsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 16px;
+  margin: 2rem 0;
+`;
+
+const ParagraphContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+`;
 
 export default Greetings;

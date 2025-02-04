@@ -35,7 +35,7 @@ export default function LayoutDashboard({ children }: { children: React.ReactNod
 }
 
 const MainContainer = styled.main<{ $isCollapsed: boolean }>`
-  padding: 2rem 1rem;
+  padding: 2rem 2rem;
   margin-left: 55px;
   position: relative;
   max-width: 1280px;

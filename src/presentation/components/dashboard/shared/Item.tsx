@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Home, Inbox, MessageCircleHeart, Calendar } from 'lucide-react';
+import { Home, Folders, MessageCircleHeart, Calendar } from 'lucide-react';
 import { SidebarItem } from '@/presentation/types/SidebarItem';
 import { useUserDecksCount } from '@/presentation/hooks/useUserDecksCount';
 
@@ -16,7 +16,7 @@ export function Item() {
     {
       title: t('dashboard.deck'),
       url: '/dashboard/folders',
-      icon: Inbox,
+      icon: Folders,
       nb: deckCount,
       color: '#ff0080',
     },

@@ -9,68 +9,6 @@ import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFl
 import { GetFlashcardsUseCase } from '@/application/useCases/flashcard/GetFlashcards.usecase';
 import { useQuery } from 'react-query';
 
-const TableTRRow = styled.tr`
-  border-bottom: 1px solid ${COLORS.lightgray};
-
-  &:last-child {
-    border-bottom: none;
-  }
-`;
-
-const TableTD = styled.td`
-  padding: 16px 12px;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border-bottom: 1px solid ${COLORS.gray};
-`;
-
-const TableTDName = styled(TableTD)`
-  width: 40%;
-  font-weight: 800;
-  white-space: nowrap;
-  font-size: 1rem;
-  color: ${COLORS.black};
-`;
-
-const TableTDThema = styled(TableTD)`
-  width: 25%;
-  text-align: left;
-  font-weight: 400;
-`;
-
-const TableTDAuthor = styled(TableTD)`
-  width: 10%;
-  text-align: left;
-  font-weight: 400;
-`;
-
-const TableTDCards = styled(TableTD)`
-  width: 5%;
-  text-align: right;
-  font-weight: 400;
-`;
-
-const TableTDLang = styled(TableTD)`
-  width: 10%;
-`;
-
-const TableTDDate = styled(TableTD)`
-  width: 10%;
-  text-align: left;
-  font-weight: 400;
-`;
-
-const FlagIcon = styled.div`
-  width: 20px;
-  height: 20px;
-  margin: auto;
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-`;
 function TableContent({ ...props }) {
   const { id, name, user_id, lang, thema, created_at } = props;
   const { profile, isLoading } = useProfileUserById(user_id);
@@ -113,5 +51,86 @@ function TableContent({ ...props }) {
     </TableTRRow>
   );
 }
+
+const TableTRRow = styled.tr`
+  border-bottom: 1px solid ${COLORS.lightgray};
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const TableTD = styled.td`
+  padding: 16px 12px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid ${COLORS.gray};
+`;
+
+const TableTDName = styled(TableTD)`
+  width: 40%;
+  font-weight: 600;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  color: ${COLORS.black};
+  a {
+    color: ${COLORS.black};
+    text-decoration: none;
+  }
+  a:hover {
+    color: ${COLORS.primary};
+    text-decoration: underline;
+  }
+`;
+
+const TableTDThema = styled(TableTD)`
+  width: 25%;
+  text-align: left;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: ${COLORS.black};
+`;
+
+const TableTDAuthor = styled(TableTD)`
+  width: 10%;
+  text-align: left;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: ${COLORS.black};
+`;
+
+const TableTDCards = styled(TableTD)`
+  width: 5%;
+  text-align: right;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: ${COLORS.black};
+`;
+
+const TableTDLang = styled(TableTD)`
+  width: 10%;
+  font-size: 0.75rem;
+  color: ${COLORS.black};
+`;
+
+const TableTDDate = styled(TableTD)`
+  width: 10%;
+  text-align: left;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: ${COLORS.black};
+`;
+
+const FlagIcon = styled.div`
+  width: 20px;
+  height: 20px;
+  margin: auto;
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+`;
 
 export default TableContent;

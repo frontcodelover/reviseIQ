@@ -14,7 +14,7 @@ const EndCard = ({ onRestart }: { onRestart: () => void }) => (
 );
 
 const Container = styled.div`
-  min-height: 70vh;
+  min-height: 40vh;
   width: calc(100% - 10vw);
 `;
 
@@ -24,10 +24,9 @@ const InnerDiv = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 0.5rem;
-  border: 1px solid #e2e8f0;
+
   background-color: #fff;
   padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h3`

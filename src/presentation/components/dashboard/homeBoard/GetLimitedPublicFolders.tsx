@@ -1,14 +1,14 @@
 import { useQuery } from 'react-query';
-import CardFolder from '@/presentation/components/dashboard/folders/CardFolder';
-
-import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
-import { GetLastPublicFolderUseCase } from '@/application/useCases/folder/GetLastPublicFolder.usecase';
-import { Folder } from '@/domain/entities/Folder';
-import styled from 'styled-components';
-import Text from '../../ui/text/Text';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { COLORS } from '../../ui/colors/ColorsVariant';
+import styled from 'styled-components';
+import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
+import { GetLastPublicFolderUseCase } from '@/application/useCases/folder/GetLastPublicFolder.usecase';
+
+import CardFolder from '@/presentation/components/dashboard/folders/CardFolder';
+import { Folder } from '@/domain/entities/Folder';
+import Text from '@/presentation/components/ui/text/Text';
+import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 
 export function GetPublicFolders() {
   const folderRepository = new SupabaseFolderRepository();

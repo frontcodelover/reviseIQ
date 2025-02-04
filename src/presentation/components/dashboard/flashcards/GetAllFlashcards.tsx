@@ -165,11 +165,11 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
   const currentCard = isShuffled ? shuffledCards[currentIndex] : flashcards[currentIndex];
 
   return flashcards.length > 0 ? (
-    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
+    <div className="flex min-h-[40vh] flex-col items-center justify-center gap-4">
       {isLastCard ? (
         <EndCard onRestart={handleRestart} />
       ) : (
-        <div className="relative min-h-[60vh] w-[calc(100%-10vw)]">
+        <div className="relative h-[40vh] w-[calc(100%-10vw)]">
           {isOwner && (
             <button
               onClick={isEditing ? handleSaveEdit : handleEditClick}
@@ -181,7 +181,7 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
 
           <div
             onClick={() => !isEditing && setShowAnswer(!showAnswer)}
-            className={`perspective-1000 transform-style-preserve-3d min-h-[60vh] cursor-pointer transition-transform duration-500 ${
+            className={`perspective-1000 transform-style-preserve-3d min-h-[40vh] cursor-pointer transition-transform duration-500 ${
               showAnswer ? 'rotate-y-180' : ''
             }`}
           >

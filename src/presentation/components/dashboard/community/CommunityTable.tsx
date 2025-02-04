@@ -3,6 +3,28 @@ import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 import { Folder } from '@/domain/entities/Folder';
 import TableContent from './TableContent';
 
+function CommunityTable({ folders }: { folders: Folder[] }) {
+  return (
+    <Table>
+      <THead>
+        <TableTR>
+          <NameColumn>Nom du dossier</NameColumn>
+          <ThemaColumn>Thème</ThemaColumn>
+          <AuthorColumn>Créateur</AuthorColumn>
+          <CardsColumn>Cartes</CardsColumn>
+          <LangColumn>Langue</LangColumn>
+          <DateColumn>Création</DateColumn>
+        </TableTR>
+      </THead>
+      <tbody>
+        {folders.map((folder) => (
+          <TableContent key={folder.id} {...folder} />
+        ))}
+      </tbody>
+    </Table>
+  );
+}
+
 const Table = styled.table`
   width: 100%;
   table-layout: fixed;
@@ -26,7 +48,7 @@ const Table = styled.table`
 `;
 
 const TableTR = styled.tr`
-  background-color: ${COLORS.lightBlue};
+  background-color: ${COLORS.lightgray};
 `;
 
 const THead = styled.thead``;
@@ -36,8 +58,8 @@ const TableTH = styled.th`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-bottom: 1px solid ${COLORS.primary};
-  color: ${COLORS.primary};
+  border-bottom: 1px solid ${COLORS.secondary};
+  color: ${COLORS.black};
 `;
 
 const NameColumn = styled(TableTH)`
@@ -56,7 +78,7 @@ const AuthorColumn = styled(TableTH)`
 `;
 
 const CardsColumn = styled(TableTH)`
-  width: 5%;
+  width: 10%;
   text-align: right;
 `;
 
@@ -69,27 +91,5 @@ const DateColumn = styled(TableTH)`
   width: 10%;
   text-align: left;
 `;
-
-function CommunityTable({ folders }: { folders: Folder[] }) {
-  return (
-    <Table>
-      <THead>
-        <TableTR>
-          <NameColumn>Nom du dossier</NameColumn>
-          <ThemaColumn>Thème</ThemaColumn>
-          <AuthorColumn>Créateur</AuthorColumn>
-          <CardsColumn>Cartes</CardsColumn>
-          <LangColumn>Langue</LangColumn>
-          <DateColumn>Date de création</DateColumn>
-        </TableTR>
-      </THead>
-      <tbody>
-        {folders.map((folder) => (
-          <TableContent key={folder.id} {...folder} />
-        ))}
-      </tbody>
-    </Table>
-  );
-}
 
 export default CommunityTable;

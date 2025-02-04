@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
+import styled from 'styled-components';
 
 import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
 import { GetFolderById } from '@/application/useCases/folder/GetFolderById.usecase';
@@ -11,6 +12,7 @@ import { GetFlashcards } from '@/presentation/components/dashboard/flashcards/Ge
 import { useAuth } from '@/presentation/context/AuthContext';
 
 import { Folder } from '@/domain/entities/Folder';
+import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
 
 const folderRepository = new SupabaseFolderRepository();
 const logRepository = new SupabaseLogRepository();
@@ -53,12 +55,11 @@ function SingleFolder({ id }: { id: string | undefined }) {
   return (
     <div className="flex flex-col">
       {folder && (
-        <div className="flex flex-col gap-2">
-          <div>
-            <h2 className="text-3xl font-bold text-gray-800">{folder.name}</h2>
-            <p className="text-lg text-gray-800">{folder.description}</p>
-          </div>
-        </div>
+        <Container>
+          <HeadingOne $size="xlarge" $weight="semibold" $color="black" $align="center">
+            {folder.name}
+          </HeadingOne>
+        </Container>
       )}
 
       <div className="flex h-full flex-col py-4">
@@ -67,5 +68,13 @@ function SingleFolder({ id }: { id: string | undefined }) {
     </div>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 16px;
+  margin: 2rem 0;
+`;
 
 export default SingleFolder;

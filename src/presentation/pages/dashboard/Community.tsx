@@ -1,14 +1,36 @@
-import { GetAllPublicFolders } from '@/presentation/components/dashboard/community/GetAllPublicFolder';
 import { useTranslation } from 'react-i18next';
-
+import styled from 'styled-components';
+import { GetAllPublicFolders } from '@/presentation/components/dashboard/community/GetAllPublicFolder';
+import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
+import { MessageCircleHeart } from 'lucide-react';
 function Community() {
   const { t } = useTranslation();
   return (
-    <div>
-      <h1 className="mb-6 text-3xl font-bold">{t('dashboard.community')}</h1>
+    <Container>
+      <HeadingOne $size="xlarge" $color="black" $weight="medium">
+        <FlexContainer>
+          {t('dashboard.community')}
+          <MessageCircleHeart />
+        </FlexContainer>
+      </HeadingOne>
+
       <GetAllPublicFolders />
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 16px;
+  margin: 2rem 0;
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
 
 export default Community;
