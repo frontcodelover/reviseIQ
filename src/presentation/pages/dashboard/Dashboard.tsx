@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useProfile } from '@/presentation/components/dashboard/useProfile';
+import { useProfile } from '@/presentation/hooks/useProfile';
 import { useAuth } from '@/presentation/context/AuthContext';
 import ActivityCalendar from '@/presentation/components/dashboard/stats/activityCalendar';
 import { LogsAndBadgesManager } from '@/presentation/components/dashboard/stats/logsAndBadgesManager';
@@ -12,12 +12,93 @@ import { Badge } from '@/domain/entities/Badge';
 import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
 import HeadingThree from '@/presentation/components/ui/text/heading/HeadingThree';
 import Text from '@/presentation/components/ui/text/Text';
+import BadgeBox from '@/presentation/components/dashboard/homeBoard/BadgeBox';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
+function Dashboard() {
+  const { profile, loading, error } = useProfile();
+  const { user } = useAuth();
+  const userId: string | null = user?.id ?? null;
+  const [logs, setLogs] = useState<Record<string, number>>({});
+  const [badges, setBadges] = useState<Badge[]>([]);
+  const [lastBadge, setLastBadge] = useState<Badge | null>(null);
+
+  if (loading) return <div>Chargement...</div>;
+  if (error) return <div>Erreur: {error}</div>;
+  if (!profile) return null;
+
+  return (
+    <>
+      <Greetings />
+
+      <SectionFirst>
+        <GetPublicFolders />
+        <BadgeBox />
+      </SectionFirst>
+
+      <LogsAndBadgesManager
+        userId={userId}
+        onLogsUpdate={setLogs}
+        onBadgesUpdate={setBadges}
+        onLastBadgeUpdate={setLastBadge}
+      />
+
+      <FlexContainer>
+        <HeadingTwo $size="large" $weight="medium" color="black">
+          Statistiques
+        </HeadingTwo>
+        <StatsContainer>
+          <ActivityCalendar data={logs} />
+
+          {lastBadge && (
+            <MarginBottomContainer>
+              <MarginBottomContainerSmall>
+                <HeadingTwo $size="medium" $weight="medium" color="black">
+                  Dernier badge obtenu
+                </HeadingTwo>
+              </MarginBottomContainerSmall>
+              <BadgeContainer key={lastBadge.id}>
+                <BadgeImage src={lastBadge.image_url} alt={lastBadge.name} />
+                <LeftMarginContainer>
+                  <HeadingThree $weight="medium" $size="medium" color="black">
+                    {lastBadge.name}
+                  </HeadingThree>
+                  <Text color="secondary" $size="medium" $weight="regular">
+                    {lastBadge.description}
+                  </Text>
+                  <Text color="secondary" $size="small" $weight="light">
+                    Obtenu le {new Date(lastBadge.obtained_at).toLocaleDateString()}
+                  </Text>
+                </LeftMarginContainer>
+              </BadgeContainer>
+            </MarginBottomContainer>
+          )}
+        </StatsContainer>
+        <>
+          <>
+            <HeadingTwo $size="large" $weight="medium" color="black">
+              Vos badges
+            </HeadingTwo>
+          </>
+          <GridContainer>
+            {badges.map((badge) => (
+              <BadgeCard key={`badge-${badge.id}`}>
+                <BadgeImage src={badge.image_url} alt={badge.name} />
+                <HeadingThree $size="medium" $weight="medium" $align="center" color="black">
+                  {badge.name}
+                </HeadingThree>
+                <Text $size="medium" $align="center" color="secondary">
+                  {badge.description}
+                </Text>
+              </BadgeCard>
+            ))}
+          </GridContainer>
+        </>
+      </FlexContainer>
+    </>
+  );
+}
+
+export default Dashboard;
 
 const FlexContainer = styled.div`
   margin-top: 1.5rem;
@@ -47,11 +128,11 @@ const GridContainer = styled.div`
   gap: 1rem;
 
   @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 
@@ -87,85 +168,15 @@ const StatsContainer = styled.div`
   padding: 1.5rem;
 `;
 
-function Dashboard() {
-  const { profile, loading, error } = useProfile();
-  const { user } = useAuth();
-  const userId: string | null = user?.id ?? null;
-  const [logs, setLogs] = useState<Record<string, number>>({});
-  const [badges, setBadges] = useState<Badge[]>([]);
-  const [lastBadge, setLastBadge] = useState<Badge | null>(null);
+const SectionFirst = styled.section`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 
-  if (loading) return <div>Chargement...</div>;
-  if (error) return <div>Erreur: {error}</div>;
-  if (!profile) return null;
-
-  return (
-    <Container>
-      <Greetings />
-
-      <GetPublicFolders />
-
-      <LogsAndBadgesManager
-        userId={userId}
-        onLogsUpdate={setLogs}
-        onBadgesUpdate={setBadges}
-        onLastBadgeUpdate={setLastBadge}
-      />
-
-      <FlexContainer>
-        <HeadingTwo size="large" weight="medium" color="black">
-          Statistiques
-        </HeadingTwo>
-        <StatsContainer>
-          <ActivityCalendar data={logs} />
-
-          {lastBadge && (
-            <MarginBottomContainer>
-              <MarginBottomContainerSmall>
-                <HeadingTwo size="medium" weight="medium" color="black">
-                  Dernier badge obtenu
-                </HeadingTwo>
-              </MarginBottomContainerSmall>
-              <BadgeContainer key={lastBadge.id}>
-                <BadgeImage src={lastBadge.image_url} alt={lastBadge.name} />
-                <LeftMarginContainer>
-                  <HeadingThree weight="medium" size="medium" color="black">
-                    {lastBadge.name}
-                  </HeadingThree>
-                  <Text color="secondary" size="medium" weight="regular">
-                    {lastBadge.description}
-                  </Text>
-                  <Text color="secondary" size="small" weight="light">
-                    Obtenu le {new Date(lastBadge.obtained_at).toLocaleDateString()}
-                  </Text>
-                </LeftMarginContainer>
-              </BadgeContainer>
-            </MarginBottomContainer>
-          )}
-        </StatsContainer>
-        <>
-          <>
-            <HeadingTwo size="large" weight="medium" color="black">
-              Vos badges
-            </HeadingTwo>
-          </>
-          <GridContainer>
-            {badges.map((badge) => (
-              <BadgeCard key={`badge-${badge.id}`}>
-                <BadgeImage src={badge.image_url} alt={badge.name} />
-                <HeadingThree size="medium" weight="medium" align="center" color="black">
-                  {badge.name}
-                </HeadingThree>
-                <Text size="medium" align="center" color="secondary">
-                  {badge.description}
-                </Text>
-              </BadgeCard>
-            ))}
-          </GridContainer>
-        </>
-      </FlexContainer>
-    </Container>
-  );
-}
-
-export default Dashboard;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 2fr;
+  }
+  @media screen and (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+`;

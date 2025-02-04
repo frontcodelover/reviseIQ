@@ -112,7 +112,7 @@ export function GenerateFlashcardManual() {
             value={card.answer}
             onChange={(e) => updateFlashcard(card.id, 'answer', e.target.value)}
           />
-          <IconButton variant="danger" onClick={() => removeFlashcard(card.id)}>
+          <IconButton $variant="danger" onClick={() => removeFlashcard(card.id)}>
             <Icon>
               <Trash2 />
             </Icon>
@@ -120,7 +120,7 @@ export function GenerateFlashcardManual() {
         </FlashcardContainer>
       ))}
 
-      <IconButton variant="primary" onClick={addFlashcard}>
+      <IconButton $variant="primary" onClick={addFlashcard}>
         <Icon>
           <Plus />
         </Icon>
@@ -128,7 +128,7 @@ export function GenerateFlashcardManual() {
       </IconButton>
 
       <Button
-        variant="success"
+        $variant="success"
         onClick={handleSubmit}
         disabled={loading || flashcards.length === 0}
       >

@@ -5,52 +5,15 @@ import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
 import Text from '@/presentation/components/ui/text/Text';
 import { Wand, User } from 'lucide-react';
 
-const ContainerSection = styled.section`
-  grid-template-columns: 1fr 1fr;
-  display: grid;
-  gap: 2rem;
-  width: 1080px;
-`;
-
-const SectionOne = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`;
-
-const SectionTwo = styled.div`
-  display: flex;
-  gap: 2rem;
-  /* margin-top: 3rem; */
-`;
-
-const SubSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`;
-
-const BalanceText = styled(Text)`
-  text-wrap: pretty;
-`;
-
-const HeadingPretty = styled(HeadingOne)`
-  text-wrap: pretty;
-`;
-
-const HeadingPrettyTwo = styled(HeadingTwo)`
-  text-wrap: balance;
-`;
-
 function Section() {
   return (
     <ContainerSection>
       {/* Section d'introduction */}
       <SectionOne>
-        <HeadingPretty size="xxxlarge" weight="semibold" color="black">
+        <HeadingPretty $size="xxxlarge" $weight="semibold" $color="black">
           Apprenez plus vite, retenez plus longtemps.
         </HeadingPretty>
-        <BalanceText color="secondary" size="large">
+        <BalanceText $color="secondary" $size="large">
           Rejoignez des milliers d’apprenants et boostez vos connaissances avec des flashcards
           interactives créées par la communauté. 🚀
         </BalanceText>
@@ -60,10 +23,10 @@ function Section() {
       <SectionTwo>
         <SubSection>
           <Wand size="40" />
-          <HeadingPrettyTwo size="medium" weight="semibold" color="black">
+          <HeadingPrettyTwo $size="medium" $weight="semibold" $color="black">
             Créez des flashcards en un clic avec l’IA
           </HeadingPrettyTwo>
-          <BalanceText color="secondary" size="regular">
+          <BalanceText $color="secondary" $size="regular">
             Générez instantanément des flashcards à partir de textes ou d’articles et
             concentrez-vous sur l’apprentissage, pas sur la création.
           </BalanceText>
@@ -71,10 +34,10 @@ function Section() {
 
         <SubSection>
           <User size="40" />
-          <HeadingPrettyTwo size="medium" weight="semibold" color="black">
+          <HeadingPrettyTwo $size="medium" $weight="semibold" $color="black">
             Apprenez seul ou avec la communauté
           </HeadingPrettyTwo>
-          <BalanceText color="secondary" size="regular">
+          <BalanceText $color="secondary" $size="regular">
             Explorez des milliers de flashcards partagées par d’autres apprenants et échangez des
             connaissances avec la communauté.
           </BalanceText>
@@ -116,5 +79,42 @@ function Section() {
     </ContainerSection>
   );
 }
+
+const ContainerSection = styled.section`
+  grid-template-columns: 1fr 1fr;
+  display: grid;
+  gap: 2rem;
+  width: 1080px;
+`;
+
+const SectionOne = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+const SectionTwo = styled.div`
+  display: flex;
+  gap: 2rem;
+  /* margin-top: 3rem; */
+`;
+
+const SubSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+const BalanceText = styled(Text)`
+  text-wrap: pretty;
+`;
+
+const HeadingPretty = styled(HeadingOne)`
+  text-wrap: pretty;
+`;
+
+const HeadingPrettyTwo = styled(HeadingTwo)`
+  text-wrap: balance;
+`;
 
 export default Section;

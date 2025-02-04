@@ -73,7 +73,7 @@ function Home() {
     <Container>
       <Logo>
         <Brain />
-        <HeadingOne size="medium">{t(`title`)}</HeadingOne>
+        <HeadingOne $size="medium">{t(`title`)}</HeadingOne>
       </Logo>
       <LanguageContainer>
         <LanguageButton onClick={() => changeLanguage('en')}>

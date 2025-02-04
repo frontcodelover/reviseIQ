@@ -4,7 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { SidebarItem } from '@/presentation/types/SidebarItem';
 import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 
-const SidebarMenuItem: React.FC<{ item: SidebarItem }> = ({ item }) => {
+const SidebarMenuItemResponsive: React.FC<{ item: SidebarItem }> = ({ item }) => {
   const location = useLocation();
   const isActive = location.pathname === item.url;
 
@@ -14,21 +14,13 @@ const SidebarMenuItem: React.FC<{ item: SidebarItem }> = ({ item }) => {
         {isActive ? (
           <ActiveItem>
             <ItemContent>
-              <ItemIcon>
-                {item.icon && <item.icon />}
-                <ItemTitle>{item.title}</ItemTitle>
-              </ItemIcon>
-              {item.nb && <ItemBadge color={item.color || ''}>{item.nb}</ItemBadge>}
+              <ItemIcon>{item.icon && <item.icon />}</ItemIcon>
             </ItemContent>
           </ActiveItem>
         ) : (
           <InactiveItem to={item.url || '#'}>
             <ItemContent>
-              <ItemIcon>
-                {item.icon && <item.icon />}
-                <ItemTitle>{item.title}</ItemTitle>
-              </ItemIcon>
-              {item.nb && <ItemBadge color={item.color || ''}>{item.nb}</ItemBadge>}
+              <ItemIcon>{item.icon && <item.icon />}</ItemIcon>
             </ItemContent>
           </InactiveItem>
         )}
@@ -81,20 +73,8 @@ const ItemContent = styled.div`
 const ItemIcon = styled.div`
   display: flex;
   align-items: center;
+  font-weight: 500;
   gap: 0.75rem; /* gap-3 */
 `;
 
-const ItemTitle = styled.span`
-  font-weight: 500; /* font-semibold */
-`;
-
-const ItemBadge = styled.span<{ color: string }>`
-  font-weight: 600;
-  margin-left: auto;
-  border-radius: 0.5rem;
-  font-size: 0.75rem;
-  color: ${(props) => props.color};
-  margin-left: 0.75rem;
-`;
-
-export default SidebarMenuItem;
+export default SidebarMenuItemResponsive;

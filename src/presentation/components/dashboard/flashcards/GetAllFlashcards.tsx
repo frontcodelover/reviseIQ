@@ -187,7 +187,7 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
           >
             <div className="backface-hidden absolute h-full w-full">
               <div className="flex h-full flex-col items-center justify-center gap-4 rounded-lg border bg-white p-6 shadow">
-                <HeadingTwo size="xlarge" weight="semibold">
+                <HeadingTwo $size="xlarge" $weight="semibold">
                   {t('flashcard.question')} 🤔
                 </HeadingTwo>
                 {isEditing ? (
@@ -200,14 +200,14 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
                     className="w-full rounded-md border p-2 text-center text-xl"
                   />
                 ) : (
-                  <HeadingThree size="medium">{currentCard.question}</HeadingThree>
+                  <HeadingThree $size="medium">{currentCard.question}</HeadingThree>
                 )}
               </div>
             </div>
 
             <div className="backface-hidden rotate-y-180 absolute h-full w-full">
               <div className="flex h-full flex-col items-center justify-center gap-4 rounded-lg border bg-white p-6 shadow">
-                <HeadingTwo size="xlarge" weight="semibold">
+                <HeadingTwo $size="xlarge" $weight="semibold">
                   {t('flashcard.answer')} ✅
                 </HeadingTwo>
                 {isEditing ? (
@@ -220,7 +220,7 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
                     className="w-full rounded-md border p-2 text-center text-xl"
                   />
                 ) : (
-                  <HeadingThree size="medium">{currentCard.answer}</HeadingThree>
+                  <HeadingThree $size="medium">{currentCard.answer}</HeadingThree>
                 )}
               </div>
             </div>

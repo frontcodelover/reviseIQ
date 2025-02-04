@@ -8,25 +8,7 @@ import styled from 'styled-components';
 import Text from '../../ui/text/Text';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-`;
-
-const LinkText = styled(Text)`
-  width: fit-content;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
+import { COLORS } from '../../ui/colors/ColorsVariant';
 
 export function GetPublicFolders() {
   const folderRepository = new SupabaseFolderRepository();
@@ -50,9 +32,43 @@ export function GetPublicFolders() {
           <CardFolder key={folder.id} {...folder} />
         ))}
       </Grid>
-      <LinkText size="regular" color="primary" weight="regular">
+      <LinkText>
         <Link to="/dashboard/community">+ {t('dashboard.folder.moreFolder')}</Link>
       </LinkText>
     </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(250px, 1fr));
+  gap: 1rem;
+
+  @media screen and (max-width: 1080px) {
+    grid-template-columns: minmax(250px, 1fr);
+    gap: 1rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: minmax(250px, 1fr);
+    gap: 1rem;
+  }
+`;
+
+const LinkText = styled(Text)`
+  width: fit-content;
+  a {
+    color: ${COLORS.primary};
+    text-decoration: none;
+  }
+
+  &:hover a {
+    text-decoration: underline;
+  }
+`;

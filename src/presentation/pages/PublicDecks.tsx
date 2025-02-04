@@ -11,7 +11,10 @@ function PublicDecks() {
     data: decks,
     isLoading,
     error,
-  } = useQuery<Folder[], Error>('publicDecks', () => getPublicFoldersUseCase.execute());
+  } = useQuery<Folder[], Error>('publicDecks', async () => {
+    const result = await getPublicFoldersUseCase.execute(0, 10); // Adjust the arguments as needed
+    return result.data;
+  });
   console.log('PUBLIC DECKS');
 
   if (isLoading) return <p>Chargement des decks publics...</p>;

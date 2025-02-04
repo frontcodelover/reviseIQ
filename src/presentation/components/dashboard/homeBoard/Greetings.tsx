@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useProfile } from '@/presentation/components/dashboard/useProfile';
+import { useProfile } from '@/presentation/hooks/useProfile';
 import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
 import Text from '@/presentation/components/ui/text/Text';
 import { useTranslation } from 'react-i18next';
@@ -28,11 +28,11 @@ function Greetings() {
 
   return (
     <GreetingsContainer>
-      <HeadingOne size="xxlarge" color="black" weight="semibold">
+      <HeadingOne $size="xxlarge" $color="black" $weight="semibold">
         {t('dashboard.greetings')} {profile.firstname} 👋
       </HeadingOne>
       <ParagraphContainer>
-        <Text size="medium" color="secondary" weight="regular">
+        <Text $size="medium" $color="secondary" $weight="regular">
           {t('dashboard.greetings2')}
         </Text>
       </ParagraphContainer>

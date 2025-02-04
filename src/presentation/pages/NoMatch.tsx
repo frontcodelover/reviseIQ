@@ -1,5 +1,13 @@
 import styled from 'styled-components';
 
+function NoMatch() {
+  return (
+    <Container>
+      <ErrorText>Erreur 404</ErrorText>
+      <StyledLink href="/">Retour à l'accueil</StyledLink>
+    </Container>
+  );
+}
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,14 +38,5 @@ const StyledLink = styled.a`
     color: white;
   }
 `;
-
-function NoMatch() {
-  return (
-    <Container>
-      <ErrorText>Erreur 404</ErrorText>
-      <StyledLink href="/">Retour à l'accueil</StyledLink>
-    </Container>
-  );
-}
 
 export default NoMatch;
