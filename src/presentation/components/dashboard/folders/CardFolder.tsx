@@ -85,10 +85,10 @@ const CardFolder = ({ ...props }: Folder) => {
     <Card id={id}>
       <CardHeader>
         <CardContent>
-          <HeadingTwoLink size="regular" color="black" weight="semibold">
+          <HeadingTwoLink $size="regular" color="black" $weight="semibold">
             <Link to={`/dashboard/folders/${id}`}>{name}</Link>
           </HeadingTwoLink>
-          <HeadingThree size="small" color="secondary" weight="regular">
+          <HeadingThree $size="small" color="secondary" $weight="regular">
             {thema}
           </HeadingThree>
         </CardContent>
@@ -98,14 +98,14 @@ const CardFolder = ({ ...props }: Folder) => {
         <ContainerFooter>
           <Avatar src={`/src/assets/${profile.avatar}.webp`} alt="avatar user" />
           <CardFooter>
-            <Text color="black" weight="medium">
+            <Text color="black" $weight="medium">
               {t('dashboard.folder.by')} {profile?.firstname}
             </Text>
-            <Text size="small" color="secondary" weight="regular">
+            <Text $size="small" color="secondary" $weight="regular">
               {created_at ? formatDate(created_at) : ''}
             </Text>
             <ConatainerLang>
-              <Text size="small" color="secondary" weight="regular">
+              <Text $size="small" color="secondary" $weight="regular">
                 {t('language')}
               </Text>
               {lang === 'fr' ? (

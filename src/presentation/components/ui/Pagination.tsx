@@ -8,6 +8,46 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
   onLimitChange: (limit: number) => void;
 }
+export const Pagination = ({
+  page,
+  limit,
+  total,
+  onPageChange,
+  onLimitChange,
+}: PaginationProps) => {
+  const totalPages = Math.ceil(total / limit);
+
+  return (
+    <PaginationContainer>
+      {/* Corriger PageButtonPageButton en PageButton */}
+      <PageButton
+        $variant="primary"
+        onClick={() => onPageChange(Math.max(0, page - 1))}
+        disabled={page === 0}
+      >
+        Précédent
+      </PageButton>
+
+      <span>
+        Page {page + 1} sur {totalPages}
+      </span>
+
+      <PageButton
+        $variant="primary"
+        onClick={() => onPageChange(Math.min(totalPages - 1, page + 1))}
+        disabled={page >= totalPages - 1}
+      >
+        Suivant
+      </PageButton>
+
+      <Select value={limit} onChange={(e) => onLimitChange(Number(e.target.value))}>
+        <option value={20}>20 par page</option>
+        <option value={50}>50 par page</option>
+        <option value={100}>100 par page</option>
+      </Select>
+    </PaginationContainer>
+  );
+};
 
 const PaginationContainer = styled.div`
   display: flex;
@@ -29,44 +69,3 @@ const Select = styled.select`
   border-radius: 4px;
   border: 1px solid #ddd;
 `;
-
-export const Pagination = ({
-  page,
-  limit,
-  total,
-  onPageChange,
-  onLimitChange,
-}: PaginationProps) => {
-  const totalPages = Math.ceil(total / limit);
-
-  return (
-    <PaginationContainer>
-      {/* Corriger PageButtonPageButton en PageButton */}
-      <PageButton
-        variant="primary"
-        onClick={() => onPageChange(Math.max(0, page - 1))}
-        disabled={page === 0}
-      >
-        Précédent
-      </PageButton>
-
-      <span>
-        Page {page + 1} sur {totalPages}
-      </span>
-
-      <PageButton
-        variant="primary"
-        onClick={() => onPageChange(Math.min(totalPages - 1, page + 1))}
-        disabled={page >= totalPages - 1}
-      >
-        Suivant
-      </PageButton>
-
-      <Select value={limit} onChange={(e) => onLimitChange(Number(e.target.value))}>
-        <option value={20}>20 par page</option>
-        <option value={50}>50 par page</option>
-        <option value={100}>100 par page</option>
-      </Select>
-    </PaginationContainer>
-  );
-};

@@ -63,7 +63,7 @@ function BadgeBox() {
       />
 
       <BadgeBoxContainer>
-        <HeadingTwo size="medium" weight="semibold">
+        <HeadingTwo $size="medium" $weight="semibold">
           Vos badges
         </HeadingTwo>
         {badges.map((badge) => (
@@ -73,10 +73,10 @@ function BadgeBox() {
             </BadgeImage>
             <div>
               <HeadingThree color="black">{badge.name}</HeadingThree>
-              <Text color="black" size="small" weight="regular">
+              <Text color="black" $size="small" $weight="regular">
                 {badge.description}
               </Text>
-              <Text color="secondary" size="small" weight="regular">
+              <Text color="secondary" $size="small" $weight="regular">
                 {formatDate(badge.obtained_at)}
               </Text>
             </div>

@@ -46,17 +46,10 @@ export function GetAllPublicFolders() {
 
   return (
     <Container>
-      <HeadingTwo align="right" weight="medium">
+      <HeadingTwo $align="right" $weight="medium">
         {response.count} dossiers publics
       </HeadingTwo>
       <CommunityTable folders={response.data} />
-      {/* <Grid>
-        {response.data.map((folder) => (
-          <>
-            <CardFolder key={folder.id} {...folder} />
-          </>
-        ))}
-      </Grid> */}
       <Pagination
         page={page}
         limit={limit}

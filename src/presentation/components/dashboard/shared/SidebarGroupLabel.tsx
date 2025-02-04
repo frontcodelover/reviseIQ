@@ -4,13 +4,13 @@ import { Brain } from 'lucide-react';
 import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 
 interface SidebarGroupLabelProps {
-  isCollapsed: boolean;
+  $isCollapsed: boolean;
 }
 
-const SidebarGroupLabel = ({ isCollapsed }: SidebarGroupLabelProps) => {
+const SidebarGroupLabel = ({ $isCollapsed }: SidebarGroupLabelProps) => {
   return (
     <StyledSidebarGroupLabel>
-      {!isCollapsed ? (
+      {!$isCollapsed ? (
         <StyledBrain />
       ) : (
         <>

@@ -11,20 +11,6 @@ import styled from 'styled-components';
 const folderRepository = new SupabaseFolderRepository();
 const searchFoldersUseCase = new SearchFoldersUseCase(folderRepository);
 
-const SearchContainer = styled.div`
-  position: relative;
-`;
-
-const SearchIcon = styled(Search)`
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 1.5rem;
-  width: 1.5rem;
-  color: #9ca3af;
-`;
-
 function SearchBar() {
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
@@ -74,5 +60,19 @@ function SearchBar() {
     </>
   );
 }
+
+const SearchContainer = styled.div`
+  position: relative;
+`;
+
+const SearchIcon = styled(Search)`
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1.5rem;
+  width: 1.5rem;
+  color: #9ca3af;
+`;
 
 export default SearchBar;

@@ -5,8 +5,8 @@ import { buttonVariants } from '@/presentation/components/ui/button/ButtonVarian
 import { textSizeVariants } from '../text/TextSize';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant: keyof typeof buttonVariants;
-  size?: keyof typeof textSizeVariants;
+  $variant: keyof typeof buttonVariants;
+  $size?: keyof typeof textSizeVariants;
 }
 
 const StyledButton = styled.button<ButtonProps>`
@@ -15,7 +15,7 @@ const StyledButton = styled.button<ButtonProps>`
   border-radius: 0.5rem;
   cursor: pointer;
 
-  ${({ variant }) => buttonVariants[variant]}
+  ${({ $variant }) => buttonVariants[$variant]}
 
   &.loading {
     cursor: not-allowed;
@@ -23,9 +23,9 @@ const StyledButton = styled.button<ButtonProps>`
   }
 `;
 
-const Button: React.FC<ButtonProps> = ({ variant, size, children, ...props }) => {
+const Button: React.FC<ButtonProps> = ({ $variant, $size, children, ...props }) => {
   return (
-    <StyledButton variant={variant} size={size} {...props}>
+    <StyledButton $variant={$variant} $size={$size} {...props}>
       {children}
     </StyledButton>
   );

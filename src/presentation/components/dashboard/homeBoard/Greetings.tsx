@@ -28,11 +28,11 @@ function Greetings() {
 
   return (
     <GreetingsContainer>
-      <HeadingOne size="xxlarge" color="black" weight="semibold">
+      <HeadingOne $size="xxlarge" $color="black" $weight="semibold">
         {t('dashboard.greetings')} {profile.firstname} 👋
       </HeadingOne>
       <ParagraphContainer>
-        <Text size="medium" color="secondary" weight="regular">
+        <Text $size="medium" $color="secondary" $weight="regular">
           {t('dashboard.greetings2')}
         </Text>
       </ParagraphContainer>

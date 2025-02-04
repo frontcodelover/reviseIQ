@@ -6,7 +6,7 @@ function Folders() {
   const { t } = useTranslation();
   return (
     <>
-      <HeadingOne size="xlarge" weight="bold" color="black">
+      <HeadingOne $size="xlarge" $weight="bold" $color="black">
         {t('dashboard.folder.yourfolder')} 📂{' '}
       </HeadingOne>
       <UserDecks />

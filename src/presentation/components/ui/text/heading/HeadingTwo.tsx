@@ -7,37 +7,37 @@ import { colorsVariant } from '@/presentation/components/ui/text/TextColors';
 import { textDecorationVariants } from '@/presentation/components/ui/text/TextDecoration';
 
 interface HeadingTwoProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  size?: keyof typeof textSizeVariants;
-  align?: keyof typeof textAlignVariants;
-  weight?: keyof typeof textFontWeightVariants;
-  color?: keyof typeof colorsVariant;
-  decoration?: keyof typeof textDecorationVariants;
+  $size?: keyof typeof textSizeVariants;
+  $align?: keyof typeof textAlignVariants;
+  $weight?: keyof typeof textFontWeightVariants;
+  $color?: keyof typeof colorsVariant;
+  $decoration?: keyof typeof textDecorationVariants;
 }
 
 const HeadingTwoConstructor = styled.h2<HeadingTwoProps>`
-  ${({ size }) => size && textSizeVariants[size]}
-  ${({ align }) => align && textAlignVariants[align]}
-	${({ weight }) => weight && textFontWeightVariants[weight]}
-	${({ color }) => color && colorsVariant[color]}
-	${({ decoration }) => decoration && textDecorationVariants[decoration]}
+  ${({ $size }) => $size && textSizeVariants[$size]}
+  ${({ $align }) => $align && textAlignVariants[$align]}
+  ${({ $weight }) => $weight && textFontWeightVariants[$weight]}
+  ${({ $color }) => $color && colorsVariant[$color]}
+  ${({ $decoration }) => $decoration && textDecorationVariants[$decoration]}
 `;
 
 const HeadingTwo: React.FC<HeadingTwoProps> = ({
-  size,
-  align,
-  weight,
-  color,
-  decoration,
+  $size,
+  $align,
+  $weight,
+  $color,
+  $decoration,
   children,
   ...props
-}: HeadingTwoProps) => {
+}) => {
   return (
     <HeadingTwoConstructor
-      size={size}
-      align={align}
-      weight={weight}
-      color={color}
-      decoration={decoration}
+      $size={$size}
+      $align={$align}
+      $weight={$weight}
+      $color={$color}
+      $decoration={$decoration}
       {...props}
     >
       {children}

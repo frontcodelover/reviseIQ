@@ -1,10 +1,9 @@
-// presentation/shared/LayoutDashboard.tsx
 import styled from 'styled-components';
-import SearchBar from '../components/dashboard/shared/SearchBar';
-import Notification from '../components/dashboard/Notification';
+import SearchBar from '@/presentation/components/dashboard/shared/SearchBar';
+import Notification from '@/presentation/components/dashboard/Notification';
 import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 import React, { useState } from 'react';
-import { SidebarTwo } from '../components/dashboard/shared/SidebarTwo';
+import { SidebarTwo } from '@/presentation/components/dashboard/shared/SidebarTwo';
 
 export default function LayoutDashboard({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -12,7 +11,7 @@ export default function LayoutDashboard({ children }: { children: React.ReactNod
   return (
     <>
       <SidebarContainer isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
-      <MainContainer isCollapsed={isCollapsed}>
+      <MainContainer $isCollapsed={isCollapsed}>
         <ContentWrapper>
           <LayoutFlex>
             <SearchBarLayout>
@@ -27,8 +26,8 @@ export default function LayoutDashboard({ children }: { children: React.ReactNod
   );
 }
 
-const MainContainer = styled.main<{ isCollapsed: boolean }>`
-  margin-left: ${({ isCollapsed }) => (isCollapsed ? '250px' : '30px')};
+const MainContainer = styled.main<{ $isCollapsed: boolean }>`
+  margin-left: ${({ $isCollapsed }) => ($isCollapsed ? '250px' : '30px')};
   transition: margin-left 0.2s ease-in-out;
   padding: 2rem 1rem;
 `;
@@ -52,6 +51,7 @@ const LayoutFlex = styled.div`
   align-items: center;
   height: auto;
   justify-content: center;
+  gap: 1rem;
 `;
 
 const SearchBarLayout = styled.div`

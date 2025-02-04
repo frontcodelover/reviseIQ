@@ -7,6 +7,33 @@ import OAuthLogin from '@/presentation/components/auth/provider/OAuthLogin';
 import HeadingTwo from '../components/ui/text/heading/HeadingTwo';
 import HeadingOne from '../components/ui/text/heading/HeadingOne';
 
+function Login() {
+  const { t } = useTranslation();
+
+  return (
+    <PageContainer>
+      <CoverContainer>
+        <CoverImage src={Cover} alt="cover" />
+      </CoverContainer>
+      <FormContainer>
+        <HeaderContainer>
+          <HeadingOne $align="center" $size="xlarge" $weight="semibold" $color="primary">
+            {t('auth.login')}
+          </HeadingOne>
+          <HeadingTwo $align="center" $size="medium" $weight="regular">
+            {t('auth.baseline')}
+          </HeadingTwo>
+        </HeaderContainer>
+        <FormSection>
+          <OAuthLogin />
+          <OrDivider> ou </OrDivider>
+          <LoginForm />
+        </FormSection>
+      </FormContainer>
+    </PageContainer>
+  );
+}
+
 const PageContainer = styled.div`
   display: grid;
   height: 100vh;
@@ -80,32 +107,5 @@ const OrDivider = styled.div`
     margin: 0 8px;
   }
 `;
-
-function Login() {
-  const { t } = useTranslation();
-
-  return (
-    <PageContainer>
-      <CoverContainer>
-        <CoverImage src={Cover} alt="cover" />
-      </CoverContainer>
-      <FormContainer>
-        <HeaderContainer>
-          <HeadingOne align="center" size="xlarge" weight="semibold" color="primary">
-            {t('auth.login')}
-          </HeadingOne>
-          <HeadingTwo align="center" size="medium" weight="regular">
-            {t('auth.baseline')}
-          </HeadingTwo>
-        </HeaderContainer>
-        <FormSection>
-          <OAuthLogin />
-          <OrDivider> ou </OrDivider>
-          <LoginForm />
-        </FormSection>
-      </FormContainer>
-    </PageContainer>
-  );
-}
 
 export default Login;

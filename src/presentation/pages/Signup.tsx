@@ -7,6 +7,33 @@ import SignupForm from '@/presentation/components/auth/signup/SignupForm';
 import HeadingTwo from '../components/ui/text/heading/HeadingTwo';
 import HeadingOne from '../components/ui/text/heading/HeadingOne';
 
+function SignUp() {
+  const { t } = useTranslation();
+
+  return (
+    <PageContainer>
+      <CoverContainer>
+        <CoverImage src={Cover} alt="cover" />
+      </CoverContainer>
+      <FormContainer>
+        <HeaderContainer>
+          <HeadingOne $align="center" $size="xlarge" $weight="semibold" $color="primary">
+            {t('auth.signup')}
+          </HeadingOne>
+          <HeadingTwo $align="center" $size="medium" $weight="regular">
+            {t('auth.baseline')}
+          </HeadingTwo>
+        </HeaderContainer>
+        <FormSection>
+          <OAuthLogin />
+          <Separator />
+          <SignupForm />
+        </FormSection>
+      </FormContainer>
+    </PageContainer>
+  );
+}
+
 const PageContainer = styled.div`
   display: grid;
   height: 100vh;
@@ -69,32 +96,5 @@ const Separator = styled.div`
   border-color: #8a8a8a;
   width: 100%;
 `;
-
-function SignUp() {
-  const { t } = useTranslation();
-
-  return (
-    <PageContainer>
-      <CoverContainer>
-        <CoverImage src={Cover} alt="cover" />
-      </CoverContainer>
-      <FormContainer>
-        <HeaderContainer>
-          <HeadingOne align="center" size="xlarge" weight="semibold" color="primary">
-            {t('auth.signup')}
-          </HeadingOne>
-          <HeadingTwo align="center" size="medium" weight="regular">
-            {t('auth.baseline')}
-          </HeadingTwo>
-        </HeaderContainer>
-        <FormSection>
-          <OAuthLogin />
-          <Separator />
-          <SignupForm />
-        </FormSection>
-      </FormContainer>
-    </PageContainer>
-  );
-}
 
 export default SignUp;

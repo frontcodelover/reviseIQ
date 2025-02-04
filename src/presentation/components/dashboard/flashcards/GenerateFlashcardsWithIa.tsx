@@ -104,7 +104,7 @@ export function GenerateFlashCardWithIa() {
       {loading && (
         <div className="mt-4 flex flex-col items-center">
           <LoadingScreen aria-label="Generating flashcards" />
-          <Text color="black" align="center">
+          <Text $color="black" $align="center">
             La génération des flashcards est en cours... La durée de ce processus dépend de la
             taille du sujet (environ 30 secondes).
           </Text>

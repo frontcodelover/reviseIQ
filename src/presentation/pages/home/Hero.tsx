@@ -8,6 +8,42 @@ import wave from '@/assets/wave.png';
 import { useTranslation } from 'react-i18next';
 import { Trans } from 'react-i18next';
 
+function HeroTwo() {
+  const { t } = useTranslation();
+
+  return (
+    <Container>
+      <SectionHero>
+        <TitleGroup>
+          <Text $size="monster" $weight="semibold">
+            <Trans
+              i18nKey="home.title"
+              components={{
+                WaveImage: <WaveImage />,
+              }}
+            />
+          </Text>
+        </TitleGroup>
+        <Text $size="xlarge" $weight="regular" $color="secondary">
+          <Trans i18nKey="home.description" />
+        </Text>
+        <Link to="/signup">
+          <ButtonContainer size="large" variant="primary">
+            {t('home.cta')}
+            <ArrowRight size={24} />
+          </ButtonContainer>
+        </Link>
+        <SocialContainer>
+          <SocialProof src={socialProof} alt="Social proof" />
+          <Text $size="regular" $weight="regular" $color="secondary">
+            {t('home.community')}
+          </Text>
+        </SocialContainer>
+      </SectionHero>
+    </Container>
+  );
+}
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -71,41 +107,5 @@ const WaveImage = styled.span`
   margin: 0 0.5rem;
   line-height: 1;
 `;
-
-function HeroTwo() {
-  const { t } = useTranslation();
-
-  return (
-    <Container>
-      <SectionHero>
-        <TitleGroup>
-          <Text size="monster" weight="semibold">
-            <Trans
-              i18nKey="home.title"
-              components={{
-                WaveImage: <WaveImage />,
-              }}
-            />
-          </Text>
-        </TitleGroup>
-        <Text size="xlarge" weight="regular" color="secondary">
-          <Trans i18nKey="home.description" />
-        </Text>
-        <Link to="/signup">
-          <ButtonContainer size="large" variant="primary">
-            {t('home.cta')}
-            <ArrowRight size={24} />
-          </ButtonContainer>
-        </Link>
-        <SocialContainer>
-          <SocialProof src={socialProof} alt="Social proof" />
-          <Text size="regular" weight="regular" color="secondary">
-            {t('home.community')}
-          </Text>
-        </SocialContainer>
-      </SectionHero>
-    </Container>
-  );
-}
 
 export default HeroTwo;

@@ -4,6 +4,31 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { SidebarItem } from '@/presentation/types/SidebarItem';
 import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 
+const SidebarMenuItemResponsive: React.FC<{ item: SidebarItem }> = ({ item }) => {
+  const location = useLocation();
+  const isActive = location.pathname === item.url;
+
+  return (
+    <StyledSidebarMenuItem>
+      <SidebarMenuButton>
+        {isActive ? (
+          <ActiveItem>
+            <ItemContent>
+              <ItemIcon>{item.icon && <item.icon />}</ItemIcon>
+            </ItemContent>
+          </ActiveItem>
+        ) : (
+          <InactiveItem to={item.url || '#'}>
+            <ItemContent>
+              <ItemIcon>{item.icon && <item.icon />}</ItemIcon>
+            </ItemContent>
+          </InactiveItem>
+        )}
+      </SidebarMenuButton>
+    </StyledSidebarMenuItem>
+  );
+};
+
 const StyledSidebarMenuItem = styled.div`
   color: ${COLORS.black};
 `;
@@ -51,30 +76,5 @@ const ItemIcon = styled.div`
   font-weight: 500;
   gap: 0.75rem; /* gap-3 */
 `;
-
-const SidebarMenuItemResponsive: React.FC<{ item: SidebarItem }> = ({ item }) => {
-  const location = useLocation();
-  const isActive = location.pathname === item.url;
-
-  return (
-    <StyledSidebarMenuItem>
-      <SidebarMenuButton>
-        {isActive ? (
-          <ActiveItem>
-            <ItemContent>
-              <ItemIcon>{item.icon && <item.icon />}</ItemIcon>
-            </ItemContent>
-          </ActiveItem>
-        ) : (
-          <InactiveItem to={item.url || '#'}>
-            <ItemContent>
-              <ItemIcon>{item.icon && <item.icon />}</ItemIcon>
-            </ItemContent>
-          </InactiveItem>
-        )}
-      </SidebarMenuButton>
-    </StyledSidebarMenuItem>
-  );
-};
 
 export default SidebarMenuItemResponsive;

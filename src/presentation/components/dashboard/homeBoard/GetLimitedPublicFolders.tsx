@@ -9,35 +9,6 @@ import Text from '../../ui/text/Text';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, minmax(250px, 1fr));
-  gap: 2rem;
-
-  @media screen and (max-width: 1080px) {
-    grid-template-columns: minmax(250px, 1fr);
-    gap: 1rem;
-  }
-
-  @media screen and (max-width: 768px) {
-    grid-template-columns: minmax(250px, 1fr);
-    gap: 1rem;
-  }
-`;
-
-const LinkText = styled(Text)`
-  width: fit-content;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 export function GetPublicFolders() {
   const folderRepository = new SupabaseFolderRepository();
   const getLastPublicFolderUseCase = new GetLastPublicFolderUseCase(folderRepository);
@@ -60,9 +31,38 @@ export function GetPublicFolders() {
           <CardFolder key={folder.id} {...folder} />
         ))}
       </Grid>
-      <LinkText size="regular" color="primary" weight="regular">
+      <LinkText $size="regular" $color="primary" $weight="regular">
         <Link to="/dashboard/community">+ {t('dashboard.folder.moreFolder')}</Link>
       </LinkText>
     </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(250px, 1fr));
+  gap: 1rem;
+
+  @media screen and (max-width: 1080px) {
+    grid-template-columns: minmax(250px, 1fr);
+    gap: 1rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: minmax(250px, 1fr);
+    gap: 1rem;
+  }
+`;
+
+const LinkText = styled(Text)`
+  width: fit-content;
+  &:hover {
+    text-decoration: underline;
+  }
+`;

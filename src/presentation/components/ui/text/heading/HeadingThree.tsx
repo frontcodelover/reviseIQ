@@ -7,37 +7,37 @@ import { colorsVariant } from '@/presentation/components/ui/text/TextColors';
 import { textDecorationVariants } from '@/presentation/components/ui/text/TextDecoration';
 
 interface HeadingThreeProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  size?: keyof typeof textSizeVariants;
-  align?: keyof typeof textAlignVariants;
-  weight?: keyof typeof textFontWeightVariants;
-  color?: keyof typeof colorsVariant;
-  decoration?: keyof typeof textDecorationVariants;
+  $size?: keyof typeof textSizeVariants;
+  $align?: keyof typeof textAlignVariants;
+  $weight?: keyof typeof textFontWeightVariants;
+  $color?: keyof typeof colorsVariant;
+  $decoration?: keyof typeof textDecorationVariants;
 }
 
 const HeadingThreeConstructor = styled.h3<HeadingThreeProps>`
-  ${({ size }) => size && textSizeVariants[size]}
-  ${({ align }) => align && textAlignVariants[align]}
-	${({ weight }) => weight && textFontWeightVariants[weight]}
-	${({ color }) => color && colorsVariant[color]}
-	${({ decoration }) => decoration && textDecorationVariants[decoration]}
+  ${({ $size }) => $size && textSizeVariants[$size]}
+  ${({ $align }) => $align && textAlignVariants[$align]}
+  ${({ $weight }) => $weight && textFontWeightVariants[$weight]}
+  ${({ $color }) => $color && colorsVariant[$color]}
+  ${({ $decoration }) => $decoration && textDecorationVariants[$decoration]}
 `;
 
 const HeadingThree: React.FC<HeadingThreeProps> = ({
-  size,
-  align,
-  weight,
-  color,
-  decoration,
+  $size,
+  $align,
+  $weight,
+  $color,
+  $decoration,
   children,
   ...props
-}: HeadingThreeProps) => {
+}) => {
   return (
     <HeadingThreeConstructor
-      size={size}
-      align={align}
-      weight={weight}
-      color={color}
-      decoration={decoration}
+      $size={$size}
+      $align={$align}
+      $weight={$weight}
+      $color={$color}
+      $decoration={$decoration}
       {...props}
     >
       {children}
