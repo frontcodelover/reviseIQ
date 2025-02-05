@@ -31,7 +31,7 @@ function OAuthLogin() {
   };
   return (
     <>
-      <Button onClick={() => handleProviderLogin('google')} variant="primary" size="regular">
+      <Button onClick={() => handleProviderLogin('google')} $variant="primary" $size="regular">
         {t('auth.signInWithGoogle')}
       </Button>
       {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
