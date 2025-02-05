@@ -22,6 +22,83 @@ interface DockNavigateProps {
   handleShuffle: () => void;
 }
 
+function DockNavigate({
+  setCurrentIndex,
+  setShowAnswer,
+  currentIndex,
+  flashcards,
+  deckId,
+  handleShuffle,
+}: DockNavigateProps) {
+  return (
+    <DockContainer>
+      <HoverableLink to="/dashboard/folders">
+        <Inbox />
+      </HoverableLink>
+      <ItemSeparator />
+
+      <HoverableButton
+        onClick={() => {
+          setCurrentIndex((prev) => prev - 1);
+          setShowAnswer(false);
+        }}
+        disabled={currentIndex === 0}
+      >
+        <Tooltip text="Précédente" disabled={currentIndex === 0}>
+          <ArrowLeft />
+        </Tooltip>
+      </HoverableButton>
+
+      <HoverableButton
+        onClick={() => {
+          setCurrentIndex((prev) => prev + 1);
+          setShowAnswer(false);
+        }}
+        disabled={currentIndex === flashcards.length}
+      >
+        <Tooltip text="Suivante" disabled={currentIndex === flashcards.length}>
+          <ArrowRight />
+        </Tooltip>
+      </HoverableButton>
+
+      <HoverableButtonRetry
+        onClick={() => {
+          setCurrentIndex(0);
+          setShowAnswer(false);
+        }}
+        disabled={currentIndex === 0}
+      >
+        <Tooltip text="Recommencer" disabled={currentIndex === 0}>
+          <RotateCcw />
+        </Tooltip>
+      </HoverableButtonRetry>
+      <ItemSeparator />
+
+      <HoverableButton onClick={handleShuffle}>
+        <Tooltip text="Mélanger">
+          <Shuffle />
+        </Tooltip>
+      </HoverableButton>
+
+      <HoverableLink to={`/dashboard/folders/${deckId}/`}>
+        <Tooltip text="Mode flashcards">
+          <WalletCards />
+        </Tooltip>
+      </HoverableLink>
+
+      {flashcards[0]?.ia_generated ? (
+        <HoverableLink to={`/dashboard/folders/${deckId}/quiz`}>
+          <Tooltip text="Mode quiz">
+            <FileQuestion />
+          </Tooltip>
+        </HoverableLink>
+      ) : (
+        <FileQuestion style={{ color: '#8a8a8a', cursor: 'not-allowed' }} />
+      )}
+    </DockContainer>
+  );
+}
+
 const DockContainer = styled.div`
   position: fixed;
   display: flex;
@@ -108,82 +185,5 @@ const HoverableButtonRetry = styled.button`
     outline: none;
   }
 `;
-
-function DockNavigate({
-  setCurrentIndex,
-  setShowAnswer,
-  currentIndex,
-  flashcards,
-  deckId,
-  handleShuffle,
-}: DockNavigateProps) {
-  return (
-    <DockContainer>
-      <HoverableLink to="/dashboard/folders">
-        <Inbox />
-      </HoverableLink>
-      <ItemSeparator />
-
-      <HoverableButton
-        onClick={() => {
-          setCurrentIndex((prev) => prev - 1);
-          setShowAnswer(false);
-        }}
-        disabled={currentIndex === 0}
-      >
-        <Tooltip text="Précédente" disabled={currentIndex === 0}>
-          <ArrowLeft />
-        </Tooltip>
-      </HoverableButton>
-
-      <HoverableButton
-        onClick={() => {
-          setCurrentIndex((prev) => prev + 1);
-          setShowAnswer(false);
-        }}
-        disabled={currentIndex === flashcards.length}
-      >
-        <Tooltip text="Suivante" disabled={currentIndex === flashcards.length}>
-          <ArrowRight />
-        </Tooltip>
-      </HoverableButton>
-
-      <HoverableButtonRetry
-        onClick={() => {
-          setCurrentIndex(0);
-          setShowAnswer(false);
-        }}
-        disabled={currentIndex === 0}
-      >
-        <Tooltip text="Recommencer" disabled={currentIndex === 0}>
-          <RotateCcw />
-        </Tooltip>
-      </HoverableButtonRetry>
-      <ItemSeparator />
-
-      <HoverableButton onClick={handleShuffle}>
-        <Tooltip text="Mélanger">
-          <Shuffle />
-        </Tooltip>
-      </HoverableButton>
-
-      <HoverableLink to={`/dashboard/folders/${deckId}/`}>
-        <Tooltip text="Mode flashcards">
-          <WalletCards />
-        </Tooltip>
-      </HoverableLink>
-
-      {flashcards[0]?.ia_generated ? (
-        <HoverableLink to={`/dashboard/folders/${deckId}/quiz`}>
-          <Tooltip text="Mode quiz">
-            <FileQuestion />
-          </Tooltip>
-        </HoverableLink>
-      ) : (
-        <FileQuestion style={{ color: '#8a8a8a', cursor: 'not-allowed' }} />
-      )}
-    </DockContainer>
-  );
-}
 
 export default DockNavigate;

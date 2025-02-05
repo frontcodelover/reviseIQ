@@ -10,41 +10,6 @@ import { formatDate } from '@/lib/FormatDate';
 import { CupSoda } from 'lucide-react';
 import HeadingTwo from '../../ui/text/heading/HeadingTwo';
 
-const BadgeBoxContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: start;
-  width: 100%;
-  height: 94%;
-  gap: 1rem;
-  background-color: ${COLORS.lightBlue};
-  border: 1px solid ${COLORS.secondaryBlue};
-  border-radius: 10px;
-  padding: 25px;
-`;
-
-const BadgBoxPlacement = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  gap: 1rem;
-`;
-
-const BadgeImage = styled.div`
-  border-radius: 50%;
-  background-color: ${COLORS.secondaryBlue};
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  & svg {
-    fill: ${COLORS.secondaryBlue};
-    stroke: ${COLORS.white};
-  }
-`;
-
 function BadgeBox() {
   const { user } = useAuth();
   const userId: string | null = user?.id ?? null;
@@ -86,5 +51,40 @@ function BadgeBox() {
     </>
   );
 }
+
+const BadgeBoxContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  width: 100%;
+  height: 94%;
+  gap: 1rem;
+  background-color: ${COLORS.lightBlue};
+  border: 1px solid ${COLORS.secondaryBlue};
+  border-radius: 10px;
+  padding: 25px;
+`;
+
+const BadgBoxPlacement = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 1rem;
+`;
+
+const BadgeImage = styled.div`
+  border-radius: 50%;
+  background-color: ${COLORS.secondaryBlue};
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & svg {
+    fill: ${COLORS.secondaryBlue};
+    stroke: ${COLORS.white};
+  }
+`;
 
 export default BadgeBox;

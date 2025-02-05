@@ -12,6 +12,55 @@ import HeadingThree from '../../ui/text/heading/HeadingThree';
 import Text from '../../ui/text/Text';
 import { formatDate } from '@/lib/FormatDate';
 
+const CardFolder = ({ ...props }: Folder) => {
+  const { id, name, thema, lang, user_id, created_at } = props;
+  const { profile, isLoading } = useProfileUserById(user_id || '');
+  const { t } = useTranslation();
+
+  return (
+    <Card id={id}>
+      <CardHeader>
+        <CardContent>
+          <HeadingTwoLink>
+            <Link to={`/dashboard/folders/${id}`}>{name}</Link>
+          </HeadingTwoLink>
+          <HeadingThree $size="small" color="secondary" $weight="regular">
+            {thema}
+          </HeadingThree>
+        </CardContent>
+      </CardHeader>
+
+      {!isLoading && profile && (
+        <ContainerFooter>
+          <Avatar src={`/src/assets/${profile.avatar}.webp`} alt="avatar user" />
+          <CardFooter>
+            <Text color="black" $weight="medium">
+              {t('dashboard.folder.by')} {profile?.firstname}
+            </Text>
+            <Text $size="small" color="secondary" $weight="regular">
+              {created_at ? formatDate(created_at) : ''}
+            </Text>
+            <ConatainerLang>
+              <Text $size="small" $color="secondary" $weight="regular">
+                {t('language')}
+              </Text>
+              {lang === 'fr' ? (
+                <FlagIcon>
+                  <FR />
+                </FlagIcon>
+              ) : (
+                <FlagIcon>
+                  <US />
+                </FlagIcon>
+              )}
+            </ConatainerLang>
+          </CardFooter>
+        </ContainerFooter>
+      )}
+    </Card>
+  );
+};
+
 const Card = styled.div`
   border-radius: 8px;
   border: 1px solid ${COLORS.gray};
@@ -76,54 +125,5 @@ const HeadingTwoLink = styled(HeadingTwo)`
     color: ${COLORS.primary};
   }
 `;
-
-const CardFolder = ({ ...props }: Folder) => {
-  const { id, name, thema, lang, user_id, created_at } = props;
-  const { profile, isLoading } = useProfileUserById(user_id || '');
-  const { t } = useTranslation();
-
-  return (
-    <Card id={id}>
-      <CardHeader>
-        <CardContent>
-          <HeadingTwoLink>
-            <Link to={`/dashboard/folders/${id}`}>{name}</Link>
-          </HeadingTwoLink>
-          <HeadingThree $size="small" color="secondary" $weight="regular">
-            {thema}
-          </HeadingThree>
-        </CardContent>
-      </CardHeader>
-
-      {!isLoading && profile && (
-        <ContainerFooter>
-          <Avatar src={`/src/assets/${profile.avatar}.webp`} alt="avatar user" />
-          <CardFooter>
-            <Text color="black" $weight="medium">
-              {t('dashboard.folder.by')} {profile?.firstname}
-            </Text>
-            <Text $size="small" color="secondary" $weight="regular">
-              {created_at ? formatDate(created_at) : ''}
-            </Text>
-            <ConatainerLang>
-              <Text $size="small" $color="secondary" $weight="regular">
-                {t('language')}
-              </Text>
-              {lang === 'fr' ? (
-                <FlagIcon>
-                  <FR />
-                </FlagIcon>
-              ) : (
-                <FlagIcon>
-                  <US />
-                </FlagIcon>
-              )}
-            </ConatainerLang>
-          </CardFooter>
-        </ContainerFooter>
-      )}
-    </Card>
-  );
-};
 
 export default CardFolder;

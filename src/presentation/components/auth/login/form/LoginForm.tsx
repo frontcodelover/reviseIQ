@@ -7,43 +7,6 @@ import { SignInWithEmailUseCase } from '@/application/useCases/auth/SignInWithEm
 import Button from '@/presentation/components/ui/button/Button';
 import { useTranslation } from 'react-i18next';
 
-const InputField = styled.div`
-  width: 100%;
-  margin-bottom: 16px;
-
-  label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 8px;
-    color: #555;
-  }
-
-  input {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-
-    &:focus {
-      border-color: #007bff;
-    }
-  }
-`;
-
-const ForgotPasswordLink = styled.a`
-  display: block;
-  font-size: 12px;
-  color: #007bff;
-  text-decoration: none;
-  text-align: right;
-  margin-bottom: 16px;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 function LoginForm() {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
@@ -113,5 +76,43 @@ function LoginForm() {
     </div>
   );
 }
+
+const InputField = styled.div`
+  width: 100%;
+  margin-bottom: 16px;
+
+  label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #555;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+
+    &:focus {
+      border-color: #007bff;
+    }
+  }
+`;
+
+const ForgotPasswordLink = styled.a`
+  display: block;
+  font-size: 12px;
+  color: #007bff;
+  text-decoration: none;
+  text-align: right;
+  margin-bottom: 16px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
 export default LoginForm;
