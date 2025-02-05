@@ -106,7 +106,7 @@ function LoginForm() {
         </InputField>
         <ForgotPasswordLink href="/reset-password">{t('auth.forgotPassword')}</ForgotPasswordLink>
         {error && <p style={{ color: 'red', marginBottom: '16px' }}>{error}</p>}
-        <Button size="regular" variant="primary" type="submit" disabled={loading}>
+        <Button $size="regular" $variant="primary" type="submit" disabled={loading}>
           {loading ? t('loading') : t('auth.login')}
         </Button>
       </form>
