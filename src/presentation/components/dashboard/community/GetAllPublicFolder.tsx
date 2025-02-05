@@ -10,18 +10,6 @@ import styled from 'styled-components';
 import CommunityTable from './CommunityTable';
 import HeadingTwo from '../../ui/text/heading/HeadingTwo';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-// const Grid = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-//   gap: 1rem;
-// `;
-
 export function GetAllPublicFolders() {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(19);
@@ -63,3 +51,9 @@ export function GetAllPublicFolders() {
     </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
