@@ -2,11 +2,10 @@ import styled from 'styled-components';
 import { useProfile } from '@/presentation/hooks/useProfile';
 import { useTranslation } from 'react-i18next';
 import { useHandleSignOut } from '@/presentation/hooks/useSignOut';
-import { SquareChevronLeft } from 'lucide-react';
+import { AlignJustify } from 'lucide-react';
 import SidebarFooter from '@/presentation/components/dashboard/shared/SidebarFooter';
 import SidebarMenuItem from '@/presentation/components/dashboard/shared/SidebarMenuItem';
 import SidebarGroupLabel from '@/presentation/components/dashboard/shared/SidebarGroupLabel';
-import SidebarMenuItemResponsive from '@/presentation/components/dashboard/shared/SidebarMenuItemResponsive';
 import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 import { Item } from '@/presentation/components/dashboard/shared/Item';
 
@@ -41,18 +40,11 @@ export function SidebarTwo({ isCollapsed, setIsCollapsed }: SidebarTwoProps) {
     <>
       <StyledSidebarTwo $isCollapsed={isCollapsed}>
         <ToggleButton onClick={toggleSidebar} $isCollapsed={isCollapsed}>
-          <SquareChevronLeft size={24} />
+          <AlignJustify />
         </ToggleButton>
-
         <SidebarGroupLabel $isCollapsed={isCollapsed} />
-        <ItemAlign>
-          {items.map((item) =>
-            isCollapsed ? (
-              <SidebarMenuItem key={item.title} item={item} />
-            ) : (
-              <SidebarMenuItemResponsive key={item.title} item={item} />
-            )
-          )}
+        <ItemAlign $isCollapsed={isCollapsed}>
+          {items.map((item) => isCollapsed && <SidebarMenuItem key={item.title} item={item} />)}
         </ItemAlign>
         <SidebarFooter handleSignOut={handleSignOut} t={t} $isCollapsed={isCollapsed} />
       </StyledSidebarTwo>
@@ -63,9 +55,9 @@ export function SidebarTwo({ isCollapsed, setIsCollapsed }: SidebarTwoProps) {
 const StyledSidebarTwo = styled.aside<StyledProps>`
   background-color: ${COLORS.lightgray};
   min-height: 100vh;
-  width: ${({ $isCollapsed }) => ($isCollapsed ? '250px' : '55px')};
+  width: ${({ $isCollapsed }) => ($isCollapsed ? '250px' : '0')};
   position: fixed;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
   top: 0;
   left: 0;
   z-index: 100;
@@ -81,22 +73,21 @@ const StyledSidebarTwo = styled.aside<StyledProps>`
 export const ToggleButton = styled.button<StyledProps>`
   position: absolute;
   top: 1rem;
-  right: 0.42rem;
+  left: ${({ $isCollapsed }) => ($isCollapsed ? '200px' : '0.40rem')};
   z-index: 1000;
   color: ${COLORS.secondary};
   padding: 0.5rem;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
   &:hover {
     color: ${COLORS.black};
   }
-  svg {
-    transition: transform 0.2s ease-in-out;
-    transform: ${({ $isCollapsed }) => ($isCollapsed ? 'rotate(0deg)' : 'rotate(180deg)')};
-  }
 `;
 
-const ItemAlign = styled.div`
+const ItemAlign = styled.div<StyledProps>`
   display: flex;
   flex-direction: column;
+  opacity: ${({ $isCollapsed }) => ($isCollapsed ? '1' : '0')};
+  transition: opacity 0.2s ease-in-out;
+  visibility: ${({ $isCollapsed }) => ($isCollapsed ? 'visible' : 'hidden')};
 `;

@@ -10,9 +10,7 @@ interface SidebarGroupLabelProps {
 const SidebarGroupLabel = ({ $isCollapsed }: SidebarGroupLabelProps) => {
   return (
     <StyledSidebarGroupLabel>
-      {!$isCollapsed ? (
-        <StyledBrain />
-      ) : (
+      {$isCollapsed && (
         <>
           <StyledBrain />
           <TitleSpan>ReviseIQ</TitleSpan>
@@ -32,7 +30,6 @@ const StyledSidebarGroupLabel = styled.div`
   align-items: center;
   gap: 0.5rem;
   min-height: 3rem;
-  transition: all 0.3s ease-in-out;
 `;
 
 const StyledBrain = styled(Brain)`

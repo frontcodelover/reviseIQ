@@ -16,21 +16,25 @@ interface SidebarFooterProps {
 
 const SidebarFooter = ({ handleSignOut, t, $isCollapsed }: SidebarFooterProps) => {
   return (
-    <StyledSidebarFooter>
+    <StyledSidebarFooter $isCollapsed={$isCollapsed}>
       <LogoutBtn onClick={handleSignOut}>
         <LogOut />
-        {$isCollapsed && t('signout')}
+        {t('signout')}
       </LogoutBtn>
     </StyledSidebarFooter>
   );
 };
 
-const StyledSidebarFooter = styled.div`
+const StyledSidebarFooter = styled.div<{ $isCollapsed: boolean }>`
   padding: 1rem;
   display: flex;
   justify-content: center;
   position: absolute;
   bottom: 0;
+  width: 100%;
+  opacity: ${({ $isCollapsed }) => ($isCollapsed ? '1' : '0')};
+  visibility: ${({ $isCollapsed }) => ($isCollapsed ? 'visible' : 'hidden')};
+  transition: all 0.2s ease-in-out;
 `;
 
 const LogoutBtn = styled.button`
@@ -43,5 +47,6 @@ const LogoutBtn = styled.button`
   font-weight: 500;
   font-size: 0.875rem;
   gap: 0.75rem;
+  width: 100%;
 `;
 export default SidebarFooter;
