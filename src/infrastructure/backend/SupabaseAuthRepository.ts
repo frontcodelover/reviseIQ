@@ -45,7 +45,6 @@ export class SupabaseAuthRepository implements AuthRepository {
           redirectTo: `${window.location.origin}/dashboard`,
         },
       });
-      console.log('provider', provider);
       if (error) {
         console.error('Erreur lors de la connexion OAuth :', error);
         throw error;

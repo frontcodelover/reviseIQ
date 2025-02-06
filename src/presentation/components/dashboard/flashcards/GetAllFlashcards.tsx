@@ -98,7 +98,6 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
           } else {
             console.error('User ID is null');
           }
-          console.log('Action logged');
           setHasLoggedCompletion(true);
         } catch (error) {
           console.error("Erreur lors du log de l'action :", error);

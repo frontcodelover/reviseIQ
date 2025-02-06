@@ -15,7 +15,6 @@ function PublicDecks() {
     const result = await getPublicFoldersUseCase.execute(0, 10); // Adjust the arguments as needed
     return result.data;
   });
-  console.log('PUBLIC DECKS');
 
   if (isLoading) return <p>Chargement des decks publics...</p>;
   if (error) return <p>Erreur lors de la récupération des decks publics.</p>;

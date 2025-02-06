@@ -24,7 +24,6 @@ export function GetAllPublicFolders() {
     error,
   } = useQuery(['decks', page, limit], async () => {
     const result = await getPublicFoldersUseCase.execute(page * limit, (page + 1) * limit - 1);
-    console.log('Query Response:', result); // Debug log
     return result;
   });
 

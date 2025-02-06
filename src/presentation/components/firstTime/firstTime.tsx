@@ -49,7 +49,6 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
         created_at: user.created_at,
       });
 
-      console.log('✅ Profil mis à jour avec succès');
       onSubmit(true); // Passer true directement au parent
     } catch (error) {
       console.error('❌ Erreur:', error);

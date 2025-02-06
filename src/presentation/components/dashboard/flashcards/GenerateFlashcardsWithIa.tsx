@@ -44,7 +44,6 @@ export function GenerateFlashCardWithIa() {
 
     try {
       const result = await generateFlashcard.execute(topic, number, lang);
-      console.log(result);
       setGeneratedCards(result);
       if (deckId) {
         await flashcardRepository.storeQuiz(deckId, result);

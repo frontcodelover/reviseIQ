@@ -51,8 +51,6 @@ export class SupabaseBadgeRepository implements BadgeRepository {
 
         if (insertError) {
           console.error('Erreur lors du déblocage du badge :', insertError.message);
-        } else {
-          console.log(`Badge débloqué : ${badge.name}`);
         }
       }
     }

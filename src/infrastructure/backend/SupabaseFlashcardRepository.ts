@@ -16,8 +16,6 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
         console.error('Error creating flashcard:', error);
         throw error;
       }
-
-      console.log('Flashcard created successfully');
     } catch (error) {
       console.error('Error in createFlashcard:', error);
       throw error;
@@ -59,8 +57,6 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
 
     let flashcards: Flashcard[] = [];
     try {
-      console.log('Envoi de la requête à Mistral');
-
       const result = await client.chat.complete({
         model: 'mistral-large-latest',
         messages: [{ role: 'user', content: prompt }],
@@ -72,7 +68,7 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
       const content = result.choices[0].message.content as string;
       flashcards = this.parseFlashcards(content);
 
-      console.log('Flashcards générées:', flashcards);
+      console.warn('Flashcards générées:', flashcards);
       return flashcards;
     } catch (error) {
       console.error('Erreur détaillée:', error);
@@ -131,8 +127,6 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
         console.error('Error storing quiz:', error);
         throw error;
       }
-
-      console.log('Quiz stored successfully');
     } catch (error) {
       console.error('Error in storeQuiz:', error);
       throw error;

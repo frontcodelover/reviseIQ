@@ -120,7 +120,6 @@ export class SupabaseFolderRepository implements FolderRepository {
         console.error('Error deleting folder:', error);
         throw error;
       }
-      console.log('Folder deleted successfully');
     } catch (error) {
       console.error('Error in deleteFolder:', error);
       throw error;

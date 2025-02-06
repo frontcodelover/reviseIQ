@@ -43,7 +43,7 @@ function SingleFolder({ id }: { id: string | undefined }) {
       const isOwner = await folderRepository.isFolderOwner(id!, user_id!);
       setIsOwner(isOwner);
       if (!isOwner) {
-        return console.log('You are not the owner of this folder');
+        return console.error('You are not the owner of this folder');
       }
     };
     checkOwnerShip();

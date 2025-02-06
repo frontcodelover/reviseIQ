@@ -19,7 +19,6 @@ const createFolder = new CreateFolder(userRepository);
 
 function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
   const lang = localStorage.getItem('i18nextLng') || 'fr';
-  console.log(lang);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
