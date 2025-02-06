@@ -3,8 +3,9 @@ import { useProfile } from '@/presentation/hooks/useProfile';
 import { useAuth } from '@/presentation/context/AuthContext';
 import ActivityCalendar from '@/presentation/components/dashboard/stats/activityCalendar';
 import { LogsAndBadgesManager } from '@/presentation/components/dashboard/stats/logsAndBadgesManager';
-import { GetPublicFolders } from '@/presentation/components/dashboard/homeBoard/GetLimitedPublicFolders';
+import { GetLimitedPublicFolders } from '@/presentation/components/dashboard/homeBoard/GetLimitedPublicFolders';
 import styled from 'styled-components';
+import GetRandomFolder from '@/presentation/components/dashboard/homeBoard/GetRandomFolder';
 
 import Greetings from '@/presentation/components/dashboard/homeBoard/Greetings';
 
@@ -12,7 +13,6 @@ import { Badge } from '@/domain/entities/Badge';
 import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
 import HeadingThree from '@/presentation/components/ui/text/heading/HeadingThree';
 import Text from '@/presentation/components/ui/text/Text';
-import BadgeBox from '@/presentation/components/dashboard/homeBoard/BadgeBox';
 
 function Dashboard() {
   const { profile, loading, error } = useProfile();
@@ -27,13 +27,12 @@ function Dashboard() {
   if (!profile) return null;
 
   return (
-    <>
+    <Container>
       <Greetings />
 
-      <SectionFirst>
-        <GetPublicFolders />
-        <BadgeBox />
-      </SectionFirst>
+      <GetRandomFolder />
+
+      <GetLimitedPublicFolders />
 
       <LogsAndBadgesManager
         userId={userId}
@@ -94,11 +93,17 @@ function Dashboard() {
           </GridContainer>
         </>
       </FlexContainer>
-    </>
+    </Container>
   );
 }
 
 export default Dashboard;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
 
 const FlexContainer = styled.div`
   margin-top: 1.5rem;
@@ -166,17 +171,4 @@ const StatsContainer = styled.div`
   border: 1px solid #e2e8f0;
   background-color: #f8fafc;
   padding: 1.5rem;
-`;
-
-const SectionFirst = styled.section`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-
-  @media screen and (max-width: 768px) {
-    grid-template-columns: 2fr;
-  }
-  @media screen and (max-width: 480px) {
-    grid-template-columns: 1fr;
-  }
 `;

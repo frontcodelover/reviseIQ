@@ -32,7 +32,7 @@ export class SupabaseFolderRepository implements FolderRepository {
         .select('*')
         .eq('is_public', true)
         .order('created_at', { ascending: false })
-        .limit(6);
+        .limit(12);
 
       if (error) {
         console.error('Error fetching getLastPublicFolders:', error);
@@ -63,6 +63,55 @@ export class SupabaseFolderRepository implements FolderRepository {
     }
   }
 
+  private readonly RANDOM_FOLDER_CACHE_KEY = 'random-folder-cache';
+  private readonly CACHE_DURATION = 86400000; // 24 hours
+
+  async getRandomPublicFolders(): Promise<Folder[]> {
+    try {
+      const cachedData = localStorage.getItem(this.RANDOM_FOLDER_CACHE_KEY);
+      if (cachedData) {
+        const { folder, timestamp } = JSON.parse(cachedData);
+        const now = Date.now();
+        if (now - timestamp < this.CACHE_DURATION) {
+          return [folder];
+        }
+      }
+
+      // Si pas de cache valide, faire la requête
+      const { count } = await supabase
+        .from('decks')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_public', true);
+
+      if (!count) return [];
+
+      const randomOffset = Math.floor(Math.random() * count);
+      const { data, error } = await supabase
+        .from('decks')
+        .select('*')
+        .eq('is_public', true)
+        .range(randomOffset, randomOffset)
+        .limit(1);
+
+      if (error) throw error;
+
+      // Mettre en cache
+      if (data && data.length > 0) {
+        localStorage.setItem(
+          this.RANDOM_FOLDER_CACHE_KEY,
+          JSON.stringify({
+            folder: data[0],
+            timestamp: Date.now(),
+          })
+        );
+      }
+
+      return data || [];
+    } catch (error) {
+      console.error('Error in getRandomPublicFolders:', error);
+      throw error;
+    }
+  }
   // Delete a folder by ID
   async deleteFolder(folderId: string): Promise<void> {
     try {

@@ -7,4 +7,5 @@ export interface FolderRepository {
   deleteFolder(id: string): Promise<void>;
   searchFolders(query: string): Promise<Folder[]>;
   isFolderOwner(id: string, user_id: string): Promise<boolean>;
+  getRandomPublicFolders(): Promise<Folder[]>;
 }

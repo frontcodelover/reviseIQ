@@ -10,7 +10,7 @@ import { Folder } from '@/domain/entities/Folder';
 import Text from '@/presentation/components/ui/text/Text';
 import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 
-export function GetPublicFolders() {
+export function GetLimitedPublicFolders() {
   const folderRepository = new SupabaseFolderRepository();
   const getLastPublicFolderUseCase = new GetLastPublicFolderUseCase(folderRepository);
   const { t } = useTranslation();
@@ -19,7 +19,7 @@ export function GetPublicFolders() {
     data: folders,
     isLoading,
     error,
-  } = useQuery<Folder[]>('publicFolders', () => getLastPublicFolderUseCase.execute());
+  } = useQuery<Folder[]>('lastPublicFolders', () => getLastPublicFolderUseCase.execute());
 
   if (isLoading) return <div>Chargement...</div>;
   if (error) return <div>Erreur : {(error as Error).message}</div>;
@@ -42,21 +42,22 @@ export function GetPublicFolders() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
+  width: 100%;
 `;
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(250px, 1fr));
+  grid-template-columns: repeat(3, minmax(250px, 1fr));
   gap: 1rem;
 
   @media screen and (max-width: 1080px) {
-    grid-template-columns: minmax(250px, 1fr);
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
     gap: 1rem;
   }
 
   @media screen and (max-width: 768px) {
-    grid-template-columns: minmax(250px, 1fr);
+    grid-template-columns: repeat(1, minmax(250px, 1fr));
     gap: 1rem;
   }
 `;

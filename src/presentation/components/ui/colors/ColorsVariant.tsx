@@ -1,7 +1,7 @@
 export const COLORS = {
   black: '#101f33',
   white: '#ffffff',
-  primary: '#057eff',
+  primary: '#0560fc',
   primaryHover: '#0a6dff',
   secondaryBlue: '#79BCFF',
   lightBlue: 'hsla(211, 100%, 80%, 0.35)',
@@ -15,4 +15,5 @@ export const COLORS = {
   info: '#17a2b8',
   lightPinky: 'hsla(311, 87%, 46%, 0.22)',
   pinky: '#db0fb6',
+  ligthBlueTwo: '#deeeff',
 } as const;

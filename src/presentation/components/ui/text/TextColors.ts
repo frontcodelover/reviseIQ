@@ -35,4 +35,10 @@ export const colorsVariant = {
   lightPinky: css`
     color: ${COLORS.lightPinky};
   `,
+  gray: css`
+    color: ${COLORS.gray};
+  `,
+  lightBlueTwo: css`
+    color: ${COLORS.ligthBlueTwo};
+  `,
 };
