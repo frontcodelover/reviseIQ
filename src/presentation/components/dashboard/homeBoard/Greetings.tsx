@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { useProfile } from '@/presentation/hooks/useProfile';
-import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
-import Text from '@/presentation/components/ui/text/Text';
 import { useTranslation } from 'react-i18next';
+import { Typography } from '@mui/joy';
 
 function Greetings() {
   const { profile, loading, error } = useProfile();
@@ -14,13 +13,11 @@ function Greetings() {
 
   return (
     <GreetingsContainer>
-      <HeadingOne $size="xxlarge" $color="black" $weight="semibold">
+      <Typography level="h1" noWrap fontWeight={600}>
         {t('dashboard.greetings')} {profile.firstname} 👋
-      </HeadingOne>
+      </Typography>
       <ParagraphContainer>
-        <Text $size="medium" $color="secondary" $weight="regular">
-          {t('dashboard.greetings2')}
-        </Text>
+        <Typography>{t('dashboard.greetings2')}</Typography>
       </ParagraphContainer>
     </GreetingsContainer>
   );
@@ -30,7 +27,7 @@ const GreetingsContainer = styled.div`
   flex-direction: column;
   width: 100%;
   border-radius: 16px;
-  margin: 2rem 0;
+  margin: 1rem 0;
 `;
 
 const ParagraphContainer = styled.div`

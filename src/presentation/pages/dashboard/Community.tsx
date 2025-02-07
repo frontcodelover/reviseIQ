@@ -1,19 +1,14 @@
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { GetAllPublicFolders } from '@/presentation/components/dashboard/community/GetAllPublicFolder';
-import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
-import { MessageCircleHeart } from 'lucide-react';
+import { Typography } from '@mui/joy';
 function Community() {
   const { t } = useTranslation();
   return (
     <Container>
-      <HeadingOne $size="xlarge" $color="black" $weight="medium">
-        <FlexContainer>
-          {t('dashboard.community')}
-          <MessageCircleHeart />
-        </FlexContainer>
-      </HeadingOne>
-
+      <Typography level="h1" noWrap fontWeight={600}>
+        {t('dashboard.community')}
+      </Typography>
       <GetAllPublicFolders />
     </Container>
   );
@@ -24,13 +19,7 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   border-radius: 16px;
-  margin: 2rem 0;
-`;
-
-const FlexContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  margin: 1rem 0;
 `;
 
 export default Community;

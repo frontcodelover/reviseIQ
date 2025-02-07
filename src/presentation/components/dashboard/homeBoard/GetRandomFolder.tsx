@@ -3,10 +3,9 @@ import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolde
 import { useQuery } from 'react-query';
 import { GetRandomFolderUseCase } from '@/application/useCases/folder/GetRandomFolder.usecase';
 import { Folder } from '@/domain/entities/Folder';
-import Text from '../../ui/text/Text';
-import HeadingTwo from '../../ui/text/heading/HeadingTwo';
-import { COLORS } from '../../ui/colors/ColorsVariant';
 import CardFolder from '../folders/CardFolder';
+import Card from '@mui/joy/Card';
+import { Typography } from '@mui/joy';
 
 export default function GetRandomFolder() {
   const folderRepository = new SupabaseFolderRepository();
@@ -23,57 +22,44 @@ export default function GetRandomFolder() {
   if (!folders) return <div>Aucun dossier public trouvé</div>;
 
   return (
-    <Container>
+    <Card
+      orientation="horizontal"
+      sx={(theme) => ({
+        alignItems: 'center',
+        [theme.getColorSchemeSelector('light')]: {
+          backgroundColor: 'darkBlue.softColor',
+        },
+        [theme.getColorSchemeSelector('dark')]: {
+          backgroundColor: 'darkBlue.solidBg',
+          borderColor: 'darkBlue.outlinedBorder',
+        },
+      })}
+      variant="outlined"
+    >
       <ContainerTitle>
-        <Title>La dossier du jour ⭐</Title>
-        <Text $color="lightBlueTwo" $weight="regular">
+        <Typography level="h2">La dossier du jour ⭐</Typography>
+        <Typography>
           Chaque jour nous mettons en avant un dossier public aléatoire pour vous inspirer et
           apprendre de nouvelles choses.
-        </Text>
+        </Typography>
       </ContainerTitle>
       {folders.map((folder) => (
-        <Card>
+        <Card
+          key={folder.id}
+          sx={{
+            flex: 1,
+            border: 'none',
+            padding: 0,
+            display: 'block',
+            backgroundColor: 'transparent',
+          }}
+        >
           <CardFolder {...folder} />
         </Card>
       ))}
-    </Container>
+    </Card>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 1.5rem;
-  width: 100%;
-  border-radius: 8px;
-  border: 1px solid ${COLORS.gray};
-  padding: 1.5rem;
-  background-color: ${COLORS.primary};
-  @media screen and (max-width: 768px) {
-    padding: 1.5rem;
-    flex-direction: column;
-  }
-`;
-
-const Card = styled.div`
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 2rem;
-  width: 100%;
-  flex: 1;
-  background-color: ${COLORS.white};
-`;
-
-const Title = styled(HeadingTwo)`
-  color: ${COLORS.white};
-  font-size: 2rem;
-  font-weight: 600;
-  @media screen and (max-width: 768px) {
-    font-size: 1.25rem;
-  }
-`;
 
 const ContainerTitle = styled.div`
   display: flex;

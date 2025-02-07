@@ -106,7 +106,6 @@ const Container = styled.div`
 `;
 
 const FlexContainer = styled.div`
-  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;

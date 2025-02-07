@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -12,15 +12,14 @@ import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRep
 import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
 import { LogActionUseCase } from '@/application/useCases/badge/LogAction.usecase';
 
-import { UpdateFlashcardUseCase } from '@/application/useCases/flashcard/updateFlashcard.usecase';
-
 import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
 import { GetFlashcardsUseCase } from '@/application/useCases/flashcard/GetFlashcards.usecase';
 
 import { Flashcard } from '@/domain/entities/Flashcard';
 import DockNavigate from '../dock/DockNavigate';
-import HeadingThree from '../../ui/text/heading/HeadingThree';
-import HeadingTwo from '../../ui/text/heading/HeadingTwo';
+import { Card as FlashCardContenaire } from '@mui/joy';
+import { Typography } from '@mui/joy';
+import styled from '@emotion/styled';
 
 const userRepository = new SupabaseUserRepository();
 const logRepository = new SupabaseLogRepository();
@@ -28,6 +27,25 @@ const getUserIdCase = new GetUserIdUseCase(userRepository);
 const logAction = new LogActionUseCase(logRepository);
 const flashcardRepository = new SupabaseFlashCardRepository();
 const getFlashcards = new GetFlashcardsUseCase(flashcardRepository);
+
+interface FlipCardProps {
+  children: ReactNode;
+  onClick?: () => void;
+  showAnswer: boolean;
+  variant?: 'outlined' | 'plain' | 'soft' | 'solid';
+  elevation?: number;
+}
+
+const FlipCard = styled(FlashCardContenaire)<FlipCardProps>`
+  transform-style: preserve-3d;
+  min-height: 40vh;
+  cursor: pointer;
+  box-shadow:
+    0 0 10px 5px rgba(0, 0, 0, 0.1),
+    0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: ${({ showAnswer }) => (showAnswer ? 'rotateY(180deg)' : 'rotateY(Odeg)')};
+`;
 
 export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
   const { id: deckId } = useParams<{ id: string }>();
@@ -43,38 +61,6 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
 
   const navigate = useNavigate();
   const { t } = useTranslation();
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedCard, setEditedCard] = useState<Flashcard | null>(null);
-
-  // Ajouter ces fonctions
-  const handleEditClick = () => {
-    if (!isEditing) {
-      setEditedCard(currentCard);
-      setIsEditing(true);
-    }
-  };
-
-  const handleSaveEdit = async () => {
-    try {
-      if (!editedCard || !deckId || !userId) return;
-
-      const updateFlashcard = new UpdateFlashcardUseCase(flashcardRepository);
-      await updateFlashcard.execute(editedCard.id as string, deckId, userId, {
-        question: editedCard.question,
-        answer: editedCard.answer,
-      });
-
-      // Mise à jour du state local
-      const updatedFlashcards = flashcards.map((card) =>
-        card.id === editedCard.id ? editedCard : card
-      );
-      setFlashcards(updatedFlashcards);
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Erreur lors de la mise à jour:', error);
-    }
-  };
 
   const isLastCard = currentIndex === flashcards.length;
   useEffect(() => {
@@ -168,62 +154,65 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
       {isLastCard ? (
         <EndCard onRestart={handleRestart} />
       ) : (
-        <div className="relative h-[40vh] w-[calc(100%-10vw)]">
-          {isOwner && (
-            <button
-              onClick={isEditing ? handleSaveEdit : handleEditClick}
-              className="absolute right-4 top-4 z-10 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-            >
-              {isEditing ? t('flashcard.save') : t('flashcard.edit')}
-            </button>
-          )}
-
-          <div
-            onClick={() => !isEditing && setShowAnswer(!showAnswer)}
-            className={`perspective-1000 transform-style-preserve-3d min-h-[40vh] cursor-pointer transition-transform duration-500 ${
-              showAnswer ? 'rotate-y-180' : ''
-            }`}
+        <div className="relative w-full">
+          <FlipCard
+            onClick={() => setShowAnswer(!showAnswer)}
+            showAnswer={showAnswer}
+            variant="outlined"
+            elevation={3}
+            sx={(theme) => ({
+              [theme.getColorSchemeSelector('light')]: {
+                backgroundColor: 'darkBlue.white',
+              },
+              [theme.getColorSchemeSelector('dark')]: {
+                backgroundColor: 'darkBlue.softBg',
+                borderColor: 'darkBlue.outlinedBorder',
+              },
+            })}
           >
             <div className="backface-hidden absolute h-full w-full">
-              <div className="flex h-full flex-col items-center justify-center gap-4 rounded-lg border bg-white p-6 shadow">
-                <HeadingTwo $size="xlarge" $weight="semibold">
+              <div className="flex h-full flex-col items-center justify-center rounded-lg">
+                <Typography
+                  level="h2"
+                  fontWeight={500}
+                  sx={{ fontSize: '1.5rem', textAlign: 'center' }}
+                >
                   {t('flashcard.question')} 🤔
-                </HeadingTwo>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={editedCard?.question || currentCard.question}
-                    onChange={(e) =>
-                      setEditedCard((prev) => ({ ...prev!, question: e.target.value }))
-                    }
-                    className="w-full rounded-md border p-2 text-center text-xl"
-                  />
-                ) : (
-                  <HeadingThree $size="medium">{currentCard.question}</HeadingThree>
-                )}
+                </Typography>
+
+                <Typography
+                  level="h3"
+                  fontWeight={500}
+                  sx={{ fontSize: '1rem', textAlign: 'center' }}
+                >
+                  {currentCard.question}{' '}
+                </Typography>
               </div>
             </div>
 
-            <div className="backface-hidden rotate-y-180 absolute h-full w-full">
-              <div className="flex h-full flex-col items-center justify-center gap-4 rounded-lg border bg-white p-6 shadow">
-                <HeadingTwo $size="xlarge" $weight="semibold">
+            <div
+              className="backface-hidden absolute h-full w-full"
+              style={{ transform: 'rotateY(180deg)' }}
+            >
+              <div className="flex h-full flex-col items-center justify-center rounded-lg">
+                <Typography
+                  level="h2"
+                  fontWeight={500}
+                  sx={{ fontSize: '1.5rem', textAlign: 'center' }}
+                >
                   {t('flashcard.answer')} ✅
-                </HeadingTwo>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={editedCard?.answer || currentCard.answer}
-                    onChange={(e) =>
-                      setEditedCard((prev) => ({ ...prev!, answer: e.target.value }))
-                    }
-                    className="w-full rounded-md border p-2 text-center text-xl"
-                  />
-                ) : (
-                  <HeadingThree $size="medium">{currentCard.answer}</HeadingThree>
-                )}
+                </Typography>
+
+                <Typography
+                  level="h3"
+                  fontWeight={500}
+                  sx={{ fontSize: '1rem', textAlign: 'center' }}
+                >
+                  {currentCard.answer}
+                </Typography>
               </div>
             </div>
-          </div>
+          </FlipCard>
         </div>
       )}
 
