@@ -12,7 +12,8 @@ import { GetFlashcards } from '@/presentation/components/dashboard/flashcards/Ge
 import { useAuth } from '@/presentation/context/AuthContext';
 
 import { Folder } from '@/domain/entities/Folder';
-import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
+
+import { Typography } from '@mui/joy';
 
 const folderRepository = new SupabaseFolderRepository();
 const logRepository = new SupabaseLogRepository();
@@ -56,15 +57,13 @@ function SingleFolder({ id }: { id: string | undefined }) {
     <div className="flex flex-col">
       {folder && (
         <Container>
-          <HeadingOne $size="xlarge" $weight="semibold" $color="black" $align="center">
+          <Typography level="h2" fontWeight={500} sx={{ fontSize: '1.5rem', textAlign: 'center' }}>
             {folder.name}
-          </HeadingOne>
+          </Typography>
         </Container>
       )}
 
-      <div className="flex h-full flex-col py-4">
-        <GetFlashcards isOwner={isOwner} />
-      </div>
+      <GetFlashcards isOwner={isOwner} />
     </div>
   );
 }
