@@ -99,7 +99,7 @@ body {
 }
 
 .react-calendar {
-  width: 100%;
+  width: 100% !important;
   border: none;
   font-family: 'Inter', sans-serif !important;
   color: #1f2937 !important;

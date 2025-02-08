@@ -7,8 +7,7 @@ import { GetLastPublicFolderUseCase } from '@/application/useCases/folder/GetLas
 
 import CardFolder from '@/presentation/components/dashboard/folders/CardFolder';
 import { Folder } from '@/domain/entities/Folder';
-import Text from '@/presentation/components/ui/text/Text';
-import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
+import { Box, Typography } from '@mui/joy';
 
 export function GetLimitedPublicFolders() {
   const folderRepository = new SupabaseFolderRepository();
@@ -26,25 +25,24 @@ export function GetLimitedPublicFolders() {
   if (!folders) return <div>Aucun dossier public trouvé</div>;
 
   return (
-    <Container>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <Grid>
         {folders.map((folder) => (
           <CardFolder key={folder.id} {...folder} />
         ))}
       </Grid>
-      <LinkText>
+      <Typography
+        sx={{
+          color: 'var(--joy-palette-primary-solidBg)',
+          textAlign: 'right',
+          '&:hover': { textDecoration: 'underline' },
+        }}
+      >
         <Link to="/dashboard/community">+ {t('dashboard.folder.moreFolder')}</Link>
-      </LinkText>
-    </Container>
+      </Typography>
+    </Box>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
-`;
 
 const Grid = styled.div`
   display: grid;
@@ -59,17 +57,5 @@ const Grid = styled.div`
   @media screen and (max-width: 768px) {
     grid-template-columns: repeat(1, minmax(250px, 1fr));
     gap: 1rem;
-  }
-`;
-
-const LinkText = styled(Text)`
-  width: fit-content;
-  a {
-    color: ${COLORS.primary};
-    text-decoration: none;
-  }
-
-  &:hover a {
-    text-decoration: underline;
   }
 `;

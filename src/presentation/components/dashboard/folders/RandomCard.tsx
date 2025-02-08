@@ -7,13 +7,11 @@ import { FR } from 'country-flag-icons/react/3x2';
 
 import { Folder } from '@/domain/entities/Folder';
 
-import { formatDate } from '@/lib/FormatDate';
-
 import Card from '@mui/joy/Card';
 import { Typography } from '@mui/joy';
 
-const CardFolder = ({ ...props }: Folder) => {
-  const { id, name, thema, lang, user_id, created_at } = props;
+const RandomCard = ({ ...props }: Folder) => {
+  const { id, name, lang, user_id } = props;
   const { profile, isLoading } = useProfileUserById(user_id || '');
   const { t } = useTranslation();
 
@@ -21,30 +19,27 @@ const CardFolder = ({ ...props }: Folder) => {
     <Card
       id={id}
       sx={{
-        gap: 3,
         border: 'none',
         boxShadow: '0 0 2px 0 rgba(0 0 0 / 0.2),0 5px 17px -4px rgba(0 0 0 / 0.12)',
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.5rem',
+        padding: '1rem',
+        backgroundColor: 'var(--joy-palette-primary-plainHoverBg)',
+        color: 'white',
       }}
     >
       <CardContent>
         <Typography level="h2" sx={{ fontSize: '1rem', fontWeight: 500 }}>
           <Link to={`/dashboard/folders/${id}`}>{name}</Link>
         </Typography>
-        <Typography level="h3" sx={{ fontSize: '0.75rem', fontWeight: 400 }}>
-          {thema}
-        </Typography>
       </CardContent>
 
       {!isLoading && profile && (
         <ContainerFooter>
-          <Avatar src={`/src/assets/${profile.avatar}.webp`} alt="avatar user" />
           <CardFooter>
-            <Typography level="h4" sx={{ fontSize: '0.75rem', fontWeight: 500 }}>
-              {t('dashboard.folder.by')} {profile?.firstname}
-            </Typography>
-            <Typography level="h4" sx={{ fontSize: '0.75rem', fontWeight: 400 }}>
-              {created_at ? formatDate(created_at) : ''}
-            </Typography>
             <ConatainerLang>
               <Typography sx={{ fontSize: '0.75rem', fontWeight: 500 }}>{t('language')}</Typography>
               {lang === 'fr' ? (
@@ -99,10 +94,4 @@ const FlagIcon = styled.div`
   }
 `;
 
-const Avatar = styled.img`
-  height: 3.5rem;
-  width: 3.5rem;
-  border-radius: 8px;
-`;
-
-export default CardFolder;
+export default RandomCard;

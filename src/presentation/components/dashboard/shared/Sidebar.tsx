@@ -23,13 +23,10 @@ import { Brain } from 'lucide-react';
 
 import ColorSchemeToggle from './ColorSchemeToggle';
 import { closeSidebar } from './utils';
-import { COLORS } from '../../ui/colors/ColorsVariant';
-import { useColorScheme } from '@mui/joy/styles';
 
 export default function Sidebar() {
   const Items = MenuItems();
   const location = useLocation();
-  const { mode } = useColorScheme();
 
   return (
     <Sheet
@@ -49,14 +46,14 @@ export default function Sidebar() {
         flexShrink: 0,
         display: 'flex',
         flexDirection: 'column',
-        gap: 2,
+        gap: 3,
         borderRight: '1px solid',
         borderColor: 'divider',
         [theme.getColorSchemeSelector('light')]: {
-          backgroundColor: 'primary.white',
+          backgroundColor: 'background',
         },
         [theme.getColorSchemeSelector('dark')]: {
-          backgroundColor: 'darkBlue.solidBg',
+          backgroundColor: 'background',
         },
       })}
     >
@@ -90,20 +87,13 @@ export default function Sidebar() {
         onClick={() => closeSidebar()}
       />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <IconButton variant="soft" size="sm" color="primary">
-          <Brain color={COLORS.pinky} />
-        </IconButton>
-        <Typography
-          level="title-lg"
-          sx={(theme) => ({
-            color:
-              mode === 'dark'
-                ? theme.vars.palette.primary.lightBlue
-                : theme.vars.palette.primary.plainColor,
-          })}
-        >
-          ReviseIQ
-        </Typography>
+        <Brain
+          style={{
+            color: 'var(--joy-palette-primary-solidBg)',
+          }}
+        />
+
+        <Typography level="title-lg">ReviseIQ</Typography>
         <ColorSchemeToggle sx={{ ml: 'auto' }} />
       </Box>
       <Input size="sm" startDecorator={<SearchRoundedIcon />} placeholder="Search" />
@@ -133,7 +123,7 @@ export default function Sidebar() {
                 component={Link}
                 to={item.url}
                 selected={location.pathname === item.url}
-                color={'primary'}
+                color="primary"
               >
                 <item.icon />
                 <ListItemContent>

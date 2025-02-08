@@ -24,7 +24,7 @@ export function MenuItems() {
       icon: GroupRoundedIcon,
     },
     {
-      title: t('dashboard.calendar'),
+      title: t('dashboard.settings'),
       url: '/dashboard/profile',
       icon: SettingsRoundedIcon,
     },

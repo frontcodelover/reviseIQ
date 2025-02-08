@@ -30,10 +30,10 @@ export default function LayoutDashboard({ children }: { children: React.ReactNod
             gap: 1,
             overflow: 'auto',
             [theme.getColorSchemeSelector('light')]: {
-              backgroundColor: 'primary.softBg',
+              backgroundColor: 'background',
             },
             [theme.getColorSchemeSelector('dark')]: {
-              backgroundColor: 'darkBlue.fullDark',
+              backgroundColor: 'background',
             },
           }}
         >

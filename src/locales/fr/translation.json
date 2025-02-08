@@ -54,9 +54,13 @@
     "community": "Communauté",
     "deck": "Dossiers",
     "search": "Recherche",
+    "settings": "Paramètres",
+    "profile": "Profil",
     "calendar": "Calendrier",
+    "stats": "Statistiques",
     "greetings": "Bonjour",
     "greetings2": "Que voulez-vous apprendre aujourd'hui ?",
+    "lastPublicFolders": "Les derniers dossiers publics",
     "firstimeForm": {
       "title": "Complétez votre profil",
       "firstnameLabel": "Entrez votre prénom",
