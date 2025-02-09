@@ -22,8 +22,6 @@ const CardFolder = ({ ...props }: Folder) => {
       id={id}
       sx={{
         gap: 3,
-        border: 'none',
-        boxShadow: '0 0 2px 0 rgba(0 0 0 / 0.2),0 5px 17px -4px rgba(0 0 0 / 0.12)',
       }}
     >
       <CardContent>
