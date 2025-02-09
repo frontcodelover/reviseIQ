@@ -17,16 +17,20 @@ import Stack from '@mui/joy/Stack';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import { MenuItems } from './MenuItems';
 import { Link, useLocation } from 'react-router-dom';
 import { Brain } from 'lucide-react';
 
+import { MenuItems } from './MenuItems';
+import { useHandleSignOut } from '@/presentation/hooks/useSignOut';
+import { useProfile } from '@/presentation/hooks/useProfile';
 import ColorSchemeToggle from './ColorSchemeToggle';
 import { closeSidebar } from './utils';
 
 export default function Sidebar() {
   const Items = MenuItems();
   const location = useLocation();
+  const handleSignOut = useHandleSignOut();
+  const { profile } = useProfile();
 
   return (
     <Sheet
@@ -158,10 +162,10 @@ export default function Sidebar() {
           src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">Siriwat K.</Typography>
-          <Typography level="body-xs">siriwatk@test.com</Typography>
+          <Typography level="title-sm">{profile?.firstname}</Typography>
+          <Typography level="body-xs">{profile?.email}</Typography>
         </Box>
-        <IconButton size="sm" variant="plain" color="neutral">
+        <IconButton size="sm" variant="plain" color="neutral" onClick={handleSignOut}>
           <LogoutRoundedIcon />
         </IconButton>
       </Box>

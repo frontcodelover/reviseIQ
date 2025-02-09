@@ -13,6 +13,7 @@ import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
 import HeadingThree from '@/presentation/components/ui/text/heading/HeadingThree';
 import Text from '@/presentation/components/ui/text/Text';
 import { Box, Card, Sheet, Typography } from '@mui/joy';
+import CalendarMUI from '@/presentation/components/dashboard/homeBoard/CalendarMui';
 
 function Dashboard() {
   const { profile, loading, error } = useProfile();
@@ -61,6 +62,7 @@ function Dashboard() {
 
           <Box sx={{ display: 'flex', gap: '1.5rem' }}>
             <Card sx={{ flex: 1, padding: '1.5rem', bgcolor: 'primary.main', border: 'none' }}>
+              <CalendarMUI />
               <ActivityCalendar data={logs} />
             </Card>
 

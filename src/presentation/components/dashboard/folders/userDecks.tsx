@@ -1,17 +1,18 @@
 import { useEffect, useState, useMemo } from 'react';
-
+import { Link as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 import { GetUserDecksUseCase } from '@/application/useCases/user/GetUserDecks.usecase';
-
-import { useTranslation } from 'react-i18next';
-import CardNewFolder from '@/presentation/components/dashboard/folders/newFolder/CardNewFolder';
-import { Link } from 'react-router-dom';
-import { ChevronDown } from 'lucide-react';
-import { Terminal } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-
 import { Folder } from '@/domain/entities/Folder';
 import { ThemaGroupProps } from '@/domain/entities/User';
+import CardNewFolder from '@/presentation/components/dashboard/folders/newFolder/CardNewFolder';
+import { Alert as AlertUI, AlertDescription } from '@/components/ui/alert';
+import { Terminal as TerminalIcon } from 'lucide-react';
+import { Box, Typography, IconButton, Card, CardContent, CircularProgress } from '@mui/joy';
+import AlertTitle from '@mui/material/AlertTitle';
+import Collapse from '@mui/material/Collapse';
+import { styled } from '@mui/joy/styles';
+import { ChevronDown as ChevronDownIcon } from 'lucide-react';
 
 interface GroupedDecks {
   [key: string]: Folder[];
@@ -20,38 +21,56 @@ interface GroupedDecks {
 const userReposirory = new SupabaseUserRepository();
 const getUserDecksUseCase = new GetUserDecksUseCase(userReposirory);
 
+const Link = styled(RouterLink)({
+  textDecoration: 'none',
+  color: 'inherit',
+  '&:hover': {
+    textDecoration: 'underline',
+  },
+});
+
+const ChevronDown = styled(ChevronDownIcon)<{ isOpen: boolean }>(({ isOpen }) => ({
+  transform: isOpen ? 'none' : 'rotate(-90deg)',
+  transition: 'transform 0.2s ease-in-out', // Optional: Add a smooth transition
+}));
+
 const ThemaGroup = ({ thema, decks }: ThemaGroupProps) => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className="flex flex-col justify-center gap-2">
-      <button onClick={() => setIsOpen(!isOpen)} className="flex gap-2 hover:text-red-600">
-        <ChevronDown
-          className={`h-5 w-5 transition-transform duration-200 ${isOpen ? '' : '-rotate-90'}`}
-        />
-        <h2 className="flex flex-1 items-center border-b pb-2 text-gray-700">
-          <span className="font-semibold">{thema}</span>
-        </h2>
-      </button>
-      {isOpen && (
-        <div className="flex flex-col gap-1 pl-6">
+    <Card variant="outlined" sx={{ width: '100%', mb: 2 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', p: 2 }}>
+        <IconButton onClick={() => setIsOpen(!isOpen)} size="sm" variant="plain" color="neutral">
+          <ChevronDown isOpen={isOpen} />
+        </IconButton>
+        <Typography level="h3" sx={{ flexGrow: 1, ml: 1, fontSize: '1.25rem' }}>
+          {thema}
+        </Typography>
+      </Box>
+      <Collapse in={isOpen} orientation="vertical">
+        <CardContent sx={{ pt: 1 }}>
           {decks.map((deck) => (
-            <div key={deck.id} className="flex gap-2 border-b py-3">
-              👉
-              <div className="item flex flex-1 flex-col">
-                <Link
-                  to={`/dashboard/folders/${deck.id}`}
-                  className="text-gray-900 hover:text-red-600 hover:underline"
-                >
-                  {deck.name}
+            <Box
+              key={deck.id}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+                px: 4,
+                py: 1,
+              }}
+            >
+              <Typography>👉</Typography>
+              <Box sx={{ flexGrow: 1 }}>
+                <Link to={`/dashboard/folders/${deck.id}`}>
+                  <Typography fontWeight="md">{deck.name}</Typography>
                 </Link>
-                <p className="text-xs text-gray-500">{deck.description}</p>
-              </div>
-            </div>
+              </Box>
+            </Box>
           ))}
-        </div>
-      )}
-    </div>
+        </CardContent>
+      </Collapse>
+    </Card>
   );
 };
 
@@ -91,28 +110,33 @@ function UserDecks(): JSX.Element {
     }, {});
   }, [decks, t]);
 
-  if (loading) return <div>Chargement...</div>;
+  if (loading)
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
+        <CircularProgress />
+      </Box>
+    );
+
+  const hasDecks = decks.length > 0;
 
   return (
-    <div className="flex flex-col gap-6">
-      {decks.length === 0 ? (
-        <>
-          <CardNewFolder />
-          <Alert className="bg-gray-50">
-            <Terminal className="h-4 w-4" />
-            <AlertTitle>Ooops</AlertTitle>
-            <AlertDescription>{t('dashboard.folder.nofolder')}</AlertDescription>
-          </Alert>
-        </>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Box sx={{ display: 'flex', width: '100%', justifyContent: 'flex-end', gap: 2, mb: 2 }}>
+        <CardNewFolder />
+      </Box>
+
+      {hasDecks ? (
+        Object.entries(groupedDecks).map(([thema, decksInThema]) => (
+          <ThemaGroup key={thema} thema={thema} decks={decksInThema} />
+        ))
       ) : (
-        <>
-          <CardNewFolder />
-          {Object.entries(groupedDecks).map(([thema, decksInThema]) => (
-            <ThemaGroup key={thema} thema={thema} decks={decksInThema} />
-          ))}
-        </>
+        <AlertUI className="bg-gray-50">
+          <TerminalIcon className="h-4 w-4" />
+          <AlertTitle>Ooops</AlertTitle>
+          <AlertDescription>{t('dashboard.folder.nofolder')}</AlertDescription>
+        </AlertUI>
       )}
-    </div>
+    </Box>
   );
 }
 

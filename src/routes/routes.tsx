@@ -71,6 +71,7 @@ export const AppRoutes = () => {
         <Route path="folders/:id/generate-ai" element={<GenerateWithIa />} />
         <Route path="folders/:id/generate-manual" element={<GenerateManual />} />
         <Route path="folders/:id/quiz" element={<QuizMode />} />
+        <Route path="profile" element={<Settings />} />
       </Route>
     </Routes>
   );
