@@ -1,12 +1,14 @@
 # WARNING Work In Progress
 
+Style migration WIP for MUI.
+
 # ReviseIQ 📚
 
 ReviseIQ is a modern flashcard application that helps students learn and revise more effectively using AI-powered flashcards and quizzes.
 
 ## Features ✨
 
-- AI-powered flashcard generation
+- AI-powered flashcard generation using Mistral AI
 - Quiz mode with multiple choice questions
 - Manual flashcard creation
 - Public and private decks
@@ -22,7 +24,6 @@ ReviseIQ is a modern flashcard application that helps students learn and revise 
 - Supabase (Backend & Auth)
 - Mistral AI API
 - i18n (English/French)
-- Shadcn/ui components
 
 ## Getting Started 🚀
 
@@ -31,7 +32,12 @@ ReviseIQ is a modern flashcard application that helps students learn and revise 
 - Node.js (v16+)
 - npm
 - Supabase account
-- Mistral AI API key
+- Mistral AI API key (VITE_MISTRAL_API_KEY)
+
+### Environment Variables
+
+- VITE_MISTRAL_API_KEY: API key for Mistral AI
+- Supabase URL and Anon Key (configured in Supabase)
 
 ## Architecture 🏗
 
@@ -40,25 +46,31 @@ ReviseIQ is a modern flashcard application that helps students learn and revise 
 1. **Domain Layer**
 
    - Core business logic
-   - Entities (User, Flashcard, Quiz)
-   - Repository interfaces
+   - Entities ([`Flashcard`](src/domain/entities/Flashcard.ts), User, Quiz)
+   - Value Objects
+   - Aggregates
+   - Repository interfaces ([`FlashcardRepository`](src/domain/repositories/FlashcardRepository.ts))
 
 2. **Application Layer**
 
    - Use cases (CreateFlashcard, GenerateQuiz)
    - Application services
+   - Interfaces
    - DTOs
 
 3. **Infrastructure Layer**
 
-   - Supabase implementations
+   - Supabase implementations ([`SupabaseFlashCardRepository`](src/infrastructure/backend/SupabaseFlashcardRepository.ts))
    - External services (Mistral AI)
-   - Repository implementations
+   - Adapters
+   - Persistence logic
 
 4. **Presentation Layer**
+
    - React components
    - Pages
-   - Routing
+   - Layouts
+   - Hooks
    - UI state management
 
 ### Key Design Patterns
@@ -67,3 +79,39 @@ ReviseIQ is a modern flashcard application that helps students learn and revise 
 - Dependency Injection
 - Factory Pattern
 - Command Pattern (for use cases)
+
+## TypeScript Standards
+
+- Strict mode enabled
+- Functional components preferred
+
+- Unit tests with Jest (>=80% coverage)
+- Integration tests with React Testing Library
+- Zod validation in tests
+
+## Security
+
+- Supabase Auth for authentication
+- Role-based access control
+- Zod for input validation
+- Sanitization
+
+## Performance
+
+- Code splitting with React.lazy and Suspense
+- Memoization
+- List virtualization
+- Supabase query optimization
+- Type-safe data fetching
+
+## Flashcard Generation
+
+- AI-powered flashcard generation using Mistral AI
+- JSON strict format
+- Error handling
+
+## Additional Notes
+
+- ESLint with TypeScript and React plugins for linting
+- Prettier for code formatting
+- MUI components for UI elements
