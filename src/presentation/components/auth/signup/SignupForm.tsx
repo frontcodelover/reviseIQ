@@ -1,16 +1,18 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
+import {
+  TextField,
+  Button,
+  Typography,
+  CircularProgress,
+  Box,
+  Checkbox,
+  FormControlLabel,
+} from '@mui/material';
 import { SignUpUseCase } from '@/application/useCases/auth/SignUp.usecase';
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
-
-import { EmailInput } from '@/presentation/components/auth/signup/form/EmailInput';
 import { PasswordTooltip } from '@/presentation/components/auth/signup/form/PasswordTooltip';
-
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
 
 const validateEmail = (email: string) => {
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -40,19 +42,17 @@ function SignupForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
   const [emailTouched, setEmailTouched] = useState(false);
   const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
-
   const navigate = useNavigate();
-
   const authRepository = new SupabaseAuthRepository();
   const signUpUseCase = new SignUpUseCase(authRepository);
-
   const { t } = useTranslation();
-
   const passwordValidation = validatePassword(password);
+  const passwordsMatch = password === confirmPassword;
+  const isFormValid =
+    validateEmail(email) && passwordValidation.isValid && passwordsMatch && termsAccepted;
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,97 +79,118 @@ function SignupForm() {
     }
   };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    setEmailTouched(true);
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
-  const passwordsMatch = password === confirmPassword;
-  const isFormValid = validateEmail(email) && passwordValidation.isValid && passwordsMatch;
-
-  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setConfirmPassword(e.target.value);
-    setConfirmPasswordTouched(true);
-  };
-
   return (
-    <div>
-      {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
-      <form onSubmit={handleSignUp}>
-        <EmailInput
-          email={email}
-          onChange={handleEmailChange}
-          touched={emailTouched}
-          isValid={validateEmail(email)}
-        />
+    <Box
+      component="form"
+      onSubmit={handleSignUp}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '400px',
+        margin: '0 auto',
+        gap: 1,
+        padding: 2,
+      }}
+    >
+      <TextField
+        label={t('auth.email')}
+        type="email"
+        autoComplete="email"
+        value={email}
+        onChange={(e) => {
+          setEmail(e.target.value);
+          setEmailTouched(true);
+        }}
+        disabled={loading}
+        variant="outlined"
+        margin="normal"
+        required
+        error={emailTouched && !validateEmail(email)}
+        helperText={emailTouched && !validateEmail(email) ? t('auth.emailInvalid') : ''}
+      />
 
-        <div className="mb-4">
-          <PasswordTooltip validation={passwordValidation} />
-          <Input
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-            required
-            className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <div className="mb-4">
-          <Label className="mb-2 block font-medium text-gray-700">
-            {t('auth.passwordConfirm')}
-          </Label>
-          <Input
-            type="password"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            required
-            className={`w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              confirmPasswordTouched && !passwordsMatch ? 'border-red-500' : ''
-            }`}
-          />
-          {confirmPasswordTouched && !passwordsMatch && (
-            <p className="mt-1 text-sm text-red-500">{t('auth.passwordMatch')}</p>
-          )}
-        </div>
-        <div className="mb-4 flex items-center gap-2">
-          <Input
-            className="h-4 w-4 focus:ring-0 focus:ring-gray-500"
-            type="checkbox"
-            id="terms"
-            name="terms"
+      <TextField
+        label={t('auth.password')}
+        type="password"
+        autoComplete="new-password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        disabled={loading}
+        variant="outlined"
+        margin="normal"
+        required
+      />
+      <TextField
+        label={t('auth.passwordConfirm')}
+        type="password"
+        autoComplete="new-password"
+        value={confirmPassword}
+        onChange={(e) => {
+          setConfirmPassword(e.target.value);
+          setConfirmPasswordTouched(true);
+        }}
+        disabled={loading}
+        variant="outlined"
+        margin="normal"
+        required
+        error={confirmPasswordTouched && !passwordsMatch}
+        helperText={confirmPasswordTouched && !passwordsMatch ? t('auth.passwordMatch') : ''}
+      />
+
+      <PasswordTooltip validation={passwordValidation} />
+
+      <FormControlLabel
+        control={
+          <Checkbox
             checked={termsAccepted}
             onChange={(e) => setTermsAccepted(e.target.checked)}
+            name="terms"
+            color="primary"
             required
           />
-          <Label>
-            {t('auth.acceptTerms')}{' '}
-            <a href="#" className="text-blue-500">
-              {t('auth.terms')}{' '}
-            </a>
-          </Label>
-        </div>
-        <Button
-          type="submit"
-          disabled={loading || !isFormValid}
-          className={`mt-6 w-full rounded-lg px-4 py-2 font-medium text-white ${
-            loading || !isFormValid
-              ? 'cursor-not-allowed bg-blue-300'
-              : 'bg-blue-500 hover:bg-blue-600'
-          }`}
-        >
-          {loading ? t('auth.loading') : t('auth.cta')}
-        </Button>
-      </form>
+        }
+        label={
+          <Typography variant="body2">
+            {t('auth.acceptTerms')} <Link to="#">{t('auth.terms')}</Link>
+          </Typography>
+        }
+      />
+
+      {error && (
+        <Typography variant="body2" color="error" mb={2}>
+          {error}
+        </Typography>
+      )}
       <Button
-        className="mt-4 w-full rounded-lg bg-gray-500 px-4 py-2 font-medium text-white hover:bg-gray-600"
+        variant="contained"
+        color="primary"
+        type="submit"
+        disabled={loading || !isFormValid}
+        sx={{
+          mt: 2,
+          textTransform: 'none',
+          fontWeight: 'bold',
+          backgroundColor: 'primary.dark',
+          color: '#fff',
+        }}
+      >
+        {loading ? <CircularProgress size={24} color="inherit" /> : t('auth.cta')}
+      </Button>
+      <Button
+        fullWidth
         onClick={() => navigate('/login')}
+        disabled={loading}
+        sx={{
+          mt: 2,
+          textTransform: 'none',
+          fontWeight: 'bold',
+          backgroundColor: 'grey.300',
+          color: 'grey.900',
+        }}
       >
         {t('auth.alreadySignup')}
       </Button>
-    </div>
+    </Box>
   );
 }
 

@@ -163,7 +163,16 @@ export default function Sidebar() {
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
           <Typography level="title-sm">{profile?.firstname}</Typography>
-          <Typography level="body-xs">{profile?.email}</Typography>
+          <Typography
+            level="body-xs"
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {profile?.email}
+          </Typography>
         </Box>
         <IconButton size="sm" variant="plain" color="neutral" onClick={handleSignOut}>
           <LogoutRoundedIcon />

@@ -24,15 +24,19 @@
   },
   "auth": {
     "signInWithGoogle": "Sign in with Google",
-    "baseline": "Want to succeed in your revisions and learn effectively? ReviseIQ your best asset to succeed!",
+    "baseline": "Want to succeed in your revisions and learn effectively? <br />ReviseIQ your best asset to succeed!",
     "password": "Password",
+    "newPassword": "New password",
+    "passwordConfirm": "Confirm password",
     "passwordplaceholder": "Enter your password",
+    "updatePasswordButton": "Update password",
+    "emailInvalid": "Invalid email",
     "content": "Password must contain at least:",
     "email": "Email",
     "emailplaceholder": "Enter your email",
     "login": "Login",
     "signup": "Sign up",
-    "minLength": "6 characters long",
+    "minLength": "6 characters long minimum",
     "minLowercase": "1 lowercase letter",
     "minUppercase": "1 uppercase letter",
     "minNumber": "1 number",
@@ -41,11 +45,15 @@
     "passwordMatch": "Passwords do not match",
     "passwordInvalid": "Password does not meet security criteria",
     "errorSignup": "Error during registration",
-    "passwordConfirm": "Confirm password",
     "acceptTerms": "I accept the",
     "terms": "terms of use",
     "cta": "Sign up to start revising",
-    "forgotPassword": "Forgot password ?"
+    "forgotPassword": "Forgot password ?",
+    "invalid": "Invalid email or password, please try again",
+    "resetPassword": "Reset password",
+    "resetPasswordDescription": "Enter your email address to reset your password, if the email address is valid, an email will be sent to you to reset your password.",
+    "resetButton": "Send reset email",
+    "emailSended": "A password reset email has been sent, please check your inbox."
   },
   "dashboard": {
     "account": "Account",
@@ -112,7 +120,8 @@
       "teacher": "Teacher",
       "other": "Other",
       "submit": "Submit",
-      "loading": "Loading..."
+      "loading": "Loading...",
+      "avatar": "Select your avatar"
     }
   }
 }
