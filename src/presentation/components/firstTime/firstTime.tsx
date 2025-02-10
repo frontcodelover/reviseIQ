@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { UpsertUserUseCase } from '@/application/useCases/auth/UpsertUser.usecase';
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 import { useTranslation } from 'react-i18next';
@@ -16,17 +16,27 @@ import {
   Grid2,
 } from '@mui/material';
 import { PhoneInput } from '@/presentation/components/firstTime/phoneInput';
-import { AvatarSelect } from '@/presentation/components/firstTime/avatarSelection';
+import { AvatarUpload } from '@/presentation/components/firstTime/avatarSelection';
 import { Typography } from '@mui/joy';
+import { z } from 'zod';
 
 import { FirstTimeFormProps } from '@/domain/entities/User';
+
+// Zod schema for form validation
+const FirstTimeFormSchema = z.object({
+  firstname: z.string().min(1),
+  lastname: z.string().min(1),
+  phone: z.string().optional(), // Adjust validation as needed
+  status: z.enum(['student', 'pupil', 'apprentice', 'teacher', 'other']),
+  avatar: z.string().nullable().optional(),
+});
 
 const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
   const [firstname, setFirstname] = useState(user.firstname || '');
   const [lastname, setLastname] = useState(user.name || '');
   const [phone, setPhone] = useState(user.phone || '');
   const [status, setStatus] = useState(user.status || 'student');
-  const [avatar, setAvatar] = useState('avatar-1');
+  const [avatar, setAvatar] = useState<string | null>(user.avatar || null); // Stocker l'URL de l'avatar
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { t } = useTranslation();
@@ -34,12 +44,27 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
   const userRepository = new SupabaseUserRepository();
   const upsertProfile = new UpsertUserUseCase(userRepository);
 
+  const handleAvatarChange = useCallback((newAvatarUrl: string | null) => {
+    setAvatar(newAvatarUrl);
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
     try {
+      // Validate form data with Zod
+      const formData = {
+        firstname,
+        lastname,
+        phone,
+        status,
+        avatar,
+      };
+
+      FirstTimeFormSchema.parse(formData);
+
       await upsertProfile.execute({
         user_id: user.id,
         firstname,
@@ -47,14 +72,20 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
         email: user.email,
         phone,
         status,
-        avatar,
+        avatar:
+          avatar ||
+          'https://zqiuulnsqmqcpdbjhgre.supabase.co/storage/v1/object/public/profile/public/avatarbase.png',
         created_at: user.created_at,
       });
 
       onSubmit(true);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('❌ Erreur:', error);
-      setError('Erreur lors de la mise à jour du profil');
+      if (error instanceof z.ZodError) {
+        setError(`Erreur de validation: ${error.errors.map((e) => e.message).join(', ')}`);
+      } else {
+        setError('Erreur lors de la mise à jour du profil');
+      }
       onSubmit(false);
     } finally {
       setLoading(false);
@@ -77,31 +108,39 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
               {error}
             </Typography>
           )}
+
           <Grid2 container spacing={2}>
-            <Grid2 size={12}>
-              <TextField
-                fullWidth
-                label={t('dashboard.firstimeForm.firstname')}
-                value={firstname}
-                onChange={(e) => setFirstname(e.target.value)}
-                required
-                placeholder={t('dashboard.firstimeForm.firstnameLabel')}
+            <Grid2 size={4}>
+              <AvatarUpload
+                key={avatar}
+                onChange={handleAvatarChange}
+                initialAvatarUrl={avatar}
+                user={{ id: user.id || '' }}
               />
             </Grid2>
-            <Grid2 size={12}>
-              <TextField
-                fullWidth
-                label={t('dashboard.firstimeForm.name')}
-                value={lastname}
-                onChange={(e) => setLastname(e.target.value)}
-                required
-                placeholder={t('dashboard.firstimeForm.nameLabel')}
-              />
+            <Grid2 size={8} container direction="column" spacing={2}>
+              <Grid2>
+                <TextField
+                  fullWidth
+                  label={t('dashboard.firstimeForm.firstname')}
+                  value={firstname}
+                  onChange={(e) => setFirstname(e.target.value)}
+                  required
+                  placeholder={t('dashboard.firstimeForm.firstnameLabel')}
+                />
+              </Grid2>
+              <Grid2>
+                <TextField
+                  fullWidth
+                  label={t('dashboard.firstimeForm.name')}
+                  value={lastname}
+                  onChange={(e) => setLastname(e.target.value)}
+                  required
+                  placeholder={t('dashboard.firstimeForm.nameLabel')}
+                />
+              </Grid2>
             </Grid2>
-            <Grid2 size={12}>
-              <Typography color="secondary">{t('dashboard.firstimeForm.avatar')}</Typography>
-              <AvatarSelect value={avatar} onChange={(event, value) => setAvatar(value)} />
-            </Grid2>
+
             <Grid2 size={12}>
               <Typography color="secondary">{t('dashboard.firstimeForm.phone')}</Typography>
               <PhoneInput phoneNumber={phone} onPhoneChange={setPhone} />

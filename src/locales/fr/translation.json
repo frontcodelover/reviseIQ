@@ -87,7 +87,8 @@
       "other": "Autre",
       "submit": "Soumettre",
       "loading": "Chargement...",
-      "avatar": "Selectionnez votre avatar"
+      "avatar": "Selectionnez votre avatar",
+      "clear": "Supprimer"
     },
     "folder": {
       "yourfolder": "Vos dossiers",
