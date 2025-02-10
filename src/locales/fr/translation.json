@@ -23,16 +23,20 @@
     "cancel": "Annuler"
   },
   "auth": {
-    "baseline": "Envie de réussir vos révisions et d'apprendre efficacement ? ReviseIQ votre meilleur atout pour réussir !",
+    "baseline": "Envie de réussir d'apprendre efficacement ?<br /> ReviseIQ votre meilleur atout pour réussir !",
     "signInWithGoogle": "Se connecter avec Google",
     "signup": "S'insrire gratuitement",
     "password": "Mot de passe",
+    "passwordConfirm": "Confirmer le mot de passe",
+    "newPassword": "Nouveau mot de passe",
     "passwordplaceholder": "Entrez votre mot de passe",
+    "updatePasswordButton": "Mettre à jour le mot de passe",
+    "emailInvalid": "Email invalide",
     "content": "Le mot de passe doit contenir :",
     "email": "Email",
     "emailplaceholder": "Entrez votre email",
-    "login": "Connexion",
-    "minLength": "6 caractères",
+    "login": "Se connecter",
+    "minLength": "6 caractères minimum",
     "minLowercase": "1 lettre minuscule",
     "minUppercase": "1 lettre majuscule",
     "minNumber": "1 chiffre",
@@ -41,11 +45,15 @@
     "passwordMatch": "Les mots de passe ne correspondent pas",
     "passwordInvalid": "Le mot de passe ne respecte pas les critères de sécurité",
     "errorSignup": "Erreur lors de l'inscription",
-    "passwordConfirm": "Confirmer le mot de passe",
     "acceptTerms": "J'accepte les",
     "terms": "conditions générales d'utilisation",
     "cta": "S'inscrire pour commencer à réviser",
-    "forgotPassword": "Mot de passe oublié ?"
+    "forgotPassword": "Mot de passe oublié ?",
+    "invalid": "Email ou mot de passe invalide, veuillez réessayer",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "resetPasswordDescription": "Entrez votre adresse email pour réinitialiser votre mot de passe, si l'adresse email est valide, un email vous sera envoyé pour réinitialiser votre mot de passe.",
+    "resetButton": "Envoyer l'email de réinitialisation",
+    "emailSended": "Un email de réinitialisation de mot de passe a été envoyé, veuillez vérifier votre boîte de réception."
   },
   "dashboard": {
     "account": "Compte",
@@ -78,7 +86,8 @@
       "teacher": "Enseignant",
       "other": "Autre",
       "submit": "Soumettre",
-      "loading": "Chargement..."
+      "loading": "Chargement...",
+      "avatar": "Selectionnez votre avatar"
     },
     "folder": {
       "yourfolder": "Vos dossiers",

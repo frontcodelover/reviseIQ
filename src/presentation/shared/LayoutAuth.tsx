@@ -1,17 +1,31 @@
 import React from 'react';
-import styled from 'styled-components';
+import { Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
-const Container = styled.div`
+const Container = styled(Box)`
   display: flex;
   height: 100vh;
   align-items: center;
   justify-content: center;
-  background-color: #f8fafc;
+  --dot-bg: #007868;
+  --dot-color: #fff;
+  --dot-size: 1px;
+  --dot-space: 50px;
+  background:
+    linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%)
+      center / var(--dot-space) var(--dot-space),
+    linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center /
+      var(--dot-space) var(--dot-space),
+    var(--dot-color);
   margin: 0 auto;
 `;
 
-function LayoutAuth({ children }: { children: React.ReactNode }) {
-  return <Container>{children}</Container>;
+interface LayoutAuthProps {
+  children: React.ReactNode;
 }
+
+const LayoutAuth: React.FC<LayoutAuthProps> = ({ children }) => {
+  return <Container>{children}</Container>;
+};
 
 export default LayoutAuth;

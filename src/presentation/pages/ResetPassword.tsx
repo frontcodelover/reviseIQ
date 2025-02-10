@@ -2,10 +2,15 @@ import { useState, useEffect } from 'react';
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { ResetPasswordUseCase } from '@/application/useCases/auth/ResetPassword.usecase';
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
+import { Box, Container, Paper, TextField, Button, Grid2 } from '@mui/material';
+import { Typography } from '@mui/joy';
+import { useTranslation } from 'react-i18next';
+import { Brain } from 'lucide-react';
 
 export default function ResetPassword() {
   const [email, setEmail] = useState('');
   const [step, setStep] = useState<'initial' | 'sent' | 'reset'>('initial');
+  const { t } = useTranslation();
 
   const authRepository = new SupabaseAuthRepository();
   const resetPasswordUseCase = new ResetPasswordUseCase(authRepository);
@@ -29,25 +34,68 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      {step === 'initial' && (
-        <form onSubmit={handleInitiateReset} className="space-y-4">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            className="rounded border p-2"
-          />
-          <button type="submit" className="rounded bg-blue-500 px-4 py-2 text-white">
-            Réinitialiser le mot de passe
-          </button>
-        </form>
-      )}
+    <Container component="main" maxWidth="md">
+      <Paper elevation={3} sx={{ p: 6, mt: 8 }}>
+        <Grid2 container spacing={2} justifyContent="center">
+          <Grid2 size={12}>
+            <Box textAlign="center" display={'flex'} flexDirection={'column'} gap={2}>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                gap={1}
+                sx={{ color: '#007867' }}
+              >
+                <Brain size={28} />
+                <Typography level="h2" color="secondary">
+                  {t('title')}
+                </Typography>
+              </Box>
 
-      {step === 'sent' && (
-        <p>Un email de réinitialisation a été envoyé. Veuillez vérifier votre boîte mail.</p>
-      )}
-    </div>
+              <Typography level="h1" color="secondary" sx={{ mt: 3 }}>
+                {t('auth.resetPassword')}
+              </Typography>
+
+              <Typography color="secondary">{t('auth.resetPasswordDescription')}</Typography>
+            </Box>
+          </Grid2>
+          <Box display={'flex'} justifyContent={'center'} flexDirection={'column'} gap={4}>
+            {step === 'initial' && (
+              <form onSubmit={handleInitiateReset}>
+                <Box display={'flex'} justifyContent={'center'} flexDirection={'column'} gap={4}>
+                  <TextField
+                    label={t('email')}
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    sx={{
+                      backgroundColor: 'primary.dark',
+                      textTransform: 'none',
+                      fontWeight: 'bold',
+                      margin: 'auto',
+                      width: 'fit-content',
+                    }}
+                  >
+                    {t('auth.resetButton')}
+                  </Button>
+                </Box>
+              </form>
+            )}
+            {step === 'sent' && (
+              <Grid2 size={12}>
+                <Typography color="success">{t('auth.emailSended')}</Typography>
+              </Grid2>
+            )}
+          </Box>
+        </Grid2>
+      </Paper>
+    </Container>
   );
 }

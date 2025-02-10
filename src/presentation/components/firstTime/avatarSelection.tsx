@@ -1,26 +1,44 @@
-import { RadioGroup } from '@/components/ui/radio-group';
+import React, { ChangeEvent } from 'react';
+import { RadioGroup, RadioGroupProps } from '@mui/material';
+import Radio from '@mui/material/Radio';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { styled } from '@mui/material/styles';
 
-import { AvatarSelectProps } from '@/domain/entities/User';
+interface AvatarSelectProps extends Omit<RadioGroupProps, 'children'> {
+  onChange: (event: ChangeEvent<HTMLInputElement>, value: string) => void;
+}
 
-export const AvatarSelect = ({ value, onChange }: AvatarSelectProps) => {
+const StyledFormControlLabel = styled(FormControlLabel)(() => ({
+  '.MuiSvgIcon-root': {
+    width: 50,
+    height: 50,
+  },
+}));
+
+export const AvatarSelect: React.FC<AvatarSelectProps> = ({ value, onChange }) => {
   const avatars = Array.from({ length: 8 }, (_, i) => i + 1);
 
   return (
-    <RadioGroup className="grid grid-cols-4 gap-4" value={value} onValueChange={onChange}>
+    <RadioGroup
+      row
+      aria-label="avatars"
+      name="row-radio-buttons-group"
+      value={value}
+      onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e, e.target.value)}
+    >
       {avatars.map((num) => (
-        <div
+        <StyledFormControlLabel
           key={num}
-          className={`relative cursor-pointer rounded p-1 ${
-            value === `avatar-${num}` ? 'bg-indigo-400 ring-2 ring-indigo-400' : ''
-          }`}
-          onClick={() => onChange(`avatar-${num}`)}
-        >
-          <img
-            src={`/src/assets/avatar-${num}.webp`}
-            alt={`Avatar ${num}`}
-            className="h-16 w-16 rounded p-0"
-          />
-        </div>
+          value={`avatar-${num}`}
+          control={<Radio />}
+          label={
+            <img
+              src={`/src/assets/avatar-${num}.webp`}
+              alt={`Avatar ${num}`}
+              style={{ width: '50px', height: '50px', borderRadius: '50%' }}
+            />
+          }
+        />
       ))}
     </RadioGroup>
   );

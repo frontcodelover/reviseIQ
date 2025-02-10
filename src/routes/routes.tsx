@@ -25,8 +25,24 @@ export const AppRoutes = () => {
     <Routes>
       <Route path="*" element={<NoMatch />} />
       <Route path="/" element={<Home />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/update-password" element={<UpdatePassword />} />
+
+      <Route
+        path="/update-password"
+        element={
+          <LayoutAuth>
+            <UpdatePassword />
+          </LayoutAuth>
+        }
+      />
+
+      <Route
+        path="/reset-password"
+        element={
+          <LayoutAuth>
+            <ResetPassword />
+          </LayoutAuth>
+        }
+      />
 
       <Route
         path="/login"

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/presentation/context/AuthContext';
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { SignInWithEmailUseCase } from '@/application/useCases/auth/SignInWithEmail.usecase';
-import Button from '@/presentation/components/ui/button/Button';
 import { useTranslation } from 'react-i18next';
-
+import { TextField, Button, Link, Typography, CircularProgress, Box } from '@mui/material';
 function LoginForm() {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
@@ -45,74 +43,65 @@ function LoginForm() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleLogin}>
-        <InputField>
-          <label>{t('auth.email')}</label>
-          <input
-            type="email"
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={loading}
-          />
-        </InputField>
-        <InputField>
-          <label>{t('auth.password')}</label>
-          <input
-            type="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={loading}
-          />
-        </InputField>
-        <ForgotPasswordLink href="/reset-password">{t('auth.forgotPassword')}</ForgotPasswordLink>
-        {error && <p style={{ color: 'red', marginBottom: '16px' }}>{error}</p>}
-        <Button $size="regular" $variant="primary" type="submit" disabled={loading}>
-          {loading ? t('loading') : t('auth.login')}
-        </Button>
-      </form>
-    </div>
+    <Box
+      component="form"
+      onSubmit={handleLogin}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '400px',
+        margin: '0 auto',
+        gap: 2,
+        padding: 3,
+      }}
+    >
+      <TextField
+        label={t('auth.email')}
+        type="email"
+        autoComplete="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        disabled={loading}
+        variant="outlined"
+        margin="normal"
+        required
+      />
+      <TextField
+        label={t('auth.password')}
+        type="password"
+        autoComplete="current-password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        disabled={loading}
+        variant="outlined"
+        margin="normal"
+        required
+      />
+      <Link href="/reset-password" variant="body2" textAlign="right">
+        {t('auth.forgotPassword')}
+      </Link>
+      {error && (
+        <Typography variant="body2" color="error" mb={2}>
+          {t('auth.invalid')}
+        </Typography>
+      )}
+      <Button
+        variant="contained"
+        color="primary"
+        type="submit"
+        disabled={loading}
+        sx={{
+          mt: 2,
+          textTransform: 'none',
+          fontWeight: 'bold',
+          backgroundColor: 'primary.dark',
+          color: '#fff',
+        }}
+      >
+        {loading ? <CircularProgress size={24} color="inherit" /> : t('auth.login')}
+      </Button>
+    </Box>
   );
 }
-
-const InputField = styled.div`
-  width: 100%;
-  margin-bottom: 16px;
-
-  label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 8px;
-    color: #555;
-  }
-
-  input {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-
-    &:focus {
-      border-color: #007bff;
-    }
-  }
-`;
-
-const ForgotPasswordLink = styled.a`
-  display: block;
-  font-size: 12px;
-  color: #007bff;
-  text-decoration: none;
-  text-align: right;
-  margin-bottom: 16px;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 export default LoginForm;
