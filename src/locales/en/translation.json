@@ -111,6 +111,7 @@
       "name": "Last name",
       "emailLabel": "Enter your email",
       "email": "Email",
+      "clear": "Clear",
       "phoneLabel": "Enter your phone number",
       "phone": "Phone number",
       "statut": "You are a",

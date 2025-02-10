@@ -1,11 +1,28 @@
-import React, { ChangeEvent } from 'react';
-import { RadioGroup, RadioGroupProps } from '@mui/material';
+import React, { ChangeEvent, useCallback } from 'react';
+import {
+  RadioGroup,
+  RadioGroupProps,
+  IconButton,
+  Avatar,
+  Box,
+  styled,
+  CircularProgress,
+  Button,
+} from '@mui/material';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { styled } from '@mui/material/styles';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { useAvatarUploadDebug } from '@/presentation/hooks/useAvatarUploadDebug';
+import { useTranslation } from 'react-i18next';
 
 interface AvatarSelectProps extends Omit<RadioGroupProps, 'children'> {
   onChange: (event: ChangeEvent<HTMLInputElement>, value: string) => void;
+}
+
+interface AvatarUploadProps {
+  onChange: (avatarUrl: string | null) => void;
+  initialAvatarUrl?: string | null;
+  user: { id: string }; // Ensure user prop is correctly typed
 }
 
 const StyledFormControlLabel = styled(FormControlLabel)(() => ({
@@ -14,6 +31,18 @@ const StyledFormControlLabel = styled(FormControlLabel)(() => ({
     height: 50,
   },
 }));
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 export const AvatarSelect: React.FC<AvatarSelectProps> = ({ value, onChange }) => {
   const avatars = Array.from({ length: 8 }, (_, i) => i + 1);
@@ -41,5 +70,73 @@ export const AvatarSelect: React.FC<AvatarSelectProps> = ({ value, onChange }) =
         />
       ))}
     </RadioGroup>
+  );
+};
+
+export const AvatarUpload: React.FC<AvatarUploadProps> = ({ onChange, initialAvatarUrl, user }) => {
+  const { t } = useTranslation();
+  const { uploading, uploadAvatar, clearAvatar } = useAvatarUploadDebug({
+    userId: user.id,
+    onChange,
+  });
+
+  const handleAvatarChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const files = event.target.files;
+      if (files && files.length > 0) {
+        uploadAvatar(files[0]);
+      }
+    },
+    [uploadAvatar]
+  );
+
+  const handleClearAvatar = useCallback(() => {
+    clearAvatar();
+  }, [clearAvatar]);
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {initialAvatarUrl ? (
+        <Avatar
+          key={initialAvatarUrl}
+          src={initialAvatarUrl}
+          sx={{ width: 100, height: 100, marginBottom: 2 }}
+          onError={(e) => {
+            console.error("Erreur de chargement de l'image:", initialAvatarUrl);
+            e.currentTarget.onerror = null; // prevents looping
+            // Optionally display a fallback image or message
+          }}
+        />
+      ) : (
+        <Avatar sx={{ width: 100, height: 100, marginBottom: 2 }}>U</Avatar>
+      )}
+      <Box sx={{ display: 'flex', gap: 2 }}>
+        <IconButton
+          color="primary"
+          aria-label="upload picture"
+          component="label"
+          disabled={uploading}
+        >
+          <VisuallyHiddenInput type="file" accept="image/*" onChange={handleAvatarChange} />
+          {uploading ? <CircularProgress size={24} /> : <PhotoCamera />}
+        </IconButton>
+        {initialAvatarUrl && (
+          <Button
+            onClick={handleClearAvatar}
+            disabled={uploading}
+            sx={{ color: 'error.main', textTransform: 'none' }}
+          >
+            {t('dashboard.firstimeForm.clear')}
+          </Button>
+        )}
+      </Box>
+    </Box>
   );
 };
