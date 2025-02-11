@@ -1,7 +1,7 @@
-import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ThemaLabelKeys } from './themaLabel';
+import { Button, Box, useTheme } from '@mui/joy'; // Import useTheme
 
 interface ThemaProps {
   setThema: (value: string) => void;
@@ -25,22 +25,40 @@ const Thema: React.FC<ThemaProps> = ({ setThema, value: initialValue }) => {
     setThema(selectedValue);
   };
 
+  const theme = useTheme(); // Use the useTheme hook
+
   return (
-    <div className="w-full max-w-full overflow-hidden px-1 py-2">
-      <div className="flex flex-wrap gap-2">
-        {ThemaLabel.map((theme) => (
+    <Box sx={{ width: '100%', maxWidth: '100%', overflow: 'hidden' }}>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+        {ThemaLabel.map((themeLabel) => (
           <Button
-            key={theme.value}
-            type="button"
-            variant={selectedValue === theme.value ? 'default' : 'outline'}
-            className="shrink-0"
-            onClick={() => handleSelect(theme.value)}
+            key={themeLabel.value}
+            size="sm"
+            onClick={() => handleSelect(themeLabel.value)}
+            sx={{
+              flexShrink: 0,
+              fontWeight: 'normal',
+              backgroundColor:
+                selectedValue === themeLabel.value
+                  ? theme.palette.primary.solidHoverBg
+                  : theme.palette.background.level2,
+              color: selectedValue === themeLabel.value ? 'white' : 'black',
+              '&:focus': {
+                backgroundColor: theme.palette.primary.solidHoverBg,
+                color: 'white',
+              },
+              '&:hover': {
+                backgroundColor: theme.palette.primary.solidHoverBg,
+                color: 'white',
+              },
+            }}
           >
-            <span className="text-xs font-normal">{theme.label}</span>
+            {themeLabel.label}
           </Button>
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
+
 export default Thema;

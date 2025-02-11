@@ -1,18 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Box, Button, FormControl, FormLabel, Input, Switch, Textarea } from '@mui/joy';
 
-import { Button } from '@/components/ui/button';
-import ColorPicker from '@/presentation/components/dashboard/folders/form/ColorPicker';
 import Thema from '@/presentation/components/dashboard/folders/form/thema';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
 import { FormData } from '@/domain/entities/Folder';
 
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 import { CreateFolder } from '@/application/useCases/folder/CreateFolder.usecase';
+import Typography from '@mui/joy/Typography';
 
 const userRepository = new SupabaseUserRepository();
 const createFolder = new CreateFolder(userRepository);
@@ -59,70 +55,72 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
     }
   };
 
-  const colors = [
-    '#000000',
-    '#404040',
-    '#b91c1c',
-    '#b45309',
-    '#4d7c0f',
-    '#047857',
-    '#0e7490',
-    '#1d4ed8',
-    '#6d28d9',
-    '#a21caf',
-    '#facc15',
-  ];
-
   return (
-    <>
-      <h2 className="mb-4 text-2xl font-bold">{t('dashboard.folder.createfolder')}</h2>
-      <form onSubmit={handleSubmit} className="flex w-full flex-col rounded-lg border p-4">
-        {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+      }}
+    >
+      <Typography level="h2" fontWeight="bold" mb={2}>
+        {t('dashboard.folder.createfolder')}
+      </Typography>
+      <Box
+        sx={{
+          width: '100%',
+          p: 4,
+          borderRadius: 'md',
+          border: '1px solid',
+          borderColor: 'neutral.outlinedBorder',
+        }}
+      >
+        {error && (
+          <Typography color="danger" mb={2}>
+            {error}
+          </Typography>
+        )}
+        <form onSubmit={handleSubmit}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <FormControl>
+              <FormLabel>{t('dashboard.folder.form.nameplaceholder')}</FormLabel>
+              <Input
+                type="text"
+                value={formData.name}
+                onChange={(e) => handleChange('name', e.target.value)}
+                required
+              />
+            </FormControl>
 
-        <div className="mb-2">
-          <Input
-            type="text"
-            value={formData.name}
-            onChange={(e) => handleChange('name', e.target.value)}
-            required
-            className="w-full rounded-sm border-0 ring-0 placeholder:font-semibold focus:border-0 focus:outline-none focus:ring-0"
-            placeholder={t('dashboard.folder.form.nameplaceholder')}
-          />
+            <FormControl>
+              <FormLabel>{t('dashboard.folder.form.descriptionplaceholder')}</FormLabel>
+              <Textarea
+                value={formData.description}
+                onChange={(e) => handleChange('description', e.target.value)}
+                minRows={2}
+              />
+            </FormControl>
 
-          <Textarea
-            value={formData.description}
-            onChange={(e) => handleChange('description', e.target.value)}
-            rows={2}
-            className="w-full rounded-sm border-0 ring-0 placeholder:text-xs focus:border-0 focus:outline-none focus:ring-0"
-            placeholder={t('dashboard.folder.form.descriptionplaceholder')}
-          />
+            <FormControl>
+              <FormLabel>Thème</FormLabel>
+              <Thema setThema={(value) => handleChange('thema', value)} value={formData.thema} />
+            </FormControl>
 
-          <Thema setThema={(value) => handleChange('thema', value)} value={formData.thema} />
-        </div>
-
-        <ColorPicker
-          selectedColor={formData.color}
-          onSelectColor={(value) => handleChange('color', value)}
-          colors={colors}
-        />
-
-        <div className="my-4">
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="public-mode"
-              checked={formData.isPublic}
-              onCheckedChange={(checked) => handleChange('isPublic', checked)}
-            />
-            <Label htmlFor="public-mode" className="font-medium text-gray-700">
-              {t('dashboard.folder.form.public')}
-            </Label>
-          </div>
-        </div>
-        <Button type="submit" disabled={loading} className="w-fit bg-sky-500">
-          {loading ? 'Création...' : 'Créer'}
-        </Button>
-      </form>
-    </>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, my: 2 }}>
+              <FormLabel htmlFor="public-mode">{t('dashboard.folder.form.public')}</FormLabel>
+              <Switch
+                id="public-mode"
+                checked={formData.isPublic}
+                onChange={(e) => handleChange('isPublic', e.target.checked)}
+              />
+            </Box>
+            <Button type="submit" loading={loading}>
+              {loading ? 'Création...' : 'Créer'}
+            </Button>
+          </Box>
+        </form>
+      </Box>
+    </Box>
   );
 }
 
