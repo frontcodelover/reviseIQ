@@ -59,7 +59,6 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
     try {
       const result = await client.chat.complete({
         model: 'mistral-small-latest',
-        responseFormat: { type: 'json_object' },
         messages: [{ role: 'user', content: prompt }],
       });
 

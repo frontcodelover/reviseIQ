@@ -1,25 +1,22 @@
 import { useState, useEffect, ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent } from '@/components/ui/card';
+
+import { CircularProgress, Card as UICard, CardContent as UICardContent } from '@mui/material';
 import EndCard from './LastFlashcard';
 
 import { GetUserIdUseCase } from '@/application/useCases/user/GetUserId.usecase';
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
-
 import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
 import { LogActionUseCase } from '@/application/useCases/badge/LogAction.usecase';
-
 import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
 import { GetFlashcardsUseCase } from '@/application/useCases/flashcard/GetFlashcards.usecase';
-
 import { Flashcard } from '@/domain/entities/Flashcard';
 import DockNavigate from '../dock/DockNavigate';
-import { Card as FlashCardContenaire } from '@mui/joy';
-import { Typography } from '@mui/joy';
-import styled from '@emotion/styled';
+
+import { Card, Typography, Box } from '@mui/joy';
+import { styled } from '@mui/material/styles';
 
 const userRepository = new SupabaseUserRepository();
 const logRepository = new SupabaseLogRepository();
@@ -36,7 +33,7 @@ interface FlipCardProps {
   elevation?: number;
 }
 
-const FlipCard = styled(FlashCardContenaire)<FlipCardProps>`
+const FlipCard = styled(Card)<FlipCardProps>`
   transform-style: preserve-3d;
   min-height: 40vh;
   cursor: pointer;
@@ -44,7 +41,7 @@ const FlipCard = styled(FlashCardContenaire)<FlipCardProps>`
     0 0 10px 5px rgba(0, 0, 0, 0.1),
     0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform: ${({ showAnswer }) => (showAnswer ? 'rotateY(180deg)' : 'rotateY(Odeg)')};
+  transform: ${({ showAnswer }) => (showAnswer ? 'rotateY(180deg)' : 'rotateY(0deg)')};
 `;
 
 export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
@@ -144,34 +141,57 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
     setShowAnswer(false);
   };
 
-  if (loading) return <div>Chargement...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
+  if (loading)
+    return (
+      <Box
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  if (error) return <Typography sx={{ color: 'error.main' }}>{error}</Typography>;
 
   const currentCard = isShuffled ? shuffledCards[currentIndex] : flashcards[currentIndex];
 
   return flashcards.length > 0 ? (
-    <div className="flex min-h-[40vh] flex-col items-center justify-center gap-4">
+    <Box
+      sx={{
+        display: 'flex',
+        minHeight: '40vh',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 4,
+      }}
+    >
       {isLastCard ? (
         <EndCard onRestart={handleRestart} />
       ) : (
-        <div className="relative w-full">
+        <Box sx={{ position: 'relative', width: '100%' }}>
           <FlipCard
             onClick={() => setShowAnswer(!showAnswer)}
             showAnswer={showAnswer}
             variant="outlined"
             elevation={3}
-            sx={(theme) => ({
-              [theme.getColorSchemeSelector('light')]: {
-                backgroundColor: 'darkBlue.white',
-              },
-              [theme.getColorSchemeSelector('dark')]: {
-                backgroundColor: 'darkBlue.softBg',
-                borderColor: 'darkBlue.outlinedBorder',
-              },
-            })}
           >
-            <div className="backface-hidden absolute h-full w-full">
-              <div className="flex h-full flex-col items-center justify-center rounded-lg">
+            <Box
+              sx={{
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+                backfaceVisibility: 'hidden',
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100%',
+                  borderRadius: 'lg',
+                }}
+              >
                 <Typography
                   level="h2"
                   fontWeight={500}
@@ -187,14 +207,28 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
                 >
                   {currentCard.question}{' '}
                 </Typography>
-              </div>
-            </div>
+              </Box>
+            </Box>
 
-            <div
-              className="backface-hidden absolute h-full w-full"
-              style={{ transform: 'rotateY(180deg)' }}
+            <Box
+              sx={{
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+                backfaceVisibility: 'hidden',
+                transform: 'rotateY(180deg)',
+              }}
             >
-              <div className="flex h-full flex-col items-center justify-center rounded-lg">
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100%',
+                  borderRadius: 'lg',
+                }}
+              >
                 <Typography
                   level="h2"
                   fontWeight={500}
@@ -206,22 +240,21 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
                 <Typography
                   level="h3"
                   fontWeight={500}
+                  width="90%"
                   sx={{ fontSize: '1rem', textAlign: 'center' }}
                 >
                   {currentCard.answer}
                 </Typography>
-              </div>
-            </div>
+              </Box>
+            </Box>
           </FlipCard>
-        </div>
+        </Box>
       )}
 
-      <span className="text-sm text-gray-500">
+      <Typography>
         Nombre de Flascards {currentIndex + 1} / {flashcards.length}
-      </span>
-      <p className="hidden text-sm text-gray-600 sm:flex">
-        Astuce : Appuyez sur la touche "A" pour afficher la réponse
-      </p>
+      </Typography>
+      <Typography>Astuce : Appuyez sur la touche "A" pour afficher la réponse</Typography>
 
       <DockNavigate
         setCurrentIndex={setCurrentIndex}
@@ -231,40 +264,112 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
         deckId={deckId}
         handleShuffle={handleShuffle}
       />
-    </div>
+    </Box>
   ) : isOwner ? (
-    <>
-      <div className="text-balance pb-5 pt-5 text-xl font-semibold">
-        Comment souhaites-tu créer tes flashcards ? <br />
-        <div className="text-base font-normal text-gray-600">Choisis une option ci-dessous</div>
-      </div>
-      <div className="flex justify-center gap-4">
-        <Card
+    <Box>
+      <Typography
+        level="h1"
+        sx={{
+          textAlign: 'center',
+          paddingBottom: 5,
+          paddingTop: 5,
+          fontSize: 'xl',
+          fontWeight: 'semibold',
+          width: '100%',
+          wordBreak: 'balance',
+        }}
+      >
+        Comment souhaitez-tu créer vos flashcards ? <br />
+        <Typography
+          level="h2"
+          sx={{ fontSize: 'lg', fontWeight: 'normal', color: 'text.secondary' }}
+        >
+          Choisissez une option ci-dessous
+        </Typography>
+      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'center', gap: 4 }}>
+        <UICard
           onClick={() => navigate(`/dashboard/folders/${deckId}/generate-ai`)}
-          className="flex h-80 w-1/2 cursor-pointer flex-col items-center justify-center transition duration-700 ease-in-out hover:bg-sky-200"
+          sx={{
+            display: 'flex',
+            height: 320,
+            width: '50%',
+            cursor: 'pointer',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: '0.7s ease-in-out',
+            backgroundColor: 'primary.dark',
+            '&:hover': {
+              backgroundColor: 'primary.main',
+            },
+          }}
         >
-          <CardContent className="flex flex-col items-center justify-center gap-4">
-            <p className="text-5xl">🤖</p>
-            <h2 className="text-xl font-bold">Générer des flashcards avec l'IA</h2>
-          </CardContent>
-        </Card>
-        <Card
+          <UICardContent
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 4,
+            }}
+          >
+            <Typography fontSize={32}>🤖</Typography>
+            <Typography level="h3" sx={{ fontSize: 'xl', fontWeight: 'bold', color: 'white' }}>
+              Générer des flashcards avec l'IA
+            </Typography>
+          </UICardContent>
+        </UICard>
+        <UICard
           onClick={() => navigate(`/dashboard/folders/${deckId}/generate-manual`)}
-          className="flex h-80 w-1/2 cursor-pointer flex-col items-center justify-center transition duration-700 ease-in-out hover:bg-cyan-200"
+          sx={{
+            display: 'flex',
+            height: 320,
+            width: '50%',
+            cursor: 'pointer',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: '0.7s ease-in-out',
+            backgroundColor: 'primary.dark',
+            '&:hover': {
+              backgroundColor: 'primary.main',
+            },
+          }}
         >
-          <CardContent className="flex flex-col items-center justify-center gap-4">
-            <p className="text-5xl">✍</p>
-            <h2 className="text-xl font-bold">Créer des flashcards manuellementA</h2>
-          </CardContent>
-        </Card>
-      </div>
-    </>
+          <UICardContent
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 4,
+            }}
+          >
+            <Typography fontSize={32}>✍</Typography>
+            <Typography level="h3" sx={{ fontSize: 'xl', fontWeight: 'bold', color: 'white' }}>
+              Créer des flashcards manuellement
+            </Typography>
+          </UICardContent>
+        </UICard>
+      </Box>
+    </Box>
   ) : (
-    <div className="text-balance pb-5 pt-5 text-xl font-semibold">
+    <Typography
+      sx={{
+        textAlign: 'center',
+        paddingBottom: 5,
+        paddingTop: 5,
+        fontSize: 'xl',
+        fontWeight: 'semibold',
+        width: '100%',
+        wordBreak: 'balance',
+      }}
+    >
       Aucune flashcard n'a été trouvée. <br />
-      <div className="text-base font-normal text-gray-600">
+      <Typography sx={{ fontSize: 'base', fontWeight: 'normal', color: 'text.secondary' }}>
         Le propriétaire de ce deck n'a pas encore créé de flashcard
-      </div>
-    </div>
+      </Typography>
+    </Typography>
   );
 }
