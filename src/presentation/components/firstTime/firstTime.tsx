@@ -19,17 +19,8 @@ import { PhoneInput } from '@/presentation/components/firstTime/phoneInput';
 import { AvatarUpload } from '@/presentation/components/firstTime/avatarSelection';
 import { Typography } from '@mui/joy';
 import { z } from 'zod';
-
+import { FirstTimeFormData, FirstTimeFormSchema } from '@/domain/validation/FirstTimeFormSchema';
 import { FirstTimeFormProps } from '@/domain/entities/User';
-
-// Zod schema for form validation
-const FirstTimeFormSchema = z.object({
-  firstname: z.string().min(1),
-  lastname: z.string().min(1),
-  phone: z.string().optional(), // Adjust validation as needed
-  status: z.enum(['student', 'pupil', 'apprentice', 'teacher', 'other']),
-  avatar: z.string().nullable().optional(),
-});
 
 const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
   const [firstname, setFirstname] = useState(user.firstname || '');
@@ -54,8 +45,7 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
     setError('');
 
     try {
-      // Validate form data with Zod
-      const formData = {
+      const formData: FirstTimeFormData = {
         firstname,
         lastname,
         phone,
