@@ -25,25 +25,6 @@ interface AvatarUploadProps {
   user: { id: string }; // Ensure user prop is correctly typed
 }
 
-const StyledFormControlLabel = styled(FormControlLabel)(() => ({
-  '.MuiSvgIcon-root': {
-    width: 50,
-    height: 50,
-  },
-}));
-
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
-  height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  whiteSpace: 'nowrap',
-  width: 1,
-});
-
 export const AvatarSelect: React.FC<AvatarSelectProps> = ({ value, onChange }) => {
   const avatars = Array.from({ length: 8 }, (_, i) => i + 1);
 
@@ -140,3 +121,22 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({ onChange, initialAva
     </Box>
   );
 };
+
+const StyledFormControlLabel = styled(FormControlLabel)(() => ({
+  '.MuiSvgIcon-root': {
+    width: 50,
+    height: 50,
+  },
+}));
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});

@@ -46,7 +46,7 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
     }
 
     const client = new Mistral({ apiKey });
-    const prompt = `Génère un maximum de ${number} flashcards pour apprendre ${topic} dans la langue ${lang}. Donne l'ensemble de toutes les flashcard un objet JSON brut sous cette forme UNIQUEMENT : '
+    const prompt = `Génère un maximum de ${number} flashcards pour apprendre ${topic} dans la langue ${lang}. Les fausses réponses devront faire la quasi meme taille que la vraie réponse. Donne l'ensemble de toutes les flashcard un objet JSON format sous cette forme UNIQUEMENT : '
 		{
 		"Question" : "...",
 		 "Réponse" : "...",
@@ -58,7 +58,8 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
     let flashcards: Flashcard[] = [];
     try {
       const result = await client.chat.complete({
-        model: 'mistral-large-latest',
+        model: 'mistral-small-latest',
+        responseFormat: { type: 'json_object' },
         messages: [{ role: 'user', content: prompt }],
       });
 
