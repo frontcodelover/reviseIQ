@@ -20,7 +20,7 @@ ReviseIQ is a modern flashcard application that helps students learn and revise 
 ## Technologies 🛠
 
 - React + TypeScript
-- Tailwind CSS
+- <del>Tailwind CSS</del> => MUI
 - Supabase (Backend & Auth)
 - Mistral AI API
 - i18n (English/French)
@@ -53,17 +53,17 @@ ReviseIQ is a modern flashcard application that helps students learn and revise 
 
 2. **Application Layer**
 
-   - Use cases (CreateFlashcard, GenerateQuiz)
+   - Use cases (CreateFlashcard, GenerateQuiz, CreateFolder...)
    - Application services
    - Interfaces
-   - DTOs
+   - DTOs => need refactor
 
 3. **Infrastructure Layer**
 
-   - Supabase implementations ([`SupabaseFlashCardRepository`](src/infrastructure/backend/SupabaseFlashcardRepository.ts))
+   - Supabase implementations (e.g. :[`SupabaseFlashCardRepository`](src/infrastructure/backend/SupabaseFlashcardRepository.ts))
    - External services (Mistral AI)
    - Adapters
-   - Persistence logic
+   - Persistence logic => lang & theme
 
 4. **Presentation Layer**
 
@@ -84,10 +84,9 @@ ReviseIQ is a modern flashcard application that helps students learn and revise 
 
 - Strict mode enabled
 - Functional components preferred
-
-- Unit tests with Jest (>=80% coverage)
+- Unit tests with Jest (authentication logic)
 - Integration tests with React Testing Library
-- Zod validation in tests
+- Zod validation
 
 ## Security
 
