@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 
 const Container = styled(Box)`
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   align-items: center;
   justify-content: center;
   --dot-bg: #007868;

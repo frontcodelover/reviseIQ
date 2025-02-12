@@ -109,6 +109,9 @@ function SignupForm() {
         helperText={emailTouched && !validateEmail(email) ? t('auth.emailInvalid') : ''}
       />
 
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'end' }}>
+        <PasswordTooltip validation={passwordValidation} />
+      </Box>
       <TextField
         label={t('auth.password')}
         type="password"
@@ -136,8 +139,6 @@ function SignupForm() {
         error={confirmPasswordTouched && !passwordsMatch}
         helperText={confirmPasswordTouched && !passwordsMatch ? t('auth.passwordMatch') : ''}
       />
-
-      <PasswordTooltip validation={passwordValidation} />
 
       <FormControlLabel
         control={

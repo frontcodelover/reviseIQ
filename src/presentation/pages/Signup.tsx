@@ -10,7 +10,7 @@ function SignUp() {
 
   return (
     <Container component="main" maxWidth="md">
-      <Paper elevation={3} sx={{ p: 6, mt: 8 }}>
+      <Paper elevation={3} sx={{ p: 6, my: 8 }}>
         <Grid2 container spacing={2} justifyContent="center">
           <Grid2 size={12}>
             <Box textAlign="center" display={'flex'} flexDirection={'column'} gap={2}>

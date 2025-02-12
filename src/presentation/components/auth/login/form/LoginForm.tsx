@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/presentation/context/AuthContext';
-import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
-import { SignInWithEmailUseCase } from '@/application/useCases/auth/SignInWithEmail.usecase';
 import { useTranslation } from 'react-i18next';
 import { TextField, Button, Link, Typography, CircularProgress, Box } from '@mui/material';
+import { appContainer } from '@/infrastructure/config/container';
 function LoginForm() {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
@@ -13,9 +12,6 @@ function LoginForm() {
   const [error, setError] = useState('');
   const { user, hasProfile, checkSession } = useAuth();
   const navigate = useNavigate();
-
-  const authRepository = new SupabaseAuthRepository();
-  const signInWithEmail = new SignInWithEmailUseCase(authRepository);
 
   useEffect(() => {
     if (user && !hasProfile) {
@@ -29,7 +25,7 @@ function LoginForm() {
     setError('');
 
     try {
-      await signInWithEmail.execute(email, password);
+      await appContainer.SignInWithEmail().execute(email, password);
       await checkSession(false, true);
     } catch (err: unknown) {
       if (err instanceof Error) {
