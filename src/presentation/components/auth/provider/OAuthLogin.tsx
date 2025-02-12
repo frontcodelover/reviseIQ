@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { SignInWithProviderUseCase } from '@/application/useCases/auth/SignInWithProvider.usecase';
-import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { useTranslation } from 'react-i18next';
 import { Button, Typography, CircularProgress, SvgIcon, Box } from '@mui/material';
+import { appContainer } from '@/infrastructure/config/container';
 
 function OAuthLogin() {
   const [loading, setLoading] = useState(false);
@@ -10,14 +9,11 @@ function OAuthLogin() {
 
   const { t } = useTranslation();
 
-  const authRepository = new SupabaseAuthRepository();
-  const signInWithProvider = new SignInWithProviderUseCase(authRepository);
-
   const handleProviderLogin = async (provider: 'google') => {
     setLoading(true);
     setError('');
     try {
-      await signInWithProvider.execute(provider);
+      await appContainer.SignInWithProvider().execute(provider);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message || `Erreur lors de la connexion avec ${provider}`);
