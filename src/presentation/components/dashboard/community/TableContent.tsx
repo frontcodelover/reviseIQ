@@ -1,24 +1,21 @@
+import { Link } from 'react-router-dom';
 import { formatDate } from '@/lib/FormatDate';
 import { US } from 'country-flag-icons/react/3x2';
 import { FR } from 'country-flag-icons/react/3x2';
 import styled from 'styled-components';
 import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
-import { Link } from 'react-router-dom';
 import { useProfileUserById } from '@/presentation/hooks/useProfileUserById';
-import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
-import { GetFlashcardsUseCase } from '@/application/useCases/flashcard/GetFlashcards.usecase';
+import { appContainer } from '@/infrastructure/config/container';
 import { useQuery } from 'react-query';
 
 function TableContent({ ...props }) {
   const { id, name, user_id, lang, thema, created_at } = props;
   const { profile, isLoading } = useProfileUserById(user_id);
-  const flashcardRepository = new SupabaseFlashCardRepository();
-  const getFlashcardsUseCase = new GetFlashcardsUseCase(flashcardRepository);
 
   const { data: result, isLoading: isLoadingFlashcards } = useQuery(
     ['flashcards', id],
     async () => {
-      const result = await getFlashcardsUseCase.execute(id);
+      const result = await appContainer.GetFlascards().execute(id);
       return result;
     }
   );
@@ -32,7 +29,6 @@ function TableContent({ ...props }) {
       <TableTDName>
         <Link to={`/dashboard/folders/${id}`}>{name}</Link>
       </TableTDName>
-
       <TableTDThema>{thema ? thema : 'Aucune thématique'}</TableTDThema>
       <TableTDAuthor>{!isLoading && profile?.firstname}</TableTDAuthor>
       <TableTDCards>{!isLoadingFlashcards && result?.length}</TableTDCards>
@@ -74,13 +70,10 @@ const TableTDName = styled(TableTD)`
   font-weight: 600;
   white-space: nowrap;
   font-size: 0.75rem;
-  color: ${COLORS.black};
   a {
-    color: ${COLORS.black};
     text-decoration: none;
   }
   a:hover {
-    color: ${COLORS.primary};
     text-decoration: underline;
   }
 `;
@@ -90,7 +83,6 @@ const TableTDThema = styled(TableTD)`
   text-align: left;
   font-weight: 400;
   font-size: 0.75rem;
-  color: ${COLORS.black};
 `;
 
 const TableTDAuthor = styled(TableTD)`
@@ -98,7 +90,6 @@ const TableTDAuthor = styled(TableTD)`
   text-align: left;
   font-weight: 400;
   font-size: 0.75rem;
-  color: ${COLORS.black};
 `;
 
 const TableTDCards = styled(TableTD)`
@@ -106,13 +97,11 @@ const TableTDCards = styled(TableTD)`
   text-align: right;
   font-weight: 400;
   font-size: 0.75rem;
-  color: ${COLORS.black};
 `;
 
 const TableTDLang = styled(TableTD)`
   width: 10%;
   font-size: 0.75rem;
-  color: ${COLORS.black};
 `;
 
 const TableTDDate = styled(TableTD)`
@@ -120,7 +109,6 @@ const TableTDDate = styled(TableTD)`
   text-align: left;
   font-weight: 400;
   font-size: 0.75rem;
-  color: ${COLORS.black};
 `;
 
 const FlagIcon = styled.div`
