@@ -5,13 +5,11 @@ import { Box, Button, FormControl, FormLabel, Input, Switch, Textarea } from '@m
 
 import Thema from '@/presentation/components/dashboard/folders/form/thema';
 import { FormData } from '@/domain/entities/Folder';
-
-import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
-import { CreateFolder } from '@/application/useCases/folder/CreateFolder.usecase';
+import { appContainer } from '@/infrastructure/config/container';
 import Typography from '@mui/joy/Typography';
 
-const userRepository = new SupabaseUserRepository();
-const createFolder = new CreateFolder(userRepository);
+// const userRepository = new SupabaseUserRepository();
+// const createFolder = new CreateFolder(userRepository);
 
 function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
   const lang = localStorage.getItem('i18nextLng') || 'fr';
@@ -38,7 +36,7 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
     setError('');
 
     try {
-      const { id } = await createFolder.execute({
+      const { id } = await appContainer.CreateFolder().execute({
         name: formData.name,
         description: formData.description,
         is_public: formData.isPublic,
