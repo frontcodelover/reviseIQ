@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { formatDate } from '@/lib/FormatDate';
 import { US } from 'country-flag-icons/react/3x2';
@@ -8,21 +9,39 @@ import { useProfileUserById } from '@/presentation/hooks/useProfileUserById';
 import { appContainer } from '@/infrastructure/config/container';
 import { useQuery } from 'react-query';
 
-function TableContent({ ...props }) {
-  const { id, name, user_id, lang, thema, created_at } = props;
+interface TableContentProps {
+  id: string;
+  name?: string;
+  description?: string;
+  user_id: string;
+  lang: string;
+  thema?: string;
+  created_at?: string;
+}
+
+const TableContent: React.FC<TableContentProps> = ({
+  id,
+  name,
+  user_id,
+  lang,
+  thema,
+  created_at,
+}) => {
   const { profile, isLoading } = useProfileUserById(user_id);
 
   const { data: result, isLoading: isLoadingFlashcards } = useQuery(
     ['flashcards', id],
     async () => {
-      const result = await appContainer.GetFlascards().execute(id);
-      return result;
+      const flashcards = await appContainer.GetFlashcards().execute(id);
+      return flashcards;
     }
   );
 
   if (!name || !user_id || !lang || !created_at) {
     return null;
   }
+
+  const flashcardsLength = !isLoadingFlashcards && Array.isArray(result) ? result.length : 0;
 
   return (
     <TableTRRow key={id}>
@@ -31,7 +50,7 @@ function TableContent({ ...props }) {
       </TableTDName>
       <TableTDThema>{thema ? thema : 'Aucune thématique'}</TableTDThema>
       <TableTDAuthor>{!isLoading && profile?.firstname}</TableTDAuthor>
-      <TableTDCards>{!isLoadingFlashcards && result?.length}</TableTDCards>
+      <TableTDCards>{flashcardsLength}</TableTDCards>
       <TableTDLang>
         {lang === 'fr' ? (
           <FlagIcon>
@@ -46,7 +65,7 @@ function TableContent({ ...props }) {
       <TableTDDate>{created_at ? formatDate(created_at) : 'N/A'}</TableTDDate>
     </TableTRRow>
   );
-}
+};
 
 const TableTRRow = styled.tr`
   border-bottom: 1px solid ${COLORS.lightgray};

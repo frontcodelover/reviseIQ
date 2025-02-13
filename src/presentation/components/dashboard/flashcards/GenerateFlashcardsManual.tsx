@@ -3,12 +3,8 @@ import styled from 'styled-components';
 import TextInput from '@/presentation/components/ui/input/TextInput';
 import Button from '@/presentation/components/ui/button/Button';
 import { Plus, Trash2 } from 'lucide-react';
-import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
-import { CreateFlashcardUseCase } from '@/application/useCases/flashcard/CreateFlashcard.usecase';
 import { useParams, useNavigate } from 'react-router-dom';
-
-const flashcardRepository = new SupabaseFlashCardRepository();
-const createFlashcard = new CreateFlashcardUseCase(flashcardRepository);
+import { appContainer } from '@/infrastructure/config/container';
 
 const Container = styled.div`
   padding: 1rem;
@@ -77,7 +73,7 @@ export function GenerateFlashcardManual() {
     try {
       for (const card of flashcards) {
         if (card.question.trim() && card.answer.trim()) {
-          await createFlashcard.execute({
+          await appContainer.CreateFlashcard().execute({
             deck_id: deckId,
             question: card.question,
             answer: card.answer,

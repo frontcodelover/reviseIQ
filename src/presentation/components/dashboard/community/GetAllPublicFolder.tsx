@@ -17,7 +17,6 @@ export function GetAllPublicFolders() {
   const folderRepository = new SupabaseFolderRepository();
   const getPublicFoldersUseCase = new GetPublicFoldersUseCase(folderRepository);
 
-  // Modifiez useQuery pour inclure les paramètres de pagination
   const {
     data: response,
     isLoading,

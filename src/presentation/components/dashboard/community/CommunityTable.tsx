@@ -19,7 +19,16 @@ function CommunityTable({ folders }: { folders: Folder[] }) {
       </THead>
       <tbody>
         {folders.map((folder) => (
-          <TableContent key={folder.id} {...folder} />
+          <TableContent
+            key={folder.id}
+            {...folder}
+            id={folder.id ?? ''}
+            name={folder.name}
+            thema={folder.thema}
+            user_id={folder.user_id ?? ''}
+            lang={folder.lang}
+            created_at={folder.created_at ?? ''}
+          />
         ))}
       </tbody>
     </Table>
