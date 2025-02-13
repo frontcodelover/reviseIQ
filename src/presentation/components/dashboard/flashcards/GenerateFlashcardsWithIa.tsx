@@ -9,20 +9,12 @@ import {
 } from '@mui/joy';
 import { styled } from '@mui/system';
 import { useParams, useNavigate } from 'react-router-dom';
-import { GenerateFlashcardsUseCase } from '@/application/useCases/flashcard/GenerateFlashcards.usecase';
-import { CreateFlashcardUseCase } from '@/application/useCases/flashcard/CreateFlashcard.usecase';
 import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
 import { Flashcard } from '@/domain/entities/Flashcard';
-import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
-import { GetFolderById } from '@/application/useCases/folder/GetFolderById.usecase';
 import Slider from '@mui/joy/Slider';
+import { appContainer } from '@/infrastructure/config/container';
 
 const flashcardRepository = new SupabaseFlashCardRepository();
-const generateFlashcard = new GenerateFlashcardsUseCase(flashcardRepository);
-const createFlashcard = new CreateFlashcardUseCase(flashcardRepository);
-
-const folderRepository = new SupabaseFolderRepository();
-const getFolderById = new GetFolderById(folderRepository);
 
 // Styled components using MUI Joy
 const Input = styled(MuiInput)(({ theme }) => ({
@@ -55,7 +47,7 @@ export function GenerateFlashCardWithIa() {
   useEffect(() => {
     async function fetchData() {
       if (deckId) {
-        const folder = await getFolderById.execute(deckId);
+        const folder = await appContainer.GetFolderById().execute(deckId);
         setTopic(folder.name);
       }
     }
@@ -67,7 +59,7 @@ export function GenerateFlashCardWithIa() {
     setError(null);
 
     try {
-      const result = await generateFlashcard.execute(topic, number, lang);
+      const result = await appContainer.GenerateFlashcard().execute(topic, number, lang);
       setGeneratedCards(result);
       if (deckId) {
         await flashcardRepository.storeQuiz(deckId, result);
@@ -82,7 +74,7 @@ export function GenerateFlashCardWithIa() {
   const handleSubmit = async () => {
     try {
       for (const card of generatedCards) {
-        await createFlashcard.execute({
+        await appContainer.CreateFlashcard().execute({
           deck_id: deckId,
           question: card.question,
           answer: card.answer,
