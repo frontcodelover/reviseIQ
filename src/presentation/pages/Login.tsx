@@ -5,6 +5,7 @@ import { Box, Container, Divider, Grid2, Paper } from '@mui/material';
 import { Typography } from '@mui/joy';
 import { Trans } from 'react-i18next';
 import { Brain } from 'lucide-react';
+
 function Login() {
   const { t } = useTranslation();
 

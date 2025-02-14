@@ -3,13 +3,14 @@ import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFl
 import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 import { CreateFolder } from '@/application/useCases/folder/CreateFolder.usecase';
-import { SignInWithEmailUseCase } from '@/application/useCases/auth/SignInWithEmail.usecase';
-import { SignInWithProviderUseCase } from '@/application/useCases/auth/SignInWithProvider.usecase';
+// import { SignInWithEmailUseCase } from '@/application/useCases/auth/SignInWithEmail.usecase';
+// import { SignInWithProviderUseCase } from '@/application/useCases/auth/SignInWithProvider.usecase';
 import { GetPublicFoldersUseCase } from '@/application/useCases/folder/GetPublicFolders.usecase';
 import { GetFlashcardsUseCase } from '@/application/useCases/flashcard/GetFlashcards.usecase';
 import { CreateFlashcardUseCase } from '@/application/useCases/flashcard/CreateFlashcard.usecase';
 import { GetFolderById } from '@/application/useCases/folder/GetFolderById.usecase';
 import { GenerateFlashcardsUseCase } from '@/application/useCases/flashcard/GenerateFlashcards.usecase';
+import { AuthService } from '@/domain/services/AuthService';
 
 class AppContainer {
   private authRepository: SupabaseAuthRepository;
@@ -17,13 +18,15 @@ class AppContainer {
   private folderRepository: SupabaseFolderRepository;
   private userRepository: SupabaseUserRepository;
   private createFolder: CreateFolder;
-  private signInWithEmail: SignInWithEmailUseCase;
-  private signInWithProvider: SignInWithProviderUseCase;
+  // private signInWithEmail: SignInWithEmailUseCase;
+  // private signInWithProvider: SignInWithProviderUseCase;
   private getPublicFolders: GetPublicFoldersUseCase;
   private getFlashcards: GetFlashcardsUseCase;
   private createFlashcard: CreateFlashcardUseCase;
   private getFolderById: GetFolderById;
   private generateFlashcard: GenerateFlashcardsUseCase;
+
+  private authService: AuthService;
 
   constructor() {
     this.authRepository = new SupabaseAuthRepository();
@@ -32,26 +35,28 @@ class AppContainer {
     this.userRepository = new SupabaseUserRepository();
 
     this.createFolder = new CreateFolder(this.userRepository);
-    this.signInWithEmail = new SignInWithEmailUseCase(this.authRepository);
-    this.signInWithProvider = new SignInWithProviderUseCase(this.authRepository);
+    // this.signInWithEmail = new SignInWithEmailUseCase(this.authRepository);
+    // this.signInWithProvider = new SignInWithProviderUseCase(this.authRepository);
     this.getPublicFolders = new GetPublicFoldersUseCase(this.folderRepository);
     this.getFlashcards = new GetFlashcardsUseCase(this.flashcardRepository);
     this.createFlashcard = new CreateFlashcardUseCase(this.flashcardRepository);
     this.getFolderById = new GetFolderById(this.folderRepository);
     this.generateFlashcard = new GenerateFlashcardsUseCase(this.flashcardRepository);
+
+    this.authService = new AuthService(this.authRepository);
   }
 
   CreateFolder(): CreateFolder {
     return this.createFolder;
   }
 
-  SignInWithEmail(): SignInWithEmailUseCase {
-    return this.signInWithEmail;
-  }
+  // SignInWithEmail(): SignInWithEmailUseCase {
+  //   return this.signInWithEmail;
+  // }
 
-  SignInWithProvider(): SignInWithProviderUseCase {
-    return this.signInWithProvider;
-  }
+  // SignInWithProvider(): SignInWithProviderUseCase {
+  //   return this.signInWithProvider;
+  // }
 
   GetPublicFolders(): GetPublicFoldersUseCase {
     return this.getPublicFolders;
@@ -70,6 +75,10 @@ class AppContainer {
   }
   GenerateFlashcard(): GenerateFlashcardsUseCase {
     return this.generateFlashcard;
+  }
+
+  getAuthService(): AuthService {
+    return this.authService;
   }
 }
 

@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { Flashcard } from '@/domain/entities/Flashcard';
+import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
+import { appContainer } from '@/infrastructure/config/container';
 import {
   Input as MuiInput,
   Button as MuiButton,
@@ -7,12 +9,10 @@ import {
   Box,
   FormLabel,
 } from '@mui/joy';
-import { styled } from '@mui/system';
-import { useParams, useNavigate } from 'react-router-dom';
-import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
-import { Flashcard } from '@/domain/entities/Flashcard';
 import Slider from '@mui/joy/Slider';
-import { appContainer } from '@/infrastructure/config/container';
+import { styled } from '@mui/system';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const flashcardRepository = new SupabaseFlashCardRepository();
 
@@ -61,6 +61,8 @@ export function GenerateFlashCardWithIa() {
     try {
       const result = await appContainer.GenerateFlashcard().execute(topic, number, lang);
       setGeneratedCards(result);
+
+      // L'utilisateur il puisse avoir la possibilité d'édité la donnée avant de la submit
       if (deckId) {
         await flashcardRepository.storeQuiz(deckId, result);
       }

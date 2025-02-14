@@ -5,6 +5,9 @@ module.exports = {
   tabWidth: 2,
   trailingComma: 'es5',
   printWidth: 100,
-  plugins: ['prettier-plugin-tailwindcss'],
+  plugins: ['@trivago/prettier-plugin-sort-imports', 'prettier-plugin-tailwindcss'],
   tailwindConfig: './tailwind.config.js',
+  importOrder: ['^@core/(.*)$', '^@server/(.*)$', '^@ui/(.*)$', '^[./]'],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
 };

@@ -25,7 +25,8 @@ function LoginForm() {
     setError('');
 
     try {
-      await appContainer.SignInWithEmail().execute(email, password);
+      // await appContainer.SignInWithEmail().execute(email, password);
+      await appContainer.getAuthService().signInWithEmail(email, password);
       await checkSession(false, true);
     } catch (err: unknown) {
       if (err instanceof Error) {

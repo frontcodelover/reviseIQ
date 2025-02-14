@@ -1,7 +1,13 @@
-import React, { useState, useCallback } from 'react';
 import { UpsertUserUseCase } from '@/application/useCases/auth/UpsertUser.usecase';
+import { FirstTimeFormProps } from '@/domain/entities/User';
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
-import { useTranslation } from 'react-i18next';
+import {
+  FirstTimeFormData,
+  FirstTimeFormSchema,
+} from '@/presentation/components/firstTime/FirstTimeFormSchema';
+import { AvatarUpload } from '@/presentation/components/firstTime/avatarSelection';
+import { PhoneInput } from '@/presentation/components/firstTime/phoneInput';
+import { Typography } from '@mui/joy';
 import {
   TextField,
   Select,
@@ -15,12 +21,9 @@ import {
   Paper,
   Grid2,
 } from '@mui/material';
-import { PhoneInput } from '@/presentation/components/firstTime/phoneInput';
-import { AvatarUpload } from '@/presentation/components/firstTime/avatarSelection';
-import { Typography } from '@mui/joy';
+import React, { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
-import { FirstTimeFormData, FirstTimeFormSchema } from '@/domain/validation/FirstTimeFormSchema';
-import { FirstTimeFormProps } from '@/domain/entities/User';
 
 const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
   const [firstname, setFirstname] = useState(user.firstname || '');

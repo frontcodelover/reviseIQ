@@ -1,13 +1,12 @@
+import { GetLastPublicFolderUseCase } from '@/application/useCases/folder/GetLastPublicFolder.usecase';
+import { Folder } from '@/domain/entities/Folder';
+import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
+import CardFolder from '@/presentation/components/dashboard/folders/CardFolder';
+import { Box, Typography } from '@mui/joy';
+import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
-import { GetLastPublicFolderUseCase } from '@/application/useCases/folder/GetLastPublicFolder.usecase';
-
-import CardFolder from '@/presentation/components/dashboard/folders/CardFolder';
-import { Folder } from '@/domain/entities/Folder';
-import { Box, Typography } from '@mui/joy';
 
 export function GetLimitedPublicFolders() {
   const folderRepository = new SupabaseFolderRepository();

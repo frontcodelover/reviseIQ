@@ -13,7 +13,8 @@ function OAuthLogin() {
     setLoading(true);
     setError('');
     try {
-      await appContainer.SignInWithProvider().execute(provider);
+      // await appContainer.SignInWithProvider().execute(provider);
+      await appContainer.getAuthService().signInWithProvider(provider);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message || `Erreur lors de la connexion avec ${provider}`);
