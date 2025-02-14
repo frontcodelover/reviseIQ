@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import TextInput from '@/presentation/components/ui/input/TextInput';
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import Button from '@/presentation/components/ui/button/Button';
+import TextInput from '@/presentation/components/ui/input/TextInput';
 import { Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { appContainer } from '@/infrastructure/config/container';
+import styled from 'styled-components';
 
 const Container = styled.div`
   padding: 1rem;
@@ -73,7 +73,7 @@ export function GenerateFlashcardManual() {
     try {
       for (const card of flashcards) {
         if (card.question.trim() && card.answer.trim()) {
-          await appContainer.CreateFlashcard().execute({
+          await appContainer.getFlashcardService().createFlashcard({
             deck_id: deckId,
             question: card.question,
             answer: card.answer,

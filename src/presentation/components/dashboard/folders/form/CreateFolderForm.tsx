@@ -1,12 +1,11 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { Box, Button, FormControl, FormLabel, Input, Switch, Textarea } from '@mui/joy';
-
-import Thema from '@/presentation/components/dashboard/folders/form/thema';
 import { FormData } from '@/domain/entities/Folder';
-import { appContainer } from '@/infrastructure/config/container';
+import { appContainer } from '@/infrastructure/config/AppContainer';
+import Thema from '@/presentation/components/dashboard/folders/form/thema';
+import { Box, Button, FormControl, FormLabel, Input, Switch, Textarea } from '@mui/joy';
 import Typography from '@mui/joy/Typography';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 // const userRepository = new SupabaseUserRepository();
 // const createFolder = new CreateFolder(userRepository);
@@ -36,7 +35,7 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
     setError('');
 
     try {
-      const { id } = await appContainer.CreateFolder().execute({
+      const { id } = await appContainer.getUserService().createFolder({
         name: formData.name,
         description: formData.description,
         is_public: formData.isPublic,

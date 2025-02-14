@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import { useAuth } from '@/presentation/context/AuthContext';
-import { useTranslation } from 'react-i18next';
 import { TextField, Button, Link, Typography, CircularProgress, Box } from '@mui/material';
-import { appContainer } from '@/infrastructure/config/container';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
 function LoginForm() {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');

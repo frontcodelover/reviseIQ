@@ -1,5 +1,5 @@
-import { User } from '../entities/User';
-import { AuthRepository } from '../repositories/AuthRepository';
+import { User } from '@/domain/entities/User';
+import { AuthRepository } from '@/domain/repositories/AuthRepository';
 
 export class AuthService {
   constructor(private readonly authRepository: AuthRepository) {}

@@ -1,13 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import { formatDate } from '@/lib/FormatDate';
-import { US } from 'country-flag-icons/react/3x2';
-import { FR } from 'country-flag-icons/react/3x2';
-import styled from 'styled-components';
 import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
 import { useProfileUserById } from '@/presentation/hooks/useProfileUserById';
-import { appContainer } from '@/infrastructure/config/container';
+import { US } from 'country-flag-icons/react/3x2';
+import { FR } from 'country-flag-icons/react/3x2';
+import React from 'react';
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 interface TableContentProps {
   id: string;
@@ -32,7 +32,7 @@ const TableContent: React.FC<TableContentProps> = ({
   const { data: result, isLoading: isLoadingFlashcards } = useQuery(
     ['flashcards', id],
     async () => {
-      const flashcards = await appContainer.GetFlashcards().execute(id);
+      const flashcards = await appContainer.getFlashcardService().getFlashcardsList(id);
       return flashcards;
     }
   );

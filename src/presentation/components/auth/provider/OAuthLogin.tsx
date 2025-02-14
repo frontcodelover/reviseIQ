@@ -1,7 +1,7 @@
+import { appContainer } from '@/infrastructure/config/AppContainer';
+import { Button, Typography, CircularProgress, SvgIcon, Box } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Typography, CircularProgress, SvgIcon, Box } from '@mui/material';
-import { appContainer } from '@/infrastructure/config/container';
 
 function OAuthLogin() {
   const [loading, setLoading] = useState(false);

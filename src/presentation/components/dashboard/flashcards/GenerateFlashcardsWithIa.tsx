@@ -1,6 +1,6 @@
 import { Flashcard } from '@/domain/entities/Flashcard';
 import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
-import { appContainer } from '@/infrastructure/config/container';
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import {
   Input as MuiInput,
   Button as MuiButton,
@@ -47,7 +47,7 @@ export function GenerateFlashCardWithIa() {
   useEffect(() => {
     async function fetchData() {
       if (deckId) {
-        const folder = await appContainer.GetFolderById().execute(deckId);
+        const folder = await appContainer.getFolderService().getFolderById(deckId);
         setTopic(folder.name);
       }
     }
@@ -59,7 +59,9 @@ export function GenerateFlashCardWithIa() {
     setError(null);
 
     try {
-      const result = await appContainer.GenerateFlashcard().execute(topic, number, lang);
+      const result = await appContainer
+        .getFlashcardService()
+        .generateFlashcards(topic, number, lang);
       setGeneratedCards(result);
 
       // L'utilisateur il puisse avoir la possibilité d'édité la donnée avant de la submit
@@ -76,7 +78,7 @@ export function GenerateFlashCardWithIa() {
   const handleSubmit = async () => {
     try {
       for (const card of generatedCards) {
-        await appContainer.CreateFlashcard().execute({
+        await appContainer.getFlashcardService().createFlashcard({
           deck_id: deckId,
           question: card.question,
           answer: card.answer,
