@@ -1,6 +1,4 @@
-import { LogActionUseCase } from '@/application/useCases/badge/LogAction.usecase';
 import { Flashcard } from '@/domain/entities/Flashcard';
-import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { Card, Typography, Box } from '@mui/joy';
 import { CircularProgress, Card as UICard, CardContent as UICardContent } from '@mui/material';
@@ -12,10 +10,6 @@ import { useNavigate } from 'react-router-dom';
 
 import DockNavigate from '../dock/DockNavigate';
 import EndCard from './LastFlashcard';
-
-const logRepository = new SupabaseLogRepository();
-
-const logAction = new LogActionUseCase(logRepository);
 
 interface FlipCardProps {
   children: ReactNode;
@@ -69,7 +63,9 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
       const logCompletion = async () => {
         try {
           if (userId) {
-            await logAction.execute(userId, 'flashcard_reviewed', flashcards.length);
+            await appContainer
+              .getLogService()
+              .logAction(userId, 'flashcard_reviewed', flashcards.length);
           } else {
             console.error('User ID is null');
           }
