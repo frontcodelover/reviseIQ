@@ -7,4 +7,12 @@ export class FolderService {
   getFolderById(folderId: string): Promise<Folder> {
     return this.folderRepository.getFolderById(folderId);
   }
+
+  async getPublicFolders(start: number, end: number) {
+    const result = await this.folderRepository.getPublicFolders(start, end);
+    return {
+      data: result.data,
+      count: result.count,
+    };
+  }
 }

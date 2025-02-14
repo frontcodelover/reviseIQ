@@ -7,4 +7,8 @@ export class UserService {
   createFolder(folderData: Folder): Promise<{ id: string }> {
     return this.userRepository.createDeck(folderData);
   }
+
+  getUserId(): Promise<string> {
+    return this.userRepository.getUserId();
+  }
 }

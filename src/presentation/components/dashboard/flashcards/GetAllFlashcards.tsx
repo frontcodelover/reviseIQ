@@ -1,29 +1,21 @@
+import { LogActionUseCase } from '@/application/useCases/badge/LogAction.usecase';
+import { Flashcard } from '@/domain/entities/Flashcard';
+import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
+import { appContainer } from '@/infrastructure/config/AppContainer';
+import { Card, Typography, Box } from '@mui/joy';
+import { CircularProgress, Card as UICard, CardContent as UICardContent } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useState, useEffect, ReactNode } from 'react';
-import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-import { CircularProgress, Card as UICard, CardContent as UICardContent } from '@mui/material';
+import DockNavigate from '../dock/DockNavigate';
 import EndCard from './LastFlashcard';
 
-import { GetUserIdUseCase } from '@/application/useCases/user/GetUserId.usecase';
-import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
-import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
-import { LogActionUseCase } from '@/application/useCases/badge/LogAction.usecase';
-import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
-import { GetFlashcardsUseCase } from '@/application/useCases/flashcard/GetFlashcards.usecase';
-import { Flashcard } from '@/domain/entities/Flashcard';
-import DockNavigate from '../dock/DockNavigate';
-
-import { Card, Typography, Box } from '@mui/joy';
-import { styled } from '@mui/material/styles';
-
-const userRepository = new SupabaseUserRepository();
 const logRepository = new SupabaseLogRepository();
-const getUserIdCase = new GetUserIdUseCase(userRepository);
+
 const logAction = new LogActionUseCase(logRepository);
-const flashcardRepository = new SupabaseFlashCardRepository();
-const getFlashcards = new GetFlashcardsUseCase(flashcardRepository);
 
 interface FlipCardProps {
   children: ReactNode;
@@ -63,7 +55,7 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
   useEffect(() => {
     const getUserId = async () => {
       try {
-        const id = await getUserIdCase.execute();
+        const id = await appContainer.getUserService().getUserId();
         setUserId(id);
       } catch (error) {
         console.error("Erreur lors de la récupération de l'userId:", error);
@@ -94,7 +86,7 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
     const fetchFlashcards = async () => {
       if (!deckId) return;
       try {
-        const cards = await getFlashcards.execute(deckId);
+        const cards = await appContainer.getFlashcardService().getFlashcardsList(deckId);
         setFlashcards(cards);
       } catch {
         setError('Erreur lors du chargement des flashcards');

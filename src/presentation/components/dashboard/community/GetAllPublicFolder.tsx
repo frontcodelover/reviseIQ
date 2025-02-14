@@ -1,28 +1,24 @@
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-// import CardFolder from '@/presentation/components/dashboard/folders/CardFolder';
-
-import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
-import { GetPublicFoldersUseCase } from '@/application/useCases/folder/GetPublicFolders.usecase';
-import { Pagination } from '../../ui/Pagination';
-
 import styled from 'styled-components';
-import CommunityTable from './CommunityTable';
+
+import { Pagination } from '../../ui/Pagination';
 import HeadingTwo from '../../ui/text/heading/HeadingTwo';
+import CommunityTable from './CommunityTable';
 
 export function GetAllPublicFolders() {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(19);
-
-  const folderRepository = new SupabaseFolderRepository();
-  const getPublicFoldersUseCase = new GetPublicFoldersUseCase(folderRepository);
 
   const {
     data: response,
     isLoading,
     error,
   } = useQuery(['decks', page, limit], async () => {
-    const result = await getPublicFoldersUseCase.execute(page * limit, (page + 1) * limit - 1);
+    const result = await appContainer
+      .getFolderService()
+      .getPublicFolders(page * limit, (page + 1) * limit - 1);
     return result;
   });
 
