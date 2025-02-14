@@ -1,9 +1,8 @@
-import { useTranslation } from 'react-i18next';
-import { styled } from '@mui/material/styles';
-import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
-
 import { Validation } from '@/domain/entities/User';
 import { Typography } from '@mui/material';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
 
 export function PasswordTooltip({ validation }: { validation: Validation }) {
   const { t } = useTranslation();

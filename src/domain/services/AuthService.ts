@@ -10,4 +10,7 @@ export class AuthService {
   signInWithProvider(provider: 'google'): Promise<void> {
     return this.authRepository.signInWithProvider(provider);
   }
+  signUp(email: string, password: string): Promise<User> {
+    return this.authRepository.signUp(email, password);
+  }
 }

@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { appContainer } from '@/infrastructure/config/AppContainer';
+import { PasswordTooltip } from '@/presentation/components/auth/signup/form/PasswordTooltip';
 import {
   TextField,
   Button,
@@ -10,9 +9,9 @@ import {
   Checkbox,
   FormControlLabel,
 } from '@mui/material';
-import { SignUpUseCase } from '@/application/useCases/auth/SignUp.usecase';
-import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
-import { PasswordTooltip } from '@/presentation/components/auth/signup/form/PasswordTooltip';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, Link } from 'react-router-dom';
 
 const validateEmail = (email: string) => {
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -46,8 +45,7 @@ function SignupForm() {
   const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const navigate = useNavigate();
-  const authRepository = new SupabaseAuthRepository();
-  const signUpUseCase = new SignUpUseCase(authRepository);
+
   const { t } = useTranslation();
   const passwordValidation = validatePassword(password);
   const passwordsMatch = password === confirmPassword;
@@ -66,7 +64,7 @@ function SignupForm() {
     setError('');
 
     try {
-      await signUpUseCase.execute(email, password);
+      await appContainer.getAuthService().signUp(email, password);
       navigate('/login');
     } catch (err: unknown) {
       if (err instanceof Error) {
