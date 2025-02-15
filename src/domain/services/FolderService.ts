@@ -15,4 +15,8 @@ export class FolderService {
       count: result.count,
     };
   }
+
+  async getLastPublicFolders(): Promise<Folder[]> {
+    return this.folderRepository.getLastPublicFolders();
+  }
 }

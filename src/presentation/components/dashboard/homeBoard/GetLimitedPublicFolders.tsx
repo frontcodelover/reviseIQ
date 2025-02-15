@@ -1,6 +1,5 @@
-import { GetLastPublicFolderUseCase } from '@/application/useCases/folder/GetLastPublicFolder.usecase';
 import { Folder } from '@/domain/entities/Folder';
-import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import CardFolder from '@/presentation/components/dashboard/folders/CardFolder';
 import { Box, Typography } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
@@ -9,16 +8,15 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export function GetLimitedPublicFolders() {
-  const folderRepository = new SupabaseFolderRepository();
-  const getLastPublicFolderUseCase = new GetLastPublicFolderUseCase(folderRepository);
   const { t } = useTranslation();
 
   const {
     data: folders,
     isLoading,
     error,
-  } = useQuery<Folder[]>('lastPublicFolders', () => getLastPublicFolderUseCase.execute());
-
+  } = useQuery<Folder[]>('lastPublicFolders', () =>
+    appContainer.getFolderService().getLastPublicFolders()
+  );
   if (isLoading) return <div>Chargement...</div>;
   if (error) return <div>Erreur : {(error as Error).message}</div>;
   if (!folders) return <div>Aucun dossier public trouvé</div>;
