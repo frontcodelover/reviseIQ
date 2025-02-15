@@ -1,6 +1,5 @@
-import { ResetPasswordUseCase } from '@/application/useCases/auth/ResetPassword.usecase';
-import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import { Typography } from '@mui/joy';
 import { Box, Container, Paper, TextField, Button, Grid2 } from '@mui/material';
 import { Brain } from 'lucide-react';
@@ -11,9 +10,6 @@ export default function ResetPassword() {
   const [email, setEmail] = useState('');
   const [step, setStep] = useState<'initial' | 'sent' | 'reset'>('initial');
   const { t } = useTranslation();
-
-  const authRepository = new SupabaseAuthRepository();
-  const resetPasswordUseCase = new ResetPasswordUseCase(authRepository);
 
   useEffect(() => {
     supabase.auth.onAuthStateChange(async (event) => {
@@ -26,7 +22,7 @@ export default function ResetPassword() {
   const handleInitiateReset = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await resetPasswordUseCase.initiateReset(email);
+      await appContainer.getAuthService().resetPassword(email);
       setStep('sent');
     } catch (error) {
       console.error('Erreur lors de la réinitialisation:', error);

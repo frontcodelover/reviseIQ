@@ -16,4 +16,12 @@ export class AuthService {
   signOut(): Promise<void> {
     return this.authRepository.signOut();
   }
+
+  resetPassword(email: string): Promise<void> {
+    return this.authRepository.resetPassword(email);
+  }
+
+  updateUserPassword(newPassword: string) {
+    return this.authRepository.updateUserPassword(newPassword);
+  }
 }

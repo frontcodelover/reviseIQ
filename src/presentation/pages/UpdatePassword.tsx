@@ -1,6 +1,5 @@
-import { ResetPasswordUseCase } from '@/application/useCases/auth/ResetPassword.usecase';
-import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import { useAuth } from '@/presentation/context/AuthContext';
 import {
   Container,
@@ -24,9 +23,6 @@ export default function UpdatePassword() {
   const navigate = useNavigate();
   const { isPasswordRecovery } = useAuth();
   const { t } = useTranslation();
-
-  const authRepository = new SupabaseAuthRepository();
-  const resetPasswordUseCase = new ResetPasswordUseCase(authRepository);
 
   useEffect(() => {
     if (!isPasswordRecovery) {
@@ -60,7 +56,7 @@ export default function UpdatePassword() {
     }
 
     try {
-      await resetPasswordUseCase.updatePassword(newPassword);
+      await appContainer.getAuthService().updateUserPassword(newPassword);
       localStorage.removeItem('passwordRecoveryMode');
       await supabase.auth.signOut();
       navigate('/login');
