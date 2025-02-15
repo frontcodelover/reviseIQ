@@ -7,9 +7,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-// const userRepository = new SupabaseUserRepository();
-// const createFolder = new CreateFolder(userRepository);
-
 function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
   const lang = localStorage.getItem('i18nextLng') || 'fr';
   const { t } = useTranslation();

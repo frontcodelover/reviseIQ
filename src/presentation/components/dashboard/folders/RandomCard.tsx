@@ -1,14 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Folder } from '@/domain/entities/Folder';
 import { useProfileUserById } from '@/presentation/hooks/useProfileUserById';
-import { styled } from 'styled-components';
-import { useTranslation } from 'react-i18next';
+import { Typography } from '@mui/joy';
+import Card from '@mui/joy/Card';
 import { US } from 'country-flag-icons/react/3x2';
 import { FR } from 'country-flag-icons/react/3x2';
-
-import { Folder } from '@/domain/entities/Folder';
-
-import Card from '@mui/joy/Card';
-import { Typography } from '@mui/joy';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { styled } from 'styled-components';
 
 const RandomCard = ({ ...props }: Folder) => {
   const { id, name, lang, user_id } = props;

@@ -11,4 +11,8 @@ export class UserService {
   getUserId(): Promise<string> {
     return this.userRepository.getUserId();
   }
+
+  getUserFolders(): Promise<Folder[]> {
+    return this.userRepository.getUserFolders();
+  }
 }

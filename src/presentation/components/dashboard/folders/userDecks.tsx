@@ -1,25 +1,21 @@
-import { useEffect, useState, useMemo } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
-import { GetUserDecksUseCase } from '@/application/useCases/user/GetUserDecks.usecase';
+import { Alert as AlertUI, AlertDescription } from '@/components/ui/alert';
 import { Folder } from '@/domain/entities/Folder';
 import { ThemaGroupProps } from '@/domain/entities/User';
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import CardNewFolder from '@/presentation/components/dashboard/folders/newFolder/CardNewFolder';
-import { Alert as AlertUI, AlertDescription } from '@/components/ui/alert';
-import { Terminal as TerminalIcon } from 'lucide-react';
 import { Box, Typography, IconButton, Card, CardContent, CircularProgress } from '@mui/joy';
+import { styled } from '@mui/joy/styles';
 import AlertTitle from '@mui/material/AlertTitle';
 import Collapse from '@mui/material/Collapse';
-import { styled } from '@mui/joy/styles';
+import { Terminal as TerminalIcon } from 'lucide-react';
 import { ChevronDown as ChevronDownIcon } from 'lucide-react';
+import { useEffect, useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
 
 interface GroupedDecks {
   [key: string]: Folder[];
 }
-
-const userReposirory = new SupabaseUserRepository();
-const getUserDecksUseCase = new GetUserDecksUseCase(userReposirory);
 
 const Link = styled(RouterLink)({
   textDecoration: 'none',
@@ -82,7 +78,7 @@ function UserDecks(): JSX.Element {
   useEffect(() => {
     const fetchUserDecks = async () => {
       try {
-        const data = await getUserDecksUseCase.execute();
+        const data = await appContainer.getUserService().getUserFolders();
         if (Array.isArray(data)) {
           setDecks(data as Folder[]);
         } else {

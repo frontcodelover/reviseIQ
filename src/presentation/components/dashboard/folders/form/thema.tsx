@@ -1,7 +1,8 @@
+import { Button, Box, useTheme } from '@mui/joy';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { ThemaLabelKeys } from './themaLabel';
-import { Button, Box, useTheme } from '@mui/joy'; // Import useTheme
 
 interface ThemaProps {
   setThema: (value: string) => void;

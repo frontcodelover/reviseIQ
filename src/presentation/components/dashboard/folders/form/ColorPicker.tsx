@@ -1,8 +1,7 @@
-import React from 'react';
+import { ColorPickerProps } from '@/domain/entities/User';
 import clsx from 'clsx';
 import { Check } from 'lucide-react';
-
-import { ColorPickerProps } from '@/domain/entities/User';
+import React from 'react';
 
 // Fonction utilitaire pour convertir une couleur hexadécimale en rgba avec une opacité
 const hexToRgba = (hex: string, alpha: number) => {
