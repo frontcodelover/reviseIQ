@@ -1,10 +1,11 @@
-import { useTranslation } from 'react-i18next';
-import { Typography } from '@mui/joy';
-import { Trans } from 'react-i18next';
-import { Brain } from 'lucide-react';
 import OAuthLogin from '@/presentation/components/auth/provider/OAuthLogin';
 import SignupForm from '@/presentation/components/auth/signup/SignupForm';
+import { Typography } from '@mui/joy';
 import { Box, Container, Divider, Grid2, Paper } from '@mui/material';
+import { Brain } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
+
 function SignUp() {
   const { t } = useTranslation();
 

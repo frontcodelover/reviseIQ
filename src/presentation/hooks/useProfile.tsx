@@ -1,18 +1,13 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '@/presentation/context/AuthContext';
-import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
-import { GetUserProfileByIdUseCase } from '@/application/useCases/user/GetUserProfilById.usecase';
-
 import { User } from '@/domain/entities/User';
+import { appContainer } from '@/infrastructure/config/AppContainer';
+import { useAuth } from '@/presentation/context/AuthContext';
+import { useState, useEffect } from 'react';
 
 export const useProfile = () => {
   const { user } = useAuth();
   const [profile, setProfile] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const userRepository = new SupabaseUserRepository();
-  const getUserProfileById = new GetUserProfileByIdUseCase(userRepository);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -23,7 +18,7 @@ export const useProfile = () => {
       }
 
       try {
-        const userProfile = await getUserProfileById.execute(user.id!);
+        const userProfile = await appContainer.getUserService().getUserProfile(user.id);
         setProfile(userProfile);
       } catch (err) {
         setError('Erreur lors de la récupération du profil');

@@ -1,13 +1,13 @@
+import { theme } from '@/presentation/components/ui/theme/ThemeMui';
+import { IconButton } from '@mui/joy';
+import Box from '@mui/joy/Box';
+import CssBaseline from '@mui/joy/CssBaseline';
 import React from 'react';
 import styled from 'styled-components';
 
-import Box from '@mui/joy/Box';
-import Sidebar from '../components/dashboard/shared/Sidebar';
-import CssBaseline from '@mui/joy/CssBaseline';
-import Header from '../components/dashboard/shared/Header';
-import { theme } from '@/presentation/components/ui/theme/ThemeMui';
 import Notification from '../components/dashboard/Notification';
-import { IconButton } from '@mui/joy';
+import Header from '../components/dashboard/shared/Header';
+import Sidebar from '../components/dashboard/shared/Sidebar';
 
 export default function LayoutDashboard({ children }: { children: React.ReactNode }) {
   return (

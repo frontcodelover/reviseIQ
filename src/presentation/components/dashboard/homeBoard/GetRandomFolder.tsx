@@ -1,22 +1,21 @@
-import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
-import { useQuery } from 'react-query';
-import { GetRandomFolderUseCase } from '@/application/useCases/folder/GetRandomFolder.usecase';
 import { Folder } from '@/domain/entities/Folder';
-import Card from '@mui/joy/Card';
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import { Typography } from '@mui/joy';
 import Box from '@mui/joy/Box';
+import Card from '@mui/joy/Card';
 import Sheet from '@mui/joy/Sheet';
+import { useQuery } from 'react-query';
+
 import RandomCard from '../folders/RandomCard';
 
 export default function GetRandomFolder() {
-  const folderRepository = new SupabaseFolderRepository();
-  const getRandomFolderUseCase = new GetRandomFolderUseCase(folderRepository);
-
   const {
     data: folders,
     isLoading,
     error,
-  } = useQuery<Folder[]>('randomPublicFolder', () => getRandomFolderUseCase.execute());
+  } = useQuery<Folder[]>('randomPublicFolder', () =>
+    appContainer.getFolderService().getRandomPublicFolders()
+  );
 
   if (isLoading) return <div>Chargement...</div>;
   if (error) return <div>Erreur : {(error as Error).message}</div>;

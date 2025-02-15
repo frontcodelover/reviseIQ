@@ -16,7 +16,15 @@ export class FolderService {
     };
   }
 
-  async getLastPublicFolders(): Promise<Folder[]> {
+  getLastPublicFolders(): Promise<Folder[]> {
     return this.folderRepository.getLastPublicFolders();
+  }
+
+  getRandomPublicFolders(): Promise<Folder[]> {
+    return this.folderRepository.getRandomPublicFolders();
+  }
+
+  isOwner(folderId: string, userId: string): Promise<boolean> {
+    return this.folderRepository.isFolderOwner(folderId, userId);
   }
 }

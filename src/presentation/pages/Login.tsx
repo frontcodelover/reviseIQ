@@ -1,10 +1,10 @@
 import LoginForm from '@/presentation/components/auth/login/form/LoginForm';
-import { useTranslation } from 'react-i18next';
 import OAuthLogin from '@/presentation/components/auth/provider/OAuthLogin';
-import { Box, Container, Divider, Grid2, Paper } from '@mui/material';
 import { Typography } from '@mui/joy';
-import { Trans } from 'react-i18next';
+import { Box, Container, Divider, Grid2, Paper } from '@mui/material';
 import { Brain } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 
 function Login() {
   const { t } = useTranslation();

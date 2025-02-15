@@ -1,12 +1,21 @@
-export interface BadgeData {
-  unlocked_at: string;
-  badges: {
-    id: string;
-    name: string;
-    description: string;
-    image_url: string;
-  };
-}
+import { z } from 'zod';
+
+export const BadgeDataSchema = z.object({
+  unlocked_at: z.string(),
+  id: z.string().optional(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  image_url: z.string().optional(),
+  obtained_at: z.string().optional(),
+  badges: z.object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    image_url: z.string(),
+  }),
+});
+
+export type BadgeData = z.infer<typeof BadgeDataSchema>;
 
 export interface Badge {
   id: string;

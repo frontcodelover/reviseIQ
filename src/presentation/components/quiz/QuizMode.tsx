@@ -1,7 +1,6 @@
-import { GetQuizByDeckIdUseCase } from '@/application/useCases/folder/GetQuizByDeckId.usecase';
 import { Button } from '@/components/ui/button';
 import { Quiz } from '@/domain/entities/Quiz';
-import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -15,14 +14,11 @@ export default function QuizMode() {
   const [error, setError] = useState<string | null>(null);
   const [answersOrder, setAnswersOrder] = useState<string[]>([]);
 
-  const quizRepository = new SupabaseFlashCardRepository();
-  const getQuizByDeckIdUseCase = new GetQuizByDeckIdUseCase(quizRepository);
-
   useEffect(() => {
     const loadQuiz = async () => {
       try {
         if (!deckId) return;
-        const result = await getQuizByDeckIdUseCase.execute(deckId);
+        const result = await appContainer.getFlashcardService().getQuizByFolderId(deckId);
         if (result) {
           setQuiz(result);
           // Mélanger les réponses de la première question

@@ -1,6 +1,5 @@
-import { UpsertUserUseCase } from '@/application/useCases/auth/UpsertUser.usecase';
 import { FirstTimeFormProps } from '@/domain/entities/User';
-import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import {
   FirstTimeFormData,
   FirstTimeFormSchema,
@@ -35,9 +34,6 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
   const [error, setError] = useState('');
   const { t } = useTranslation();
 
-  const userRepository = new SupabaseUserRepository();
-  const upsertProfile = new UpsertUserUseCase(userRepository);
-
   const handleAvatarChange = useCallback((newAvatarUrl: string | null) => {
     setAvatar(newAvatarUrl);
   }, []);
@@ -58,7 +54,7 @@ const FirstTimeForm: React.FC<FirstTimeFormProps> = ({ user, onSubmit }) => {
 
       FirstTimeFormSchema.parse(formData);
 
-      await upsertProfile.execute({
+      await appContainer.getUserService().upsertProfile({
         user_id: user.id,
         firstname,
         lastname,

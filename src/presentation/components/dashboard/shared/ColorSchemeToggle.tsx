@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useColorScheme } from '@mui/joy/styles';
-import IconButton, { IconButtonProps } from '@mui/joy/IconButton';
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import IconButton, { IconButtonProps } from '@mui/joy/IconButton';
+import { useColorScheme } from '@mui/joy/styles';
+import { useState, useEffect } from 'react';
 
 const COLOR_SCHEME_STORAGE_KEY = 'reviseIQ-color-scheme';
 

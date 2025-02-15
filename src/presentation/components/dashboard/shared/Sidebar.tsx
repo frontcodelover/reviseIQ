@@ -1,9 +1,17 @@
-import GlobalStyles from '@mui/joy/GlobalStyles';
+import ColorSchemeToggle from '@/presentation/components/dashboard/shared/ColorSchemeToggle';
+import { MenuItems } from '@/presentation/components/dashboard/shared/MenuItems';
+import { closeSidebar } from '@/presentation/components/dashboard/shared/utils';
+import { useProfile } from '@/presentation/hooks/useProfile';
+import { useHandleSignOut } from '@/presentation/hooks/useSignOut';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';
 import Divider from '@mui/joy/Divider';
+import GlobalStyles from '@mui/joy/GlobalStyles';
 import IconButton from '@mui/joy/IconButton';
 import Input from '@mui/joy/Input';
 import LinearProgress from '@mui/joy/LinearProgress';
@@ -11,20 +19,11 @@ import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
 import ListItemButton, { listItemButtonClasses } from '@mui/joy/ListItemButton';
 import ListItemContent from '@mui/joy/ListItemContent';
-import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 import Stack from '@mui/joy/Stack';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import { Link, useLocation } from 'react-router-dom';
+import Typography from '@mui/joy/Typography';
 import { Brain } from 'lucide-react';
-
-import { MenuItems } from './MenuItems';
-import { useHandleSignOut } from '@/presentation/hooks/useSignOut';
-import { useProfile } from '@/presentation/hooks/useProfile';
-import ColorSchemeToggle from './ColorSchemeToggle';
-import { closeSidebar } from './utils';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Sidebar() {
   const Items = MenuItems();

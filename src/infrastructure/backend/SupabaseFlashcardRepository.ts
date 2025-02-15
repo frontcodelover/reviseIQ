@@ -1,10 +1,11 @@
+import { Flashcard } from '@/domain/entities/Flashcard';
+import { FlashcardUpdate } from '@/domain/entities/Flashcard';
+import { Quiz } from '@/domain/entities/Quiz';
+import { FlashcardRepository } from '@/domain/repositories/FlashcardRepository';
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { Mistral } from '@mistralai/mistralai';
-import { Flashcard } from '@/domain/entities/Flashcard';
-import { FlashcardRepository } from '@/domain/repositories/FlashcardRepository';
-import { Quiz } from '@/domain/entities/Quiz';
+
 import { SupabaseFolderRepository } from './SupabaseFolderRespository';
-import { FlashcardUpdate } from '@/domain/entities/Flashcard';
 
 export class SupabaseFlashCardRepository implements FlashcardRepository {
   // create flashcards table "flashcards" field id, deck_id, question, answer, created_at
@@ -133,9 +134,9 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
     }
   }
 
-  async getQuizByDeckId(deckId: string): Promise<Quiz | null> {
+  async getQuizByFolderId(folderId: string): Promise<Quiz | null> {
     try {
-      const { data, error } = await supabase.from('quizzes').select('*').eq('deck_id', deckId);
+      const { data, error } = await supabase.from('quizzes').select('*').eq('deck_id', folderId);
 
       if (error) {
         console.error('Erreur lors de la récupération du quiz:', error);

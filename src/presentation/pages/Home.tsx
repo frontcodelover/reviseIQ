@@ -1,11 +1,12 @@
-import styled from 'styled-components';
-import { Brain } from 'lucide-react';
-import HeroTwo from './home/Hero';
-import { useTranslation } from 'react-i18next';
+import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
+import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
 import { US } from 'country-flag-icons/react/3x2';
 import { FR } from 'country-flag-icons/react/3x2';
-import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
-import { COLORS } from '@/presentation/components/ui/colors/ColorsVariant';
+import { Brain } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
+
+import HeroTwo from './home/Hero';
 import Section from './home/Section';
 
 const Container = styled.div`

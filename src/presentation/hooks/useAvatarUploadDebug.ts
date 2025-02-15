@@ -1,6 +1,5 @@
-import { useState, useCallback, useMemo } from 'react';
-import { UploadAvatar } from '@/application/useCases/user/UploadAvatar.usecase';
-import { SupabaseAvatarRepository } from '@/infrastructure/backend/SupabaseAvatarRepository';
+import { appContainer } from '@/infrastructure/config/AppContainer';
+import { useState, useCallback } from 'react';
 
 interface UseAvatarUploadDebugProps {
   userId: string;
@@ -10,9 +9,6 @@ interface UseAvatarUploadDebugProps {
 export const useAvatarUploadDebug = ({ userId, onChange }: UseAvatarUploadDebugProps) => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const avatarRepository = useMemo(() => new SupabaseAvatarRepository(), []);
-  const uploadAvatarUseCase = useMemo(() => new UploadAvatar(avatarRepository), [avatarRepository]);
 
   const uploadAvatar = useCallback(
     async (file: File | null) => {
@@ -25,7 +21,7 @@ export const useAvatarUploadDebug = ({ userId, onChange }: UseAvatarUploadDebugP
       setError(null);
 
       try {
-        const avatarUrl = await uploadAvatarUseCase.execute(userId, file);
+        const avatarUrl = await appContainer.getAvatarService().uploadAvatar(userId, file);
         onChange(avatarUrl);
       } catch (e: unknown) {
         console.error('Error uploading avatar:', e);
@@ -35,7 +31,7 @@ export const useAvatarUploadDebug = ({ userId, onChange }: UseAvatarUploadDebugP
         setUploading(false);
       }
     },
-    [userId, onChange, uploadAvatarUseCase]
+    [userId, onChange]
   );
 
   const clearAvatar = useCallback(() => {

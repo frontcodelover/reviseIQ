@@ -142,7 +142,7 @@ export class SupabaseUserRepository implements UserRepository {
       }
       return { id: data.id };
     } catch (error) {
-      console.error('Error in createDeck:', error);
+      console.error('Error in upsertUsercreateDeck:', error);
       throw error;
     }
   }

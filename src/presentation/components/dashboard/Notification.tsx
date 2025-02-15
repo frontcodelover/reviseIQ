@@ -1,59 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { Bell } from 'lucide-react';
-import { supabase } from '@/infrastructure/backend/SupabaseClient';
+import { BadgeData, BadgeDataSchema } from '@/domain/entities/Badge';
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import { useAuth } from '@/presentation/context/AuthContext';
-
-interface Badge {
-  id: string;
-  user_id: string;
-  badge_id: string;
-  is_read: boolean;
-}
+import { Bell } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 function Notification() {
   const { user } = useAuth();
-  const [unreadBadges, setUnreadBadges] = useState([] as Badge[]);
+  const [unreadBadges, setUnreadBadges] = useState([] as BadgeData[]);
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
+    if (!user) return;
+
+    appContainer.getBadgeService().subsribeToBadgeChanges(user.id, (badgeData) => {
+      setUnreadBadges((prev) => [...prev, badgeData]);
+    });
+
     async function fetchUnreadBadges() {
       if (!user) return;
-      const { data, error } = await supabase
-        .from('user_badges')
-        .select('*')
-        .eq('user_id', user.id)
-        .eq('is_read', false);
-
-      if (error) {
-        console.error('Erreur de fetch:', error);
-        return;
-      }
-      setUnreadBadges(data || []);
+      appContainer
+        .getBadgeService()
+        .fetchUnreadBadges(user.id)
+        .then((badges) => {
+          setUnreadBadges(badges as BadgeData[]);
+        });
     }
-
     fetchUnreadBadges();
 
-    const channel = supabase
-      .channel('badge_changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*', // Écoute INSERT et UPDATE
-          schema: 'public',
-          table: 'user_badges',
-        },
-        (payload) => {
-          if (payload.eventType === 'INSERT' && !payload.new.is_read) {
-            setUnreadBadges((prev) => [...prev, payload.new as Badge]);
-          } else if (payload.eventType === 'UPDATE' && payload.new.is_read) {
-            setUnreadBadges((prev) => prev.filter((badge) => badge.id !== payload.new.id));
-          }
-        }
-      )
-      .subscribe();
-
     return () => {
-      channel.unsubscribe();
+      appContainer.getBadgeService().unsubsribeFromBadgeChanges(user.id);
     };
   }, [user]);
 
@@ -62,19 +37,28 @@ function Notification() {
 
     setShowPopup(true);
 
-    // Mise à jour individuelle de chaque badge non lu
     const timeoutId = setTimeout(async () => {
-      for (const badge of unreadBadges) {
-        const { error } = await supabase
-          .from('user_badges')
-          .update({ is_read: true })
-          .eq('id', badge.id);
+      if (!user) return;
+      try {
+        // Valider les données avant de les envoyer
+        const badgeIds = unreadBadges
+          .map((badge) => {
+            const result = BadgeDataSchema.safeParse(badge);
+            if (result.success) {
+              return result.data.badges.id; // Accéder à l'ID via badge.badges.id
+            } else {
+              console.error('Erreur de validation BadgeData:', result.error);
+              return null; // Retourner null pour les badges invalides
+            }
+          })
+          .filter((id): id is string => id !== null); // Filtrer les IDs null
 
-        if (error) {
-          console.error('Erreur lors de la mise à jour:', error);
-        }
+        await appContainer.getBadgeService().markBadgesAsRead(user.id, badgeIds);
+        setUnreadBadges([]);
+        setShowPopup(false);
+      } catch (error) {
+        console.error('Erreur lors de la mise à jour des badges:', error);
       }
-      setShowPopup(false);
     }, 4000);
 
     return () => clearTimeout(timeoutId);

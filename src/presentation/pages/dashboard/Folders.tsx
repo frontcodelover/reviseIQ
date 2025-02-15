@@ -1,7 +1,7 @@
 import UserDecks from '@/presentation/components/dashboard/folders/userDecks';
 import { Typography } from '@mui/joy';
-import { useTranslation } from 'react-i18next';
 import Box from '@mui/joy/Box';
+import { useTranslation } from 'react-i18next';
 
 function Folders() {
   const { t } = useTranslation();

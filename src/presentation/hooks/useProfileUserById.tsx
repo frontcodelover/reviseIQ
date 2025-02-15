@@ -1,17 +1,13 @@
-import { useQuery } from 'react-query';
-import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
-import { GetUserProfileByIdUseCase } from '@/application/useCases/user/GetUserProfilById.usecase';
 import { User } from '@/domain/entities/User';
-
-const userRepository = new SupabaseUserRepository();
-const getUserProfileByIdUseCase = new GetUserProfileByIdUseCase(userRepository);
+import { appContainer } from '@/infrastructure/config/AppContainer';
+import { useQuery } from 'react-query';
 
 export const useProfileUserById = (userId: string) => {
   const { data, isLoading, error, ...rest } = useQuery<User, Error>({
     queryKey: ['userProfile', userId],
     queryFn: async () => {
       try {
-        const profile = await getUserProfileByIdUseCase.execute(userId);
+        const profile = await appContainer.getUserService().getUserProfile(userId);
         if (!profile) {
           throw new Error('Profil non trouvé');
         }
@@ -36,6 +32,3 @@ export const useProfileUserById = (userId: string) => {
     ...rest,
   };
 };
-
-// Utilisation:
-// const { data: profile, isLoading, error } = useProfileUserById(userId);

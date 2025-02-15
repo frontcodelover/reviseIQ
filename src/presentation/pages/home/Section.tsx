@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
+import Text from '@/presentation/components/ui/text/Text';
 import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
 import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
-import Text from '@/presentation/components/ui/text/Text';
 import { Wand, User } from 'lucide-react';
+import React from 'react';
+import styled from 'styled-components';
 
 function Section() {
   return (

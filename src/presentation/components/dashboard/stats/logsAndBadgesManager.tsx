@@ -1,11 +1,6 @@
-import { useEffect, useState } from 'react';
-import { GetUserBadgesUseCase } from '@/application/useCases/user/GetUserBadges.usecase';
-import { SupabaseBadgeRepository } from '@/infrastructure/backend/SupabaseBadgeRepository';
-import { CheckAndUnlockBadgesUseCase } from '@/application/useCases/badge/CheckAndUnlockBadges.usecase';
-import { GetUsageLogsByDay } from '@/application/useCases/badge/GetUsageLogsByDay.usecase';
-import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
-
 import { Badge, LogsAndBadgesManagerProps, DailyActions } from '@/domain/entities/Badge';
+import { appContainer } from '@/infrastructure/config/AppContainer';
+import { useEffect, useState } from 'react';
 
 export const LogsAndBadgesManager: React.FC<LogsAndBadgesManagerProps> = ({
   userId,
@@ -16,12 +11,6 @@ export const LogsAndBadgesManager: React.FC<LogsAndBadgesManagerProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const badgeRepository = new SupabaseBadgeRepository();
-  const logRepository = new SupabaseLogRepository();
-  const getUserBadgesUseCase = new GetUserBadgesUseCase(badgeRepository);
-  const checkAndUnlockBadgesUseCase = new CheckAndUnlockBadgesUseCase(badgeRepository);
-  const getUsageLogsByDay = new GetUsageLogsByDay(logRepository);
-
   useEffect(() => {
     const fetchLogsAndBadges = async () => {
       if (!userId) return;
@@ -30,7 +19,9 @@ export const LogsAndBadgesManager: React.FC<LogsAndBadgesManagerProps> = ({
 
       try {
         // Récupérer les logs
-        const dailyLogs: Record<string, DailyActions> = await getUsageLogsByDay.execute(userId);
+        const dailyLogs: Record<string, DailyActions> = await appContainer
+          .getLogService()
+          .getUsageLogsByDay(userId);
         const formattedLogs: Record<string, number> = {};
 
         Object.entries(dailyLogs).forEach(([date, actions]) => {
@@ -41,7 +32,6 @@ export const LogsAndBadgesManager: React.FC<LogsAndBadgesManagerProps> = ({
         });
         onLogsUpdate(formattedLogs);
 
-        // Calcul des totaux pour les badges
         let flashcards_viewed = 0;
         let folders_viewed = 0;
         Object.values(dailyLogs).forEach((actions) => {
@@ -49,14 +39,12 @@ export const LogsAndBadgesManager: React.FC<LogsAndBadgesManagerProps> = ({
           folders_viewed += actions.folder_viewed || 0;
         });
 
-        // Vérifier et débloquer les badges
-        await checkAndUnlockBadgesUseCase.execute(userId, {
+        await appContainer.getBadgeService().checkAndUnlockBadges(userId, {
           flashcards_viewed,
           folders_viewed,
         });
 
-        // Récupérer les badges débloqués
-        const userBadges = await getUserBadgesUseCase.execute(userId);
+        const userBadges = await appContainer.getBadgeService().getUserBadges(userId);
         onBadgesUpdate(userBadges);
 
         const sortedBadges = [...userBadges].sort(

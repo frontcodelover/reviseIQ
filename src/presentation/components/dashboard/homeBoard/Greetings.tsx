@@ -1,7 +1,7 @@
-import styled from 'styled-components';
 import { useProfile } from '@/presentation/hooks/useProfile';
-import { useTranslation } from 'react-i18next';
 import { Typography } from '@mui/joy';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 
 function Greetings() {
   const { profile, loading, error } = useProfile();

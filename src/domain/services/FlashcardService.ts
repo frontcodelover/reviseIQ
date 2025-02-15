@@ -1,4 +1,5 @@
 import { Flashcard } from '@/domain/entities/Flashcard';
+import { Quiz } from '@/domain/entities/Quiz';
 import { FlashcardRepository } from '@/domain/repositories/FlashcardRepository';
 
 export class FlashcardService {
@@ -14,5 +15,9 @@ export class FlashcardService {
 
   generateFlashcards(topic: string, number: number, lang: string): Promise<Flashcard[]> {
     return this.flashcardRepository.generateFlashcards(topic, number, lang);
+  }
+
+  getQuizByFolderId(folderId: string): Promise<Quiz | null> {
+    return this.flashcardRepository.getQuizByFolderId(folderId);
   }
 }

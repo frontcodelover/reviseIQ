@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { ResetPasswordUseCase } from '@/application/useCases/auth/ResetPassword.usecase';
+import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
-import { Box, Container, Paper, TextField, Button, Grid2 } from '@mui/material';
 import { Typography } from '@mui/joy';
-import { useTranslation } from 'react-i18next';
+import { Box, Container, Paper, TextField, Button, Grid2 } from '@mui/material';
 import { Brain } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function ResetPassword() {
   const [email, setEmail] = useState('');

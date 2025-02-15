@@ -1,7 +1,7 @@
-import { useTranslation } from 'react-i18next';
-import { Home, Folders, MessageCircleHeart, Calendar } from 'lucide-react';
-import { SidebarItem } from '@/presentation/types/SidebarItem';
 import { useUserDecksCount } from '@/presentation/hooks/useUserDecksCount';
+import { SidebarItem } from '@/presentation/types/SidebarItem';
+import { Home, Folders, MessageCircleHeart, Calendar } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export function Item() {
   const { t } = useTranslation();

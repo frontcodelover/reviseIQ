@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { useProfile } from '@/presentation/hooks/useProfile';
-import { useAuth } from '@/presentation/context/AuthContext';
-import ActivityCalendar from '@/presentation/components/dashboard/stats/activityCalendar';
-import { LogsAndBadgesManager } from '@/presentation/components/dashboard/stats/logsAndBadgesManager';
-import { GetLimitedPublicFolders } from '@/presentation/components/dashboard/homeBoard/GetLimitedPublicFolders';
-import styled from 'styled-components';
-import GetRandomFolder from '@/presentation/components/dashboard/homeBoard/GetRandomFolder';
-import { useTranslation } from 'react-i18next';
-import Greetings from '@/presentation/components/dashboard/homeBoard/Greetings';
 import { Badge } from '@/domain/entities/Badge';
-import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
-import HeadingThree from '@/presentation/components/ui/text/heading/HeadingThree';
-import Text from '@/presentation/components/ui/text/Text';
-import { Box, Card, Sheet, Typography } from '@mui/joy';
 import CalendarMUI from '@/presentation/components/dashboard/homeBoard/CalendarMui';
+import { GetLimitedPublicFolders } from '@/presentation/components/dashboard/homeBoard/GetLimitedPublicFolders';
+import GetRandomFolder from '@/presentation/components/dashboard/homeBoard/GetRandomFolder';
+import Greetings from '@/presentation/components/dashboard/homeBoard/Greetings';
+import ActivityCalendar from '@/presentation/components/dashboard/stats/ActivityPlanning';
+import { LogsAndBadgesManager } from '@/presentation/components/dashboard/stats/logsAndBadgesManager';
+import Text from '@/presentation/components/ui/text/Text';
+import HeadingThree from '@/presentation/components/ui/text/heading/HeadingThree';
+import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
+import { useAuth } from '@/presentation/context/AuthContext';
+import { useProfile } from '@/presentation/hooks/useProfile';
+import { Box, Card, Sheet, Typography } from '@mui/joy';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 
 function Dashboard() {
   const { profile, loading, error } = useProfile();

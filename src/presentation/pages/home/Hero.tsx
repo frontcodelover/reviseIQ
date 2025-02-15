@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 import socialProof from '@/assets/socialProof.png';
 import wave from '@/assets/wave.png';
-import { useTranslation } from 'react-i18next';
-import { Trans } from 'react-i18next';
 import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 function HeroTwo() {
   const { t } = useTranslation();

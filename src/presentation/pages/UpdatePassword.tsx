@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/infrastructure/backend/SupabaseClient';
-import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { ResetPasswordUseCase } from '@/application/useCases/auth/ResetPassword.usecase';
+import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
+import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { useAuth } from '@/presentation/context/AuthContext';
 import {
   Container,
@@ -14,7 +12,9 @@ import {
   CircularProgress,
   Grid2,
 } from '@mui/material';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 export default function UpdatePassword() {
   const [newPassword, setNewPassword] = useState('');

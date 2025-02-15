@@ -1,24 +1,11 @@
+import { Folder } from '@/domain/entities/Folder';
+import { appContainer } from '@/infrastructure/config/AppContainer';
+import { GetFlashcards } from '@/presentation/components/dashboard/flashcards/GetAllFlashcards';
+import { useAuth } from '@/presentation/context/AuthContext';
+import { Typography } from '@mui/joy';
 import { useEffect, useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
 import styled from 'styled-components';
-
-import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
-import { GetFolderById } from '@/application/useCases/folder/GetFolderById.usecase';
-
-import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
-import { LogActionUseCase } from '@/application/useCases/badge/LogAction.usecase';
-
-import { GetFlashcards } from '@/presentation/components/dashboard/flashcards/GetAllFlashcards';
-import { useAuth } from '@/presentation/context/AuthContext';
-
-import { Folder } from '@/domain/entities/Folder';
-
-import { Typography } from '@mui/joy';
-
-const folderRepository = new SupabaseFolderRepository();
-const logRepository = new SupabaseLogRepository();
-const getFolderById = new GetFolderById(folderRepository);
-const logAction = new LogActionUseCase(logRepository);
 
 function SingleFolder({ id }: { id: string | undefined }) {
   const [isOwner, setIsOwner] = useState(false);
@@ -29,11 +16,13 @@ function SingleFolder({ id }: { id: string | undefined }) {
     data: folder,
     isLoading,
     error,
-  } = useQuery<Folder, Error>(['folder', id], () => getFolderById.execute(id!), {
-    enabled: !!id && !!user_id,
-  });
+  } = useQuery<Folder, Error>(['folder', id], () =>
+    appContainer.getFolderService().getFolderById(id!)
+  );
 
-  const logMutation = useMutation(() => logAction.execute(user_id!, 'folder_viewed'));
+  const logMutation = useMutation(() =>
+    appContainer.getLogService().logAction(user_id!, 'folder_viewed')
+  );
 
   useEffect(() => {
     if (folder) {
@@ -41,7 +30,7 @@ function SingleFolder({ id }: { id: string | undefined }) {
     }
     const checkOwnerShip = async () => {
       if (!user_id) return;
-      const isOwner = await folderRepository.isFolderOwner(id!, user_id!);
+      const isOwner = await appContainer.getFolderService().isOwner(id!, user_id!);
       setIsOwner(isOwner);
       if (!isOwner) {
         return console.error('You are not the owner of this folder');

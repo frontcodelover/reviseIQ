@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useCallback } from 'react';
+import { useAvatarUploadDebug } from '@/presentation/hooks/useAvatarUploadDebug';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import {
   RadioGroup,
   RadioGroupProps,
@@ -9,10 +10,9 @@ import {
   CircularProgress,
   Button,
 } from '@mui/material';
-import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { useAvatarUploadDebug } from '@/presentation/hooks/useAvatarUploadDebug';
+import Radio from '@mui/material/Radio';
+import React, { ChangeEvent, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface AvatarSelectProps extends Omit<RadioGroupProps, 'children'> {

@@ -1,6 +1,6 @@
-import { supabase } from '@/infrastructure/backend/SupabaseClient';
-import { FolderRepository } from '@/domain/repositories/FolderRepository';
 import { Folder, CardFolderProps } from '@/domain/entities/Folder';
+import { FolderRepository } from '@/domain/repositories/FolderRepository';
+import { supabase } from '@/infrastructure/backend/SupabaseClient';
 
 export class SupabaseFolderRepository implements FolderRepository {
   async getPublicFolders(start: number, end: number): Promise<{ data: Folder[]; count: number }> {
@@ -122,25 +122,6 @@ export class SupabaseFolderRepository implements FolderRepository {
       }
     } catch (error) {
       console.error('Error in deleteFolder:', error);
-      throw error;
-    }
-  }
-  async searchFolders(search: string): Promise<Folder[]> {
-    try {
-      const { data, error } = await supabase
-        .from('decks')
-        .select('*')
-        .textSearch('name', search)
-        .eq('is_public', true);
-
-      if (error) {
-        console.error('Error fetching searchFolders:', error);
-        throw error;
-      }
-
-      return data || [];
-    } catch (error) {
-      console.error('Error in searchFolders:', error);
       throw error;
     }
   }

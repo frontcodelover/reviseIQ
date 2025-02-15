@@ -1,5 +1,5 @@
-import React from 'react';
 import { MuiTelInput } from 'mui-tel-input';
+import React from 'react';
 
 interface PhoneInputProps {
   phoneNumber: string;

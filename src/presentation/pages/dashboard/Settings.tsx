@@ -1,5 +1,5 @@
-import Box from '@mui/joy/Box';
 import Profile from '@/presentation/components/dashboard/profile/Profile';
+import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import { useTranslation } from 'react-i18next';
 
