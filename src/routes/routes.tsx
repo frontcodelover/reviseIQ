@@ -94,7 +94,7 @@ export const router = createBrowserRouter([
           {
             path: 'folders/:id',
             element: <SinglePageFolder />,
-            loader: folderLoader,
+            loader: folderLoader as unknown as undefined,
           },
           { path: 'folders/new', element: <CreateFolder /> },
           { path: 'folders/:id/generate-ai', element: <GenerateWithIa /> },
