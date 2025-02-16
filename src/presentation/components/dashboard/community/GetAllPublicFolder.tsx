@@ -1,15 +1,14 @@
 import { appContainer } from '@/infrastructure/config/AppContainer';
-import { useState } from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 
 import { Pagination } from '../../ui/Pagination';
 import HeadingTwo from '../../ui/text/heading/HeadingTwo';
 import CommunityTable from './CommunityTable';
+import { useGetAllPublicFolderStore } from './store/GetAllPublicFolderStore';
 
 export function GetAllPublicFolders() {
-  const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(19);
+  const { page, setPage, limit, setLimit } = useGetAllPublicFolderStore();
 
   const {
     data: response,

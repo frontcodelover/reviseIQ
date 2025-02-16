@@ -13,7 +13,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { useUserDeckStore } from './userDecksStore';
+import { useUserDeckStore } from './store/userDecksStore';
 
 interface GroupedDecks {
   [key: string]: Folder[];
