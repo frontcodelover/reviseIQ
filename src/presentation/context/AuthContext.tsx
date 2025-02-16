@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
-import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface User {
   id: string;
@@ -25,6 +25,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [mounted, setMounted] = useState(false);
 
   const userRepository = new SupabaseUserRepository();
@@ -38,7 +39,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   });
 
   const isRecoveryUrl = () => {
-    // Vérifier dans l'URL classique
     const params = new URLSearchParams(window.location.search);
     if (params.get('type') === 'recovery' && (params.get('token') || params.get('access_token'))) {
       return true;
@@ -54,7 +54,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
   const checkSession = async (isPasswordRecovery = false, shouldRedirect = false) => {
     try {
-      // Ne pas vérifier la session si on est en mode récupération
       if (isRecoveryUrl()) {
         setState((prev) => ({
           ...prev,
@@ -90,7 +89,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isPasswordRecovery: isPasswordRecovery,
       });
 
-      // Ne pas rediriger si en mode récupération
       if (shouldRedirect && !isPasswordRecovery && !isRecoveryUrl()) {
         navigate(hasProfile ? '/dashboard' : '/first-time');
       }
@@ -102,8 +100,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   useEffect(() => {
     setMounted(true);
+  }, []);
 
-    // Si on est sur l'URL de récupération, rediriger vers update-password
+  useEffect(() => {
+    if (!mounted) return;
+
     if (isRecoveryUrl()) {
       setState((prev) => ({
         ...prev,
@@ -117,8 +118,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
 
     checkSession(false, false);
-    return () => setMounted(false);
-  }, []);
+  }, [mounted, location]);
 
   const signOut = async () => {
     try {

@@ -1,6 +1,7 @@
-import { Button } from '@/components/ui/button';
 import { Quiz } from '@/domain/entities/Quiz';
 import { appContainer } from '@/infrastructure/config/AppContainer';
+import { Box, Typography, Container, Alert, Button } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -60,54 +61,76 @@ export default function QuizMode() {
     }
   };
 
-  if (!quiz) return <div>Chargement...</div>;
+  if (!quiz)
+    return (
+      <Box display="flex" justifyContent="center">
+        <Typography>Chargement...</Typography>
+      </Box>
+    );
 
   const currentQ = quiz.questions[currentQuestion];
   [...currentQ.wrongAnswers, currentQ.correctAnswer].sort(() => Math.random() - 0.5);
 
   return (
-    <div className="mx-auto max-w-2xl p-4">
-      {error && <div className="text-red-500">{error}</div>}
-      {!showResult ? (
-        <>
-          <div className="mb-4">
-            <div className="mb-4 text-xl font-bold">
-              Question {currentQuestion + 1}/{quiz?.questions.length}
-            </div>
-            <div className="mb-6 text-lg">{quiz?.questions[currentQuestion].question}</div>
-            <div className="space-y-2">
-              {answersOrder.map((answer, index) => (
-                <Button
-                  key={index}
-                  onClick={() => handleAnswer(answer)}
-                  className={`w-full p-4 text-gray-800 hover:text-white ${
-                    selectedAnswer === answer
-                      ? answer === quiz?.questions[currentQuestion].correctAnswer
-                        ? 'bg-green-500'
-                        : 'bg-red-500'
-                      : 'bg-gray-100'
-                  }`}
-                  disabled={selectedAnswer !== null}
-                >
-                  {answer}
-                </Button>
-              ))}
-            </div>
-            {selectedAnswer && (
-              <Button onClick={nextQuestion} className="mt-4">
-                Question suivante
-              </Button>
-            )}
-          </div>
-        </>
-      ) : (
-        <div className="text-center">
-          <h2 className="mb-4 text-2xl font-bold">Quiz terminé !</h2>
-          <p className="text-xl">
-            Score: {score}/{quiz.questions.length}
-          </p>
-        </div>
-      )}
-    </div>
+    <Container maxWidth="md">
+      <Box py={4}>
+        {error && <Alert severity="error">{error}</Alert>}
+        {!showResult ? (
+          <Stack spacing={4}>
+            <Box>
+              <Typography variant="h5" gutterBottom>
+                Question {currentQuestion + 1}/{quiz?.questions.length}
+              </Typography>
+              <Typography variant="h6" mb={3}>
+                {quiz?.questions[currentQuestion].question}
+              </Typography>
+              <Stack spacing={2}>
+                {answersOrder.map((answer, index) => (
+                  <Box display={'flex'} flexDirection={'column'} key={index}>
+                    Réponse {index + 1}
+                    <button
+                      key={index}
+                      onClick={() => handleAnswer(answer)}
+                      className={`flex rounded-lg border-2 border-black p-4 text-left text-gray-800 ${
+                        selectedAnswer === answer
+                          ? answer === quiz?.questions[currentQuestion].correctAnswer
+                            ? 'bg-green-500'
+                            : 'bg-red-500'
+                          : 'd bg-gray-200'
+                      }`}
+                      disabled={selectedAnswer !== null}
+                    >
+                      {answer}
+                    </button>
+                  </Box>
+                ))}
+              </Stack>
+              {selectedAnswer && (
+                <Box mt={4}>
+                  <Button
+                    variant="contained"
+                    sx={{ fontWeight: 'bold', textTransform: 'none' }}
+                    color="primary"
+                    onClick={nextQuestion}
+                    fullWidth
+                  >
+                    Question suivante
+                  </Button>
+                </Box>
+              )}
+            </Box>
+          </Stack>
+        ) : (
+          <Box textAlign="center">
+            <Typography variant="h4" gutterBottom>
+              Quiz terminé !
+            </Typography>
+            <Typography variant="h5">
+              Score: {score}/{quiz.questions.length}
+            </Typography>
+          </Box>
+        )}
+      </Box>
+    </Container>
   );
 }

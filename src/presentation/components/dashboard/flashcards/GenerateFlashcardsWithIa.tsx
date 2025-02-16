@@ -1,5 +1,4 @@
 import { Flashcard } from '@/domain/entities/Flashcard';
-import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import {
   Input as MuiInput,
@@ -11,10 +10,8 @@ import {
 } from '@mui/joy';
 import Slider from '@mui/joy/Slider';
 import { styled } from '@mui/system';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
-const flashcardRepository = new SupabaseFlashCardRepository();
 
 // Styled components using MUI Joy
 const Input = styled(MuiInput)(({ theme }) => ({
@@ -44,15 +41,20 @@ export function GenerateFlashCardWithIa() {
   const [generatedCards, setGeneratedCards] = useState<Flashcard[]>([]);
   const [number, setNumber] = useState(10);
 
-  useEffect(() => {
-    async function fetchData() {
-      if (deckId) {
+  const fetchData = useCallback(async () => {
+    if (deckId) {
+      try {
         const folder = await appContainer.getFolderService().getFolderById(deckId);
         setTopic(folder.name);
+      } catch (e: unknown) {
+        setError((e as Error).message || 'An unexpected error occurred.');
       }
     }
-    fetchData();
   }, [deckId]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const generateFlashcards = async () => {
     setLoading(true);
@@ -62,20 +64,31 @@ export function GenerateFlashCardWithIa() {
       const result = await appContainer
         .getFlashcardService()
         .generateFlashcards(topic, number, lang);
-      setGeneratedCards(result);
 
-      // L'utilisateur il puisse avoir la possibilité d'édité la donnée avant de la submit
-      if (deckId) {
-        await flashcardRepository.storeQuiz(deckId, result);
+      // Assuming the service returns a JSON string, parse it
+      const parsedResult = typeof result === 'string' ? JSON.parse(result) : result;
+
+      // Check if parsedResult is an array before setting the state
+      if (Array.isArray(parsedResult)) {
+        setGeneratedCards(parsedResult);
+      } else if (typeof parsedResult === 'object' && parsedResult !== null) {
+        // If it's an object, create an array containing that object
+        setGeneratedCards([parsedResult]);
+      } else {
+        setError('Erreur lors de la génération des flashcards: Données invalides.');
       }
-    } catch {
+    } catch (e: unknown) {
       setError('Erreur lors de la génération des flashcards');
+      console.error('Flashcard generation failed:', e);
     } finally {
       setLoading(false);
     }
   };
 
   const handleSubmit = async () => {
+    if (!generateFlashcards) {
+      return;
+    }
     try {
       for (const card of generatedCards) {
         await appContainer.getFlashcardService().createFlashcard({
@@ -83,11 +96,15 @@ export function GenerateFlashCardWithIa() {
           question: card.question,
           answer: card.answer,
           ia_generated: true,
+          wrong_one: card.wrong_one,
+          wrong_two: card.wrong_two,
+          wrong_three: card.wrong_three,
         });
       }
       navigate(`/dashboard/folders/${deckId}`);
-    } catch {
+    } catch (e: unknown) {
       setError('Erreur lors de la sauvegarde');
+      console.error('Flashcard save failed:', e);
     }
   };
 
@@ -162,10 +179,13 @@ export function GenerateFlashCardWithIa() {
       {generatedCards.length > 0 && (
         <>
           <Box sx={{ spaceY: 2 }}>
-            {generatedCards.map((card, index) => (
+            {generatedCards.map((card: Flashcard, index: number) => (
               <FlashcardItem key={index}>
                 <Typography>
-                  <strong>Question:</strong> {card.question}
+                  <strong>Question:</strong>
+                  <Input type="text" value={card.question}>
+                    {card.question}
+                  </Input>
                 </Typography>
                 <Typography>
                   <strong>Réponse:</strong> {card.answer}

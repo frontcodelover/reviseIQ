@@ -1,13 +1,12 @@
-import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from '@/presentation/context/AuthContext';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { AppRoutes } from './routes/routes';
-import { THEME_ID as MATERIAL_THEME_ID } from '@mui/material/styles';
+import { theme as joyTheme } from '@/presentation/components/ui/theme/ThemeMui';
+import { AppProvider } from '@/routes/AppProvider';
 import { CssVarsProvider as JoyCssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { theme as joyTheme } from '@/presentation/components/ui/theme/ThemeMui';
-import themeMuiCore from './presentation/components/ui/theme/ThemeMuiCore';
+import { THEME_ID as MATERIAL_THEME_ID } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+import themeMuiCore from './presentation/components/ui/theme/ThemeMuiCore';
 
 export const App = () => {
   const queryClient = new QueryClient();
@@ -17,11 +16,7 @@ export const App = () => {
       <JoyCssVarsProvider disableTransitionOnChange theme={joyTheme} defaultMode="dark">
         <CssBaseline enableColorScheme />
         <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
-            <AuthProvider>
-              <AppRoutes />
-            </AuthProvider>
-          </BrowserRouter>
+          <AppProvider />
         </QueryClientProvider>
       </JoyCssVarsProvider>
     </ThemeProvider>

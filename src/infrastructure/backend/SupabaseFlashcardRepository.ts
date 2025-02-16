@@ -32,7 +32,6 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
         console.error('Error fetching flashcards:', error);
         throw error;
       }
-
       return data || [];
     } catch (error) {
       console.error('Error in getFlashcards:', error);
@@ -47,19 +46,21 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
     }
 
     const client = new Mistral({ apiKey });
-    const prompt = `Génère un maximum de ${number} flashcards pour apprendre ${topic} dans la langue ${lang}. Les fausses réponses devront faire la quasi meme taille que la vraie réponse. Donne l'ensemble de toutes les flashcard un objet JSON format sous cette forme UNIQUEMENT : '
-		{
-		"Question" : "...",
-		 "Réponse" : "...",
-		 "Mauvaise réponse 1" : "...",
-		 "Mauvaise réponse 2" : "...",
-		 "Mauvaise réponse 3" : "..."
-		},'`;
+    const prompt = `Génère un maximum de ${number} questions/reponses pour apprendre ${topic} dans la langue ${lang}. Les fausses réponses devront faire la quasi meme taille que la vraie réponse. Donne l'ensemble de toutes les flashcard sous ce format : '
+		[{
+		"question" : "...",
+		 "answer" : "...",
+		 "wrong_one" : "...",
+		 "wrong_two" : "...",
+		 "wrong_three" : "..."
+	}]'
+		Tu feras ça pour le nombre de flashcards  demandé.
+		`;
 
-    let flashcards: Flashcard[] = [];
     try {
       const result = await client.chat.complete({
         model: 'mistral-small-latest',
+        responseFormat: { type: 'json_object' },
         messages: [{ role: 'user', content: prompt }],
       });
 
@@ -67,76 +68,40 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
         throw new Error('Format de réponse invalide');
       }
       const content = result.choices[0].message.content as string;
-      flashcards = this.parseFlashcards(content);
 
-      console.warn('Flashcards générées:', flashcards);
-      return flashcards;
+      console.warn('Flashcards générées:', content);
+      return JSON.parse(content);
     } catch (error) {
       console.error('Erreur détaillée:', error);
       throw error;
     }
   }
 
-  private parseFlashcards(content: string): Flashcard[] {
-    try {
-      // Nettoyer le markdown et le format JSON
-      const cleanContent = content
-        .replace(/```json/g, '')
-        .replace(/```/g, '')
-        .trim();
+  // async storeQuiz(deckId: string, flashcards: Flashcard[]): Promise<void> {
+  //   const quiz = flashcards.map((card) => ({
+  //     question: card.question,
+  //     correctAnswer: card.answer,
+  //     wrongAnswers: card.wrongAnswers,
+  //   }));
 
-      // Ajouter les crochets pour créer un tableau valide si nécessaire
-      const jsonContent = cleanContent.startsWith('[') ? cleanContent : `[${cleanContent}]`;
-
-      // Supprimer la virgule finale si elle existe avant le crochet final
-      const validJsonContent = jsonContent.replace(/,(\s*})*\s*\]$/, '$1]');
-
-      // Parser le JSON
-      const parsedContent = JSON.parse(validJsonContent);
-
-      // Vérifier si c'est un tableau
-      if (!Array.isArray(parsedContent)) {
-        console.error('Format JSON invalide: attendu un tableau');
-        return [];
-      }
-
-      return parsedContent.map((card) => ({
-        question: card.Question,
-        answer: card.Réponse || card.Answer,
-        wrongAnswers: [
-          card['Mauvaise réponse 1'] || card['Wrong answer 1'],
-          card['Mauvaise réponse 2'] || card['Wrong answer 2'],
-          card['Mauvaise réponse 3'] || card['Wrong answer 3'],
-        ],
-      }));
-    } catch (error) {
-      console.error('Erreur parsing JSON:', error, '\nContenu:', content);
-      return [];
-    }
-  }
-
-  async storeQuiz(deckId: string, flashcards: Flashcard[]): Promise<void> {
-    const quiz = flashcards.map((card) => ({
-      question: card.question,
-      correctAnswer: card.answer,
-      wrongAnswers: card.wrongAnswers,
-    }));
-
-    try {
-      const { error } = await supabase.from('quizzes').insert([{ deck_id: deckId, quiz }]);
-      if (error) {
-        console.error('Error storing quiz:', error);
-        throw error;
-      }
-    } catch (error) {
-      console.error('Error in storeQuiz:', error);
-      throw error;
-    }
-  }
+  //   try {
+  //     const { error } = await supabase.from('quizzes').insert([{ deck_id: deckId, quiz }]);
+  //     if (error) {
+  //       console.error('Error storing quiz:', error);
+  //       throw error;
+  //     }
+  //   } catch (error) {
+  //     console.error('Error in storeQuiz:', error);
+  //     throw error;
+  //   }
+  // }
 
   async getQuizByFolderId(folderId: string): Promise<Quiz | null> {
     try {
-      const { data, error } = await supabase.from('quizzes').select('*').eq('deck_id', folderId);
+      const { data, error } = await supabase
+        .from('flashcards')
+        .select('id, deck_id, question, answer, wrong_one, wrong_two, wrong_three')
+        .eq('deck_id', folderId);
 
       if (error) {
         console.error('Erreur lors de la récupération du quiz:', error);
@@ -147,20 +112,23 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
         return null;
       }
 
-      // Prendre le dernier quiz créé
-      const latestQuiz = data[data.length - 1];
+      // Transforme les données pour correspondre à la structure de Quiz
+      const questions = data.map((item) => ({
+        question: item.question,
+        correctAnswer: item.answer,
+        wrongAnswers: [item.wrong_one, item.wrong_two, item.wrong_three].filter(
+          (a) => a !== null && a !== undefined && a !== item.answer
+        ), // Filtre les réponses vides et la réponse correcte
+      }));
 
-      return {
-        id: latestQuiz.id,
-        deck_id: latestQuiz.deck_id,
-        questions: latestQuiz.quiz.map(
-          (q: { question: string; correctAnswer: string; wrongAnswers: string[] }) => ({
-            question: q.question,
-            correctAnswer: q.correctAnswer,
-            wrongAnswers: q.wrongAnswers,
-          })
-        ),
+      // Créer l'objet Quiz
+      const quiz: Quiz = {
+        id: folderId, // Utilise folderId comme ID du quiz, car il n'y a pas d'ID de quiz unique dans les données
+        deck_id: folderId,
+        questions: questions,
       };
+
+      return quiz;
     } catch (error) {
       console.error('Erreur dans getQuizByDeckId:', error);
       throw error;

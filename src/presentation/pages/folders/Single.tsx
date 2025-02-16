@@ -1,10 +1,17 @@
 import SingleFolder from '@/presentation/components/dashboard/folders/SingleFolder';
-import { useParams } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 
-function SinglePageFolder() {
-  const { id } = useParams();
-
-  return <SingleFolder id={id} />;
+interface Params {
+  id: string;
 }
 
-export default SinglePageFolder;
+export async function folderLoader({ params }: { params: Params }) {
+  const { id } = params;
+  return { id };
+}
+
+export default function SinglePageFolder() {
+  // Récupération des données fournies par le loader
+  const { id } = useLoaderData();
+  return <SingleFolder id={id} />;
+}
