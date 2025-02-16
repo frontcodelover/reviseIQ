@@ -13,6 +13,8 @@ import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 
+import { useUserDeckStore } from './userDecksStore';
+
 interface GroupedDecks {
   [key: string]: Folder[];
 }
@@ -25,19 +27,22 @@ const Link = styled(RouterLink)({
   },
 });
 
-const ChevronDown = styled(ChevronDownIcon)<{ isOpen: boolean }>(({ isOpen }) => ({
-  transform: isOpen ? 'none' : 'rotate(-90deg)',
-  transition: 'transform 0.2s ease-in-out', // Optional: Add a smooth transition
+const ChevronDown = styled(ChevronDownIcon)(() => ({
+  transition: 'transform 0.2s ease-in-out',
 }));
 
 const ThemaGroup = ({ thema, decks }: ThemaGroupProps) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const { isOpen, toggleIsOpen } = useUserDeckStore();
 
   return (
     <Card variant="outlined" sx={{ width: '100%', mb: 2 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', p: 2 }}>
-        <IconButton onClick={() => setIsOpen(!isOpen)} size="sm" variant="plain" color="neutral">
-          <ChevronDown isOpen={isOpen} />
+        <IconButton onClick={toggleIsOpen} size="sm" variant="plain" color="neutral">
+          <ChevronDown
+            sx={{
+              transform: isOpen ? 'none' : 'rotate(-90deg)',
+            }}
+          />
         </IconButton>
         <Typography level="h3" sx={{ flexGrow: 1, ml: 1, fontSize: '1.25rem' }}>
           {thema}
