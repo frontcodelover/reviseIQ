@@ -10,68 +10,49 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
+import { MenuItems } from '@/presentation/components/dashboard/shared/layout/MenuItems';
+import Notification from '@/presentation/components/dashboard/shared/layout/Notification';
 import { SearchForm } from '@/presentation/components/dashboard/shared/layout/Search.form';
-import { VersionSwitcher } from '@/presentation/components/dashboard/shared/layout/Switcher';
-import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
-import GroupRoundedIcon from '@mui/icons-material/GroupRounded';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link, useLocation } from 'react-router-dom';
+
+import { SidebarFooter } from './SidebarFooter';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { t } = useTranslation();
-  const data = {
-    versions: ['1.0.1', '1.1.0-alpha', '2.0.0-beta1'],
-    navMain: [
-      {
-        title: 'Building Your Application',
-        url: '/dashboard',
-        items: [
-          {
-            title: t('dashboard.home'),
-            url: '/dashboard',
-            icon: HomeRoundedIcon,
-          },
-          {
-            title: t('dashboard.deck'),
-            url: '/dashboard/folders',
-            icon: DashboardRoundedIcon,
-          },
-          {
-            title: t('dashboard.community'),
-            url: '/dashboard/community',
-            isActive: true,
-            icon: GroupRoundedIcon,
-          },
-          {
-            title: t('dashboard.settings'),
-            url: '/dashboard/profile',
-            icon: SettingsRoundedIcon,
-          },
-        ],
-      },
-    ],
-  };
+  const location = useLocation();
+  const menu = MenuItems();
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <VersionSwitcher versions={data.versions} defaultVersion={data.versions[0]} />
+        <SidebarMenu>
+          <div className="p-2">
+            <SidebarMenuItem>
+              <div className="flex items-center justify-between gap-0.5 leading-none">
+                <span className="font-semibold">{t('title')}</span>
+                <Notification />
+              </div>
+            </SidebarMenuItem>
+          </div>
+        </SidebarMenu>
         <SearchForm />
       </SidebarHeader>
+
       <SidebarContent>
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
+        {menu.navMain.map((group) => (
+          <SidebarGroup key={group.title}>
+            <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item.items.map((item) => (
+                {group.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.isActive}>
-                      <a href={item.url}>
+                    <SidebarMenuButton asChild isActive={location.pathname === item.url}>
+                      <Link to={item.url}>
                         {item.icon && <item.icon />}
                         {item.title}
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -80,6 +61,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroup>
         ))}
       </SidebarContent>
+      <SidebarFooter />
       <SidebarRail />
     </Sidebar>
   );
