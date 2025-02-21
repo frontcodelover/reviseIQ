@@ -61,7 +61,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroup>
         ))}
       </SidebarContent>
-      <SidebarFooter />
+      <div className="p-2">
+        <SidebarFooter />
+      </div>
       <SidebarRail />
     </Sidebar>
   );

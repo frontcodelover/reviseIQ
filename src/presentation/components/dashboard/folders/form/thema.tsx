@@ -1,65 +1,46 @@
-import { Button, Box, useTheme } from '@mui/joy';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-
-import { ThemaLabelKeys } from './themaLabel';
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ThemaLabelKeys, type ThemaKey } from './themaLabel'
 
 interface ThemaProps {
-  setThema: (value: string) => void;
-  value: string;
+  setThema: (value: ThemaKey) => void
+  value: ThemaKey
 }
 
-const Thema: React.FC<ThemaProps> = ({ setThema, value: initialValue }) => {
-  const { t } = useTranslation();
-  const [selectedValue, setSelectedValue] = useState(
-    initialValue || t('dashboard.folder.thema.other')
-  );
+export function Thema({ setThema, value: initialValue }: ThemaProps) {
+  const { t } = useTranslation()
+  const [selectedValue, setSelectedValue] = useState<ThemaKey>(
+    initialValue || "OTHER"
+  )
 
-  const ThemaLabel = ThemaLabelKeys.map((key) => ({
-    value: t(key),
-    label: t(key),
-  }));
-
-  const handleSelect = (value: string) => {
-    const selectedValue = value || t('dashboard.folder.thema.other');
-    setSelectedValue(selectedValue);
-    setThema(selectedValue);
-  };
-
-  const theme = useTheme(); // Use the useTheme hook
+  const handleSelect = (key: ThemaKey) => {
+    setSelectedValue(key)
+    setThema(key)
+  }
 
   return (
-    <Box sx={{ width: '100%', maxWidth: '100%', overflow: 'hidden' }}>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-        {ThemaLabel.map((themeLabel) => (
-          <Button
-            key={themeLabel.value}
-            size="sm"
-            onClick={() => handleSelect(themeLabel.value)}
-            sx={{
-              flexShrink: 0,
-              fontWeight: 'normal',
-              backgroundColor:
-                selectedValue === themeLabel.value
-                  ? theme.palette.primary.solidHoverBg
-                  : theme.palette.background.level2,
-              color: selectedValue === themeLabel.value ? 'white' : 'black',
-              '&:focus': {
-                backgroundColor: theme.palette.primary.solidHoverBg,
-                color: 'white',
-              },
-              '&:hover': {
-                backgroundColor: theme.palette.primary.solidHoverBg,
-                color: 'white',
-              },
-            }}
-          >
-            {themeLabel.label}
-          </Button>
-        ))}
-      </Box>
-    </Box>
-  );
-};
-
-export default Thema;
+    <div className="w-full max-w-full overflow-hidden">
+      <div className="flex flex-wrap gap-2">
+        {ThemaLabelKeys.map(({ key, i18nKey }) => {
+          const label = t(i18nKey)
+          return (
+            <Button
+              key={key}
+              size="sm"
+              variant={selectedValue === key ? "default" : "outline"}
+              onClick={() => handleSelect(key as ThemaKey)}
+              className={cn(
+                "shrink-0 font-normal",
+                selectedValue === key && "bg-primary text-primary-foreground"
+              )}
+            >
+              {label}
+            </Button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}

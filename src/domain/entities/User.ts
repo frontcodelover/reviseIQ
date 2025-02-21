@@ -1,4 +1,4 @@
-import { Folder } from '@/domain/entities/Folder';
+import { Folder } from './Folder';
 
 export interface User {
   id?: string;
@@ -33,14 +33,8 @@ export interface Validation {
   hasSpecialChar: boolean;
 }
 
-export interface ColorPickerProps {
-  selectedColor: string;
-  onSelectColor: (color: string) => void;
-  colors: string[];
-}
-
 export interface ThemaGroupProps {
-  thema: string;
+  thema: string; // C'est maintenant la valeur traduite
   decks: Folder[];
 }
 

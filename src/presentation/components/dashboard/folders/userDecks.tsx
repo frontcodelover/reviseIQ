@@ -18,11 +18,12 @@ interface GroupedDecks {
 }
 
 const ThemaGroup = ({ thema, decks }: ThemaGroupProps) => {
-  const { isOpen, toggleIsOpen } = useUserDeckStore();
+  const { isThemaOpen, toggleThema } = useUserDeckStore();
+  const isOpen = isThemaOpen(thema);
 
   return (
     <Card className="mb-4 w-full">
-      <Collapsible open={isOpen} onOpenChange={toggleIsOpen}>
+      <Collapsible open={isOpen} onOpenChange={() => toggleThema(thema)}>
         <div className="flex items-center p-4">
           <CollapsibleTrigger asChild>
             <Button variant="ghost" size="sm" className="h-9 w-9 p-0">
@@ -86,11 +87,15 @@ export function UserDecks() {
 
   const groupedDecks = useMemo(() => {
     return decks.reduce((groups: GroupedDecks, deck) => {
-      const thema = deck.thema || t('dashboard.folder.thema.other');
-      if (!groups[thema]) {
-        groups[thema] = [];
+      const themaKey = deck.thema || 'other';
+      // Utilisation de la clé de traduction complète
+      const translationKey = `dashboard.folder.thema.${themaKey.toLowerCase()}`;
+      const translatedThema = t(translationKey);
+
+      if (!groups[translatedThema]) {
+        groups[translatedThema] = [];
       }
-      groups[thema].push(deck);
+      groups[translatedThema].push(deck);
       return groups;
     }, {});
   }, [decks, t]);

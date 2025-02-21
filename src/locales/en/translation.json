@@ -100,14 +100,14 @@
       },
       "thema": {
         "search": "Search a theme",
-        "sciences_technologies": "Sciences and Technologies",
-        "sciences_humaines": "Humanities and Social Sciences",
-        "arts_culture_design": "Arts, Culture and Design",
-        "economy_law_politics": "Economy, Law and Politics",
-        "education_communication": "Education and Communication",
-        "environment_society": "Environment and Society",
-        "health_sports": "Health and Sports",
-        "other": "Other"
+        "sciences_tech": "Science and technology",
+        "sciences_humaines": "Human sciences",
+        "arts_culture": "Arts, culture and design",
+        "economy_law": "Economy, law and politics",
+        "education": "Education and communication",
+        "environment": "Environment and society",
+        "health": "Health and sport",
+        "other": "Autre"
       }
     },
     "firstimeForm": {

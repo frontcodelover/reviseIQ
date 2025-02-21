@@ -1,6 +1,6 @@
 import { FormData } from '@/domain/entities/Folder';
 import { appContainer } from '@/infrastructure/config/AppContainer';
-import Thema from '@/presentation/components/dashboard/folders/form/thema';
+import { Thema } from '@/presentation/components/dashboard/folders/form/thema';
 import { Box, Button, FormControl, FormLabel, Input, Switch, Textarea } from '@mui/joy';
 import Typography from '@mui/joy/Typography';
 import { useState } from 'react';
@@ -97,7 +97,20 @@ function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
 
             <FormControl>
               <FormLabel>Thème</FormLabel>
-              <Thema setThema={(value) => handleChange('thema', value)} value={formData.thema} />
+              <Thema
+                setThema={(value) => handleChange('thema', value)}
+                value={
+                  formData.thema as
+                    | 'OTHER'
+                    | 'SCIENCES_TECHNOLOGIES'
+                    | 'SCIENCES_HUMAINES'
+                    | 'ARTS_CULTURE'
+                    | 'ECONOMY_LAW'
+                    | 'EDUCATION'
+                    | 'ENVIRONMENT'
+                    | 'HEALTH'
+                }
+              />
             </FormControl>
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, my: 2 }}>
