@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, Link } from 'react-router-dom';
 import { z } from 'zod';
 
+//! need refactor
 function validatePassword(password: string) {
   return {
     hasUpperCase: /[A-Z]/.test(password),
@@ -23,6 +24,7 @@ function validatePassword(password: string) {
   };
 }
 
+//! need refactor
 const formSchema = z
   .object({
     email: z.string().email(),
