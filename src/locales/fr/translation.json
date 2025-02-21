@@ -126,6 +126,14 @@
         "health_sports": "Santé et sport",
         "other": "Autre"
       }
+    },
+    "communityTable": {
+      "name": "Nom",
+      "thema": "Thèmatique",
+      "creator": "Créateur",
+      "created": "Créé le",
+      "lang": "Langue",
+      "flashcards": "Flashcards"
     }
   }
 }

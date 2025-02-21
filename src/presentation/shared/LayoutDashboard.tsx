@@ -34,7 +34,7 @@ export default function LayoutDashboard({ children }: { children: React.ReactNod
           </header>
           <div className="m-auto flex max-w-lg flex-1 flex-col gap-4 sm:max-w-7xl sm:p-6">
             {children}
-            <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+            <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
           </div>
         </SidebarInset>
       </SidebarProvider>

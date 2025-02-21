@@ -126,6 +126,14 @@
       "submit": "Submit",
       "loading": "Loading...",
       "avatar": "Select your avatar"
+    },
+    "communityTable": {
+      "name": "Nom",
+      "thema": "Thèmatique",
+      "creator": "Créateur",
+      "created": "Créé le",
+      "lang": "Langue",
+      "flashcards": "Flashcards"
     }
   }
 }
