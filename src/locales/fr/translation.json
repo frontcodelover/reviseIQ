@@ -121,13 +121,13 @@
       },
       "thema": {
         "search": "Rechercher un thème",
-        "sciences_technologies": "Sciences et technologies",
+        "sciences_tech": "Sciences et technologies",
         "sciences_humaines": "Sciences humaines et sociales",
-        "arts_culture_design": "Arts, culture et design",
-        "economy_law_politics": "Économie, droit et politique",
-        "education_communication": "Éducation et communication",
-        "environment_society": "Environnement et société",
-        "health_sports": "Santé et sport",
+        "arts_culture": "Arts, culture et design",
+        "economy_law": "Économie, droit et politique",
+        "education": "Éducation et communication",
+        "environment": "Environnement et société",
+        "health": "Santé et sport",
         "other": "Autre"
       }
     },

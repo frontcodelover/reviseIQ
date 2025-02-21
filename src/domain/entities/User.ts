@@ -1,4 +1,4 @@
-import { Folder } from '@/domain/entities/Folder';
+import { Folder } from './Folder';
 
 export interface User {
   id?: string;
@@ -34,7 +34,7 @@ export interface Validation {
 }
 
 export interface ThemaGroupProps {
-  thema: string;
+  thema: string; // C'est maintenant la valeur traduite
   decks: Folder[];
 }
 
