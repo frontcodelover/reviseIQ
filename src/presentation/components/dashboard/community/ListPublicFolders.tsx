@@ -1,10 +1,10 @@
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { useQuery } from 'react-query';
-import { FolderSchema, type Folder } from './Folder.schema';
-import { Pagination } from '../../ui/Pagination';
-import { FoldersDataTable } from './FoldersDataTable';
+import { FolderSchema, type Folder } from '@/presentation/components/dashboard/community/Folder.schema';
+import { Pagination } from '@/presentation/components/ui/Pagination';
+import { FoldersDataTable } from '@/presentation/components/dashboard/community/FoldersDataTable';
 import { useListPublicFoldersStore } from './store/ListPublicFoldersState.store';
-import { Spinner } from '../shared/Spinner';
+import { Spinner } from '@/presentation/components/dashboard/shared/Spinner';
 import { useTranslation } from 'react-i18next';
 
 export default function ListPublicFolders() {

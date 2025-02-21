@@ -1,3 +1,4 @@
+import { AppSidebar } from '@/presentation/components/dashboard/shared/layout/Sidebar';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -5,10 +6,13 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import { Separator } from '@/components/ui/separator';
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/presentation/components/dashboard/shared/layout/Sidebar';
+} from '@/presentation/components/ui/breadcrumb';
+import { Separator } from '@/presentation/components/ui/separator';
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/presentation/components/ui/sidebar';
 import React from 'react';
 
 export default function LayoutDashboard({ children }: { children: React.ReactNode }) {

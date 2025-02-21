@@ -20,7 +20,7 @@ ReviseIQ is a modern flashcard application that helps students learn and revise 
 ## Technologies 🛠
 
 - React + TypeScript
-- <del>Tailwind CSS</del> => MUI
+- <del>MUI</del> => Tailwind + ShadCN
 - Supabase (Backend & Auth)
 - Mistral AI API
 - i18n (English/French)

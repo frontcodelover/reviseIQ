@@ -1,7 +1,7 @@
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { appContainer } from '@/infrastructure/config/AppContainer';
+import { Alert, AlertDescription, AlertTitle } from '@/presentation/components/ui/alert';
+import { Button } from '@/presentation/components/ui/button';
+import { Input } from '@/presentation/components/ui/input';
 import { useAuth } from '@/presentation/context/AuthContext';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@radix-ui/react-label';

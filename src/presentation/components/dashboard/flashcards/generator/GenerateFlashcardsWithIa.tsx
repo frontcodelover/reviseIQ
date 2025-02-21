@@ -1,11 +1,11 @@
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
-import { Slider } from '@/components/ui/slider';
 import { Flashcard } from '@/domain/entities/Flashcard';
 import { appContainer } from '@/infrastructure/config/AppContainer';
+import { Button } from '@/presentation/components/ui/button';
+import { Card } from '@/presentation/components/ui/card';
+import { Input } from '@/presentation/components/ui/input';
+import { Label } from '@/presentation/components/ui/label';
+import { Progress } from '@/presentation/components/ui/progress';
+import { Slider } from '@/presentation/components/ui/slider';
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
