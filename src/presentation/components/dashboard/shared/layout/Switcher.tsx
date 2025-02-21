@@ -3,8 +3,12 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+} from '@/presentation/components/ui/dropdown-menu';
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '@/presentation/components/ui/sidebar';
 import { Check, ChevronsUpDown, GalleryVerticalEnd } from 'lucide-react';
 import * as React from 'react';
 

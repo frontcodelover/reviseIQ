@@ -1,12 +1,12 @@
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { validatePassword } from '@/lib/ValidatePassword';
 import { PasswordTooltip } from '@/presentation/components/auth/signup/form/PasswordTooltip';
 import { formSchema } from '@/presentation/components/auth/signup/form/SignupForm.schema';
+import { Alert, AlertDescription, AlertTitle } from '@/presentation/components/ui/alert';
+import { Button } from '@/presentation/components/ui/button';
+import { Checkbox } from '@/presentation/components/ui/checkbox';
+import { Input } from '@/presentation/components/ui/input';
+import { Label } from '@/presentation/components/ui/label';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertCircle, Loader2 } from 'lucide-react';
 import { useState } from 'react';

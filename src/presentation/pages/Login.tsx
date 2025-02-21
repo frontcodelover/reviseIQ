@@ -1,7 +1,7 @@
-import { Card } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import LoginForm from '@/presentation/components/auth/login/form/LoginForm';
 import OAuthLogin from '@/presentation/components/auth/provider/OAuthLogin';
+import { Card } from '@/presentation/components/ui/card';
+import { Separator } from '@/presentation/components/ui/separator';
 import { Brain } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Trans } from 'react-i18next';

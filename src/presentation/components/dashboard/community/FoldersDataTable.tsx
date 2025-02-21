@@ -6,7 +6,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/presentation/components/ui/table"
 import { formatDate } from '@/lib/FormatDate'
 import { type Folder } from '@/presentation/components/dashboard/community/Folder.schema'
 import { useTranslation } from "react-i18next"

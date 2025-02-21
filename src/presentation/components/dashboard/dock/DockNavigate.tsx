@@ -8,13 +8,13 @@ import {
   ArrowRight,
   Shuffle,
 } from 'lucide-react';
-import { Button } from "@/components/ui/button";
+import { Button } from "@/presentation/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/presentation/components/ui/tooltip";
 import { type Flashcard } from '@/domain/entities/Flashcard';
 import { cn } from "@/lib/utils";
 

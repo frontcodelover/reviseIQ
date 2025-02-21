@@ -1,13 +1,17 @@
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Folder } from '@/domain/entities/Folder';
 import { ThemaGroupProps } from '@/domain/entities/User';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { cn } from '@/lib/utils';
 import CardNewFolder from '@/presentation/components/dashboard/folders/newFolder/CardNewFolder';
 import { useUserDeckStore } from '@/presentation/components/dashboard/folders/store/userDecksStore';
+import { Alert, AlertDescription, AlertTitle } from '@/presentation/components/ui/alert';
+import { Button } from '@/presentation/components/ui/button';
+import { Card, CardContent } from '@/presentation/components/ui/card';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/presentation/components/ui/collapsible';
 import { ChevronDown, Terminal } from 'lucide-react';
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

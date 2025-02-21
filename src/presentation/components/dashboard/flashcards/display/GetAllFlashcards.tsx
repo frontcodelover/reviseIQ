@@ -1,10 +1,10 @@
-import { Card } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import { Flashcard } from '@/domain/entities/Flashcard';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { cn } from '@/lib/utils';
 import { DockNavigate } from '@/presentation/components/dashboard/dock/DockNavigate';
 import EndCard from '@/presentation/components/dashboard/flashcards/display/LastFlashcard';
+import { Card } from '@/presentation/components/ui/card';
+import { Progress } from '@/presentation/components/ui/progress';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
