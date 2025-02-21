@@ -24,6 +24,7 @@
   },
   "auth": {
     "baseline": "Envie de réussir d'apprendre efficacement ?<br /> ReviseIQ votre meilleur atout pour réussir !",
+    "or": "ou",
     "signInWithGoogle": "Se connecter avec Google",
     "signup": "S'insrire gratuitement",
     "password": "Mot de passe",
@@ -44,6 +45,8 @@
     "alreadySignup": "Vous avez déjà un compte ? Se connecter",
     "passwordMatch": "Les mots de passe ne correspondent pas",
     "passwordInvalid": "Le mot de passe ne respecte pas les critères de sécurité",
+    "dontHaveAccount": "Vous n'avez pas de compte ?",
+    "haveAccount": "Vous avez déjà un compte ?",
     "errorSignup": "Erreur lors de l'inscription",
     "acceptTerms": "J'accepte les",
     "terms": "conditions générales d'utilisation",

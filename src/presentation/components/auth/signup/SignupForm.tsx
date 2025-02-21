@@ -1,195 +1,190 @@
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { PasswordTooltip } from '@/presentation/components/auth/signup/form/PasswordTooltip';
-import {
-  TextField,
-  Button,
-  Typography,
-  CircularProgress,
-  Box,
-  Checkbox,
-  FormControlLabel,
-} from '@mui/material';
-import React, { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AlertCircle, Loader2 } from 'lucide-react';
+import { useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, Link } from 'react-router-dom';
+import { z } from 'zod';
 
-const validateEmail = (email: string) => {
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  return emailRegex.test(email);
-};
-
-const validatePassword = (password: string) => {
-  const minLength = password.length >= 6;
-  const hasUpperCase = /[A-Z]/.test(password);
-  const hasLowerCase = /[a-z]/.test(password);
-  const hasNumber = /[0-9]/.test(password);
-  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
+function validatePassword(password: string) {
   return {
-    isValid: minLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar,
-    minLength,
-    hasUpperCase,
-    hasLowerCase,
-    hasNumber,
-    hasSpecialChar,
+    hasUpperCase: /[A-Z]/.test(password),
+    hasLowerCase: /[a-z]/.test(password),
+    hasNumber: /[0-9]/.test(password),
+    hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+    minLength: password.length >= 6,
   };
-};
+}
+
+const formSchema = z
+  .object({
+    email: z.string().email(),
+    password: z
+      .string()
+      .min(6)
+      .regex(/[A-Z]/, { message: 'Doit contenir une majuscule' })
+      .regex(/[a-z]/, { message: 'Doit contenir une minuscule' })
+      .regex(/[0-9]/, { message: 'Doit contenir un chiffre' })
+      .regex(/[!@#$%^&*(),.?":{}|<>]/, { message: 'Doit contenir un caractère spécial' }),
+    confirmPassword: z.string(),
+    terms: z.boolean().refine((val) => val === true, {
+      message: 'Vous devez accepter les conditions',
+    }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Les mots de passe ne correspondent pas',
+    path: ['confirmPassword'],
+  });
 
 function SignupForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [emailTouched, setEmailTouched] = useState(false);
-  const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false);
-  const [termsAccepted, setTermsAccepted] = useState(false);
-  const navigate = useNavigate();
-
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [error, setError] = useState('');
+
+  const { handleSubmit, control, formState, watch } = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+      terms: false,
+    },
+  });
+
+  const password = watch('password');
   const passwordValidation = validatePassword(password);
-  const passwordsMatch = password === confirmPassword;
-  const isFormValid =
-    validateEmail(email) && passwordValidation.isValid && passwordsMatch && termsAccepted;
 
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!passwordValidation.isValid) {
-      setError(t('auth.passwordInvalid'));
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      await appContainer.getAuthService().signUp(email, password);
+      await appContainer.getAuthService().signUp(data.email, data.password);
       navigate('/login');
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message || t('auth.errorSignup'));
+        setError(err.message || "Erreur lors de l'inscription");
       } else {
-        setError(t('auth.errorSignup'));
+        setError("Erreur lors de l'inscription");
       }
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSignUp}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '400px',
-        margin: '0 auto',
-        gap: 1,
-        padding: 2,
-      }}
-    >
-      <TextField
-        label={t('auth.email')}
-        type="email"
-        autoComplete="email"
-        value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-          setEmailTouched(true);
-        }}
-        disabled={loading}
-        variant="outlined"
-        margin="normal"
-        required
-        error={emailTouched && !validateEmail(email)}
-        helperText={emailTouched && !validateEmail(email) ? t('auth.emailInvalid') : ''}
-      />
+    <div className="flex h-full flex-col items-center justify-center">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
+        <div className="space-y-4">
+          <div className="space-y-1">
+            <Label htmlFor="email">{t('auth.email')}</Label>
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  type="email"
+                  autoComplete="email"
+                  disabled={formState.isSubmitting}
+                  aria-invalid={!!formState.errors.email}
+                  className={formState.errors.email ? 'border-red-500' : ''}
+                  {...field}
+                />
+              )}
+            />
+          </div>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'end' }}>
-        <PasswordTooltip validation={passwordValidation} />
-      </Box>
-      <TextField
-        label={t('auth.password')}
-        type="password"
-        autoComplete="new-password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        disabled={loading}
-        variant="outlined"
-        margin="normal"
-        required
-      />
-      <TextField
-        label={t('auth.passwordConfirm')}
-        type="password"
-        autoComplete="new-password"
-        value={confirmPassword}
-        onChange={(e) => {
-          setConfirmPassword(e.target.value);
-          setConfirmPasswordTouched(true);
-        }}
-        disabled={loading}
-        variant="outlined"
-        margin="normal"
-        required
-        error={confirmPasswordTouched && !passwordsMatch}
-        helperText={confirmPasswordTouched && !passwordsMatch ? t('auth.passwordMatch') : ''}
-      />
+          <div className="space-y-1">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">{t('auth.password')}</Label>
+              <PasswordTooltip validation={passwordValidation} />
+            </div>
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  type="password"
+                  autoComplete="new-password"
+                  disabled={formState.isSubmitting}
+                  aria-invalid={!!formState.errors.password}
+                  className={formState.errors.password ? 'border-red-500' : ''}
+                  {...field}
+                />
+              )}
+            />
+          </div>
 
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={termsAccepted}
-            onChange={(e) => setTermsAccepted(e.target.checked)}
-            name="terms"
-            color="primary"
-            required
-          />
-        }
-        label={
-          <Typography variant="body2">
-            {t('auth.acceptTerms')} <Link to="#">{t('auth.terms')}</Link>
-          </Typography>
-        }
-      />
+          <div className="space-y-1">
+            <Label htmlFor="confirmPassword">{t('auth.passwordConfirm')}</Label>
+            <Controller
+              name="confirmPassword"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  type="password"
+                  autoComplete="new-password"
+                  disabled={formState.isSubmitting}
+                  aria-invalid={!!formState.errors.confirmPassword}
+                  className={formState.errors.confirmPassword ? 'border-red-500' : ''}
+                  {...field}
+                />
+              )}
+            />
+          </div>
 
-      {error && (
-        <Typography variant="body2" color="error" mb={2}>
-          {error}
-        </Typography>
-      )}
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-        disabled={loading || !isFormValid}
-        sx={{
-          mt: 2,
-          textTransform: 'none',
-          fontWeight: 'bold',
-          backgroundColor: 'primary.dark',
-          color: '#fff',
-        }}
-      >
-        {loading ? <CircularProgress size={24} color="inherit" /> : t('auth.cta')}
-      </Button>
-      <Button
-        fullWidth
-        onClick={() => navigate('/login')}
-        disabled={loading}
-        sx={{
-          mt: 2,
-          textTransform: 'none',
-          fontWeight: 'bold',
-          backgroundColor: 'grey.300',
-          color: 'grey.900',
-        }}
-      >
-        {t('auth.alreadySignup')}
-      </Button>
-    </Box>
+          <div className="flex items-center space-x-2">
+            <Controller
+              name="terms"
+              control={control}
+              render={({ field }) => (
+                <Checkbox
+                  id="terms"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  aria-invalid={!!formState.errors.terms}
+                />
+              )}
+            />
+            <Label htmlFor="terms" className="text-sm">
+              {t('auth.acceptTerms')}{' '}
+              <Link to="#" className="underline underline-offset-4">
+                {t('auth.terms')}
+              </Link>
+            </Label>
+          </div>
+          {formState.errors.terms && (
+            <p className="mt-1 text-sm text-destructive">{formState.errors.terms.message}</p>
+          )}
+        </div>
+
+        {error && (
+          <Alert variant="destructive" className="my-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Erreur</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        <div className="space-y-4">
+          <Button type="submit" className="w-full" disabled={formState.isSubmitting}>
+            {formState.isSubmitting ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              t('auth.cta')
+            )}
+          </Button>
+          <div className="mt-8 text-center text-sm">
+            {t('auth.haveAccount')}{' '}
+            <Link to="/login" className="underline underline-offset-4">
+              {t('auth.login')}
+            </Link>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 }
 
