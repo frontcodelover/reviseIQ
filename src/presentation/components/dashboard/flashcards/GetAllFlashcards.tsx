@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-import DockNavigate from '../dock/DockNavigate';
+import { DockNavigate } from '../dock/DockNavigate';
 import EndCard from './LastFlashcard';
 
 interface FlipCardProps {
