@@ -17,12 +17,18 @@ import {
 import { useProfile } from '@/presentation/hooks/useProfile';
 import { useHandleSignOut } from '@/presentation/hooks/useSignOut';
 import { BadgeCheck, ChevronsUpDown, LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export function SidebarFooter() {
   const { isMobile } = useSidebar();
+  const navigate = useNavigate();
 
   const handleSignOut = useHandleSignOut();
   const { profile } = useProfile();
+
+  const handleSettingsClick = () => {
+    navigate('/dashboard/profile');
+  };
 
   return (
     <SidebarMenu>
@@ -55,8 +61,14 @@ export function SidebarFooter() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <BadgeCheck />
-                Account
+                <Button
+                  onClick={handleSettingsClick}
+                  variant="ghost"
+                  className="w-full justify-start"
+                >
+                  <BadgeCheck className="mr-2 h-4 w-4" />
+                  Account
+                </Button>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
