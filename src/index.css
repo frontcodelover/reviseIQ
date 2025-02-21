@@ -149,3 +149,11 @@ abbr[title] {
 .react-calendar__tile--hasActivity:hover::before {
   background-color: rgb(34 197 94);
 }
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

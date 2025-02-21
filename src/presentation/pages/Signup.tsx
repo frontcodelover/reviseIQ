@@ -1,7 +1,7 @@
+import { Card } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import OAuthLogin from '@/presentation/components/auth/provider/OAuthLogin';
 import SignupForm from '@/presentation/components/auth/signup/SignupForm';
-import { Typography } from '@mui/joy';
-import { Box, Container, Divider, Grid2, Paper } from '@mui/material';
 import { Brain } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Trans } from 'react-i18next';
@@ -10,41 +10,34 @@ function SignUp() {
   const { t } = useTranslation();
 
   return (
-    <Container component="main" maxWidth="md">
-      <Paper elevation={3} sx={{ p: 6, my: 8 }}>
-        <Grid2 container spacing={2} justifyContent="center">
-          <Grid2 size={12}>
-            <Box textAlign="center" display={'flex'} flexDirection={'column'} gap={2}>
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                gap={1}
-                sx={{ color: '#007867' }}
-              >
-                <Brain size={28} />
-                <Typography level="h2" color="secondary">
-                  {t('title')}
-                </Typography>
-              </Box>
+    <main className="container mx-auto max-w-3xl px-4">
+      <Card className="mt-8 p-12">
+        <div className="grid justify-center gap-6">
+          <div className="flex flex-col gap-4 text-center">
+            <div className="flex items-center justify-center gap-2 text-primary">
+              <Brain size={28} />
+              <h2 className="text-2xl font-semibold">{t('title')}</h2>
+            </div>
 
-              <Typography level="h1" color="secondary" sx={{ mt: 3 }}>
-                {t('auth.signup')}
-              </Typography>
+            <h1 className="mt-6 text-3xl font-bold">{t('auth.signup')}</h1>
 
-              <Typography color="secondary">
-                <Trans i18nKey="auth.baseline" />
-              </Typography>
-            </Box>
-          </Grid2>
-          <Box display={'flex'} justifyContent={'center'} flexDirection={'column'} gap={4}>
+            <p className="text-muted-foreground">
+              <Trans i18nKey="auth.baseline" />
+            </p>
+          </div>
+
+          <div className="flex flex-col items-center gap-8">
             <OAuthLogin />
-            <Divider>ou</Divider>
+            <div className="relative flex w-full items-center">
+              <Separator className="flex-1" />
+              <span className="px-4 text-sm text-muted-foreground">{t('auth.or')}</span>
+              <Separator className="flex-1" />
+            </div>
             <SignupForm />
-          </Box>
-        </Grid2>
-      </Paper>
-    </Container>
+          </div>
+        </div>
+      </Card>
+    </main>
   );
 }
 
