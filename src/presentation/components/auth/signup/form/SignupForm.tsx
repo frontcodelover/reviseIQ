@@ -4,7 +4,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { appContainer } from '@/infrastructure/config/AppContainer';
+import { validatePassword } from '@/lib/ValidatePassword';
 import { PasswordTooltip } from '@/presentation/components/auth/signup/form/PasswordTooltip';
+import { formSchema } from '@/presentation/components/auth/signup/form/SignupForm.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertCircle, Loader2 } from 'lucide-react';
 import { useState } from 'react';
@@ -12,36 +14,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, Link } from 'react-router-dom';
 import { z } from 'zod';
-
-function validatePassword(password: string) {
-  return {
-    hasUpperCase: /[A-Z]/.test(password),
-    hasLowerCase: /[a-z]/.test(password),
-    hasNumber: /[0-9]/.test(password),
-    hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
-    minLength: password.length >= 6,
-  };
-}
-
-const formSchema = z
-  .object({
-    email: z.string().email(),
-    password: z
-      .string()
-      .min(6)
-      .regex(/[A-Z]/, { message: 'Doit contenir une majuscule' })
-      .regex(/[a-z]/, { message: 'Doit contenir une minuscule' })
-      .regex(/[0-9]/, { message: 'Doit contenir un chiffre' })
-      .regex(/[!@#$%^&*(),.?":{}|<>]/, { message: 'Doit contenir un caractère spécial' }),
-    confirmPassword: z.string(),
-    terms: z.boolean().refine((val) => val === true, {
-      message: 'Vous devez accepter les conditions',
-    }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Les mots de passe ne correspondent pas',
-    path: ['confirmPassword'],
-  });
 
 function SignupForm() {
   const { t } = useTranslation();

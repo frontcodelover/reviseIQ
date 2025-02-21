@@ -1,4 +1,4 @@
-import { GenerateFlashcardManual } from '@/presentation/components/dashboard/flashcards/GenerateFlashcardsManual';
+import { GenerateFlashcardManual } from '@/presentation/components/dashboard/flashcards/generator/GenerateFlashcardsManual';
 
 function GenerateManual() {
   return <GenerateFlashcardManual />;

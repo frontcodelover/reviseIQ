@@ -1,24 +1,15 @@
+import ListPublicFolders from '@/presentation/components/dashboard/community/ListPublicFolders';
 import { useTranslation } from 'react-i18next';
-import { GetAllPublicFolders } from '@/presentation/components/dashboard/community/GetAllPublicFolder';
-import { Typography } from '@mui/joy';
-import Box from '@mui/joy/Box';
-function Community() {
+
+export default function Community() {
   const { t } = useTranslation();
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: 'auto',
-        margin: '1rem 0',
-        gap: '1.5rem',
-      }}
-    >
-      <Typography level="h1" noWrap fontWeight={600}>
+    <div className="flex w-auto flex-col space-y-6">
+      <h1 className="truncate text-3xl font-semibold text-foreground">
         {t('dashboard.community')}
-      </Typography>
-      <GetAllPublicFolders />
-    </Box>
+      </h1>
+      <ListPublicFolders />
+    </div>
   );
 }
-export default Community;

@@ -1,25 +1,13 @@
 import Profile from '@/presentation/components/dashboard/profile/Profile';
-import Box from '@mui/joy/Box';
-import Typography from '@mui/joy/Typography';
 import { useTranslation } from 'react-i18next';
 
 export default function Settings() {
   const { t } = useTranslation();
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: 'auto',
-        margin: '1rem 0',
-        gap: '1.5rem',
-      }}
-    >
-      <Typography level="h1" noWrap fontWeight={600}>
-        {t('dashboard.profile')}
-      </Typography>
+    <div className="flex w-auto flex-col space-y-6">
+      <h1 className="truncate text-3xl font-semibold text-foreground">{t('dashboard.profile')}</h1>
 
       <Profile />
-    </Box>
+    </div>
   );
 }

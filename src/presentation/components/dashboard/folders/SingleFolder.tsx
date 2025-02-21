@@ -1,11 +1,10 @@
 import { Folder } from '@/domain/entities/Folder';
 import { appContainer } from '@/infrastructure/config/AppContainer';
-import { GetFlashcards } from '@/presentation/components/dashboard/flashcards/GetAllFlashcards';
+import { GetFlashcards } from '@/presentation/components/dashboard/flashcards/display/GetAllFlashcards';
 import { useAuth } from '@/presentation/context/AuthContext';
 import { Typography } from '@mui/joy';
 import { useEffect, useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
-import styled from 'styled-components';
 
 function SingleFolder({ id }: { id: string | undefined }) {
   const [isOwner, setIsOwner] = useState(false);
@@ -43,26 +42,16 @@ function SingleFolder({ id }: { id: string | undefined }) {
   if (error) return <p>Erreur lors de la récupération du dossier.</p>;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex w-full flex-col">
       {folder && (
-        <Container>
-          <Typography level="h2" fontWeight={500} sx={{ fontSize: '1.5rem', textAlign: 'center' }}>
-            {folder.name}
-          </Typography>
-        </Container>
+        <Typography level="h2" fontWeight={500} sx={{ fontSize: '1.5rem', textAlign: 'center' }}>
+          {folder.name}
+        </Typography>
       )}
 
       <GetFlashcards isOwner={isOwner} />
     </div>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border-radius: 16px;
-  margin: 2rem 0;
-`;
 
 export default SingleFolder;
