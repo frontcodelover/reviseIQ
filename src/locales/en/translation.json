@@ -20,7 +20,10 @@
     "edit": "Edit",
     "delete": "Delete",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "congratulations": "Congratulations!",
+    "congratulationsMessage": "You have completed all the flashcards in this folder.",
+    "startAgain": "Start again ?"
   },
   "auth": {
     "signInWithGoogle": "Sign in with Google",
@@ -62,6 +65,7 @@
     "account": "Account",
     "billing": "Billing",
     "home": "Home",
+    "navigation": "Dashboard",
     "community": "Community",
     "deck": "Folders",
     "settings": "Settings",
@@ -128,12 +132,13 @@
       "avatar": "Select your avatar"
     },
     "communityTable": {
-      "name": "Nom",
-      "thema": "Thèmatique",
-      "creator": "Créateur",
-      "created": "Créé le",
-      "lang": "Langue",
-      "flashcards": "Flashcards"
+      "name": "Name",
+      "thema": "Theme",
+      "creator": "Creator",
+      "created": "Created on",
+      "lang": "Language",
+      "flashcards": "Flashcards",
+      "publicFolers": "public folders"
     }
   }
 }

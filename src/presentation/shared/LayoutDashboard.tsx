@@ -32,7 +32,7 @@ export default function LayoutDashboard({ children }: { children: React.ReactNod
               </BreadcrumbList>
             </Breadcrumb>
           </header>
-          <div className="m-auto flex max-w-lg flex-1 flex-col gap-4 sm:max-w-7xl sm:p-6">
+          <div className="m-auto flex w-full flex-1 flex-col gap-4 sm:p-6 md:max-w-7xl">
             {children}
             <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
           </div>

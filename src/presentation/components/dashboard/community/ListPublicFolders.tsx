@@ -5,10 +5,11 @@ import { Pagination } from '../../ui/Pagination';
 import { FoldersDataTable } from './FoldersDataTable';
 import { useListPublicFoldersStore } from './store/ListPublicFoldersState.store';
 import { Spinner } from '../shared/Spinner';
+import { useTranslation } from 'react-i18next';
 
 export default function ListPublicFolders() {
   const { page, setPage, limit, setLimit } = useListPublicFoldersStore();
-
+const { t } = useTranslation();
   const {
     data: response,
     isLoading,
@@ -77,7 +78,7 @@ export default function ListPublicFolders() {
   return (
     <div className="space-y-4">
       <div className="text-right font-medium">
-        {response.count} dossiers publics
+        {response.count} {t('dashboard.communityTable.publicFolers')}
       </div>
 
       <FoldersDataTable folders={response.data} />

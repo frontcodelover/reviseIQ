@@ -20,7 +20,10 @@
     "edit": "Modifier",
     "delete": "Supprimer",
     "save": "Sauvegarder",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "congratulations": "Félicitations !",
+    "congratulationsMessage": "Vous avez terminé toutes les flashcards de ce dossier.",
+    "startAgain": "Recommencer ?"
   },
   "auth": {
     "baseline": "Envie de réussir d'apprendre efficacement ?<br /> ReviseIQ votre meilleur atout pour réussir !",
@@ -60,6 +63,7 @@
   },
   "dashboard": {
     "account": "Compte",
+    "navigation": "Tableau de bord",
     "billing": "Facturation",
     "home": "Accueil",
     "community": "Communauté",
@@ -133,7 +137,8 @@
       "creator": "Créateur",
       "created": "Créé le",
       "lang": "Langue",
-      "flashcards": "Flashcards"
+      "flashcards": "Flashcards",
+      "publicFolers": "dossiers publics"
     }
   }
 }

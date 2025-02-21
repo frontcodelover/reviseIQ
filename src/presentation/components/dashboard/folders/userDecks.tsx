@@ -1,81 +1,65 @@
-import { Alert as AlertUI, AlertDescription } from '@/components/ui/alert';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Folder } from '@/domain/entities/Folder';
 import { ThemaGroupProps } from '@/domain/entities/User';
 import { appContainer } from '@/infrastructure/config/AppContainer';
+import { cn } from '@/lib/utils';
 import CardNewFolder from '@/presentation/components/dashboard/folders/newFolder/CardNewFolder';
-import { Box, Typography, IconButton, Card, CardContent, CircularProgress } from '@mui/joy';
-import { styled } from '@mui/joy/styles';
-import AlertTitle from '@mui/material/AlertTitle';
-import Collapse from '@mui/material/Collapse';
-import { Terminal as TerminalIcon } from 'lucide-react';
-import { ChevronDown as ChevronDownIcon } from 'lucide-react';
+import { useUserDeckStore } from '@/presentation/components/dashboard/folders/store/userDecksStore';
+import { ChevronDown, Terminal } from 'lucide-react';
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link as RouterLink } from 'react-router-dom';
-
-import { useUserDeckStore } from './store/userDecksStore';
+import { Link } from 'react-router-dom';
 
 interface GroupedDecks {
   [key: string]: Folder[];
 }
 
-const Link = styled(RouterLink)({
-  textDecoration: 'none',
-  color: 'inherit',
-  '&:hover': {
-    textDecoration: 'underline',
-  },
-});
-
-const ChevronDown = styled(ChevronDownIcon)(() => ({
-  transition: 'transform 0.2s ease-in-out',
-}));
-
 const ThemaGroup = ({ thema, decks }: ThemaGroupProps) => {
   const { isOpen, toggleIsOpen } = useUserDeckStore();
 
   return (
-    <Card variant="outlined" sx={{ width: '100%', mb: 2 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', p: 2 }}>
-        <IconButton onClick={toggleIsOpen} size="sm" variant="plain" color="neutral">
-          <ChevronDown
-            sx={{
-              transform: isOpen ? 'none' : 'rotate(-90deg)',
-            }}
-          />
-        </IconButton>
-        <Typography level="h3" sx={{ flexGrow: 1, ml: 1, fontSize: '1.25rem' }}>
-          {thema}
-        </Typography>
-      </Box>
-      <Collapse in={isOpen} orientation="vertical">
-        <CardContent sx={{ pt: 1 }}>
-          {decks.map((deck) => (
-            <Box
-              key={deck.id}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 2,
-                px: 4,
-                py: 1,
-              }}
-            >
-              <Typography>👉</Typography>
-              <Box sx={{ flexGrow: 1 }}>
-                <Link to={`/dashboard/folders/${deck.id}`}>
-                  <Typography fontWeight="md">{deck.name}</Typography>
-                </Link>
-              </Box>
-            </Box>
-          ))}
-        </CardContent>
-      </Collapse>
+    <Card className="mb-4 w-full">
+      <Collapsible open={isOpen} onOpenChange={toggleIsOpen}>
+        <div className="flex items-center p-4">
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" size="sm" className="h-9 w-9 p-0">
+              <ChevronDown
+                className={cn(
+                  'h-4 w-4 transition-transform duration-200',
+                  isOpen ? 'rotate-0' : '-rotate-90'
+                )}
+              />
+            </Button>
+          </CollapsibleTrigger>
+          <h3 className="ml-2 flex-grow text-xl font-semibold">{thema}</h3>
+        </div>
+
+        <CollapsibleContent>
+          <CardContent className="pt-1">
+            {decks.map((deck) => (
+              <div key={deck.id} className="flex items-center gap-4 px-8 py-2">
+                <span>👉</span>
+                <div className="flex-grow">
+                  <Link
+                    to={`/dashboard/folders/${deck.id}`}
+                    className="font-medium hover:underline"
+                  >
+                    {deck.name}
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </CollapsibleContent>
+      </Collapsible>
     </Card>
   );
 };
 
-function UserDecks(): JSX.Element {
+export function UserDecks() {
   const [decks, setDecks] = useState<Folder[]>([]);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
@@ -111,33 +95,34 @@ function UserDecks(): JSX.Element {
     }, {});
   }, [decks, t]);
 
-  if (loading)
+  if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
-        <CircularProgress />
-      </Box>
+      <div className="flex h-[200px] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-4 border-gray-200"></div>
+      </div>
     );
+  }
 
   const hasDecks = decks.length > 0;
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <Box sx={{ display: 'flex', width: '100%', justifyContent: 'flex-end', gap: 2, mb: 2 }}>
+    <div className="flex flex-col gap-4">
+      <div className="mb-4 flex justify-end gap-4">
         <CardNewFolder />
-      </Box>
+      </div>
 
       {hasDecks ? (
         Object.entries(groupedDecks).map(([thema, decksInThema]) => (
           <ThemaGroup key={thema} thema={thema} decks={decksInThema} />
         ))
       ) : (
-        <AlertUI className="bg-gray-50">
-          <TerminalIcon className="h-4 w-4" />
+        <Alert className="bg-gray-50">
+          <Terminal className="h-4 w-4" />
           <AlertTitle>Ooops</AlertTitle>
           <AlertDescription>{t('dashboard.folder.nofolder')}</AlertDescription>
-        </AlertUI>
+        </Alert>
       )}
-    </Box>
+    </div>
   );
 }
 

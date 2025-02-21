@@ -5,7 +5,7 @@ export default function Community() {
   const { t } = useTranslation();
 
   return (
-    <div className="m-4 flex w-auto flex-col space-y-6">
+    <div className="flex w-auto flex-col space-y-6">
       <h1 className="truncate text-3xl font-semibold text-foreground">
         {t('dashboard.community')}
       </h1>
