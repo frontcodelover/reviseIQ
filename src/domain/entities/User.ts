@@ -33,12 +33,6 @@ export interface Validation {
   hasSpecialChar: boolean;
 }
 
-export interface ColorPickerProps {
-  selectedColor: string;
-  onSelectColor: (color: string) => void;
-  colors: string[];
-}
-
 export interface ThemaGroupProps {
   thema: string;
   decks: Folder[];
