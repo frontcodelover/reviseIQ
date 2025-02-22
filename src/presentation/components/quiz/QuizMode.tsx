@@ -42,11 +42,11 @@ export default function QuizMode() {
           );
           setAnswersOrder(shuffledAnswers);
         } else {
-          setError('Aucun quiz trouvé pour ce deck');
+          setError(t('quiz.noQuiz'));
         }
       } catch (error) {
-        console.error('Erreur lors du chargement du quiz:', error);
-        setError('Erreur lors du chargement du quiz');
+        console.error(error);
+        setError(t('quiz.error'));
       }
     };
     loadQuiz();
@@ -123,7 +123,7 @@ export default function QuizMode() {
                 Question {currentQuestion + 1}/{quiz.questions.length}
               </span>
               <span className="text-sm font-normal">
-                Score: {score}/{currentQuestion}
+                {t('quiz.score')} {score}/{currentQuestion}
               </span>
             </CardTitle>
             <Progress value={progress} className="h-2" />
@@ -174,9 +174,7 @@ export default function QuizMode() {
           {selectedAnswer && (
             <CardFooter className="flex justify-end border-t p-4">
               <Button onClick={nextQuestion} size="lg">
-                {currentQuestion < quiz.questions.length - 1
-                  ? 'Question suivante'
-                  : 'Terminer le quiz'}
+                {currentQuestion < quiz.questions.length - 1 ? t('quiz.next') : t('quiz.end')}
               </Button>
             </CardFooter>
           )}
@@ -184,16 +182,14 @@ export default function QuizMode() {
       ) : (
         <Card>
           <CardHeader>
-            <CardTitle className="text-center text-2xl">Quiz terminé !</CardTitle>
+            <CardTitle className="text-center text-2xl">{t('quiz.finised')}</CardTitle>
           </CardHeader>
           <CardContent className="text-center">
             <p className="text-xl">
-              Score final : {score}/{quiz.questions.length}
+              {t('quiz.score')} {score}/{quiz.questions.length}
             </p>
             <p className="text-muted-foreground">
-              {score === quiz.questions.length
-                ? 'Parfait ! Vous avez tout bon !'
-                : 'Continuez à vous entraîner !'}
+              {score === quiz.questions.length ? t('quiz.congrats') : t('quiz.continue')}
             </p>
           </CardContent>
           <CardFooter className="flex justify-center gap-4">
