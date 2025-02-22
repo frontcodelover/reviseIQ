@@ -76,6 +76,9 @@
     "greetings": "Bonjour",
     "greetings2": "Que voulez-vous apprendre aujourd'hui ?",
     "lastPublicFolders": "Les derniers dossiers publics",
+    "folderDay": "Le dossier du jour ⭐",
+    "folderDayText": "Chaque jour nous mettons en avant un dossier public aléatoire pour vous inspirer et apprendre de nouvelles choses.",
+    "noPublicFolder": "Il semblerait qu'il n'y ait pas de dossier public pour le moment.",
     "firstimeForm": {
       "title": "Complétez votre profil",
       "firstnameLabel": "Entrez votre prénom",

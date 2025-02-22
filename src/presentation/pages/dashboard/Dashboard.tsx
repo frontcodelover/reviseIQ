@@ -1,6 +1,6 @@
 import { Badge } from '@/domain/entities/Badge';
 import CalendarMUI from '@/presentation/components/dashboard/homeBoard/CalendarMui';
-import GetRandomFolder from '@/presentation/components/dashboard/homeBoard/GetRandomFolder';
+import { GetRandomFolder } from '@/presentation/components/dashboard/homeBoard/GetRandomFolder';
 import Greetings from '@/presentation/components/dashboard/homeBoard/Greetings';
 import { ListHomeFolders } from '@/presentation/components/dashboard/homeBoard/ListHomeFolders';
 import ActivityCalendar from '@/presentation/components/dashboard/stats/ActivityPlanning';

@@ -76,6 +76,9 @@
     "calendar": "Calendar",
     "greetings": "Hello",
     "greetings2": "What do you want to learn today?",
+    "folderDay": "Folder of the day ⭐",
+    "folderDayText": "Discover the folder of the day, a new folder every day to learn something new.",
+    "noPublicFolder": "No public folder yet.",
     "folder": {
       "yourfolder": "Your folders",
       "createfolder": "Create a folder",
