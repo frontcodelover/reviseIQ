@@ -25,6 +25,18 @@
     "congratulationsMessage": "Vous avez terminé toutes les flashcards de ce dossier.",
     "startAgain": "Recommencer ?"
   },
+  "quiz": {
+    "next": "Question suivante",
+    "end": "Terminer le quiz",
+    "congrats": "Félicitations ! Vous avez tout bon !",
+    "score": "Votre score :",
+    "retry": "Recommencer",
+    "continue": "Continuez à vous entraîner !",
+    "finised": "Vous avez terminé le quiz !",
+    "noQuiz": "Aucun quiz trouvé pour ce dossier",
+    "error": "Une erreur s'est produite lors de la récupération du quiz",
+    "revise": "Réviser les flashcards"
+  },
   "auth": {
     "baseline": "Envie de réussir d'apprendre efficacement ?<br /> ReviseIQ votre meilleur atout pour réussir !",
     "or": "ou",

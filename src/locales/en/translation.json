@@ -25,6 +25,18 @@
     "congratulationsMessage": "You have completed all the flashcards in this folder.",
     "startAgain": "Start again ?"
   },
+  "quiz": {
+    "next": "Next question",
+    "end": "End quiz",
+    "congrats": "Congratulations! You got it all right!",
+    "score": "Your score:",
+    "retry": "Retry",
+    "continue": "Keep practicing!",
+    "finised": "You have finished the quiz!",
+    "noQuiz": "No quiz found for this folder",
+    "error": "An error occurred while retrieving the quiz",
+    "revise": "Revise flashcards"
+  },
   "auth": {
     "signInWithGoogle": "Sign in with Google",
     "baseline": "Want to succeed in your revisions and learn effectively? <br />ReviseIQ your best asset to succeed!",
