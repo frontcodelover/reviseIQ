@@ -1,6 +1,7 @@
 import { MenuItems } from '@/presentation/components/dashboard/shared/layout/MenuItems';
 import Notification from '@/presentation/components/dashboard/shared/layout/Notification';
 import { SearchForm } from '@/presentation/components/dashboard/shared/layout/Search.form';
+import { SidebarFooter } from '@/presentation/components/dashboard/shared/layout/SidebarFooter';
 import {
   Sidebar,
   SidebarContent,
@@ -16,8 +17,6 @@ import {
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
-
-import { SidebarFooter } from './SidebarFooter';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { t } = useTranslation();

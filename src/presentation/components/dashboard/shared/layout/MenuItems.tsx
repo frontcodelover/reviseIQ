@@ -1,7 +1,7 @@
 import { type ElementType } from 'react';
 import { useTranslation } from 'react-i18next';
 import {Folder, House, Users, Settings} from 'lucide-react'
-// Types pour le menu
+
 interface MenuItem {
   title: string;
   url: string;
