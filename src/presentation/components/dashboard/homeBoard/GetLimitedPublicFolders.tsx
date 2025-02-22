@@ -1,6 +1,6 @@
 import { Folder } from '@/domain/entities/Folder';
 import { appContainer } from '@/infrastructure/config/AppContainer';
-import CardFolder from '@/presentation/components/dashboard/folders/CardFolder';
+import { CardFolder } from '@/presentation/components/dashboard/folders/CardFolder';
 import { Box, Typography } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
