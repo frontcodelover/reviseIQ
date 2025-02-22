@@ -1,4 +1,4 @@
-import Profile from '@/presentation/components/dashboard/profile/Profile';
+import { Profile } from '@/presentation/components/dashboard/profile/Profile';
 import { useTranslation } from 'react-i18next';
 
 export default function Settings() {

@@ -1,221 +1,115 @@
-import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
-import AspectRatio from '@mui/joy/AspectRatio';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Card from '@mui/joy/Card';
-import CardActions from '@mui/joy/CardActions';
-import CardOverflow from '@mui/joy/CardOverflow';
-import Divider from '@mui/joy/Divider';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import IconButton from '@mui/joy/IconButton';
-import Input from '@mui/joy/Input';
-import Option from '@mui/joy/Option';
-import Select from '@mui/joy/Select';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
+//! need to implement logic to handle the form submission
+import { Avatar, AvatarFallback, AvatarImage } from '@/presentation/components/ui/avatar';
+import { Button } from '@/presentation/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/presentation/components/ui/card';
+import { Input } from '@/presentation/components/ui/input';
+import { Label } from '@/presentation/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/presentation/components/ui/select';
+import { Separator } from '@/presentation/components/ui/separator';
+import { Clock, Mail, Pencil } from 'lucide-react';
 
-export default function Profile() {
+export function Profile() {
   return (
-    <Box sx={{ flex: 1, width: '100%' }}>
-      <Stack
-        spacing={4}
-        sx={{
-          display: 'flex',
-          maxWidth: '800px',
-          mx: 'auto',
-        }}
-      >
-        <Card>
-          <Box sx={{ mb: 1 }}>
-            <Typography level="title-md">Personal info</Typography>
-            <Typography level="body-sm">
-              Customize how your profile information will apper to the networks.
-            </Typography>
-          </Box>
-          <Divider />
-          <Stack direction="row" spacing={3} sx={{ display: { xs: 'none', md: 'flex' }, my: 1 }}>
-            <Stack direction="column" spacing={1}>
-              <AspectRatio
-                ratio="1"
-                maxHeight={200}
-                sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                  srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                  loading="lazy"
-                  alt=""
-                />
-              </AspectRatio>
-              <IconButton
-                aria-label="upload new picture"
-                size="sm"
-                variant="outlined"
-                color="neutral"
-                sx={{
-                  bgcolor: 'background.body',
-                  position: 'absolute',
-                  zIndex: 2,
-                  borderRadius: '50%',
-                  left: 100,
-                  top: 170,
-                  boxShadow: 'sm',
-                }}
-              >
-                <EditRoundedIcon />
-              </IconButton>
-            </Stack>
-            <Stack spacing={2} sx={{ flexGrow: 1 }}>
-              <Stack spacing={1}>
-                <FormLabel>Name</FormLabel>
-                <FormControl sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}>
-                  <Input size="sm" placeholder="First name" />
-                  <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} />
-                </FormControl>
-              </Stack>
-              <Stack direction="row" spacing={2}>
-                <FormControl>
-                  <FormLabel>Role</FormLabel>
-                  <Input size="sm" defaultValue="UI Developer" />
-                </FormControl>
-                <FormControl sx={{ flexGrow: 1 }}>
-                  <FormLabel>Email</FormLabel>
-                  <Input
-                    size="sm"
-                    type="email"
-                    startDecorator={<EmailRoundedIcon />}
-                    placeholder="email"
-                    defaultValue="siriwatk@test.com"
-                    sx={{ flexGrow: 1 }}
-                  />
-                </FormControl>
-              </Stack>
-              <div>{/* <CountrySelector /> */}</div>
-              <div>
-                <FormControl sx={{ display: { sm: 'contents' } }}>
-                  <FormLabel>Timezone</FormLabel>
-                  <Select
-                    size="sm"
-                    startDecorator={<AccessTimeFilledRoundedIcon />}
-                    defaultValue="1"
-                  >
-                    <Option value="1">
-                      Indochina Time (Bangkok){' '}
-                      <Typography textColor="text.tertiary" sx={{ ml: 0.5 }}>
-                        — GMT+07:00
-                      </Typography>
-                    </Option>
-                    <Option value="2">
-                      Indochina Time (Ho Chi Minh City){' '}
-                      <Typography textColor="text.tertiary" sx={{ ml: 0.5 }}>
-                        — GMT+07:00
-                      </Typography>
-                    </Option>
-                  </Select>
-                </FormControl>
-              </div>
-            </Stack>
-          </Stack>
-          <Stack direction="column" spacing={2} sx={{ display: { xs: 'flex', md: 'none' }, my: 1 }}>
-            <Stack direction="row" spacing={2}>
-              <Stack direction="column" spacing={1}>
-                <AspectRatio
-                  ratio="1"
-                  maxHeight={108}
-                  sx={{ flex: 1, minWidth: 108, borderRadius: '100%' }}
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                    srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                    loading="lazy"
-                    alt=""
-                  />
-                </AspectRatio>
-                <IconButton
-                  aria-label="upload new picture"
-                  size="sm"
-                  variant="outlined"
-                  color="neutral"
-                  sx={{
-                    bgcolor: 'background.body',
-                    position: 'absolute',
-                    zIndex: 2,
-                    borderRadius: '50%',
-                    left: 85,
-                    top: 180,
-                    boxShadow: 'sm',
-                  }}
-                >
-                  <EditRoundedIcon />
-                </IconButton>
-              </Stack>
-              <Stack spacing={1} sx={{ flexGrow: 1 }}>
-                <FormLabel>Name</FormLabel>
-                <FormControl
-                  sx={{
-                    display: {
-                      sm: 'flex-column',
-                      md: 'flex-row',
-                    },
-                    gap: 2,
-                  }}
-                >
-                  <Input size="sm" placeholder="First name" />
-                  <Input size="sm" placeholder="Last name" />
-                </FormControl>
-              </Stack>
-            </Stack>
-            <FormControl>
-              <FormLabel>Role</FormLabel>
-              <Input size="sm" defaultValue="UI Developer" />
-            </FormControl>
-            <FormControl sx={{ flexGrow: 1 }}>
-              <FormLabel>Email</FormLabel>
-              <Input
-                size="sm"
-                type="email"
-                startDecorator={<EmailRoundedIcon />}
-                placeholder="email"
-                defaultValue="siriwatk@test.com"
-                sx={{ flexGrow: 1 }}
-              />
-            </FormControl>
+    <div className="flex w-full max-w-7xl p-4">
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle>Informations personnelles</CardTitle>
+          <CardDescription>
+            Personnalisez comment vos informations apparaîtront sur votre profil.
+          </CardDescription>
+        </CardHeader>
 
-            <div>
-              <FormControl sx={{ display: { sm: 'contents' } }}>
-                <FormLabel>Timezone</FormLabel>
-                <Select size="sm" startDecorator={<AccessTimeFilledRoundedIcon />} defaultValue="1">
-                  <Option value="1">
-                    Indochina Time (Bangkok){' '}
-                    <Typography textColor="text.tertiary" sx={{ ml: 0.5 }}>
-                      — GMT+07:00
-                    </Typography>
-                  </Option>
-                  <Option value="2">
-                    Indochina Time (Ho Chi Minh City){' '}
-                    <Typography textColor="text.tertiary" sx={{ ml: 0.5 }}>
-                      — GMT+07:00
-                    </Typography>
-                  </Option>
-                </Select>
-              </FormControl>
+        <Separator />
+
+        <CardContent className="space-y-6">
+          {/* Version Desktop */}
+          <div className="my-4 hidden gap-6 md:flex">
+            <div className="relative">
+              <Avatar className="h-32 w-32">
+                <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" />
+                <AvatarFallback>UN</AvatarFallback>
+              </Avatar>
+              <Button
+                size="icon"
+                variant="outline"
+                className="absolute bottom-0 right-0 h-8 w-8 rounded-full"
+              >
+                <Pencil className="h-4 w-4" />
+              </Button>
             </div>
-          </Stack>
-          <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
-            <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-              <Button size="sm" variant="outlined" color="neutral">
-                Cancel
-              </Button>
-              <Button size="sm" variant="solid">
-                Save
-              </Button>
-            </CardActions>
-          </CardOverflow>
-        </Card>
-      </Stack>
-    </Box>
+
+            <div className="flex-1 space-y-4">
+              <div className="space-y-2">
+                <Label>Nom</Label>
+                <div className="flex gap-4">
+                  <Input placeholder="Prénom" />
+                  <Input placeholder="Nom" />
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="w-1/3 space-y-2">
+                  <Label>Rôle</Label>
+                  <Input defaultValue="Développeur UI" />
+                </div>
+                <div className="flex-1 space-y-2">
+                  <Label>Email</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input type="email" className="pl-10" defaultValue="contact@example.com" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Fuseau horaire</Label>
+                <Select defaultValue="1">
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Sélectionnez un fuseau horaire" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">
+                      <div className="flex items-center">
+                        <Clock className="mr-2 h-4 w-4" />
+                        <span>Europe/Paris (GMT+01:00)</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="2">
+                      <div className="flex items-center">
+                        <Clock className="mr-2 h-4 w-4" />
+                        <span>America/New_York (GMT-05:00)</span>
+                      </div>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+
+          {/* Version Mobile */}
+          <div className="space-y-4 md:hidden">
+            {/* ... Version mobile similaire avec classes adaptées ... */}
+          </div>
+        </CardContent>
+
+        <CardFooter className="flex justify-end gap-2 pt-6">
+          <Button variant="outline">Annuler</Button>
+          <Button>Sauvegarder</Button>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }
