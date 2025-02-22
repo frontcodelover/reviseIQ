@@ -41,7 +41,7 @@ export function SidebarFooter() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={profile?.avatar} alt={profile?.firstname} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">U</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{profile?.firstname}</span>

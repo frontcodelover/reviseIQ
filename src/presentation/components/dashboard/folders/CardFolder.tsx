@@ -1,61 +1,63 @@
 import { Folder } from '@/domain/entities/Folder';
 import { formatDate } from '@/lib/FormatDate';
+import { Avatar, AvatarFallback, AvatarImage } from '@/presentation/components/ui/avatar';
+import { Card, CardContent, CardFooter } from '@/presentation/components/ui/card';
+import { Skeleton } from '@/presentation/components/ui/skeleton';
 import { useProfileUserById } from '@/presentation/hooks/useProfileUserById';
-import Avatar from '@mui/joy/Avatar';
-import Box from '@mui/joy/Box';
-import Card from '@mui/joy/Card';
-import CardActions from '@mui/joy/CardActions';
-import CardContent from '@mui/joy/CardContent';
-import Typography from '@mui/joy/Typography';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-const CardFolder = ({ ...props }: Folder) => {
-  const { id, name, thema, lang, user_id, created_at } = props;
+export function CardFolder({ id, name, thema, lang, user_id, created_at }: Folder) {
   const { profile, isLoading } = useProfileUserById(user_id || '');
   const { t } = useTranslation();
 
+  // Récupération de la traduction du thème
+  const translatedThema = thema
+    ? t(`dashboard.folder.thema.${thema.toLowerCase()}`)
+    : t('dashboard.folder.thema.other');
+
   return (
-    <Card
-      variant="outlined"
-      sx={{
-        maxWidth: '100%',
-        boxShadow: 'sm',
-      }}
-    >
-      <CardContent>
-        <Typography level="h2" fontSize="lg" fontWeight="lg">
-          <Link to={`/dashboard/folders/${id}`}>{name}</Link>
-        </Typography>
-        <Typography level="h3" color="secondary" fontSize="sm">
-          {thema}
-        </Typography>
+    <Card className="flex w-full flex-col justify-between">
+      <CardContent className="pt-6">
+        <div className="space-y-2">
+          <Link to={`/dashboard/folders/${id}`} className="text-lg font-semibold hover:underline">
+            {name}
+          </Link>
+          <p className="text-sm text-muted-foreground">{translatedThema}</p>
+        </div>
       </CardContent>
-      {!isLoading && profile && (
-        <CardActions
-          sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-        >
-          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-            <Avatar src={profile.avatar} alt="avatar user" />
-            <Box>
-              <Typography level="h4" fontSize="sm" color="secondary">
-                {t('dashboard.folder.by')} {profile?.firstname}
-              </Typography>
-              <Typography fontSize={12}> {created_at ? formatDate(created_at) : ''}</Typography>
-            </Box>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Typography fontSize={14} fontWeight={600}>
-              {t('language')}:
-            </Typography>
-            <Typography fontSize={14} fontWeight="bold">
-              {lang.toUpperCase()}
-            </Typography>
-          </Box>
-        </CardActions>
-      )}
+
+      <CardFooter className="justify-between">
+        {isLoading ? (
+          <div className="flex items-center gap-4">
+            <Skeleton className="h-10 w-10 rounded-full" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[100px]" />
+              <Skeleton className="h-4 w-[60px]" />
+            </div>
+          </div>
+        ) : profile ? (
+          <div className="flex items-center gap-4">
+            <Avatar className="h-10 w-10 rounded-lg">
+              <AvatarImage src={profile.avatar} alt={`${profile.firstname}'s avatar`} />
+              <AvatarFallback>{profile.firstname?.charAt(0).toUpperCase()}</AvatarFallback>
+            </Avatar>
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">
+                {t('dashboard.folder.by')} {profile.firstname}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {created_at ? formatDate(created_at) : ''}
+              </p>
+            </div>
+          </div>
+        ) : null}
+
+        <div className="flex items-center gap-2">
+          <span className="text-sm">{t('language')}:</span>
+          <span className="text-sm font-semibold">{lang.toUpperCase()}</span>
+        </div>
+      </CardFooter>
     </Card>
   );
-};
-
-export default CardFolder;
+}

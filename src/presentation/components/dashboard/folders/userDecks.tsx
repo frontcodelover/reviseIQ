@@ -2,8 +2,9 @@ import { Folder } from '@/domain/entities/Folder';
 import { ThemaGroupProps } from '@/domain/entities/User';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { cn } from '@/lib/utils';
-import CardNewFolder from '@/presentation/components/dashboard/folders/newFolder/CardNewFolder';
+import { NewFolderBtn } from '@/presentation/components/dashboard/folders/NewFolderBtn';
 import { useUserDeckStore } from '@/presentation/components/dashboard/folders/store/userDecksStore';
+import { Spinner } from '@/presentation/components/dashboard/shared/Spinner';
 import { Alert, AlertDescription, AlertTitle } from '@/presentation/components/ui/alert';
 import { Button } from '@/presentation/components/ui/button';
 import { Card, CardContent } from '@/presentation/components/ui/card';
@@ -12,7 +13,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/presentation/components/ui/collapsible';
-import { ChevronDown, Terminal } from 'lucide-react';
+import { ChevronDown, Terminal, CornerDownRight } from 'lucide-react';
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -45,8 +46,9 @@ const ThemaGroup = ({ thema, decks }: ThemaGroupProps) => {
         <CollapsibleContent>
           <CardContent className="pt-1">
             {decks.map((deck) => (
-              <div key={deck.id} className="flex items-center gap-4 px-8 py-2">
-                <span>👉</span>
+              <div key={deck.id} className="flex items-center justify-center gap-4 px-8 py-2">
+                <CornerDownRight />
+
                 <div className="flex-grow">
                   <Link
                     to={`/dashboard/folders/${deck.id}`}
@@ -105,11 +107,7 @@ export function UserDecks() {
   }, [decks, t]);
 
   if (loading) {
-    return (
-      <div className="flex h-[200px] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-4 border-gray-200"></div>
-      </div>
-    );
+    return <Spinner className="mt-8" />;
   }
 
   const hasDecks = decks.length > 0;
@@ -117,7 +115,7 @@ export function UserDecks() {
   return (
     <div className="flex flex-col gap-4">
       <div className="mb-4 flex justify-end gap-4">
-        <CardNewFolder />
+        <NewFolderBtn />
       </div>
 
       {hasDecks ? (
