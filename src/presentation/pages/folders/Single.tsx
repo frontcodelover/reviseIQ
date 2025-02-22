@@ -1,4 +1,4 @@
-import SingleFolder from '@/presentation/components/dashboard/folders/SingleFolder';
+import { SingleFolder } from '@/presentation/components/dashboard/folders/SingleFolder';
 import { useLoaderData } from 'react-router-dom';
 
 interface Params {

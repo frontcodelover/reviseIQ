@@ -1,21 +1,22 @@
 import { Folder } from '@/domain/entities/Folder';
 import { appContainer } from '@/infrastructure/config/AppContainer';
-import { RandomCard } from '@/presentation/components/dashboard/folders/RandomCard';
+import { CardFolder } from '@/presentation/components/dashboard/folders/CardFolder';
 import { Spinner } from '@/presentation/components/dashboard/shared/Spinner';
 import { Alert, AlertDescription } from '@/presentation/components/ui/alert';
-import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
 import { AlertCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 
-export function GetRandomFolder() {
+export function ListHomeFolders() {
   const { t } = useTranslation();
+
   const {
     data: folders,
     isLoading,
     error,
-  } = useQuery<Folder[]>('randomPublicFolder', () =>
-    appContainer.getFolderService().getRandomPublicFolders()
+  } = useQuery<Folder[]>('lastPublicFolders', () =>
+    appContainer.getFolderService().getLastPublicFolders()
   );
 
   if (isLoading) {
@@ -34,23 +35,22 @@ export function GetRandomFolder() {
   if (!folders?.length) {
     return (
       <Alert>
-        <AlertDescription>{t('dahsboard.noPublicFolder')}</AlertDescription>
+        <AlertDescription>{t('dashboard.folder.nofolder')}</AlertDescription>
       </Alert>
     );
   }
 
   return (
-    <Card className="w-full bg-primary text-primary-foreground">
-      <CardHeader>
-        <CardTitle className="text-2xl">{t('dashboard.folderDay')}</CardTitle>
-        <p className="text-primary-foreground/90">{t('dashboard.folderDayText')}</p>
-      </CardHeader>
-
-      <CardContent className="grid gap-4">
+    <div className="flex flex-col space-y-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {folders.map((folder) => (
-          <RandomCard key={folder.id} {...folder} />
+          <CardFolder key={folder.id} {...folder} />
         ))}
-      </CardContent>
-    </Card>
+      </div>
+
+      <Link to="/dashboard/community" className="text-right text-primary hover:underline">
+        + {t('dashboard.folder.moreFolder')}
+      </Link>
+    </div>
   );
 }

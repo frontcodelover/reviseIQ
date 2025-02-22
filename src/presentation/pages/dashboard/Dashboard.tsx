@@ -1,8 +1,8 @@
 import { Badge } from '@/domain/entities/Badge';
 import CalendarMUI from '@/presentation/components/dashboard/homeBoard/CalendarMui';
-import { GetLimitedPublicFolders } from '@/presentation/components/dashboard/homeBoard/GetLimitedPublicFolders';
-import GetRandomFolder from '@/presentation/components/dashboard/homeBoard/GetRandomFolder';
+import { GetRandomFolder } from '@/presentation/components/dashboard/homeBoard/GetRandomFolder';
 import Greetings from '@/presentation/components/dashboard/homeBoard/Greetings';
+import { ListHomeFolders } from '@/presentation/components/dashboard/homeBoard/ListHomeFolders';
 import ActivityCalendar from '@/presentation/components/dashboard/stats/ActivityPlanning';
 import { LogsAndBadgesManager } from '@/presentation/components/dashboard/stats/logsAndBadgesManager';
 import Text from '@/presentation/components/ui/text/Text';
@@ -45,7 +45,7 @@ function Dashboard() {
           <Typography level="h3" sx={{ color: 'primary' }}>
             {t('dashboard.lastPublicFolders')}
           </Typography>
-          <GetLimitedPublicFolders />
+          <ListHomeFolders />
         </Box>
 
         <LogsAndBadgesManager
