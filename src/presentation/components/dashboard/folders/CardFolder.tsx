@@ -39,7 +39,11 @@ export function CardFolder({ id, name, thema, lang, user_id, created_at }: Folde
         ) : profile ? (
           <div className="flex items-center gap-4">
             <Avatar className="h-10 w-10 rounded-lg">
-              <AvatarImage src={profile.avatar} alt={`${profile.firstname}'s avatar`} />
+              <AvatarImage
+                src={profile.avatar}
+                alt={`${profile.firstname}'s avatar`}
+                className="object-cover"
+              />
               <AvatarFallback>{profile.firstname?.charAt(0).toUpperCase()}</AvatarFallback>
             </Avatar>
             <div className="space-y-1">
