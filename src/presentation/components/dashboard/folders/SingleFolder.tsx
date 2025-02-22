@@ -1,15 +1,21 @@
 import { Folder } from '@/domain/entities/Folder';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { GetFlashcards } from '@/presentation/components/dashboard/flashcards/display/GetAllFlashcards';
+import { Alert, AlertDescription } from '@/presentation/components/ui/alert';
+import { Skeleton } from '@/presentation/components/ui/skeleton';
 import { useAuth } from '@/presentation/context/AuthContext';
-import { Typography } from '@mui/joy';
+import { AlertCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
 
-function SingleFolder({ id }: { id: string | undefined }) {
+interface SingleFolderProps {
+  id: string | undefined;
+}
+
+export function SingleFolder({ id }: SingleFolderProps) {
   const [isOwner, setIsOwner] = useState(false);
   const { user } = useAuth();
-  const user_id = user ? user.id : null;
+  const user_id = user?.id ?? null;
 
   const {
     data: folder,
@@ -29,29 +35,37 @@ function SingleFolder({ id }: { id: string | undefined }) {
     }
     const checkOwnerShip = async () => {
       if (!user_id) return;
-      const isOwner = await appContainer.getFolderService().isOwner(id!, user_id!);
+      const isOwner = await appContainer.getFolderService().isOwner(id!, user_id);
       setIsOwner(isOwner);
       if (!isOwner) {
-        return console.error('You are not the owner of this folder');
+        return console.error("Vous n'êtes pas le propriétaire de ce dossier");
       }
     };
     checkOwnerShip();
-  }, [folder]);
+  }, [folder, id, user_id]);
 
-  if (isLoading) return <p>Chargement du dossier...</p>;
-  if (error) return <p>Erreur lors de la récupération du dossier.</p>;
+  if (isLoading) {
+    return (
+      <div className="space-y-4 p-4">
+        <Skeleton className="mx-auto h-8 w-[250px]" />
+        <Skeleton className="h-[200px] w-full" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertDescription>Error</AlertDescription>
+      </Alert>
+    );
+  }
 
   return (
-    <div className="flex w-full flex-col">
-      {folder && (
-        <Typography level="h2" fontWeight={500} sx={{ fontSize: '1.5rem', textAlign: 'center' }}>
-          {folder.name}
-        </Typography>
-      )}
-
+    <div className="flex w-full flex-col space-y-6">
+      {folder && <h2 className="text-center text-2xl font-medium">{folder.name}</h2>}
       <GetFlashcards isOwner={isOwner} />
     </div>
   );
 }
-
-export default SingleFolder;
