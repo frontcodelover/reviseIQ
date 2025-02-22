@@ -4,10 +4,10 @@ interface LayoutAuthProps {
   children: React.ReactNode;
 }
 
-const LayoutAuth: React.FC<LayoutAuthProps> = ({ children }) => {
+export default function LayoutAuth({ children }: LayoutAuthProps) {
   return (
     <div
-      className="m-0 flex min-h-screen items-center justify-center bg-white"
+      className="flex min-h-screen w-full items-center justify-center bg-background"
       style={{
         backgroundImage: `
           linear-gradient(90deg, #007868 49px, transparent 1%),
@@ -17,9 +17,9 @@ const LayoutAuth: React.FC<LayoutAuthProps> = ({ children }) => {
         backgroundPosition: 'center',
       }}
     >
-      {children}
+      <div className="container flex min-h-screen w-full items-center justify-center py-8">
+        {children}
+      </div>
     </div>
   );
-};
-
-export default LayoutAuth;
+}

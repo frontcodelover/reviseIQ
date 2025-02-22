@@ -150,6 +150,9 @@ abbr[title] {
   background-color: rgb(34 197 94);
 }
 @layer base {
+  :root {
+    --bgAuth: #007868;
+  }
   * {
     @apply border-border;
   }
@@ -179,4 +182,18 @@ abbr[title] {
   .rotate-y-180 {
     transform: rotateY(180deg);
   }
+}
+
+/* Styles pour react-phone-input-2 */
+.react-tel-input .selected-flag:hover,
+.react-tel-input .selected-flag:focus {
+  @apply bg-muted;
+}
+
+.react-tel-input .country-list .country:hover {
+  @apply bg-accent;
+}
+
+.react-tel-input .country-list .country.highlight {
+  @apply bg-accent;
 }

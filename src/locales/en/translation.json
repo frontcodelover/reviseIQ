@@ -132,7 +132,12 @@
       "other": "Other",
       "submit": "Submit",
       "loading": "Loading...",
-      "avatar": "Select your avatar"
+      "avatar": "Select your avatar",
+      "description": "Before starting to revise, please complete your profile.",
+      "personalInfo": "Personal information",
+      "contactInfo": "Contact information",
+      "phoneHelper": "Your phone number will not be shared with other users. (optional)",
+      "profile": "What is your profile ?"
     },
     "communityTable": {
       "name": "Name",

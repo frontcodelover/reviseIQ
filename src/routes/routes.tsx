@@ -8,7 +8,7 @@ import SignUp from '@/presentation/pages/Signup';
 import UpdatePassword from '@/presentation/pages/UpdatePassword';
 import Community from '@/presentation/pages/dashboard/Community';
 import Dashboard from '@/presentation/pages/dashboard/Dashboard';
-import FirstTimeFormPage from '@/presentation/pages/dashboard/FirstTimeForm';
+import FirstTime from '@/presentation/pages/dashboard/FirstTime';
 import Folders from '@/presentation/pages/dashboard/Folders';
 import Settings from '@/presentation/pages/dashboard/Settings';
 import CreateFolder from '@/presentation/pages/folders/CreateFolder';
@@ -73,7 +73,7 @@ export const router = createBrowserRouter([
         path: '/first-time',
         element: (
           <ProtectedRoute>
-            <FirstTimeFormPage />
+            <FirstTime />
           </ProtectedRoute>
         ),
       },
