@@ -98,7 +98,12 @@
       "submit": "Soumettre",
       "loading": "Chargement...",
       "avatar": "Selectionnez votre avatar",
-      "clear": "Supprimer"
+      "clear": "Supprimer",
+      "description": "Avant de commencer à réviser, merci de compléter votre profil.",
+      "personalInfo": "Informations personnelles",
+      "contactInfo": "Informations de contact",
+      "phoneHelper": "Votre numéro de téléphone ne sera pas partagé avec les autres utilisateurs. (optionnel)",
+      "profile": "Quel est votre profil ?"
     },
     "folder": {
       "yourfolder": "Vos dossiers",
