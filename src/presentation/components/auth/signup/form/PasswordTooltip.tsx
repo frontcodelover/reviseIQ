@@ -1,83 +1,61 @@
 import { Validation } from '@/domain/entities/User';
-import { Typography } from '@mui/material';
-import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
-import { styled } from '@mui/material/styles';
+import { cn } from '@/lib/utils';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/presentation/components/ui/tooltip';
+import { CheckCircle2, XCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-export function PasswordTooltip({ validation }: { validation: Validation }) {
+interface PasswordTooltipProps {
+  validation: Validation;
+}
+
+export function PasswordTooltip({ validation }: PasswordTooltipProps) {
   const { t } = useTranslation();
 
-  const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-  ))(({ theme }) => ({
-    [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: '#f5f5f9',
-      color: 'rgba(0, 0, 0, 0.87)',
-      maxWidth: 220,
-      fontSize: theme.typography.pxToRem(12),
-      border: '1px solid #dadde9',
-    },
-  }));
+  const requirements = [
+    { key: 'minLength', label: 'auth.minLength' },
+    { key: 'minLowercase', label: 'auth.minLowercase' },
+    { key: 'minUppercase', label: 'auth.minUppercase' },
+    { key: 'minNumber', label: 'auth.minNumber' },
+    { key: 'minSpecial', label: 'auth.minSpecial' },
+  ] as const;
 
   return (
-    <HtmlTooltip
-      title={
-        <>
-          <Typography>{t('auth.content')}</Typography>
-          <Typography
-            sx={() => ({
-              color: validation.minLength ? 'green' : 'red',
-            })}
-          >
-            ✓ {t('auth.minLength')}
-          </Typography>
-          <Typography
-            sx={() => ({
-              color: validation.minLength ? 'green' : 'red',
-            })}
-          >
-            ✓ {t('auth.minLowercase')}
-          </Typography>
-          <Typography
-            sx={() => ({
-              color: validation.minLength ? 'green' : 'red',
-            })}
-          >
-            ✓ {t('auth.minUppercase')}
-          </Typography>
-          <Typography
-            sx={() => ({
-              color: validation.minLength ? 'green' : 'red',
-            })}
-          >
-            ✓ {t('auth.minNumber')}
-          </Typography>
-          <Typography
-            sx={() => ({
-              color: validation.minLength ? 'green' : 'red',
-            })}
-          >
-            ✓ {t('auth.minSpecial')}
-          </Typography>
-        </>
-      }
-    >
-      <Typography
-        sx={{
-          color: 'white',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'ActiveCaption',
-          borderRadius: '100%',
-          padding: '0',
-          margin: '0',
-          width: '20px',
-          height: '20px',
-        }}
-      >
-        ?
-      </Typography>
-    </HtmlTooltip>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            ?
+          </button>
+        </TooltipTrigger>
+        <TooltipContent className="w-80 bg-popover p-4 text-popover-foreground" side="right">
+          <div className="space-y-2">
+            <p className="text-sm font-medium">{t('auth.content')}</p>
+            <div className="space-y-1">
+              {requirements.map(({ key, label }) => (
+                <div
+                  key={key}
+                  className={cn(
+                    'flex items-center gap-2 text-sm',
+                    validation[key] ? 'text-success' : 'text-destructive'
+                  )}
+                >
+                  {validation[key] ? (
+                    <CheckCircle2 className="h-4 w-4" />
+                  ) : (
+                    <XCircle className="h-4 w-4" />
+                  )}
+                  {t(label)}
+                </div>
+              ))}
+            </div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

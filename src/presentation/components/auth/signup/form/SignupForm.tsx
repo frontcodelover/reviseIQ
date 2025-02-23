@@ -69,7 +69,7 @@ function SignupForm() {
           </div>
 
           <div className="space-y-1">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
               <Label htmlFor="password">{t('auth.password')}</Label>
               <PasswordTooltip validation={passwordValidation} />
             </div>
