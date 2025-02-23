@@ -1,7 +1,8 @@
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { appContainer } from '@/infrastructure/config/AppContainer';
-import { Typography } from '@mui/joy';
-import { Box, Container, Paper, TextField, Button, Grid2 } from '@mui/material';
+import { Button } from '@/presentation/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
+import { Input } from '@/presentation/components/ui/input';
 import { Brain } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -30,68 +31,46 @@ export default function ResetPassword() {
   };
 
   return (
-    <Container component="main" maxWidth="md">
-      <Paper elevation={3} sx={{ p: 6, mt: 8 }}>
-        <Grid2 container spacing={2} justifyContent="center">
-          <Grid2 size={12}>
-            <Box textAlign="center" display={'flex'} flexDirection={'column'} gap={2}>
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                gap={1}
-                sx={{ color: '#007867' }}
-              >
-                <Brain size={28} />
-                <Typography level="h2" color="secondary">
-                  {t('title')}
-                </Typography>
-              </Box>
+    <div className="container mx-auto flex min-h-screen items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-6">
+          <div className="flex items-center justify-center gap-2 text-primary">
+            <Brain className="h-7 w-7" />
+            <h2 className="text-2xl font-semibold">{t('title')}</h2>
+          </div>
 
-              <Typography level="h1" color="secondary" sx={{ mt: 3 }}>
-                {t('auth.resetPassword')}
-              </Typography>
+          <div className="space-y-2 text-center">
+            <CardTitle className="text-2xl font-bold">{t('auth.resetPassword')}</CardTitle>
+            <p className="text-sm text-muted-foreground">{t('auth.resetPasswordDescription')}</p>
+          </div>
+        </CardHeader>
 
-              <Typography color="secondary">{t('auth.resetPasswordDescription')}</Typography>
-            </Box>
-          </Grid2>
-          <Box display={'flex'} justifyContent={'center'} flexDirection={'column'} gap={4}>
-            {step === 'initial' && (
-              <form onSubmit={handleInitiateReset}>
-                <Box display={'flex'} justifyContent={'center'} flexDirection={'column'} gap={4}>
-                  <TextField
-                    label={t('email')}
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    sx={{
-                      backgroundColor: 'primary.dark',
-                      textTransform: 'none',
-                      fontWeight: 'bold',
-                      margin: 'auto',
-                      width: 'fit-content',
-                    }}
-                  >
-                    {t('auth.resetButton')}
-                  </Button>
-                </Box>
-              </form>
-            )}
-            {step === 'sent' && (
-              <Grid2 size={12}>
-                <Typography color="success">{t('auth.emailSended')}</Typography>
-              </Grid2>
-            )}
-          </Box>
-        </Grid2>
-      </Paper>
-    </Container>
+        <CardContent>
+          {step === 'initial' ? (
+            <form onSubmit={handleInitiateReset} className="space-y-4">
+              <div className="space-y-2">
+                <Input
+                  type="email"
+                  placeholder={t('email')}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full"
+                />
+              </div>
+              <div className="flex justify-center">
+                <Button type="submit" size="lg" className="min-w-[200px]">
+                  {t('auth.resetButton')}
+                </Button>
+              </div>
+            </form>
+          ) : step === 'sent' ? (
+            <div className="rounded-lg bg-green-50 p-4 text-center dark:bg-green-900/20">
+              <p className="text-green-600 dark:text-green-400">{t('auth.emailSended')}</p>
+            </div>
+          ) : null}
+        </CardContent>
+      </Card>
+    </div>
   );
 }
