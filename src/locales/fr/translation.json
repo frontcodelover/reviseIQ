@@ -160,5 +160,10 @@
       "flashcards": "Flashcards",
       "publicFolers": "dossiers publics"
     }
+  },
+  "notfound": {
+    "title": "Page non trouvée",
+    "message": "La page que vous recherchez n'existe pas.",
+    "back": "Retour à l'accueil"
   }
 }

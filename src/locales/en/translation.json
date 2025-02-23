@@ -160,5 +160,10 @@
       "flashcards": "Flashcards",
       "publicFolers": "public folders"
     }
+  },
+  "notfound": {
+    "title": "404",
+    "message": "The page you are looking for does not exist.",
+    "back": "Back to home"
   }
 }
