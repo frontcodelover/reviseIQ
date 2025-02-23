@@ -5,7 +5,7 @@ import { Wand, User } from 'lucide-react';
 import React from 'react';
 import styled from 'styled-components';
 
-function Section() {
+export function Section() {
   return (
     <ContainerSection>
       {/* Section d'introduction */}
@@ -116,5 +116,3 @@ const HeadingPretty = styled(HeadingOne)`
 const HeadingPrettyTwo = styled(HeadingTwo)`
   text-wrap: balance;
 `;
-
-export default Section;
