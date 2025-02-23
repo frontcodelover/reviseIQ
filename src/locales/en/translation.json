@@ -91,6 +91,8 @@
     "folderDay": "Folder of the day ⭐",
     "folderDayText": "Discover the folder of the day, a new folder every day to learn something new.",
     "noPublicFolder": "No public folder yet.",
+    "congrats": "Congratulations 🎉",
+    "congratsMessage": "You have unlocked a new badge!",
     "folder": {
       "yourfolder": "Your folders",
       "createfolder": "Create a folder",
