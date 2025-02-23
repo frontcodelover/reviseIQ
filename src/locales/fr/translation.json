@@ -160,7 +160,13 @@
       "created": "Créé le",
       "lang": "Langue",
       "flashcards": "Flashcards",
-      "publicFolers": "dossiers publics"
+      "publicFolers": "dossiers publics",
+      "twenty": "20 par page",
+      "fifty": "50 par page",
+      "hundred": "100 par page",
+      "next": "Suivant",
+      "previous": "Précédent",
+      "to": "à"
     }
   },
   "notfound": {

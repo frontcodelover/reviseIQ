@@ -160,7 +160,13 @@
       "created": "Created on",
       "lang": "Language",
       "flashcards": "Flashcards",
-      "publicFolers": "public folders"
+      "publicFolers": "public folders",
+      "twenty": "20 per page",
+      "fifty": "50 per page",
+      "hundred": "100 per page",
+      "next": "Next",
+      "previous": "Previous",
+      "to": "to"
     }
   },
   "notfound": {
