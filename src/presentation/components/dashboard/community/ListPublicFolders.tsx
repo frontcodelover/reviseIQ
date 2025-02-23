@@ -1,7 +1,7 @@
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { useQuery } from 'react-query';
 import { FolderSchema, type Folder } from '@/presentation/components/dashboard/community/Folder.schema';
-import { Pagination } from '@/presentation/components/ui/Pagination';
+import { Pagination } from '@/presentation/components/dashboard/shared/Pagination';
 import { FoldersDataTable } from '@/presentation/components/dashboard/community/FoldersDataTable';
 import { useListPublicFoldersStore } from './store/ListPublicFoldersState.store';
 import { Spinner } from '@/presentation/components/dashboard/shared/Spinner';
