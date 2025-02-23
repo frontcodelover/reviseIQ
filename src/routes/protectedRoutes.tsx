@@ -1,12 +1,11 @@
-import { Navigate } from 'react-router-dom';
+import { Spinner } from '@/presentation/components/dashboard/shared/Spinner';
 import { useAuth } from '@/presentation/context/AuthContext';
-
-import LoadingScreen from '@/presentation/pages/LoadingScreen';
+import { Navigate } from 'react-router-dom';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, hasProfile, loading, isPasswordRecovery } = useAuth();
 
-  if (loading) return <LoadingScreen />;
+  if (loading) return <Spinner />;
 
   if (isPasswordRecovery && window.location.pathname === '/update-password') {
     return children;
