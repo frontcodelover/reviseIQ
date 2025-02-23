@@ -1,42 +1,24 @@
-import styled from 'styled-components';
+import { Button } from '@/presentation/components/ui/button';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
-function NoMatch() {
+export function NoMatch() {
+  const { t } = useTranslation();
   return (
-    <Container>
-      <ErrorText>Erreur 404</ErrorText>
-      <StyledLink href="/">Retour à l'accueil</StyledLink>
-    </Container>
+    <div className="flex min-h-screen flex-col items-center justify-center gap-8 bg-background">
+      <h1 className="text-6xl font-bold text-primary">{t('notfound.title')}</h1>
+      <p className="text-2xl text-muted-foreground">{t('notfound.message')}</p>
+      <Link to="/">
+        <Button
+          variant="outline"
+          size="lg"
+          className="border-2 border-primary text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+        >
+          {t('notfound.back')}
+        </Button>
+      </Link>
+    </div>
   );
 }
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #f8fafc;
-  gap: 2rem;
-`;
-
-const ErrorText = styled.h1`
-  font-size: 4rem;
-  font-weight: 700;
-  color: #0077ff;
-  margin: 0;
-`;
-
-const StyledLink = styled.a`
-  color: #64748b;
-  text-decoration: none;
-  padding: 0.75rem 1.5rem;
-  border: 2px solid #0077ff;
-  border-radius: 0.5rem;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    background-color: #0077ff;
-    color: white;
-  }
-`;
 
 export default NoMatch;

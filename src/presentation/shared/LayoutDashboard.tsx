@@ -13,6 +13,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/presentation/components/ui/sidebar';
+import { Toaster } from '@/presentation/components/ui/sonner';
 import React from 'react';
 
 export default function LayoutDashboard({ children }: { children: React.ReactNode }) {
@@ -38,6 +39,7 @@ export default function LayoutDashboard({ children }: { children: React.ReactNod
           </header>
           <div className="m-auto flex w-full flex-1 flex-col gap-4 sm:p-6 md:max-w-7xl">
             {children}
+            <Toaster />
             <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
           </div>
         </SidebarInset>

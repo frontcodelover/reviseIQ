@@ -1,5 +1,4 @@
 import { Badge } from '@/domain/entities/Badge';
-import CalendarMUI from '@/presentation/components/dashboard/homeBoard/CalendarMui';
 import { GetRandomFolder } from '@/presentation/components/dashboard/homeBoard/GetRandomFolder';
 import { Greetings } from '@/presentation/components/dashboard/homeBoard/Greetings';
 import { ListHomeFolders } from '@/presentation/components/dashboard/homeBoard/ListHomeFolders';
@@ -31,9 +30,7 @@ export function Dashboard() {
 
   if (error) {
     return (
-      <div className="flex h-[50vh] items-center justify-center text-destructive">
-        Erreur: {error}
-      </div>
+      <div className="flex h-[50vh] items-center justify-center text-destructive">{error}</div>
     );
   }
 
@@ -63,7 +60,6 @@ export function Dashboard() {
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="text-primary-foreground">
             <CardContent className="p-6">
-              <CalendarMUI />
               <ActivityCalendar data={logs} />
             </CardContent>
           </Card>

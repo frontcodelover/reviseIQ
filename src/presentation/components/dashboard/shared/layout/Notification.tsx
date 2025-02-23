@@ -1,13 +1,16 @@
 import { BadgeData, BadgeDataSchema } from '@/domain/entities/Badge';
 import { appContainer } from '@/infrastructure/config/AppContainer';
+import { Button } from '@/presentation/components/ui/button';
 import { useAuth } from '@/presentation/context/AuthContext';
 import { Bell } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 
 function Notification() {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [unreadBadges, setUnreadBadges] = useState([] as BadgeData[]);
-  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -35,29 +38,25 @@ function Notification() {
   const handleClick = async () => {
     if (unreadBadges.length === 0) return;
 
-    setShowPopup(true);
-
     const timeoutId = setTimeout(async () => {
       if (!user) return;
       try {
-        // Valider les données avant de les envoyer
         const badgeIds = unreadBadges
           .map((badge) => {
             const result = BadgeDataSchema.safeParse(badge);
             if (result.success) {
-              return result.data.badges.id; // Accéder à l'ID via badge.badges.id
+              return result.data.badges.id;
             } else {
-              console.error('Erreur de validation BadgeData:', result.error);
-              return null; // Retourner null pour les badges invalides
+              console.error(result.error);
+              return null;
             }
           })
-          .filter((id): id is string => id !== null); // Filtrer les IDs null
+          .filter((id): id is string => id !== null);
 
         await appContainer.getBadgeService().markBadgesAsRead(user.id, badgeIds);
         setUnreadBadges([]);
-        setShowPopup(false);
       } catch (error) {
-        console.error('Erreur lors de la mise à jour des badges:', error);
+        console.error(error);
       }
     }, 4000);
 
@@ -68,23 +67,23 @@ function Notification() {
     <div className="relative">
       <div className="relative cursor-pointer" onClick={handleClick}>
         {unreadBadges.length > 0 ? (
-          <>
+          <Button
+            variant="outline"
+            onClick={() =>
+              toast(t('dashboard.congrats'), {
+                description: t('dashboard.congratsMessage'),
+              })
+            }
+          >
             <Bell className="h-6 w-6 fill-yellow-500 stroke-yellow-600" />
             <div className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-red-500" />
-          </>
+          </Button>
         ) : (
-          <Bell className="h-6 w-6 text-gray-500" />
+          <Button variant="ghost" size={'sm'}>
+            <Bell className="h-6 w-6 text-gray-500" />
+          </Button>
         )}
       </div>
-
-      {showPopup && unreadBadges.length > 0 && (
-        <div className="absolute right-0 mt-2 w-64 rounded-lg bg-white p-4 shadow-lg">
-          <p>Vous avez débloqué un nouveau badge !</p>
-          <button className="mt-2 text-sm text-gray-500" onClick={() => setShowPopup(false)}>
-            Fermer
-          </button>
-        </div>
-      )}
     </div>
   );
 }

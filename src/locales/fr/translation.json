@@ -75,6 +75,8 @@
   },
   "dashboard": {
     "account": "Compte",
+    "congrats": "Félicitations 🎉",
+    "congratsMessage": "Vous avez débloqué un nouveau badge !",
     "navigation": "Tableau de bord",
     "billing": "Facturation",
     "home": "Accueil",
@@ -158,7 +160,18 @@
       "created": "Créé le",
       "lang": "Langue",
       "flashcards": "Flashcards",
-      "publicFolers": "dossiers publics"
+      "publicFolers": "dossiers publics",
+      "twenty": "20 par page",
+      "fifty": "50 par page",
+      "hundred": "100 par page",
+      "next": "Suivant",
+      "previous": "Précédent",
+      "to": "à"
     }
+  },
+  "notfound": {
+    "title": "Page non trouvée",
+    "message": "La page que vous recherchez n'existe pas.",
+    "back": "Retour à l'accueil"
   }
 }

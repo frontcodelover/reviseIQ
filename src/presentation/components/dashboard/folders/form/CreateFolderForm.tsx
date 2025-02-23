@@ -1,134 +1,159 @@
-import { FormData } from '@/domain/entities/Folder';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { Thema } from '@/presentation/components/dashboard/folders/form/thema';
-import { Box, Button, FormControl, FormLabel, Input, Switch, Textarea } from '@mui/joy';
-import Typography from '@mui/joy/Typography';
+import { ThemaKey } from '@/presentation/components/dashboard/folders/form/themaLabel';
+import { Button } from '@/presentation/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/presentation/components/ui/form';
+import { Input } from '@/presentation/components/ui/input';
+import { Switch } from '@/presentation/components/ui/switch';
+import { Textarea } from '@/presentation/components/ui/textarea';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
-function CreateDeckForm({ onRefresh }: { onRefresh: () => void }) {
+const formSchema = z.object({
+  name: z.string().min(1, 'Le nom est requis'),
+  description: z.string(),
+  isPublic: z.boolean(),
+  thema: z.string(),
+  color: z.string(),
+  lang: z.string(),
+});
+
+interface CreateFolderFormProps {
+  onRefresh: () => void;
+}
+
+export function CreateFolderForm({ onRefresh }: CreateFolderFormProps) {
   const lang = localStorage.getItem('i18nextLng') || 'fr';
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    description: '',
-    isPublic: true,
-    thema: '',
-    color: '#F0F0F0',
-    lang: lang,
-  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleChange = (field: keyof FormData, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+      description: '',
+      isPublic: true,
+      thema: '',
+      color: '#F0F0F0',
+      lang: lang,
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
     setError('');
 
     try {
       const { id } = await appContainer.getUserService().createFolder({
-        name: formData.name,
-        description: formData.description,
-        is_public: formData.isPublic,
-        color: formData.color,
-        thema: formData.thema,
-        lang: formData.lang,
+        name: values.name,
+        description: values.description,
+        is_public: values.isPublic,
+        color: values.color,
+        thema: values.thema,
+        lang: values.lang,
       });
       onRefresh();
       navigate(`/dashboard/folders/${id}`);
     } catch {
-      setError('Impossible de créer le deck. Veuillez réessayer.');
+      setError(t('dashboard.folder.error.create'));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-      }}
-    >
-      <Typography level="h2" fontWeight="bold" mb={2}>
-        {t('dashboard.folder.createfolder')}
-      </Typography>
-      <Box
-        sx={{
-          width: '100%',
-          p: 4,
-          borderRadius: 'md',
-          border: '1px solid',
-          borderColor: 'neutral.outlinedBorder',
-        }}
-      >
-        {error && (
-          <Typography color="danger" mb={2}>
-            {error}
-          </Typography>
-        )}
-        <form onSubmit={handleSubmit}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            <FormControl>
-              <FormLabel>{t('dashboard.folder.form.nameplaceholder')}</FormLabel>
-              <Input
-                type="text"
-                value={formData.name}
-                onChange={(e) => handleChange('name', e.target.value)}
-                required
-              />
-            </FormControl>
+    <div className="flex flex-col space-y-6">
+      <h2 className="text-2xl font-bold">{t('dashboard.folder.createfolder')}</h2>
 
-            <FormControl>
-              <FormLabel>{t('dashboard.folder.form.descriptionplaceholder')}</FormLabel>
-              <Textarea
-                value={formData.description}
-                onChange={(e) => handleChange('description', e.target.value)}
-                minRows={2}
-              />
-            </FormControl>
+      <div className="rounded-lg border p-6">
+        {error && <div className="mb-4 text-sm text-destructive">{error}</div>}
 
-            <FormControl>
-              <FormLabel>Thème</FormLabel>
-              <Thema
-                setThema={(value) => handleChange('thema', value)}
-                value={
-                  formData.thema as
-                    | 'OTHER'
-                    | 'SCIENCES_TECHNOLOGIES'
-                    | 'SCIENCES_HUMAINES'
-                    | 'ARTS_CULTURE'
-                    | 'ECONOMY_LAW'
-                    | 'EDUCATION'
-                    | 'ENVIRONMENT'
-                    | 'HEALTH'
-                }
-              />
-            </FormControl>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('dashboard.folder.form.nameplaceholder')}</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, my: 2 }}>
-              <FormLabel htmlFor="public-mode">{t('dashboard.folder.form.public')}</FormLabel>
-              <Switch
-                id="public-mode"
-                checked={formData.isPublic}
-                onChange={(e) => handleChange('isPublic', e.target.checked)}
-              />
-            </Box>
-            <Button type="submit" loading={loading}>
-              {loading ? 'Création...' : 'Créer'}
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('dashboard.folder.form.descriptionplaceholder')}</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} className="min-h-[100px]" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="thema"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Thème</FormLabel>
+                  <FormControl>
+                    <Thema setThema={field.onChange} value={field.value as ThemaKey} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="isPublic"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2">
+                  <FormLabel>{t('dashboard.folder.form.public')}</FormLabel>
+                  <FormControl>
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {t('dashboard.folder.form.loading')}
+                </>
+              ) : (
+                t('dashboard.folder.form.submit')
+              )}
             </Button>
-          </Box>
-        </form>
-      </Box>
-    </Box>
+          </form>
+        </Form>
+      </div>
+    </div>
   );
 }
 
-export default CreateDeckForm;
+export default CreateFolderForm;

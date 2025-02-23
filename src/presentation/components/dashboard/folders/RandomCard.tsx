@@ -9,7 +9,7 @@ export function RandomCard({ id, name, lang, user_id }: Folder) {
   const { t } = useTranslation();
 
   return (
-    <Card className="flex h-full max-w-96 flex-col gap-2 p-4 hover:bg-primary/90">
+    <Card className="flex h-full max-w-96 flex-col gap-2 p-4">
       <CardContent className="flex h-full flex-col justify-between gap-1 p-0">
         <Link to={`/dashboard/folders/${id}`} className="text-base font-medium hover:underline">
           {name}

@@ -8,15 +8,26 @@ import {
   TableRow,
 } from "@/presentation/components/ui/table"
 import { formatDate } from '@/lib/FormatDate'
-import { type Folder } from '@/presentation/components/dashboard/community/Folder.schema'
+import { type Folder } from './Folder.schema'
 import { useTranslation } from "react-i18next"
+import { ThemaLabelKeys } from '../folders/form/themaLabel'
 
 interface FoldersDataTableProps {
   folders: Folder[]
 }
 
 export function FoldersDataTable({ folders }: FoldersDataTableProps) {
-	const { t } = useTranslation()
+  const { t } = useTranslation()
+
+  const getThemaLabel = (thema: string | null): string => {
+    if (!thema) return t('dashboard.folder.thema.other')
+    
+    const themaLabel = ThemaLabelKeys.find(
+      label => label.key === thema.toUpperCase()
+    )
+    
+    return themaLabel ? t(themaLabel.i18nKey) : t('dashboard.folder.thema.other')
+  }
 
   return (
     <div className="rounded-md border w-full">
@@ -39,7 +50,7 @@ export function FoldersDataTable({ folders }: FoldersDataTableProps) {
                   {folder.name}
                 </Link>
               </TableCell>
-              <TableCell>{folder.thema || 'Aucune thématique'}</TableCell>
+              <TableCell>{getThemaLabel(folder.thema)}</TableCell>
               <TableCell>{folder.author?.firstname}</TableCell>
               <TableCell className="text-right">{folder.flashcardsCount}</TableCell>
               <TableCell>

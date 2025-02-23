@@ -1,7 +1,6 @@
 import socialProof from '@/assets/socialProof.png';
 import wave from '@/assets/wave.png';
-import { Box, Container, Typography, Button, Stack } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Button } from '@/presentation/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Trans } from 'react-i18next';
@@ -11,84 +10,40 @@ export function Hero() {
   const { t } = useTranslation();
 
   return (
-    <Container maxWidth="xl" sx={{ height: '80vh' }}>
-      <SectionHero>
-        <TitleGroup>
-          <Typography
-            variant="h1"
-            fontWeight="bold"
-            fontSize={{ xs: '3rem', md: '4rem', lg: '5rem' }}
-            lineHeight={1}
-          >
+    <div className="container mx-auto min-h-[80vh]">
+      <section className="flex min-h-[80vh] flex-col items-center justify-center gap-6 text-center">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-balance text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
             <Trans
               i18nKey="home.title"
               components={{
-                WaveImage: <WaveImage />,
+                WaveImage: (
+                  <span
+                    className="mx-2 inline-block bg-contain bg-left-bottom bg-no-repeat pb-4"
+                    style={{ backgroundImage: `url(${wave})` }}
+                  />
+                ),
               }}
             />
-          </Typography>
-        </TitleGroup>
-        <Typography variant="body1" fontSize={{ xs: '1rem', md: '1.25rem' }} color="textSecondary">
+          </h1>
+        </div>
+
+        <p className="text-balance text-lg text-muted-foreground md:text-xl">
           <Trans i18nKey="home.description" />
-        </Typography>
+        </p>
+
         <Link to="/signup">
-          <Button
-            variant="contained"
-            size="large"
-            endIcon={<ArrowRight size={24} />}
-            sx={{ px: 5, py: 1, fontSize: '1rem', textTransform: 'none', fontWeight: 'bold' }}
-          >
+          <Button size="lg" className="px-8 py-6 text-lg font-bold">
             {t('home.cta')}
+            <ArrowRight className="ml-2 h-6 w-6" />
           </Button>
         </Link>
-        <SocialContainer>
-          <SocialProof src={socialProof} alt="Social proof" />
-          <Typography variant="body2" color="textSecondary">
-            {t('home.community')}
-          </Typography>
-        </SocialContainer>
-      </SectionHero>
-    </Container>
+
+        <div className="flex items-center gap-4">
+          <img src={socialProof} alt="Social proof" className="h-auto w-auto max-w-full" />
+          <p className="text-sm text-muted-foreground">{t('home.community')}</p>
+        </div>
+      </section>
+    </div>
   );
 }
-
-const SectionHero = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: theme.spacing(2),
-  textAlign: 'center',
-  height: '80vh',
-}));
-
-const TitleGroup = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(0.5),
-  lineHeight: 1,
-}));
-
-const SocialContainer = styled(Stack)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  gap: theme.spacing(1),
-}));
-
-const SocialProof = styled('img')({
-  width: 'auto',
-  maxWidth: '100%',
-});
-
-const WaveImage = styled('span')({
-  width: 'auto',
-  backgroundImage: `url(${wave})`,
-  backgroundSize: 'contain',
-  backgroundPosition: '0 100%',
-  backgroundRepeat: 'no-repeat',
-  padding: '0 0 1rem 0',
-  display: 'inline-block',
-  margin: '0 0.5rem',
-  lineHeight: 1,
-});

@@ -1,5 +1,13 @@
-import styled from 'styled-components';
-import Button from '@/presentation/components/ui/button/Button';
+import { Button } from '@/presentation/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/presentation/components/ui/select';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface PaginationProps {
   page: number;
@@ -8,64 +16,52 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
   onLimitChange: (limit: number) => void;
 }
-export const Pagination = ({
-  page,
-  limit,
-  total,
-  onPageChange,
-  onLimitChange,
-}: PaginationProps) => {
+
+export function Pagination({ page, limit, total, onPageChange, onLimitChange }: PaginationProps) {
   const totalPages = Math.ceil(total / limit);
+  const { t } = useTranslation();
 
   return (
-    <PaginationContainer>
-      {/* Corriger PageButtonPageButton en PageButton */}
-      <PageButton
-        $variant="primary"
-        onClick={() => onPageChange(Math.max(0, page - 1))}
-        disabled={page === 0}
-      >
-        Précédent
-      </PageButton>
+    <div className="flex items-center justify-between gap-4 py-4">
+      <div className="flex items-center gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(Math.max(0, page - 1))}
+          disabled={page === 0}
+        >
+          <ChevronLeft className="h-4 w-4" />
+          <span className="ml-2">{t('dashboard.communityTable.previous')}</span>
+        </Button>
 
-      <span>
-        Page {page + 1} sur {totalPages}
-      </span>
+        <span className="text-sm text-muted-foreground">
+          Page {page + 1} {t('dashboard.communityTable.to')} {totalPages}
+        </span>
 
-      <PageButton
-        $variant="primary"
-        onClick={() => onPageChange(Math.min(totalPages - 1, page + 1))}
-        disabled={page >= totalPages - 1}
-      >
-        Suivant
-      </PageButton>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(Math.min(totalPages - 1, page + 1))}
+          disabled={page >= totalPages - 1}
+        >
+          <span className="mr-2">{t('dashboard.communityTable.next')}</span>
+          <ChevronRight className="h-4 w-4" />
+        </Button>
+      </div>
 
-      <Select value={limit} onChange={(e) => onLimitChange(Number(e.target.value))}>
-        <option value={20}>20 par page</option>
-        <option value={50}>50 par page</option>
-        <option value={100}>100 par page</option>
+      <Select value={limit.toString()} onValueChange={(value) => onLimitChange(Number(value))}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Sélectionner une limite">
+            {' '}
+            {t('dashboard.communityTable.twenty')}
+          </SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="20">{t('dashboard.communityTable.twenty')}</SelectItem>
+          <SelectItem value="50">{t('dashboard.communityTable.fifty')}</SelectItem>
+          <SelectItem value="100">{t('dashboard.communityTable.hundred')}</SelectItem>
+        </SelectContent>
       </Select>
-    </PaginationContainer>
+    </div>
   );
-};
-
-const PaginationContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
-`;
-const PageButton = styled(Button)`
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-`;
-
-const Select = styled.select`
-  padding: 0.5rem;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-`;
+}

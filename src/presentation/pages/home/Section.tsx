@@ -1,118 +1,48 @@
-import Text from '@/presentation/components/ui/text/Text';
-import HeadingOne from '@/presentation/components/ui/text/heading/HeadingOne';
-import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
+//! need implement translation
 import { Wand, User } from 'lucide-react';
-import React from 'react';
-import styled from 'styled-components';
 
 export function Section() {
   return (
-    <ContainerSection>
+    <section className="mx-auto grid max-w-[1080px] grid-cols-1 gap-8 lg:grid-cols-2">
       {/* Section d'introduction */}
-      <SectionOne>
-        <HeadingPretty $size="xxxlarge" $weight="semibold" $color="black">
+      <div className="flex flex-col gap-8">
+        <h1 className="text-balance text-4xl font-semibold text-foreground sm:text-5xl">
           Apprenez plus vite, retenez plus longtemps.
-        </HeadingPretty>
-        <BalanceText $color="secondary" $size="large">
-          Rejoignez des milliers d’apprenants et boostez vos connaissances avec des flashcards
+        </h1>
+        <p className="text-pretty text-lg text-muted-foreground">
+          Rejoignez des milliers d'apprenants et boostez vos connaissances avec des flashcards
           interactives créées par la communauté. 🚀
-        </BalanceText>
-      </SectionOne>
+        </p>
+      </div>
 
       {/* Section des bénéfices */}
-      <SectionTwo>
-        <SubSection>
-          <Wand size="40" />
-          <HeadingPrettyTwo $size="medium" $weight="semibold" $color="black">
-            Créez des flashcards en un clic avec l’IA
-          </HeadingPrettyTwo>
-          <BalanceText $color="secondary" $size="regular">
-            Générez instantanément des flashcards à partir de textes ou d’articles et
-            concentrez-vous sur l’apprentissage, pas sur la création.
-          </BalanceText>
-        </SubSection>
+      <div className="grid gap-8 sm:grid-cols-2">
+        <div className="flex flex-col gap-4">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+            <Wand className="h-6 w-6 text-primary" />
+          </div>
+          <h2 className="text-balance text-xl font-semibold text-foreground">
+            Créez des flashcards en un clic avec l'IA
+          </h2>
+          <p className="text-pretty text-muted-foreground">
+            Générez instantanément des flashcards à partir de textes ou d'articles et
+            concentrez-vous sur l'apprentissage, pas sur la création.
+          </p>
+        </div>
 
-        <SubSection>
-          <User size="40" />
-          <HeadingPrettyTwo $size="medium" $weight="semibold" $color="black">
+        <div className="flex flex-col gap-4">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+            <User className="h-6 w-6 text-primary" />
+          </div>
+          <h2 className="text-balance text-xl font-semibold text-foreground">
             Apprenez seul ou avec la communauté
-          </HeadingPrettyTwo>
-          <BalanceText $color="secondary" $size="regular">
-            Explorez des milliers de flashcards partagées par d’autres apprenants et échangez des
+          </h2>
+          <p className="text-pretty text-muted-foreground">
+            Explorez des milliers de flashcards partagées par d'autres apprenants et échangez des
             connaissances avec la communauté.
-          </BalanceText>
-        </SubSection>
-
-        {/* <SubSection>
-          <Trophy size="40" />
-          <HeadingPrettyTwo size="medium" weight="semibold" color="black">
-            Restez motivé avec des récompenses
-          </HeadingPrettyTwo>
-          <BalanceText color="secondary" size="regular">
-            Gagnez des badges et relevez des défis pour garder votre motivation intacte et suivre
-            vos progrès d’apprentissage.
-          </BalanceText>
-        </SubSection> */}
-
-        {/* <SubSection>
-          <FileQuestion size="40" />
-          <HeadingPrettyTwo size="medium" weight="semibold" color="black">
-            Testez vos connaissances avec des quiz
-          </HeadingPrettyTwo>
-          <BalanceText color="secondary" size="regular">
-            Passez en mode quiz pour valider votre apprentissage et repérer les notions à
-            approfondir.
-          </BalanceText>
-        </SubSection>
-
-        <SubSection>
-          <WalletCards size="40" />
-          <HeadingPrettyTwo size="medium" weight="semibold" color="black">
-            Un mode flashcards simple et efficace
-          </HeadingPrettyTwo>
-          <BalanceText color="secondary" size="regular">
-            Révisez facilement avec un mode flashcards optimisé pour une rétention rapide et
-            efficace.
-          </BalanceText>
-        </SubSection> */}
-      </SectionTwo>
-    </ContainerSection>
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
-
-const ContainerSection = styled.section`
-  grid-template-columns: 1fr 1fr;
-  display: grid;
-  gap: 2rem;
-  width: 1080px;
-`;
-
-const SectionOne = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`;
-
-const SectionTwo = styled.div`
-  display: flex;
-  gap: 2rem;
-  /* margin-top: 3rem; */
-`;
-
-const SubSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`;
-
-const BalanceText = styled(Text)`
-  text-wrap: pretty;
-`;
-
-const HeadingPretty = styled(HeadingOne)`
-  text-wrap: pretty;
-`;
-
-const HeadingPrettyTwo = styled(HeadingTwo)`
-  text-wrap: balance;
-`;
