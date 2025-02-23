@@ -1,21 +1,16 @@
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { appContainer } from '@/infrastructure/config/AppContainer';
+import { Alert, AlertDescription } from '@/presentation/components/ui/alert';
+import { Button } from '@/presentation/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
+import { Input } from '@/presentation/components/ui/input';
 import { useAuth } from '@/presentation/context/AuthContext';
-import {
-  Container,
-  Paper,
-  TextField,
-  Button,
-  Typography,
-  Box,
-  CircularProgress,
-  Grid2,
-} from '@mui/material';
+import { Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-export default function UpdatePassword() {
+function UpdatePassword() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -69,59 +64,58 @@ export default function UpdatePassword() {
   };
 
   return (
-    <Container component="main" maxWidth="md">
-      <Paper elevation={3} sx={{ p: 4, mt: 8 }}>
-        <Grid2 container spacing={2} justifyContent="center">
-          <Grid2 size={12}>
-            <Box textAlign="center">
-              <Typography component="h1" variant="h5">
-                {t('auth.resetPassword')}
-              </Typography>
-            </Box>
-          </Grid2>
-          <Grid2 size={12}>
-            <form onSubmit={handleSubmit}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <TextField
-                  label={t('auth.newPassword')}
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  required
-                  fullWidth
-                />
-                <TextField
-                  label={t('auth.passwordConfirm')}
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  fullWidth
-                />
+    <div className="container mx-auto flex min-h-screen items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-2">
+          <CardTitle className="text-center text-2xl">{t('auth.resetPassword')}</CardTitle>
+          <p className="text-center text-sm text-muted-foreground">
+            {t('auth.resetPasswordDescription')}
+          </p>
+        </CardHeader>
 
-                {error && (
-                  <Typography variant="body2" color="error" textAlign="center">
-                    {error}
-                  </Typography>
-                )}
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  disabled={loading}
-                  sx={{ textTransform: 'none', fontWeight: 'bold' }}
-                >
-                  {loading ? (
-                    <CircularProgress size={24} color="inherit" />
-                  ) : (
-                    t('auth.updatePasswordButton')
-                  )}
-                </Button>
-              </Box>
-            </form>
-          </Grid2>
-        </Grid2>
-      </Paper>
-    </Container>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Input
+                type="password"
+                placeholder={t('auth.newPassword')}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Input
+                type="password"
+                placeholder={t('auth.passwordConfirm')}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            {error && (
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {t('auth.updating')}
+                </>
+              ) : (
+                t('auth.updatePasswordButton')
+              )}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
+
+export default UpdatePassword;
