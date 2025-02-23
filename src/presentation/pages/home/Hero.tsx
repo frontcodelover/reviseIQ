@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-function HeroTwo() {
+export function Hero() {
   const { t } = useTranslation();
 
   return (
@@ -92,5 +92,3 @@ const WaveImage = styled('span')({
   margin: '0 0.5rem',
   lineHeight: 1,
 });
-
-export default HeroTwo;

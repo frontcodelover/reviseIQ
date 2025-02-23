@@ -54,12 +54,12 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
 		 "wrong_two" : "...",
 		 "wrong_three" : "..."
 	}]'
-		Tu feras ça pour le nombre de flashcards  demandé.
+		Tu feras ça pour le nombre de flashcards demandé. Pour chaque flashcard tu devras générer 3 fausses réponses impérativement.
 		`;
 
     try {
       const result = await client.chat.complete({
-        model: 'mistral-small-latest',
+        model: 'mistral-large-latest',
         responseFormat: { type: 'json_object' },
         messages: [{ role: 'user', content: prompt }],
       });

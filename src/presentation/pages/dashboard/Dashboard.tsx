@@ -5,169 +5,111 @@ import { Greetings } from '@/presentation/components/dashboard/homeBoard/Greetin
 import { ListHomeFolders } from '@/presentation/components/dashboard/homeBoard/ListHomeFolders';
 import ActivityCalendar from '@/presentation/components/dashboard/stats/ActivityPlanning';
 import { LogsAndBadgesManager } from '@/presentation/components/dashboard/stats/logsAndBadgesManager';
-import Text from '@/presentation/components/ui/text/Text';
-import HeadingThree from '@/presentation/components/ui/text/heading/HeadingThree';
-import HeadingTwo from '@/presentation/components/ui/text/heading/HeadingTwo';
+import { Card, CardContent, CardTitle } from '@/presentation/components/ui/card';
+import { Skeleton } from '@/presentation/components/ui/skeleton';
 import { useAuth } from '@/presentation/context/AuthContext';
 import { useProfile } from '@/presentation/hooks/useProfile';
-import { Box, Card, Sheet, Typography } from '@mui/joy';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 
-function Dashboard() {
+export function Dashboard() {
   const { profile, loading, error } = useProfile();
   const { user } = useAuth();
-  const userId: string | null = user?.id ?? null;
+  const userId = user?.id ?? null;
   const [logs, setLogs] = useState<Record<string, number>>({});
   const [badges, setBadges] = useState<Badge[]>([]);
   const [lastBadge, setLastBadge] = useState<Badge | null>(null);
   const { t } = useTranslation();
-  if (loading) return <div>Chargement...</div>;
-  if (error) return <div>Erreur: {error}</div>;
+
+  if (loading) {
+    return (
+      <div className="flex h-[50vh] items-center justify-center">
+        <Skeleton className="h-32 w-32 rounded-full" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-[50vh] items-center justify-center text-destructive">
+        Erreur: {error}
+      </div>
+    );
+  }
+
   if (!profile) return null;
 
   return (
-    <>
-      <Sheet
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '24px', // ou utiliser la notation MUI : gap: 3
-          minHeight: '100%',
-          bgcolor: 'var(--joy-palette-background)',
-        }}
-      >
-        <Greetings />
+    <div className="flex min-h-screen flex-col space-y-6 p-6">
+      <Greetings />
 
-        <GetRandomFolder />
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <Typography level="h3" sx={{ color: 'primary' }}>
-            {t('dashboard.lastPublicFolders')}
-          </Typography>
-          <ListHomeFolders />
-        </Box>
+      <GetRandomFolder />
 
-        <LogsAndBadgesManager
-          userId={userId}
-          onLogsUpdate={setLogs}
-          onBadgesUpdate={setBadges}
-          onLastBadgeUpdate={setLastBadge}
-        />
+      <section className="space-y-4">
+        <h3 className="text-2xl font-semibold text-primary">{t('dashboard.lastPublicFolders')}</h3>
+        <ListHomeFolders />
+      </section>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <Typography level="h3" sx={{ color: 'primary' }}>
-            {t('dashboard.stats')}
-          </Typography>
+      <LogsAndBadgesManager
+        userId={userId}
+        onLogsUpdate={setLogs}
+        onBadgesUpdate={setBadges}
+        onLastBadgeUpdate={setLastBadge}
+      />
 
-          <Box sx={{ display: 'flex', gap: '1.5rem' }}>
-            <Card sx={{ flex: 1, padding: '1.5rem', bgcolor: 'primary.main', border: 'none' }}>
+      <section className="space-y-4">
+        <h3 className="text-2xl font-semibold text-primary">{t('dashboard.stats')}</h3>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          <Card className="text-primary-foreground">
+            <CardContent className="p-6">
               <CalendarMUI />
               <ActivityCalendar data={logs} />
-            </Card>
+            </CardContent>
+          </Card>
 
-            <Card sx={{ flex: 1, padding: '1.5rem', bgcolor: 'primary', border: 'none' }}>
-              <MarginBottomContainer>
-                <MarginBottomContainerSmall>
-                  <Typography level="h4" fontSize={'1rem'}>
-                    Dernier badge obtenu
-                  </Typography>
-                </MarginBottomContainerSmall>
+          <Card>
+            <CardContent className="space-y-6 p-6">
+              <div className="space-y-2">
+                <h4 className="text-lg font-semibold">Dernier badge obtenu</h4>
                 {lastBadge && (
-                  <BadgeContainer key={lastBadge.id}>
-                    <BadgeImage src={lastBadge.image_url} alt={lastBadge.name} />
-                    <LeftMarginContainer>
-                      <HeadingThree $weight="medium" $size="medium" color="black">
-                        {lastBadge.name}
-                      </HeadingThree>
-                      <Text color="secondary" $size="medium" $weight="regular">
-                        {lastBadge.description}
-                      </Text>
-                      <Text color="secondary" $size="small" $weight="light">
+                  <div className="flex items-center space-x-4 rounded-lg bg-white/10 p-4">
+                    <img
+                      src={lastBadge.image_url}
+                      alt={lastBadge.name}
+                      className="h-16 w-16 object-contain"
+                    />
+                    <div className="space-y-1">
+                      <h5 className="font-medium">{lastBadge.name}</h5>
+                      <p className="text-sm opacity-90">{lastBadge.description}</p>
+                      <p className="text-xs opacity-75">
                         Obtenu le {new Date(lastBadge.obtained_at).toLocaleDateString()}
-                      </Text>
-                    </LeftMarginContainer>
-                  </BadgeContainer>
+                      </p>
+                    </div>
+                  </div>
                 )}
-              </MarginBottomContainer>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-2xl font-semibold">Vos badges</h2>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {badges.map((badge) => (
+            <Card key={badge.id}>
+              <CardContent className="flex flex-col items-center space-y-4 p-6">
+                <img src={badge.image_url} alt={badge.name} className="h-16 w-16 object-contain" />
+                <CardTitle className="text-center">{badge.name}</CardTitle>
+                <p className="text-center text-sm text-muted-foreground">{badge.description}</p>
+              </CardContent>
             </Card>
-          </Box>
-          <>
-            <>
-              <HeadingTwo $size="large" $weight="medium" color="black">
-                Vos badges
-              </HeadingTwo>
-            </>
-            <GridContainer>
-              {badges.map((badge) => (
-                <BadgeCard key={`badge-${badge.id}`}>
-                  <BadgeImage src={badge.image_url} alt={badge.name} />
-                  <HeadingThree $size="medium" $weight="medium" $align="center" color="black">
-                    {badge.name}
-                  </HeadingThree>
-                  <Text $size="medium" $align="center" color="secondary">
-                    {badge.description}
-                  </Text>
-                </BadgeCard>
-              ))}
-            </GridContainer>
-          </>
-        </Box>
-      </Sheet>
-    </>
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }
 
 export default Dashboard;
-
-const MarginBottomContainer = styled.div`
-  margin-bottom: 1.5rem;
-`;
-
-const MarginBottomContainerSmall = styled.div`
-  margin-bottom: 1rem;
-`;
-
-const BadgeImage = styled.img`
-  margin-bottom: 0.5rem;
-  height: 4rem;
-  width: 4rem;
-  object-fit: contain;
-`;
-
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-`;
-
-const BadgeCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 0.5rem;
-  background-color: white;
-  padding: 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-`;
-
-const LeftMarginContainer = styled.div`
-  margin-left: 1rem;
-`;
-
-const BadgeContainer = styled.div`
-  display: flex;
-  align-items: center;
-  border-radius: 0.5rem;
-
-  padding: 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-`;
