@@ -1,9 +1,8 @@
 import { Button } from '@/presentation/components/ui/button';
+import { Hero } from '@/presentation/pages/home/Hero';
+import { Section } from '@/presentation/pages/home/Section';
 import { Brain } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-
-import HeroTwo from './home/Hero';
-import Section from './home/Section';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -40,7 +39,7 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="container mx-auto space-y-12 px-4">
-        <HeroTwo />
+        <Hero />
         <Section />
       </main>
     </div>
