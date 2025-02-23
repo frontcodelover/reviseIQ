@@ -30,9 +30,7 @@ export function Dashboard() {
 
   if (error) {
     return (
-      <div className="flex h-[50vh] items-center justify-center text-destructive">
-        Erreur: {error}
-      </div>
+      <div className="flex h-[50vh] items-center justify-center text-destructive">{error}</div>
     );
   }
 
