@@ -62,8 +62,6 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
 		Tu feras ça pour le nombre de flashcards demandé. Pour chaque flashcard tu devras générer 3 fausses réponses impérativement.
 		`;
 
-    console.log(prompt);
-
     try {
       const result = await client.chat.complete({
         model: 'mistral-large-latest',
