@@ -1,5 +1,6 @@
 import { Flashcard } from '@/domain/entities/Flashcard';
 import { appContainer } from '@/infrastructure/config/AppContainer';
+import { cn } from '@/lib/utils';
 import { Button } from '@/presentation/components/ui/button';
 import { Card } from '@/presentation/components/ui/card';
 import { Input } from '@/presentation/components/ui/input';
@@ -7,6 +8,7 @@ import { Label } from '@/presentation/components/ui/label';
 import { Progress } from '@/presentation/components/ui/progress';
 import { RadioGroup, RadioGroupItem } from '@/presentation/components/ui/radio-group';
 import { Slider } from '@/presentation/components/ui/slider';
+import { Textarea } from '@/presentation/components/ui/textarea';
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -109,6 +111,13 @@ export function GenerateFlashCardWithIa() {
       setError('Erreur lors de la sauvegarde');
       console.error('Flashcard save failed:', e);
     }
+  };
+
+  // Fonction pour mettre à jour une flashcard
+  const updateFlashcard = (index: number, field: keyof Flashcard, value: string) => {
+    setGeneratedCards((cards) =>
+      cards.map((card, i) => (i === index ? { ...card, [field]: value } : card))
+    );
   };
 
   return (
@@ -234,21 +243,54 @@ export function GenerateFlashCardWithIa() {
               <Card key={index} className="p-6">
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label>Question:</Label>
-                    <Input type="text" value={card.question} readOnly className="w-full" />
+                    <Label htmlFor={`question-${index}`}>{t('flashcard.question')}:</Label>
+                    <Textarea
+                      id={`question-${index}`}
+                      value={card.question}
+                      onChange={(e) => updateFlashcard(index, 'question', e.target.value)}
+                      placeholder={t('flashcard.questionPlaceholder')}
+                      className={cn('min-h-[100px] resize-none', 'focus:ring-2 focus:ring-primary')}
+                    />
                   </div>
                   <div className="space-y-2">
-                    <Label>Réponse:</Label>
-                    <Input type="text" value={card.answer} className="rounded-md bg-muted p-4" />
+                    <Label htmlFor={`answer-${index}`}>{t('flashcard.answer')}:</Label>
+                    <Textarea
+                      id={`answer-${index}`}
+                      value={card.answer}
+                      onChange={(e) => updateFlashcard(index, 'answer', e.target.value)}
+                      placeholder={t('flashcard.answerPlaceholder')}
+                      className={cn('min-h-[100px] resize-none', 'focus:ring-2 focus:ring-primary')}
+                    />
+                  </div>
+                  {/* Optionnel : Ajout de boutons pour gérer chaque carte */}
+                  <div className="flex justify-end gap-2 pt-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setGeneratedCards((cards) => cards.filter((_, i) => i !== index));
+                      }}
+                      className="text-destructive hover:text-destructive"
+                    >
+                      {t('flashcard.delete')}
+                    </Button>
                   </div>
                 </div>
               </Card>
             ))}
           </div>
 
-          <Button onClick={handleSubmit} className="w-full">
-            {t('flashcard.save')}
-          </Button>
+          <div className="flex justify-end gap-4">
+            <Button variant="outline" onClick={() => setGeneratedCards([])}>
+              {t('flashcard.cancel')}
+            </Button>
+            <Button
+              onClick={handleSubmit}
+              disabled={generatedCards.some((card) => !card.question.trim() || !card.answer.trim())}
+            >
+              {t('flashcard.save')}
+            </Button>
+          </div>
         </div>
       )}
     </div>
