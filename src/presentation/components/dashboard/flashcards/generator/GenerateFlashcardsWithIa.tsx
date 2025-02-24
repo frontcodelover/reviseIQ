@@ -262,7 +262,6 @@ export function GenerateFlashCardWithIa() {
                       className={cn('min-h-[100px] resize-none', 'focus:ring-2 focus:ring-primary')}
                     />
                   </div>
-                  {/* Optionnel : Ajout de boutons pour gérer chaque carte */}
                   <div className="flex justify-end gap-2 pt-2">
                     <Button
                       variant="ghost"

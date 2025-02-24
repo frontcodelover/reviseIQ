@@ -12,7 +12,7 @@ import {
 } from '@/presentation/components/ui/card';
 import { Progress } from '@/presentation/components/ui/progress';
 import { AlertCircle, CheckCircle2, XCircle } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -123,7 +123,7 @@ export default function QuizMode() {
                 Question {currentQuestion + 1}/{quiz.questions.length}
               </span>
               <span className="text-sm font-normal">
-                {t('quiz.score')} {score}/{currentQuestion}
+                {t('quiz.score')} {score}/{currentQuestion + 1}
               </span>
             </CardTitle>
             <Progress value={progress} className="h-2" />

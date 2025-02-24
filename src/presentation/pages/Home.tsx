@@ -1,20 +1,16 @@
-import { Button } from '@/presentation/components/ui/button';
+import { Cta } from '@/presentation/pages/home/Cta';
+import { Faq } from '@/presentation/pages/home/Faq';
+import { Features } from '@/presentation/pages/home/Features';
+import { Footer } from '@/presentation/pages/home/Footer';
 import { Hero } from '@/presentation/pages/home/Hero';
+import { Video } from '@/presentation/pages/home/Video';
+import { LanguageToggle } from '@/presentation/shared/LanguageToggle';
+import { ModeToggle } from '@/presentation/shared/ModeToggle';
 import { Brain } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-import { Cta } from './home/Cta';
-import { Faq } from './home/Faq';
-import { Features } from './home/Features';
-import { Footer } from './home/Footer';
-import { Video } from './home/Video';
-
 export default function Home() {
-  const { t, i18n } = useTranslation();
-
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-  };
+  const { t } = useTranslation();
 
   return (
     <div className="relative m-auto flex min-h-[100vh] w-full flex-col items-center justify-center">
@@ -24,22 +20,8 @@ export default function Home() {
       </div>
 
       <div className="absolute right-4 top-4 z-50 flex gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => changeLanguage('en')}
-          className="flex items-center gap-2 transition-colors hover:bg-muted"
-        >
-          {t('english')}
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => changeLanguage('fr')}
-          className="flex items-center gap-2 transition-colors hover:bg-muted"
-        >
-          {t('french')}
-        </Button>
+        <ModeToggle />
+        <LanguageToggle />
       </div>
 
       {/* Main Content */}

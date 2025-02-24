@@ -118,7 +118,9 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
           <FlashcardCard onClick={() => setShowAnswer(!showAnswer)} showAnswer={showAnswer}>
             <div className="backface-hidden absolute h-full w-full">
               <div className="flex h-full flex-col items-center justify-center rounded-lg p-6">
-                <h2 className="mb-4 text-center text-2xl font-medium">🤔</h2>
+                <h2 className="mb-4 text-center text-2xl font-medium">
+                  {t('flashcard.question')} 🤔
+                </h2>
                 <p className="text-center text-lg">{currentCard?.question}</p>
               </div>
             </div>
