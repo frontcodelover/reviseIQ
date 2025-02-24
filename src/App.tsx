@@ -1,4 +1,4 @@
-import { AppProvider } from '@/routes/AppProvider';
+import { AppProvider } from '@/presentation/routes/AppProvider';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 export const App = () => {

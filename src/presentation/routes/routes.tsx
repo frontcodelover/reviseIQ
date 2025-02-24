@@ -15,9 +15,9 @@ import CreateFolder from '@/presentation/pages/folders/CreateFolder';
 import GenerateManual from '@/presentation/pages/folders/GenerateManual';
 import GenerateWithIa from '@/presentation/pages/folders/GenerateWithIa';
 import SinglePageFolder, { folderLoader } from '@/presentation/pages/folders/Single';
+import ProtectedRoute from '@/presentation/routes/protectedRoutes';
 import LayoutAuth from '@/presentation/shared/LayoutAuth';
 import LayoutDashboard from '@/presentation/shared/LayoutDashboard';
-import ProtectedRoute from '@/routes/protectedRoutes';
 import React from 'react';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 
