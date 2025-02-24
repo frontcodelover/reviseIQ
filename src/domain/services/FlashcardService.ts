@@ -13,8 +13,13 @@ export class FlashcardService {
     return this.flashcardRepository.createFlashcard(flashcardData);
   }
 
-  generateFlashcards(topic: string, number: number, lang: string): Promise<Flashcard[]> {
-    return this.flashcardRepository.generateFlashcards(topic, number, lang);
+  generateFlashcards(
+    topic: string,
+    number: number,
+    lang: string,
+    level: string
+  ): Promise<Flashcard[]> {
+    return this.flashcardRepository.generateFlashcards(topic, number, lang, level);
   }
 
   getQuizByFolderId(folderId: string): Promise<Quiz | null> {

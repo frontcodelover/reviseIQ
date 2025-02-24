@@ -39,14 +39,19 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
     }
   }
 
-  async generateFlashcards(topic: string, number: number, lang: string): Promise<Flashcard[]> {
+  async generateFlashcards(
+    topic: string,
+    number: number,
+    lang: string,
+    level: string
+  ): Promise<Flashcard[]> {
     const apiKey = import.meta.env.VITE_MISTRAL_API_KEY;
     if (!apiKey) {
       throw new Error('Clé API Mistral non définie');
     }
 
     const client = new Mistral({ apiKey });
-    const prompt = `Génère un maximum de ${number} questions/reponses pour apprendre ${topic} dans la langue ${lang}. Les fausses réponses devront faire la quasi meme taille que la vraie réponse. Donne l'ensemble de toutes les flashcard sous ce format : '
+    const prompt = `Génère un maximum de ${number} questions/reponses pour apprendre ${topic} dans la langue ${lang} avec un niveau de difficulté : ${level}. Les fausses réponses devront faire la meme taille que la vraie réponse. Donne l'ensemble de toutes les flashcard sous ce format : '
 		[{
 		"question" : "...",
 		 "answer" : "...",
@@ -76,25 +81,6 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
       throw error;
     }
   }
-
-  // async storeQuiz(deckId: string, flashcards: Flashcard[]): Promise<void> {
-  //   const quiz = flashcards.map((card) => ({
-  //     question: card.question,
-  //     correctAnswer: card.answer,
-  //     wrongAnswers: card.wrongAnswers,
-  //   }));
-
-  //   try {
-  //     const { error } = await supabase.from('quizzes').insert([{ deck_id: deckId, quiz }]);
-  //     if (error) {
-  //       console.error('Error storing quiz:', error);
-  //       throw error;
-  //     }
-  //   } catch (error) {
-  //     console.error('Error in storeQuiz:', error);
-  //     throw error;
-  //   }
-  // }
 
   async getQuizByFolderId(folderId: string): Promise<Quiz | null> {
     try {

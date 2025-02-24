@@ -26,7 +26,19 @@
     "startAgain": "Start again ?",
     "noFlashcard": "It seems that the owner has not yet created any flashcards.",
     "noFlashcardTitle": "No flashcard found",
-    "hint": "Hint: Press A to show the answer"
+    "hint": "Hint: Press A to show the answer",
+    "iaGeneratedProgress": "Generating flashcards...",
+    "iaGeneratedProgressInfos": "The duration of this process depends on the size of the subject (about 30 seconds).",
+    "processing": "Processing...",
+    "generate": "Generate flashcards",
+    "nbFlashcard": "Number of flashcards",
+    "generateDescription": "Automatically generate flashcards by entering a subject and the number of flashcards desired.",
+    "generateWithIa": "Generate with AI",
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard",
+    "chooseDifficulty": "Choose the difficulty",
+    "subject": "Subject of your flashcards"
   },
   "quiz": {
     "next": "Next question",
