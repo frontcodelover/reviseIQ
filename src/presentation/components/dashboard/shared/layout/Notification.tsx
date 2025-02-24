@@ -69,18 +69,20 @@ function Notification() {
         {unreadBadges.length > 0 ? (
           <Button
             variant="outline"
+            size="icon" // Changé de 'sm' à 'icon'
             onClick={() =>
               toast(t('dashboard.congrats'), {
                 description: t('dashboard.congratsMessage'),
               })
             }
           >
-            <Bell className="h-6 w-6 fill-yellow-500 stroke-yellow-600" />
+            <Bell className="h-[1.2rem] w-[1.2rem] fill-yellow-500 stroke-yellow-600" />
             <div className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-red-500" />
           </Button>
         ) : (
-          <Button variant="ghost" size={'sm'}>
-            <Bell className="h-6 w-6 text-gray-500" />
+          <Button variant="outline" size="icon">
+            {' '}
+            <Bell className="h-[1.2rem] w-[1.2rem]" />
           </Button>
         )}
       </div>

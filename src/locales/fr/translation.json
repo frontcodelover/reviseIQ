@@ -90,6 +90,10 @@
   },
   "dashboard": {
     "account": "Compte",
+    "toggleTheme": "Changer de thème",
+    "dark": "Sombre",
+    "light": "Clair",
+    "system": "Système",
     "congrats": "Félicitations 🎉",
     "congratsMessage": "Vous avez débloqué un nouveau badge !",
     "navigation": "Tableau de bord",

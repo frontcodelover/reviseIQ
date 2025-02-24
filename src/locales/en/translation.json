@@ -90,6 +90,10 @@
   },
   "dashboard": {
     "account": "Account",
+    "toggleTheme": "Toggle theme",
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System",
     "billing": "Billing",
     "home": "Home",
     "navigation": "Dashboard",

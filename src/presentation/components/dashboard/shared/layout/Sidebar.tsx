@@ -15,6 +15,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/presentation/components/ui/sidebar';
+import { ModeToggle } from '@/presentation/shared/ModeToggle';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
@@ -41,7 +42,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuItem>
               <div className="flex items-center justify-between gap-0.5 leading-none">
                 <span className="font-bold text-primary">{t('title')}</span>
-                <Notification />
+                <span className="flex items-center gap-2">
+                  <Notification />
+                  <ModeToggle />
+                </span>
               </div>
             </SidebarMenuItem>
           </div>
