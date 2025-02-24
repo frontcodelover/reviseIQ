@@ -23,7 +23,10 @@
     "cancel": "Cancel",
     "congratulations": "Congratulations!",
     "congratulationsMessage": "You have completed all the flashcards in this folder.",
-    "startAgain": "Start again ?"
+    "startAgain": "Start again ?",
+    "noFlashcard": "It seems that the owner has not yet created any flashcards.",
+    "noFlashcardTitle": "No flashcard found",
+    "hint": "Hint: Press A to show the answer"
   },
   "quiz": {
     "next": "Next question",

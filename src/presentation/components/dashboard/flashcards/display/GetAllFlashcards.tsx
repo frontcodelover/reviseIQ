@@ -1,97 +1,65 @@
-import { Flashcard } from '@/domain/entities/Flashcard';
-import { appContainer } from '@/infrastructure/config/AppContainer';
-import { cn } from '@/lib/utils';
 import { DockNavigate } from '@/presentation/components/dashboard/dock/DockNavigate';
-import EndCard from '@/presentation/components/dashboard/flashcards/display/LastFlashcard';
-import { Card } from '@/presentation/components/ui/card';
+import { CreateFlashcards } from '@/presentation/components/dashboard/flashcards/display/CreateFlashcards';
+import { EndCard } from '@/presentation/components/dashboard/flashcards/display/EndFlashcard';
+import { FlashcardCard } from '@/presentation/components/dashboard/flashcards/display/FlashcardDisplay';
+import { useFlashcardsStore } from '@/presentation/components/dashboard/flashcards/display/store/useFlashcards.store';
 import { Progress } from '@/presentation/components/ui/progress';
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-interface FlashcardCardProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-  showAnswer: boolean;
+interface GetFlashcardsProps {
+  isOwner: boolean;
 }
 
-function FlashcardCard({ children, onClick, showAnswer }: FlashcardCardProps) {
-  return (
-    <Card
-      onClick={onClick}
-      className={cn(
-        'preserve-3d min-h-[40vh] transform-gpu cursor-pointer transition-transform duration-1000',
-        'shadow-md hover:shadow-lg',
-        showAnswer && 'rotate-y-180'
-      )}
-    >
-      {children}
-    </Card>
-  );
-}
-
-export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
+export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
   const { id: deckId } = useParams<{ id: string }>();
-  const [userId, setUserId] = useState<string | null>(null);
-  const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [showAnswer, setShowAnswer] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [hasLoggedCompletion, setHasLoggedCompletion] = useState(false);
-  const [shuffledCards, setShuffledCards] = useState<Flashcard[]>([]);
-  const [isShuffled, setIsShuffled] = useState(false);
-
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const isLastCard = currentIndex === flashcards.length;
-  useEffect(() => {
-    const getUserId = async () => {
-      try {
-        const id = await appContainer.getUserService().getUserId();
-        setUserId(id);
-      } catch (error) {
-        console.error("Erreur lors de la récupération de l'userId:", error);
-      }
-    };
-    getUserId();
-  }, []);
+  const {
+    flashcards,
+    currentIndex,
+    showAnswer,
+    loading,
+    error,
+    isShuffled,
+    shuffledCards,
+    fetchUserId,
+    fetchFlashcards,
+    logCompletion,
+    setCurrentIndex,
+    setShowAnswer,
+    handleRestart,
+    handleShuffle,
+    resetState,
+  } = useFlashcardsStore();
+
+  // Calculer currentCard en dehors des conditions
+  const currentCard = useMemo(() => {
+    const cards = isShuffled ? shuffledCards : flashcards;
+    return cards[currentIndex];
+  }, [isShuffled, shuffledCards, flashcards, currentIndex]);
+
+  const isLastCard = currentIndex >= flashcards.length - 1;
 
   useEffect(() => {
-    if (isLastCard && !hasLoggedCompletion && flashcards.length > 0) {
-      const logCompletion = async () => {
-        try {
-          if (userId) {
-            await appContainer
-              .getLogService()
-              .logAction(userId, 'flashcard_reviewed', flashcards.length);
-          } else {
-            console.error('User ID is null');
-          }
-          setHasLoggedCompletion(true);
-        } catch (error) {
-          console.error("Erreur lors du log de l'action :", error);
-        }
-      };
-      logCompletion();
+    return () => {
+      resetState();
+    };
+  }, [resetState]);
+
+  useEffect(() => {
+    if (deckId) {
+      fetchUserId();
+      fetchFlashcards(deckId);
     }
-  }, [isLastCard, hasLoggedCompletion, flashcards.length, userId]);
+  }, [deckId, fetchUserId, fetchFlashcards]);
 
   useEffect(() => {
-    const fetchFlashcards = async () => {
-      if (!deckId) return;
-      try {
-        const cards = await appContainer.getFlashcardService().getFlashcardsList(deckId);
-        setFlashcards(cards);
-      } catch {
-        setError('Erreur lors du chargement des flashcards');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchFlashcards();
-  }, [deckId]);
+    if (deckId && isLastCard) {
+      logCompletion(deckId);
+    }
+  }, [deckId, isLastCard, logCompletion]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -101,12 +69,12 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
         setShowAnswer(false);
         setTimeout(() => {
           setCurrentIndex(currentIndex + 1);
-        }, 100); // Délai harmonisé à 1000ms
+        }, 100);
       } else if (e.code === 'ArrowLeft' && currentIndex > 0) {
         setShowAnswer(false);
         setTimeout(() => {
           setCurrentIndex(currentIndex - 1);
-        }, 1000); // Délai harmonisé à 1000ms
+        }, 100);
       }
     };
 
@@ -114,24 +82,9 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [currentIndex, showAnswer, flashcards.length]);
 
-  const handleRestart = () => {
-    setShowAnswer(false);
-    setTimeout(() => {
-      setCurrentIndex(0);
-    }, 200);
-  };
-
-  const handleShuffle = () => {
-    const shuffled = [...flashcards].sort(() => Math.random() - 0.5);
-    setShuffledCards(shuffled);
-    setIsShuffled(true);
-    setCurrentIndex(0);
-    setShowAnswer(false);
-  };
-
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex h-[40vh] items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
       </div>
     );
@@ -141,10 +94,23 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
     return <div className="p-4 text-center text-destructive">{error}</div>;
   }
 
-  const currentCard = isShuffled ? shuffledCards[currentIndex] : flashcards[currentIndex];
+  if (!currentCard && !isLastCard) {
+    return <div className="p-4 text-center text-muted-foreground">Aucune flashcard disponible</div>;
+  }
 
-  return flashcards.length > 0 ? (
-    <div className="mt-12 flex min-h-[40vh] flex-col items-center justify-center gap-4">
+  if (flashcards.length === 0) {
+    return isOwner ? (
+      <CreateFlashcards deckId={deckId!} />
+    ) : (
+      <div className="py-8 text-center">
+        <h2 className="mb-2 text-2xl font-semibold">{t('flashcard.noFlashcardTitle')}</h2>
+        <p className="text-muted-foreground">{t('flashcard.noFlashcard')}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-12 flex min-h-[40vh] flex-col items-center justify-center gap-6">
       {isLastCard ? (
         <EndCard onRestart={handleRestart} />
       ) : (
@@ -152,10 +118,8 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
           <FlashcardCard onClick={() => setShowAnswer(!showAnswer)} showAnswer={showAnswer}>
             <div className="backface-hidden absolute h-full w-full">
               <div className="flex h-full flex-col items-center justify-center rounded-lg p-6">
-                <h2 className="mb-4 text-center text-2xl font-medium">
-                  {t('flashcard.question')} 🤔
-                </h2>
-                <p className="text-center text-lg">{currentCard.question}</p>
+                <h2 className="mb-4 text-center text-2xl font-medium">🤔</h2>
+                <p className="text-center text-lg">{currentCard?.question}</p>
               </div>
             </div>
 
@@ -164,70 +128,35 @@ export function GetFlashcards({ isOwner }: { isOwner: boolean }) {
                 <h2 className="mb-4 text-center text-2xl font-medium">
                   {t('flashcard.answer')} ✅
                 </h2>
-                <p className="w-[90%] text-center text-lg">{currentCard.answer}</p>
+                <p className="w-[90%] text-center text-lg">{currentCard?.answer}</p>
               </div>
             </div>
           </FlashcardCard>
         </div>
       )}
 
-      <Progress value={((currentIndex + 1) / flashcards.length) * 100} className="my-6 w-[80vh]" />
+      <Progress
+        value={((currentIndex + 1) / flashcards.length) * 100}
+        className="w-full max-w-2xl"
+      />
       <div className="space-y-2 text-center">
-        <p className="text-sm text-muted-foreground">
-          Astuce : Appuyez sur la touche "A" pour afficher la réponse
-        </p>
+        <p className="text-sm text-muted-foreground">{t('flashcard.hint')}</p>
       </div>
 
       <DockNavigate
-        setCurrentIndex={setCurrentIndex}
-        setShowAnswer={setShowAnswer}
+        setCurrentIndex={(value: number | ((prev: number) => number)) =>
+          typeof value === 'function'
+            ? setCurrentIndex(value(currentIndex))
+            : setCurrentIndex(value)
+        }
+        setShowAnswer={(value: boolean | ((prev: boolean) => boolean)) =>
+          typeof value === 'function' ? setShowAnswer(value(showAnswer)) : setShowAnswer(value)
+        }
         currentIndex={currentIndex}
         flashcards={flashcards}
         deckId={deckId}
         handleShuffle={handleShuffle}
       />
-    </div>
-  ) : isOwner ? (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8 text-center">
-        <h1 className="mb-2 text-3xl font-semibold">
-          Comment souhaitez-vous créer vos flashcards ?
-        </h1>
-        <p className="text-lg text-muted-foreground">Choisissez une option ci-dessous</p>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card
-          onClick={() => navigate(`/dashboard/folders/${deckId}/generate-ai`)}
-          className="group h-[320px] cursor-pointer p-6 transition-colors hover:bg-primary"
-        >
-          <div className="flex h-full flex-col items-center justify-center space-y-4">
-            <span className="text-4xl">🤖</span>
-            <h3 className="text-xl font-bold group-hover:text-primary-foreground">
-              Générer des flashcards avec l'IA
-            </h3>
-          </div>
-        </Card>
-
-        <Card
-          onClick={() => navigate(`/dashboard/folders/${deckId}/generate-manual`)}
-          className="group h-[320px] cursor-pointer p-6 transition-colors hover:bg-primary"
-        >
-          <div className="flex h-full flex-col items-center justify-center space-y-4">
-            <span className="text-4xl">✍</span>
-            <h3 className="text-xl font-bold group-hover:text-primary-foreground">
-              Créer des flashcards manuellement
-            </h3>
-          </div>
-        </Card>
-      </div>
-    </div>
-  ) : (
-    <div className="py-8 text-center">
-      <h2 className="mb-2 text-2xl font-semibold">Aucune flashcard n'a été trouvée.</h2>
-      <p className="text-muted-foreground">
-        Le propriétaire de ce deck n'a pas encore créé de flashcard
-      </p>
     </div>
   );
 }

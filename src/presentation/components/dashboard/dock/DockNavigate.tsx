@@ -101,10 +101,12 @@ export function DockNavigate({
 
       <IconButton
         onClick={() => {
-          setCurrentIndex((prev) => prev + 1);
-          setShowAnswer(false);
+          if (currentIndex < flashcards.length - 1) {
+            setCurrentIndex(currentIndex + 1)
+            setShowAnswer(false)
+          }
         }}
-        disabled={currentIndex === flashcards.length}
+        disabled={currentIndex >= flashcards.length - 1}
         tooltipText="Suivante"
       >
         <ArrowRight className="h-5 w-5" />
