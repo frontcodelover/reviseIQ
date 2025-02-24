@@ -23,7 +23,10 @@
     "cancel": "Annuler",
     "congratulations": "Félicitations !",
     "congratulationsMessage": "Vous avez terminé toutes les flashcards de ce dossier.",
-    "startAgain": "Recommencer ?"
+    "startAgain": "Recommencer ?",
+    "noFlashcard": "Il semblerait que vous le propriétaire n'est pas encore créé de flashcards.",
+    "noFlashcardTitle": "Aucune flashcard trouvée",
+    "hint": "Astuce : Appuyez sur la touche A pour afficher la réponse"
   },
   "quiz": {
     "next": "Question suivante",
