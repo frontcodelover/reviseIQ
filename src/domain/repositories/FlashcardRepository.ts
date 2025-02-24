@@ -5,7 +5,12 @@ import { Quiz } from '@/domain/entities/Quiz';
 export interface FlashcardRepository {
   createFlashcard(flashcardData: Flashcard): Promise<void>;
   getFlashcards(deckId: string): Promise<Flashcard[]>;
-  generateFlashcards(topic: string, number: number, lang: string): Promise<Flashcard[]>;
+  generateFlashcards(
+    topic: string,
+    number: number,
+    lang: string,
+    level: string
+  ): Promise<Flashcard[]>;
   updateFlashcard(
     flashcardId: string,
     deckId: string,

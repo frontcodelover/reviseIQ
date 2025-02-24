@@ -5,11 +5,14 @@ import { Card } from '@/presentation/components/ui/card';
 import { Input } from '@/presentation/components/ui/input';
 import { Label } from '@/presentation/components/ui/label';
 import { Progress } from '@/presentation/components/ui/progress';
+import { RadioGroup, RadioGroupItem } from '@/presentation/components/ui/radio-group';
 import { Slider } from '@/presentation/components/ui/slider';
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 
 export function GenerateFlashCardWithIa() {
+  const { t } = useTranslation();
   const lang = localStorage.getItem('i18nextLng') || 'fr';
   const { id: deckId } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -19,6 +22,7 @@ export function GenerateFlashCardWithIa() {
   const [generatedCards, setGeneratedCards] = useState<Flashcard[]>([]);
   const [number, setNumber] = useState(10);
   const [progress, setProgress] = useState(0);
+  const [level, setLevel] = useState<'easy' | 'medium' | 'hard'>('easy');
 
   const fetchData = useCallback(async () => {
     if (deckId) {
@@ -62,7 +66,7 @@ export function GenerateFlashCardWithIa() {
     try {
       const result = await appContainer
         .getFlashcardService()
-        .generateFlashcards(topic, number, lang);
+        .generateFlashcards(topic, number, lang, level);
 
       // Assuming the service returns a JSON string, parse it
       const parsedResult = typeof result === 'string' ? JSON.parse(result) : result;
@@ -109,28 +113,27 @@ export function GenerateFlashCardWithIa() {
 
   return (
     <div className="space-y-6 p-6">
-      <h2 className="text-2xl font-bold text-foreground">Générer avec l'IA</h2>
+      <h2 className="text-2xl font-bold text-foreground">{t('flashcard.generateWithIa')}</h2>
 
       {error && <div className="rounded-md bg-destructive/10 p-4 text-destructive">{error}</div>}
 
-      <div className="space-y-6">
+      <h2 className="text-lg font-medium">{t('flashcard.generateDescription')}</h2>
+      <Card className="space-y-6 p-6">
         <div className="space-y-2">
-          <h2 className="text-lg font-medium">
-            Générez des flashcards automatiquement en entrant un sujet et le nombre de flashcards
-            souhaité.
-          </h2>
-
-          <Input
-            type="text"
-            placeholder="Entrez un sujet (e.g., Javascript)"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            className="w-full"
-          />
+          <div className="space-y-4">
+            <Label htmlFor="number-slider">{t('flashcard.subject')}</Label>
+            <Input
+              type="text"
+              placeholder="Subject"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              className="w-full"
+            />
+          </div>
         </div>
 
         <div className="space-y-4">
-          <Label htmlFor="number-slider">Nombre de flashcards</Label>
+          <Label htmlFor="number-slider">{t('flashcard.nbFlashcard')}</Label>
           <Slider
             id="number-slider"
             value={[number]}
@@ -141,6 +144,45 @@ export function GenerateFlashCardWithIa() {
             className="w-full"
           />
           <span className="text-sm text-muted-foreground">{number} flashcards</span>
+        </div>
+
+        <div className="space-y-4">
+          <Label htmlFor="level">{t('flashcard.chooseDifficulty')}</Label>
+          <RadioGroup
+            defaultValue={level}
+            onValueChange={(value: 'easy' | 'medium' | 'hard') => setLevel(value)}
+            className="grid grid-cols-3 gap-4"
+          >
+            <div>
+              <RadioGroupItem value="easy" id="easy" className="peer sr-only" />
+              <Label
+                htmlFor="easy"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <span>{t('flashcard.easy')}</span>
+              </Label>
+            </div>
+
+            <div>
+              <RadioGroupItem value="medium" id="medium" className="peer sr-only" />
+              <Label
+                htmlFor="medium"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <span>{t('flashcard.medium')}</span>
+              </Label>
+            </div>
+
+            <div>
+              <RadioGroupItem value="hard" id="hard" className="peer sr-only" />
+              <Label
+                htmlFor="hard"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <span>{t('flashcard.hard')}</span>
+              </Label>
+            </div>
+          </RadioGroup>
         </div>
 
         <Button onClick={generateFlashcards} disabled={!topic.trim() || loading} className="w-full">
@@ -166,21 +208,21 @@ export function GenerateFlashCardWithIa() {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              Génération en cours...
+              {t('flashcard.processing')}
             </>
           ) : (
-            'Générer des flashcards'
+            t('flashcard.generate')
           )}
         </Button>
-      </div>
+      </Card>
 
       {loading && (
         <div className="mt-8 flex flex-col items-center justify-center space-y-4">
           <Progress value={progress} className="w-[60%]" />
           <p className="text-center text-lg text-muted-foreground">
-            La génération des flashcards est en cours...
+            {t('flashcard.iaGeneratedProgress')}
             <br />
-            La durée de ce processus dépend de la taille du sujet (environ 30 secondes).
+            {t('flashcard.iaGeneratedProgressInfos')}
           </p>
         </div>
       )}
@@ -197,7 +239,7 @@ export function GenerateFlashCardWithIa() {
                   </div>
                   <div className="space-y-2">
                     <Label>Réponse:</Label>
-                    <p className="rounded-md bg-muted p-4">{card.answer}</p>
+                    <Input type="text" value={card.answer} className="rounded-md bg-muted p-4" />
                   </div>
                 </div>
               </Card>
@@ -205,7 +247,7 @@ export function GenerateFlashCardWithIa() {
           </div>
 
           <Button onClick={handleSubmit} className="w-full">
-            Sauvegarder les flashcards
+            {t('flashcard.save')}
           </Button>
         </div>
       )}

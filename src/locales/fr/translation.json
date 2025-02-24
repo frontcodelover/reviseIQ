@@ -26,7 +26,19 @@
     "startAgain": "Recommencer ?",
     "noFlashcard": "Il semblerait que vous le propriétaire n'est pas encore créé de flashcards.",
     "noFlashcardTitle": "Aucune flashcard trouvée",
-    "hint": "Astuce : Appuyez sur la touche A pour afficher la réponse"
+    "hint": "Astuce : Appuyez sur la touche A pour afficher la réponse",
+    "iaGeneratedProgress": "La génération des flashcards est en cours...",
+    "iaGeneratedProgressInfos": "La durée de ce processus dépend de la taille du sujet (environ 30 secondes).",
+    "processing": "Génération en cours...",
+    "generate": "Générer les flashcards",
+    "nbFlashcard": "Nombre de flashcards",
+    "generateDescription": "Générez des flashcards automatiquement en entrant un sujet et le nombre de flashcards souhaité.",
+    "generateWithIa": "Générer avec l'IA",
+    "easy": "Facile",
+    "medium": "Moyen",
+    "hard": "Difficile",
+    "chooseDifficulty": "Choisissez la difficulté",
+    "subject": "Sujet de vos flashcards"
   },
   "quiz": {
     "next": "Question suivante",
