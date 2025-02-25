@@ -31,4 +31,16 @@ export class FolderService {
   deleteFolder(folderId: string): Promise<void> {
     return this.folderRepository.deleteFolder(folderId);
   }
+
+  addVoteFolder(folderId: string, userId: string, vote: 1 | -1): Promise<void> {
+    return this.folderRepository.addVoteFolder(folderId, userId, vote);
+  }
+
+  removeVoteFolder(folderId: string, userId: string): Promise<void> {
+    return this.folderRepository.removeVoteFolder(folderId, userId);
+  }
+
+  getUserVote(folderId: string, userId: string): Promise<number | null> {
+    return this.folderRepository.getUserVote(folderId, userId);
+  }
 }

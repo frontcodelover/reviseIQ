@@ -1,4 +1,4 @@
-import { Folder, CardFolderProps } from '@/domain/entities/Folder';
+import { CardFolderProps, Folder } from '@/domain/entities/Folder';
 import { FolderRepository } from '@/domain/repositories/FolderRepository';
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
 
@@ -141,6 +141,79 @@ export class SupabaseFolderRepository implements FolderRepository {
       return data?.user_id === user_id;
     } catch (error) {
       console.error('Error in isFolderOwner:', error);
+      throw error;
+    }
+  }
+
+  async addVoteFolder(folderId: string, user_id: string, vote: 1 | -1): Promise<void> {
+    try {
+      const { data: existingVote } = await supabase
+        .from('votes')
+        .select('*')
+        .eq('deck_id', folderId)
+        .eq('user_id', user_id)
+        .single();
+
+      if (existingVote) {
+        throw new Error('Vous avez déjà voté pour ce dossier');
+      }
+
+      const { error } = await supabase.from('votes').insert([
+        {
+          deck_id: folderId,
+          user_id: user_id,
+          vote: vote,
+        },
+      ]);
+
+      if (error) {
+        console.error('Error adding vote:', error);
+        throw error;
+      }
+    } catch (error) {
+      console.error('Error in addVoteFolder:', error);
+      throw error;
+    }
+  }
+
+  async removeVoteFolder(folderId: string, user_id: string): Promise<void> {
+    try {
+      const { error } = await supabase
+        .from('votes')
+        .delete()
+        .eq('deck_id', folderId)
+        .eq('user_id', user_id);
+
+      if (error) {
+        console.error('Error removing vote:', error);
+        throw error;
+      }
+    } catch (error) {
+      console.error('Error in removeVoteFolder:', error);
+      throw error;
+    }
+  }
+
+  async getUserVote(folderId: string, user_id: string): Promise<number | null> {
+    try {
+      const { data, error } = await supabase
+        .from('votes')
+        .select('vote')
+        .eq('deck_id', folderId)
+        .eq('user_id', user_id)
+        .single();
+
+      if (error) {
+        if (error.code === 'PGRST116') {
+          // No rows returned
+          return null;
+        }
+        throw error;
+      }
+
+      return data?.vote || null;
+    } catch (error) {
+      console.error('Error in getUserVote:', error);
       throw error;
     }
   }

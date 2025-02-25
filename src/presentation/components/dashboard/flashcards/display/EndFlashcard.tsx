@@ -2,6 +2,8 @@ import { Button } from '@/presentation/components/ui/button';
 import { Card } from '@/presentation/components/ui/card';
 import { useTranslation } from 'react-i18next';
 
+import { LikeDislike } from './LikeDislike';
+
 interface EndCardProps {
   onRestart: () => void;
 }
@@ -16,6 +18,8 @@ export function EndCard({ onRestart }: EndCardProps) {
         <p className="text-center text-lg text-muted-foreground">
           {t('flashcard.congratulationsMessage')}
         </p>
+
+        <LikeDislike />
 
         <Button onClick={onRestart} className="w-full sm:w-auto">
           {t('flashcard.startAgain')}

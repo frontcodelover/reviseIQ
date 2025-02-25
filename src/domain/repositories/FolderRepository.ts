@@ -7,4 +7,7 @@ export interface FolderRepository {
   deleteFolder(folderId: string): Promise<void>;
   isFolderOwner(id: string, user_id: string): Promise<boolean>;
   getRandomPublicFolders(): Promise<Folder[]>;
+  addVoteFolder(folderId: string, user_id: string, vote: 1 | -1): Promise<void>;
+  removeVoteFolder(folderId: string, user_id: string): Promise<void>;
+  getUserVote(folderId: string, user_id: string): Promise<number | null>;
 }
