@@ -46,8 +46,8 @@ export function GenerateFlashCardWithIa() {
 
     if (loading && progress < 99) {
       timer = setInterval(() => {
-        setProgress((prev) => Math.min(prev + 3, 99));
-      }, 1500);
+        setProgress((prev) => Math.min(prev + 1, 99));
+      }, 1000);
     }
 
     if (!loading) {
