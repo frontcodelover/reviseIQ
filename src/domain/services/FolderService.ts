@@ -27,4 +27,8 @@ export class FolderService {
   isOwner(folderId: string, userId: string): Promise<boolean> {
     return this.folderRepository.isFolderOwner(folderId, userId);
   }
+
+  deleteFolder(folderId: string): Promise<void> {
+    return this.folderRepository.deleteFolder(folderId);
+  }
 }

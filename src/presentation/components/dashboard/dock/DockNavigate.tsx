@@ -1,16 +1,12 @@
 import { type Flashcard } from '@/domain/entities/Flashcard';
-import { cn } from '@/lib/utils';
+import { IconButton } from '@/presentation/components/dashboard/dock/ui/IconButton';
 import { Button } from '@/presentation/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/presentation/components/ui/tooltip';
 import { ArrowLeft, ArrowRight, FileQuestion, Folder, RotateCcw, Shuffle } from 'lucide-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+
+import Delete from './actions/Delete';
 
 interface DockNavigateProps {
   setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -19,6 +15,7 @@ interface DockNavigateProps {
   flashcards: Flashcard[];
   deckId: string | undefined;
   handleShuffle: () => void;
+  isOwner: boolean;
 }
 
 export function DockNavigate({
@@ -28,46 +25,9 @@ export function DockNavigate({
   flashcards,
   deckId,
   handleShuffle,
+  isOwner,
 }: DockNavigateProps) {
   const { t } = useTranslation();
-  const IconButton = ({
-    children,
-    onClick,
-    disabled,
-    tooltipText,
-    variant = 'ghost',
-    className,
-  }: {
-    children: React.ReactNode;
-    onClick?: () => void;
-    disabled?: boolean;
-    tooltipText: string;
-    variant?: 'ghost' | 'link';
-    className?: string;
-  }) => (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant={variant}
-            size="icon"
-            onClick={onClick}
-            disabled={disabled}
-            className={cn(
-              'transition-all duration-200 hover:scale-110',
-              disabled && 'opacity-50 hover:scale-100',
-              className
-            )}
-          >
-            {children}
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>{tooltipText}</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  );
 
   const Separator = () => <div className="h-10 w-px bg-border" />;
 
@@ -78,6 +38,8 @@ export function DockNavigate({
           <Folder className="h-5 w-5" />
         </IconButton>
       </Link>
+
+      {isOwner && <Delete deckId={deckId} isOwner={isOwner} />}
 
       <Separator />
 
