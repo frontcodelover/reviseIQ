@@ -15,11 +15,12 @@ import CreateFolder from '@/presentation/pages/folders/CreateFolder';
 import GenerateManual from '@/presentation/pages/folders/GenerateManual';
 import GenerateWithIa from '@/presentation/pages/folders/GenerateWithIa';
 import SinglePageFolder, { folderLoader } from '@/presentation/pages/folders/Single';
+import UploadDocument from '@/presentation/pages/folders/UploadDocument';
 import ProtectedRoute from '@/presentation/routes/protectedRoutes';
 import LayoutAuth from '@/presentation/shared/LayoutAuth';
 import LayoutDashboard from '@/presentation/shared/LayoutDashboard';
 import React from 'react';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 export const router = createBrowserRouter([
   {
@@ -99,6 +100,7 @@ export const router = createBrowserRouter([
           { path: 'folders/new', element: <CreateFolder /> },
           { path: 'folders/:id/generate-ai', element: <GenerateWithIa /> },
           { path: 'folders/:id/generate-manual', element: <GenerateManual /> },
+          { path: 'folders/:id/upload-document', element: <UploadDocument /> },
           { path: 'folders/:id/quiz', element: <QuizMode /> },
           { path: 'profile', element: <Settings /> },
         ],

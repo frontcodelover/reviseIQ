@@ -11,6 +11,9 @@ export interface FlashcardRepository {
     lang: string,
     level: string
   ): Promise<Flashcard[]>;
+
+  generateWithText(text: string, number: number, lang: string): Promise<Flashcard[]>;
+
   updateFlashcard(
     flashcardId: string,
     deckId: string,

@@ -21,6 +21,12 @@
     "delete": "Delete",
     "save": "Save",
     "cancel": "Cancel",
+    "nextCard": "Next",
+    "backFolders": "Back to folders",
+    "previousCard": "Previous",
+    "randomCard": "Random",
+    "quizMode": "Quiz Mode",
+    "restart": "Restart",
     "congratulations": "Congratulations!",
     "congratulationsMessage": "You have completed all the flashcards in this folder.",
     "startAgain": "Start again ?",
@@ -120,6 +126,7 @@
       "privatefolder": "Private",
       "by": "by",
       "moreFolder": "More public folders",
+      "themaLabel": "Theme",
       "form": {
         "title": "Create a folder",
         "name": "Folder name",
@@ -132,7 +139,12 @@
         "public": "Public",
         "private": "Private",
         "submit": "Submit",
-        "loading": "Loading..."
+        "loading": "Loading...",
+        "createWithIa": "With AI",
+        "createManual": "Manually",
+        "uploadDocument": "Upload a PDF document",
+        "optionChoose": "Choose an option to create your flashcards",
+        "selectOption": "Select an option"
       },
       "thema": {
         "search": "Search a theme",

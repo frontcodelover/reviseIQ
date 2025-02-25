@@ -117,7 +117,7 @@ export function CreateFolderForm({ onRefresh }: CreateFolderFormProps) {
               name="thema"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Thème</FormLabel>
+                  <FormLabel>{t('dashboard.folder.themaLabel')}</FormLabel>
                   <FormControl>
                     <Thema setThema={field.onChange} value={field.value as ThemaKey} />
                   </FormControl>

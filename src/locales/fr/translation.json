@@ -14,6 +14,18 @@
     "cta": "S'inscrire gratuitement",
     "community": "Rejoignez la communauté"
   },
+  "fromPdf": {
+    "title": "Générer des flashcards depuis un PDF",
+    "uploadDocument": "Uploadez votre document PDF et générez des flashcards automatiquement",
+    "upload": "Uploadez un document",
+    "fileSelected": "Fichier sélectionné",
+    "numberFlashcards": "Nombre de flashcards",
+    "generate": "Générer les flashcards",
+    "processing": "Traitement en cours...",
+    "error": "Une erreur s'est produite lors de la génération des flashcards",
+    "readingError": "Erreur lors de la lecture du PDF. Veuillez réessayer.",
+    "fileToBig": "Le fichier est trop volumineux. Veuillez sélectionner un fichier de moins de 1 Mo."
+  },
   "flashcard": {
     "question": "Question",
     "answer": "Réponse",
@@ -21,6 +33,12 @@
     "delete": "Supprimer",
     "save": "Sauvegarder",
     "cancel": "Annuler",
+    "nextCard": "Suivante",
+    "backFolders": "Retour aux dossiers",
+    "previousCard": "Précédente",
+    "randomCard": "Aléatoire",
+    "quizMode": "Mode Quiz",
+    "restart": "Recommencer",
     "congratulations": "Félicitations !",
     "congratulationsMessage": "Vous avez terminé toutes les flashcards de ce dossier.",
     "startAgain": "Recommencer ?",
@@ -38,7 +56,12 @@
     "medium": "Moyen",
     "hard": "Difficile",
     "chooseDifficulty": "Choisissez la difficulté",
-    "subject": "Sujet de vos flashcards"
+    "subject": "Sujet de vos flashcards",
+    "createWithIa": "Avec l'IA",
+    "createManual": "Manuellement",
+    "uploadDocument": "Importer un cours PDF",
+    "optionChoose": "Comment souhaitez-vous créer vos flashcards ?",
+    "selectOption": "Choisissez une option ci-dessous pour commencer à créer vos flashcards."
   },
   "quiz": {
     "next": "Question suivante",
@@ -146,6 +169,7 @@
       "privatefolder": "Privé",
       "moreFolder": "Voir plus de dossiers publics",
       "by": "par",
+      "themaLabel": "Thème",
       "form": {
         "title": "Créer un dossier",
         "name": "Nom du dossier",

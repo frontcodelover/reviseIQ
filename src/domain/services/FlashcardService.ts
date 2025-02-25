@@ -22,6 +22,10 @@ export class FlashcardService {
     return this.flashcardRepository.generateFlashcards(topic, number, lang, level);
   }
 
+  generateWithText(text: string, number: number, lang: string): Promise<Flashcard[]> {
+    return this.flashcardRepository.generateWithText(text, number, lang);
+  }
+
   getQuizByFolderId(folderId: string): Promise<Quiz | null> {
     return this.flashcardRepository.getQuizByFolderId(folderId);
   }
