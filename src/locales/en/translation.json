@@ -46,6 +46,18 @@
     "chooseDifficulty": "Choose the difficulty",
     "subject": "Subject of your flashcards"
   },
+  "fromPdf": {
+    "title": "Generate flashcards from a PDF file",
+    "uploadDocument": "Upload your PDF document and automatically generate flashcards",
+    "upload": "Upload a document",
+    "fileSelected": "File selected",
+    "numberFlashcards": "Number of flashcards",
+    "generate": "Generate flashcards",
+    "processing": "Processing...",
+    "error": "An error occurred while generating the flashcards",
+    "readingError": "Error reading the PDF. Please try again.",
+    "fileToBig": "The file is too large. Please select a file less than 1 MB."
+  },
   "quiz": {
     "next": "Next question",
     "end": "End quiz",

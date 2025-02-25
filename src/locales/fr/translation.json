@@ -15,7 +15,7 @@
     "community": "Rejoignez la communauté"
   },
   "fromPdf": {
-    "title": "Générer des flashcards depuis un PDF",
+    "title": "Générer des flashcards depuis un fichier PDF",
     "uploadDocument": "Uploadez votre document PDF et générez des flashcards automatiquement",
     "upload": "Uploadez un document",
     "fileSelected": "Fichier sélectionné",
