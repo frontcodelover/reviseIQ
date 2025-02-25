@@ -113,7 +113,6 @@ export function GenerateFlashCardWithIa() {
     }
   };
 
-  // Fonction pour mettre à jour une flashcard
   const updateFlashcard = (index: number, field: keyof Flashcard, value: string) => {
     setGeneratedCards((cards) =>
       cards.map((card, i) => (i === index ? { ...card, [field]: value } : card))
