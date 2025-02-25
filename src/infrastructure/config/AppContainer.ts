@@ -6,13 +6,12 @@ import { FolderService } from '@/domain/services/FolderService';
 import { LogService } from '@/domain/services/LogService';
 import { UserService } from '@/domain/services/UserService';
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
+import { SupabaseAvatarRepository } from '@/infrastructure/backend/SupabaseAvatarRepository';
 import { SupabaseBadgeRepository } from '@/infrastructure/backend/SupabaseBadgeRepository';
 import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
 import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
 import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
-
-import { SupabaseAvatarRepository } from '../backend/SupabaseAvatarRepository';
 
 class AppContainer {
   private authRepository: SupabaseAuthRepository;

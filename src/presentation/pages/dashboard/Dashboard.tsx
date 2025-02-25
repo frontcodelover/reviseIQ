@@ -43,7 +43,7 @@ export function Dashboard() {
       <GetRandomFolder />
 
       <section className="space-y-4">
-        <h3 className="text-2xl font-semibold text-primary">{t('dashboard.lastPublicFolders')}</h3>
+        <h3 className="text-2xl font-semibold">{t('dashboard.lastPublicFolders')}</h3>
         <ListHomeFolders />
       </section>
 
@@ -55,7 +55,7 @@ export function Dashboard() {
       />
 
       <section className="space-y-4">
-        <h3 className="text-2xl font-semibold text-primary">{t('dashboard.stats')}</h3>
+        <h3 className="text-2xl font-semibold">{t('dashboard.stats')}</h3>
 
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="text-primary-foreground">

@@ -82,6 +82,44 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
     }
   }
 
+  async generateWithText(text: string, number: number, lang: string): Promise<Flashcard[]> {
+    const apiKey = import.meta.env.VITE_MISTRAL_API_KEY;
+    if (!apiKey) {
+      throw new Error('Clé API Mistral non définie');
+    }
+
+    const client = new Mistral({ apiKey });
+    const prompt = `Génère un maximum de ${number} dans la langue ${lang} questions/réponses à partir du texte suivant : ${text}. Donne l'ensemble de toutes les flashcard sous ce format : '
+		[{
+		"question" : "...",
+		 "answer" : "...",
+		 "wrong_one" : "...",
+		 "wrong_two" : "...",
+		 "wrong_three" : "..."
+	}]'
+		Tu feras ça pour le nombre de flashcards demandé. Pour chaque flashcard tu devras générer 3 fausses réponses qui auront impérativement le même nombre de caractères que la bonne réponse (marge de 5%).
+		`;
+
+    try {
+      const result = await client.chat.complete({
+        model: 'mistral-large-latest',
+        responseFormat: { type: 'json_object' },
+        messages: [{ role: 'user', content: prompt }],
+      });
+
+      if (!result?.choices?.[0]?.message?.content) {
+        throw new Error('Format de réponse invalide');
+      }
+      const content = result.choices[0].message.content as string;
+
+      console.warn('Flashcards générées:', content);
+      return JSON.parse(content);
+    } catch (error) {
+      console.error('Erreur détaillée:', error);
+      throw error;
+    }
+  }
+
   async getQuizByFolderId(folderId: string): Promise<Quiz | null> {
     try {
       const { data, error } = await supabase

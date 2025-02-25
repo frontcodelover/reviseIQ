@@ -40,7 +40,7 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
     return cards[currentIndex];
   }, [isShuffled, shuffledCards, flashcards, currentIndex]);
 
-  const isLastCard = currentIndex >= flashcards.length - 1;
+  const isLastCard = currentIndex === flashcards.length;
 
   useEffect(() => {
     return () => {
@@ -65,7 +65,7 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === 'a') {
         setShowAnswer(!showAnswer);
-      } else if (e.code === 'ArrowRight' && currentIndex <= flashcards.length - 1) {
+      } else if (e.code === 'ArrowRight' && currentIndex < flashcards.length) {
         setShowAnswer(false);
         setTimeout(() => {
           setCurrentIndex(currentIndex + 1);
@@ -80,7 +80,7 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentIndex, showAnswer, flashcards.length]);
+  }, [currentIndex, showAnswer, flashcards.length, setCurrentIndex, setShowAnswer]);
 
   if (loading) {
     return (
@@ -136,29 +136,32 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
           </FlashcardCard>
         </div>
       )}
+      {!isLastCard && (
+        <>
+          <Progress
+            value={((currentIndex + 1) / flashcards.length) * 100}
+            className="w-full max-w-2xl"
+          />
+          <div className="space-y-2 text-center">
+            <p className="text-sm text-muted-foreground">{t('flashcard.hint')}</p>
+          </div>
 
-      <Progress
-        value={((currentIndex + 1) / flashcards.length) * 100}
-        className="w-full max-w-2xl"
-      />
-      <div className="space-y-2 text-center">
-        <p className="text-sm text-muted-foreground">{t('flashcard.hint')}</p>
-      </div>
-
-      <DockNavigate
-        setCurrentIndex={(value: number | ((prev: number) => number)) =>
-          typeof value === 'function'
-            ? setCurrentIndex(value(currentIndex))
-            : setCurrentIndex(value)
-        }
-        setShowAnswer={(value: boolean | ((prev: boolean) => boolean)) =>
-          typeof value === 'function' ? setShowAnswer(value(showAnswer)) : setShowAnswer(value)
-        }
-        currentIndex={currentIndex}
-        flashcards={flashcards}
-        deckId={deckId}
-        handleShuffle={handleShuffle}
-      />
+          <DockNavigate
+            setCurrentIndex={(value: number | ((prev: number) => number)) =>
+              typeof value === 'function'
+                ? setCurrentIndex(value(currentIndex))
+                : setCurrentIndex(value)
+            }
+            setShowAnswer={(value: boolean | ((prev: boolean) => boolean)) =>
+              typeof value === 'function' ? setShowAnswer(value(showAnswer)) : setShowAnswer(value)
+            }
+            currentIndex={currentIndex}
+            flashcards={flashcards}
+            deckId={deckId}
+            handleShuffle={handleShuffle}
+          />
+        </>
+      )}
     </div>
   );
 }

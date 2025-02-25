@@ -9,9 +9,9 @@ import { Progress } from '@/presentation/components/ui/progress';
 import { RadioGroup, RadioGroupItem } from '@/presentation/components/ui/radio-group';
 import { Slider } from '@/presentation/components/ui/slider';
 import { Textarea } from '@/presentation/components/ui/textarea';
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export function GenerateFlashCardWithIa() {
   const { t } = useTranslation();
@@ -113,7 +113,6 @@ export function GenerateFlashCardWithIa() {
     }
   };
 
-  // Fonction pour mettre à jour une flashcard
   const updateFlashcard = (index: number, field: keyof Flashcard, value: string) => {
     setGeneratedCards((cards) =>
       cards.map((card, i) => (i === index ? { ...card, [field]: value } : card))
@@ -126,7 +125,8 @@ export function GenerateFlashCardWithIa() {
 
       {error && <div className="rounded-md bg-destructive/10 p-4 text-destructive">{error}</div>}
 
-      <h2 className="text-lg font-medium">{t('flashcard.generateDescription')}</h2>
+      <h3 className="text-lg font-medium">{t('flashcard.generateDescription')}</h3>
+
       <Card className="space-y-6 p-6">
         <div className="space-y-2">
           <div className="space-y-4">

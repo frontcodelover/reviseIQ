@@ -1,22 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import {
-  RotateCcw,
-  Folder,
-  FileQuestion,
-  ArrowLeft,
-  ArrowRight,
-  Shuffle,
-} from 'lucide-react';
-import { Button } from "@/presentation/components/ui/button";
+import { type Flashcard } from '@/domain/entities/Flashcard';
+import { cn } from '@/lib/utils';
+import { Button } from '@/presentation/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/presentation/components/ui/tooltip";
-import { type Flashcard } from '@/domain/entities/Flashcard';
-import { cn } from "@/lib/utils";
+} from '@/presentation/components/ui/tooltip';
+import { ArrowLeft, ArrowRight, FileQuestion, Folder, RotateCcw, Shuffle } from 'lucide-react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 interface DockNavigateProps {
   setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -35,19 +29,20 @@ export function DockNavigate({
   deckId,
   handleShuffle,
 }: DockNavigateProps) {
+  const { t } = useTranslation();
   const IconButton = ({
     children,
     onClick,
     disabled,
     tooltipText,
-    variant = "ghost",
+    variant = 'ghost',
     className,
   }: {
     children: React.ReactNode;
     onClick?: () => void;
     disabled?: boolean;
     tooltipText: string;
-    variant?: "ghost" | "link";
+    variant?: 'ghost' | 'link';
     className?: string;
   }) => (
     <TooltipProvider>
@@ -59,8 +54,8 @@ export function DockNavigate({
             onClick={onClick}
             disabled={disabled}
             className={cn(
-              "transition-all duration-200 hover:scale-110",
-              disabled && "opacity-50 hover:scale-100",
+              'transition-all duration-200 hover:scale-110',
+              disabled && 'opacity-50 hover:scale-100',
               className
             )}
           >
@@ -74,18 +69,16 @@ export function DockNavigate({
     </TooltipProvider>
   );
 
-  const Separator = () => (
-    <div className="h-10 w-px bg-border" />
-  );
+  const Separator = () => <div className="h-10 w-px bg-border" />;
 
   return (
-    <div className="fixed bottom-8 flex items-center justify-center gap-3 min-w-[300px] h-[60px] bg-background border rounded-full shadow-sm px-8">
+    <div className="fixed bottom-8 flex h-[60px] min-w-[300px] items-center justify-center gap-3 rounded-full border bg-background px-8 shadow-sm">
       <Link to="/dashboard/folders">
-        <IconButton tooltipText="Retour aux dossiers">
+        <IconButton tooltipText={t('flashcard.backFolders')}>
           <Folder className="h-5 w-5" />
         </IconButton>
       </Link>
-      
+
       <Separator />
 
       <IconButton
@@ -94,20 +87,20 @@ export function DockNavigate({
           setShowAnswer(false);
         }}
         disabled={currentIndex === 0}
-        tooltipText="Précédente"
+        tooltipText={t('flashcard.previousCard')}
       >
         <ArrowLeft className="h-5 w-5" />
       </IconButton>
 
       <IconButton
         onClick={() => {
-          if (currentIndex < flashcards.length - 1) {
-            setCurrentIndex(currentIndex + 1)
-            setShowAnswer(false)
+          if (currentIndex < flashcards.length) {
+            setCurrentIndex(currentIndex + 1);
+            setShowAnswer(false);
           }
         }}
-        disabled={currentIndex >= flashcards.length - 1}
-        tooltipText="Suivante"
+        disabled={currentIndex >= flashcards.length}
+        tooltipText={t('flashcard.nextCard')}
       >
         <ArrowRight className="h-5 w-5" />
       </IconButton>
@@ -118,7 +111,7 @@ export function DockNavigate({
           setShowAnswer(false);
         }}
         disabled={currentIndex === 0}
-        tooltipText="Recommencer"
+        tooltipText={t('flashcard.restart')}
         className="hover:text-orange-500"
       >
         <RotateCcw className="h-5 w-5 transition-transform duration-700 hover:rotate-[-360deg]" />
@@ -126,26 +119,18 @@ export function DockNavigate({
 
       <Separator />
 
-      <IconButton
-        onClick={handleShuffle}
-        tooltipText="Mélanger"
-      >
+      <IconButton onClick={handleShuffle} tooltipText={t('flashcard.randomCard')}>
         <Shuffle className="h-5 w-5" />
       </IconButton>
 
       {flashcards[0]?.ia_generated ? (
         <Link to={`/dashboard/folders/${deckId}/quiz`}>
-          <IconButton tooltipText="Mode quiz">
+          <IconButton tooltipText={t('flashcard.quizMode')}>
             <FileQuestion className="h-5 w-5" />
           </IconButton>
         </Link>
       ) : (
-        <Button
-          variant="ghost"
-          size="icon"
-          disabled
-          className="opacity-50 cursor-not-allowed"
-        >
+        <Button variant="ghost" size="icon" disabled className="cursor-not-allowed opacity-50">
           <FileQuestion className="h-5 w-5" />
         </Button>
       )}

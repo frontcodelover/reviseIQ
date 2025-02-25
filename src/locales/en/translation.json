@@ -21,6 +21,12 @@
     "delete": "Delete",
     "save": "Save",
     "cancel": "Cancel",
+    "nextCard": "Next",
+    "backFolders": "Back to folders",
+    "previousCard": "Previous",
+    "randomCard": "Random",
+    "quizMode": "Quiz Mode",
+    "restart": "Restart",
     "congratulations": "Congratulations!",
     "congratulationsMessage": "You have completed all the flashcards in this folder.",
     "startAgain": "Start again ?",
@@ -39,6 +45,18 @@
     "hard": "Hard",
     "chooseDifficulty": "Choose the difficulty",
     "subject": "Subject of your flashcards"
+  },
+  "fromPdf": {
+    "title": "Generate flashcards from a PDF file",
+    "uploadDocument": "Upload your PDF document and automatically generate flashcards",
+    "upload": "Upload a document",
+    "fileSelected": "File selected",
+    "numberFlashcards": "Number of flashcards",
+    "generate": "Generate flashcards",
+    "processing": "Processing...",
+    "error": "An error occurred while generating the flashcards",
+    "readingError": "Error reading the PDF. Please try again.",
+    "fileToBig": "The file is too large. Please select a file less than 1 MB."
   },
   "quiz": {
     "next": "Next question",
@@ -120,6 +138,7 @@
       "privatefolder": "Private",
       "by": "by",
       "moreFolder": "More public folders",
+      "themaLabel": "Theme",
       "form": {
         "title": "Create a folder",
         "name": "Folder name",
@@ -132,7 +151,12 @@
         "public": "Public",
         "private": "Private",
         "submit": "Submit",
-        "loading": "Loading..."
+        "loading": "Loading...",
+        "createWithIa": "With AI",
+        "createManual": "Manually",
+        "uploadDocument": "Upload a PDF document",
+        "optionChoose": "Choose an option to create your flashcards",
+        "selectOption": "Select an option"
       },
       "thema": {
         "search": "Search a theme",
