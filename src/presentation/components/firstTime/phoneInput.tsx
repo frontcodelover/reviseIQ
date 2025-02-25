@@ -20,17 +20,30 @@ export function PhoneInput({ phoneNumber, onPhoneChange, className }: PhoneInput
           'ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium',
           'placeholder:text-muted-foreground focus-visible:outline-none',
           'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-          'disabled:cursor-not-allowed disabled:opacity-50'
+          'disabled:cursor-not-allowed disabled:opacity-50',
+          'dark:text-foreground dark:bg-background'
         )}
         containerClass="w-full"
         buttonClass={cn(
           'absolute left-0 top-0 bottom-0 flex items-center justify-center',
-          'px-3 border-r border-input bg-muted'
+          'px-3 border-r border-input bg-muted',
+          'dark:bg-muted dark:border-input'
         )}
         dropdownClass={cn(
           'absolute z-50 mt-1 max-h-[200px] w-full overflow-auto rounded-md',
-          'border border-input bg-popover text-popover-foreground shadow-md'
+          'border border-input bg-popover text-popover-foreground shadow-md',
+          'dark:bg-popover dark:text-popover-foreground dark:border-input'
         )}
+        searchClass="dark:bg-background dark:text-foreground"
+        inputStyle={{
+          backgroundColor: 'transparent',
+          borderColor: 'hsl(var(--input))',
+          borderWidth: '1px',
+        }}
+        buttonStyle={{
+          border: 'none',
+          borderRight: '1px solid hsl(var(--input))',
+        }}
       />
     </div>
   );

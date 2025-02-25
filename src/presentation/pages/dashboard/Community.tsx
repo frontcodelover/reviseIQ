@@ -9,6 +9,7 @@ export default function Community() {
       <h1 className="truncate text-3xl font-semibold text-foreground">
         {t('dashboard.community')}
       </h1>
+
       <ListPublicFolders />
     </div>
   );

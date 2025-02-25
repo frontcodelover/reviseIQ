@@ -113,6 +113,8 @@
     "light": "Light",
     "system": "System",
     "billing": "Billing",
+    "top": "Top",
+    "topTitle": "Top folders ranking",
     "home": "Home",
     "navigation": "Dashboard",
     "community": "Community",
@@ -139,6 +141,8 @@
       "by": "by",
       "moreFolder": "More public folders",
       "themaLabel": "Theme",
+      "somethingWentWrong": "Something went wrong while creating the folder",
+      "mostLikedFolders": "Most liked folders",
       "form": {
         "title": "Create a folder",
         "name": "Folder name",

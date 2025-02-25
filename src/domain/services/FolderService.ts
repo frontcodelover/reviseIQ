@@ -43,4 +43,8 @@ export class FolderService {
   getUserVote(folderId: string, userId: string): Promise<number | null> {
     return this.folderRepository.getUserVote(folderId, userId);
   }
+
+  getMostLikedFolders(): Promise<Folder[]> {
+    return this.folderRepository.getMostLikedFolders();
+  }
 }

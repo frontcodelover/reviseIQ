@@ -13,8 +13,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/presentation/components/ui/collapsible';
-import { ChevronDown, Terminal, CornerDownRight } from 'lucide-react';
-import { useEffect, useState, useMemo } from 'react';
+import { ChevronDown, CornerDownRight, Terminal } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -123,7 +123,7 @@ export function UserDecks() {
           <ThemaGroup key={thema} thema={thema} decks={decksInThema} />
         ))
       ) : (
-        <Alert className="bg-gray-50">
+        <Alert>
           <Terminal className="h-4 w-4" />
           <AlertTitle>Ooops</AlertTitle>
           <AlertDescription>{t('dashboard.folder.nofolder')}</AlertDescription>

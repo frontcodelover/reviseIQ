@@ -10,4 +10,5 @@ export interface FolderRepository {
   addVoteFolder(folderId: string, user_id: string, vote: 1 | -1): Promise<void>;
   removeVoteFolder(folderId: string, user_id: string): Promise<void>;
   getUserVote(folderId: string, user_id: string): Promise<number | null>;
+  getMostLikedFolders(): Promise<Folder[]>;
 }

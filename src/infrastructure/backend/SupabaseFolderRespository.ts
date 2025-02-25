@@ -217,4 +217,51 @@ export class SupabaseFolderRepository implements FolderRepository {
       throw error;
     }
   }
+
+  async getMostLikedFolders(): Promise<Folder[]> {
+    try {
+      // First request to get votes
+      const { data: voteScores, error: votesError } = await supabase
+        .from('votes')
+        .select('deck_id, vote')
+        .then((result) => {
+          if (result.error) throw result.error;
+
+          // Group votes by deck
+          const scoresByDeck = result.data.reduce(
+            (acc, curr) => {
+              acc[curr.deck_id] = (acc[curr.deck_id] || 0) + curr.vote;
+              return acc;
+            },
+            {} as Record<string, number>
+          );
+
+          return { data: scoresByDeck, error: null };
+        });
+
+      if (votesError) throw votesError;
+
+      // Second request to get decks
+      const { data: decks, error: decksError } = await supabase
+        .from('decks')
+        .select('*')
+        .eq('is_public', true);
+
+      if (decksError) throw decksError;
+
+      // Combine decks with scores
+      const decksWithScores = decks
+        .map((deck) => ({
+          ...deck,
+          score: voteScores[deck.id] || 0,
+        }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 9);
+
+      return decksWithScores;
+    } catch (error) {
+      console.error('Error in getMostLikedFolders:', error);
+      throw error;
+    }
+  }
 }

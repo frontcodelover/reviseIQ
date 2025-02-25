@@ -8,6 +8,7 @@ export interface Folder {
   user_id?: string | undefined;
   lang: string;
   created_at?: string;
+  score?: number;
 }
 
 export interface FormData {
@@ -28,4 +29,9 @@ export interface CardFolderProps {
   thema: string;
   lang: string;
   user_id: string;
+}
+
+export interface FolderWithScore extends Folder {
+  score: number;
+  votes?: { vote: number }[];
 }
