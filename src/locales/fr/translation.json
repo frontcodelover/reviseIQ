@@ -119,6 +119,8 @@
     "system": "Système",
     "congrats": "Félicitations 🎉",
     "congratsMessage": "Vous avez débloqué un nouveau badge !",
+    "top": "Classement",
+    "topTitle": "Classement des meilleurs dossiers",
     "navigation": "Tableau de bord",
     "billing": "Facturation",
     "home": "Accueil",
@@ -170,6 +172,8 @@
       "moreFolder": "Voir plus de dossiers publics",
       "by": "par",
       "themaLabel": "Thème",
+      "somethingWentWrong": "Quelque chose s'est mal passé lors de la récupération des dossiers",
+      "mostLikedFolders": "Les dossiers les plus aimés",
       "form": {
         "title": "Créer un dossier",
         "name": "Nom du dossier",

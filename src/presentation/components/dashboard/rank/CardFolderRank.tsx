@@ -4,10 +4,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/presentation/components/u
 import { Card, CardContent, CardFooter } from '@/presentation/components/ui/card';
 import { Skeleton } from '@/presentation/components/ui/skeleton';
 import { useProfileUserById } from '@/presentation/hooks/useProfileUserById';
+import { ThumbsUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-export function CardFolder({ id, name, thema, lang, user_id, created_at }: Folder) {
+export function CardFolderRank({ id, name, thema, lang, user_id, created_at, score }: Folder) {
   const { profile, isLoading } = useProfileUserById(user_id || '');
   const { t } = useTranslation();
 
@@ -19,9 +20,15 @@ export function CardFolder({ id, name, thema, lang, user_id, created_at }: Folde
     <Card className="flex w-full flex-col justify-between">
       <CardContent className="pt-6">
         <div className="space-y-2">
-          <Link to={`/dashboard/folders/${id}`} className="text-lg font-semibold hover:underline">
-            {name}
-          </Link>
+          <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Link to={`/dashboard/folders/${id}`} className="text-lg font-semibold hover:underline">
+              {name}
+            </Link>
+            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+              <ThumbsUp className="h-4 w-4" />
+              <span>{score || 0}</span>
+            </div>
+          </div>
           <p className="text-sm text-muted-foreground">{translatedThema}</p>
         </div>
       </CardContent>

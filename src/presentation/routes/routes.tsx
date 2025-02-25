@@ -11,6 +11,7 @@ import Dashboard from '@/presentation/pages/dashboard/Dashboard';
 import FirstTime from '@/presentation/pages/dashboard/FirstTime';
 import Folders from '@/presentation/pages/dashboard/Folders';
 import Settings from '@/presentation/pages/dashboard/Settings';
+import TopRanked from '@/presentation/pages/dashboard/TopRanked';
 import CreateFolder from '@/presentation/pages/folders/CreateFolder';
 import GenerateByPdf from '@/presentation/pages/folders/GenerateByPdf';
 import GenerateManual from '@/presentation/pages/folders/GenerateManual';
@@ -92,6 +93,7 @@ export const router = createBrowserRouter([
           { path: 'community', element: <Community /> },
           { path: 'folders', element: <Folders /> },
           { path: 'settings', element: <Settings /> },
+          { path: 'top-ranked', element: <TopRanked /> },
           {
             path: 'folders/:id',
             element: <SinglePageFolder />,

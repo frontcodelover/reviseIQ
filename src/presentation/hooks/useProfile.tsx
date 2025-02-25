@@ -1,7 +1,7 @@
 import { User } from '@/domain/entities/User';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { useAuth } from '@/presentation/context/AuthContext';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useProfile = () => {
   const { user } = useAuth();

@@ -1,6 +1,6 @@
+import { Folder, House, Settings, Trophy, Users } from 'lucide-react';
 import { type ElementType } from 'react';
 import { useTranslation } from 'react-i18next';
-import {Folder, House, Users, Settings} from 'lucide-react'
 
 interface MenuItem {
   title: string;
@@ -30,7 +30,7 @@ export function MenuItems(): Menu {
           {
             title: t('dashboard.home'),
             url: '/dashboard',
-            icon:  House,
+            icon: House,
           },
           {
             title: t('dashboard.deck'),
@@ -41,6 +41,11 @@ export function MenuItems(): Menu {
             title: t('dashboard.community'),
             url: '/dashboard/community',
             icon: Users,
+          },
+          {
+            title: t('dashboard.top'),
+            url: '/dashboard/top-ranked',
+            icon: Trophy,
           },
           {
             title: t('dashboard.settings'),
