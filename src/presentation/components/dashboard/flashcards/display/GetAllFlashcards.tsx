@@ -159,6 +159,7 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
             flashcards={flashcards}
             deckId={deckId}
             handleShuffle={handleShuffle}
+            isOwner={isOwner}
           />
         </>
       )}

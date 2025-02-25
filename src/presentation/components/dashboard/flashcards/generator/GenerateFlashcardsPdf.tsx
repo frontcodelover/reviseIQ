@@ -55,8 +55,8 @@ export function GenerateFlashcardsByPdf() {
 
     if (isLoading && progress < 99) {
       timer = setInterval(() => {
-        setProgress((prev) => Math.min(prev + 3, 99));
-      }, 1500);
+        setProgress((prev) => Math.min(prev + 1, 99));
+      }, 1000);
     }
 
     if (!isLoading) {
@@ -117,7 +117,6 @@ export function GenerateFlashcardsByPdf() {
   return (
     <div className="flex flex-col space-y-6 p-4">
       <h2 className="text-2xl font-bold text-foreground">{t('fromPdf.title')}</h2>
-      {error && <div className="rounded-md bg-destructive/10 p-4 text-destructive">{error}</div>}
       <h3 className="text-lg font-medium">{t('fromPdf.uploadDocument')}</h3>
       <div className="space-y-4">
         <div className="space-y-6">
