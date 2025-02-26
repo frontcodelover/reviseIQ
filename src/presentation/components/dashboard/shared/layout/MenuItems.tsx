@@ -48,6 +48,11 @@ export function MenuItems(): Menu {
             icon: Trophy,
           },
           {
+            title: 'Priority',
+            url: '/dashboard/priority-review',
+            icon: Trophy,
+          },
+          {
             title: t('dashboard.settings'),
             url: '/dashboard/profile',
             icon: Settings,
