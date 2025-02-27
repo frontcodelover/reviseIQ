@@ -60,9 +60,24 @@ export class SupabaseBadgeRepository implements BadgeRepository {
   }
 
   async fetchUnreadBadges(userId: string): Promise<BadgeData[]> {
+    // Modifier la requête pour joindre les informations des badges
     const { data, error } = await supabase
       .from('user_badges')
-      .select('*')
+      .select(
+        `
+        id,
+        user_id,
+        badge_id,
+        unlocked_at,
+        is_read,
+        badges (
+          id,
+          name,
+          description,
+          image_url
+        )
+      `
+      )
       .eq('user_id', userId)
       .eq('is_read', false);
 
