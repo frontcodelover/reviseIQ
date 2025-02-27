@@ -1,4 +1,4 @@
-import { Folder, House, Settings, Trophy, Users } from 'lucide-react';
+import { Folder, GraduationCap, House, Settings, Trophy, Users } from 'lucide-react';
 import { type ElementType } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -48,9 +48,9 @@ export function MenuItems(): Menu {
             icon: Trophy,
           },
           {
-            title: 'Priority',
+            title: t('dashboard.review'),
             url: '/dashboard/priority-review',
-            icon: Trophy,
+            icon: GraduationCap,
           },
           {
             title: t('dashboard.settings'),

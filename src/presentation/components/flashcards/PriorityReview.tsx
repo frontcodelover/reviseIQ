@@ -63,12 +63,18 @@ export function PriorityReview() {
           description: `Vous avez révisé ${reviewedCards.size + 1} cartes.`,
           duration: 3000,
         });
-        return navigate('/dashboard', {
-          state: {
-            message: 'Session de révision terminée ! 🎉',
-            reviewedCount: reviewedCards.size + 1,
-          },
-        });
+
+        // Ajouter un délai avant la redirection
+        setTimeout(() => {
+          navigate('/dashboard', {
+            state: {
+              message: 'Session de révision terminée ! 🎉',
+              reviewedCount: reviewedCards.size + 1,
+            },
+          });
+        }, 2500); // Délai de 2,5 secondes avant la redirection
+
+        return; // Sortir de la fonction pour éviter d'exécuter le code suivant
       }
 
       // Mettre à jour l'index en fonction des cartes restantes
