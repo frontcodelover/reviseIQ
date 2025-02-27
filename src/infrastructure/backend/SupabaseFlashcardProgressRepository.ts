@@ -1,5 +1,5 @@
 // src/infrastructure/backend/SupabaseFlashcardProgressRepository.ts
-import { FlashcardProgress } from '@/domain/entities/FlashcardProgress';
+import { FlashcardProgress, FlashcardProgressUpdate } from '@/domain/entities/FlashcardProgress';
 import { FlashcardProgressRepository } from '@/domain/repositories/FlashcardProgressRepository';
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
 
@@ -19,35 +19,24 @@ export class SupabaseFlashcardProgressRepository implements FlashcardProgressRep
     return data;
   }
 
-  async updateFlashcardProgress(progress: FlashcardProgress): Promise<void> {
-    // Validation des données requises
-    if (!progress.id || !progress.user_id || !progress.flashcard_id) {
-      throw new Error('Données de progression invalides : id, user_id et flashcard_id sont requis');
+  async updateFlashcardProgress(progress: FlashcardProgressUpdate): Promise<void> {
+    if (!progress.id) {
+      throw new Error('ID de progression manquant');
     }
 
-    try {
-      const { error } = await supabase
-        .from('flashcard_progress')
-        .update({
-          easiness_factor: progress.easiness_factor,
-          interval: progress.interval,
-          repetitions: progress.repetitions,
-          due_date: progress.due_date,
-          last_reviewed: progress.last_reviewed,
-        })
-        .match({
-          id: progress.id,
-          user_id: progress.user_id,
-          flashcard_id: progress.flashcard_id,
-        });
+    const { error } = await supabase
+      .from('flashcard_progress')
+      .update({
+        easiness_factor: progress.easiness_factor,
+        interval: progress.interval,
+        repetitions: progress.repetitions,
+        due_date: progress.due_date.toISOString(),
+        last_reviewed: progress.last_reviewed ? progress.last_reviewed.toISOString() : null,
+      })
+      .eq('id', progress.id);
 
-      if (error) {
-        console.error('Erreur Supabase:', error);
-        throw error;
-      }
-    } catch (error) {
-      console.error('Erreur lors de la mise à jour:', error);
-      throw error;
+    if (error) {
+      throw new Error(`Erreur lors de la mise à jour: ${error.message}`);
     }
   }
 
@@ -63,17 +52,21 @@ export class SupabaseFlashcardProgressRepository implements FlashcardProgressRep
   }
 
   async createFlashcardProgress(flashcard_id: string, user_id: string): Promise<FlashcardProgress> {
+    const now = new Date();
+
+    const newProgress = {
+      flashcard_id,
+      user_id,
+      easiness_factor: 2.5,
+      interval: 0,
+      repetitions: 0,
+      due_date: now.toISOString(),
+      last_reviewed: null,
+    };
+
     const { data, error } = await supabase
       .from('flashcard_progress')
-      .insert({
-        flashcard_id,
-        user_id,
-        easiness_factor: 2.5,
-        interval: 0,
-        repetitions: 0,
-        due_date: new Date().toISOString(), // Convertir en ISO string
-        last_reviewed: null,
-      })
+      .insert(newProgress)
       .select()
       .single();
 
@@ -82,14 +75,29 @@ export class SupabaseFlashcardProgressRepository implements FlashcardProgressRep
       if (error.code === '23505') {
         // Code d'erreur unique constraint
         const existing = await this.getFlashcardProgress(flashcard_id, user_id);
-        if (existing) return existing;
+        if (existing) {
+          // Conversion des chaînes ISO en objets Date pour respecter le contrat FlashcardProgress
+          return {
+            ...existing,
+            due_date: new Date(existing.due_date),
+            last_reviewed: existing.last_reviewed ? new Date(existing.last_reviewed) : null,
+            created_at: new Date(existing.created_at),
+          };
+        }
       }
       throw error;
     }
-    return data;
+
+    // Conversion des chaînes ISO en objets Date pour respecter le contrat FlashcardProgress
+    return {
+      ...data,
+      due_date: new Date(data.due_date),
+      last_reviewed: data.last_reviewed ? new Date(data.last_reviewed) : null,
+      created_at: new Date(data.created_at),
+    };
   }
 
-  async getPriorityFlashcards(user_id: string): Promise<FlashcardProgress[]> {
+  async getPriorityFlashcards(user_id: string) {
     const { data, error } = await supabase
       .from('flashcard_progress')
       .select(

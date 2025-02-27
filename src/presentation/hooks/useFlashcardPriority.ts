@@ -1,6 +1,6 @@
 import { FlashcardWithProgress } from '@/domain/entities/FlashcardProgress';
 import { SupabaseFlashcardProgressRepository } from '@/infrastructure/backend/SupabaseFlashcardProgressRepository';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export function useFlashcardPriority(userId: string) {
   const [priorityCards, setPriorityCards] = useState<FlashcardWithProgress[]>([]);
@@ -8,23 +8,30 @@ export function useFlashcardPriority(userId: string) {
   const [error, setError] = useState<Error | null>(null);
   const repository = new SupabaseFlashcardProgressRepository();
 
-  const fetchPriorityCards = async () => {
+  const fetchPriorityCards = useCallback(async () => {
+    if (!userId) return;
+
     try {
       setIsLoading(true);
+      setError(null);
       const cards = await repository.getPriorityFlashcards(userId);
       setPriorityCards(cards);
     } catch (e) {
       setError(e instanceof Error ? e : new Error('Erreur inconnue'));
+      setPriorityCards([]);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  useEffect(() => {
-    if (userId) {
-      fetchPriorityCards();
-    }
   }, [userId]);
 
-  return { priorityCards, isLoading, error, refetch: fetchPriorityCards };
+  useEffect(() => {
+    fetchPriorityCards();
+  }, [fetchPriorityCards]);
+
+  return {
+    priorityCards,
+    isLoading,
+    error,
+    refetch: fetchPriorityCards,
+  };
 }

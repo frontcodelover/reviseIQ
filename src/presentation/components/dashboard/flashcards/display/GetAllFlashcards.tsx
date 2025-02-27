@@ -17,6 +17,33 @@ interface GetFlashcardsProps {
   isOwner: boolean;
 }
 
+// Types existants...
+export interface FlashcardProgress {
+  id: string;
+  flashcard_id: string;
+  user_id: string;
+  easiness_factor: number;
+  interval: number;
+  repetitions: number;
+  due_date: Date;
+  last_reviewed: Date | null;
+  created_at: Date;
+}
+
+// Type pour la mise à jour de la progression
+export interface FlashcardProgressUpdateData {
+  id: string;
+  flashcard_id: string;
+  user_id: string;
+  easiness_factor: number;
+  interval: number;
+  repetitions: number;
+  due_date: Date;
+  last_reviewed: Date | null;
+}
+
+// ... autres types existants
+
 export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
   const { id: deckId } = useParams<{ id: string }>();
   const { t } = useTranslation();
@@ -134,13 +161,18 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
       // Utiliser directement la méthode statique
       const updatedProgress = SpacedRepetitionService.calculateNextReview(progress, quality);
 
-      // Mettre à jour la progression
-      await flashcardProgressRepo.updateFlashcardProgress({
-        ...updatedProgress,
-        id: progress.id, // Important : s'assurer que l'ID est présent
+      // Mettre à jour la progression avec le bon typage
+      const progressUpdate: FlashcardProgressUpdateData = {
+        ...progress, // Garde les champs existants
+        ...updatedProgress, // Applique les nouveaux calculs
+        id: progress.id,
         flashcard_id: currentCard.id,
         user_id: userId,
-      });
+        last_reviewed: updatedProgress.last_reviewed ?? null,
+        due_date: updatedProgress.due_date ?? new Date(),
+      };
+
+      await flashcardProgressRepo.updateFlashcardProgress(progressUpdate);
 
       // Passer à la carte suivante
       setCurrentIndex(currentIndex + 1);

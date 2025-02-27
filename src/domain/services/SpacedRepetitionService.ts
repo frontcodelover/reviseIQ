@@ -1,62 +1,103 @@
 // src/domain/services/SpacedRepetitionService.ts
-import {
-  FlashcardProgress,
-  FlashcardProgressUpdate,
-  ReviewQuality,
-} from '@/domain/entities/FlashcardProgress';
+import { ReviewQuality } from '@/domain/entities/FlashcardProgress';
+
+export interface FlashcardProgress {
+  id: string;
+  flashcard_id: string;
+  user_id: string;
+  easiness_factor: number;
+  interval: number;
+  repetitions: number;
+  due_date: Date;
+  last_reviewed: Date | null;
+  created_at: Date;
+}
+
+export interface FlashcardProgressUpdate {
+  id: string;
+  flashcard_id: string;
+  user_id: string;
+  easiness_factor: number;
+  interval: number;
+  repetitions: number;
+  due_date: Date;
+  last_reviewed: Date | null;
+}
 
 export class SpacedRepetitionService {
+  private static readonly MIN_EASE_FACTOR = 1.3;
+  private static readonly INITIAL_EASE_FACTOR = 2.5;
+  private static readonly EASE_FACTOR_DECREASE = 0.15;
+  private static readonly EASE_FACTOR_INCREASE = 0.15;
+  private static readonly HARD_INTERVAL_MODIFIER = 0.5;
+
+  private static readonly INTERVALS = {
+    FIRST: 1, // 1 jour
+    SECOND: 6, // 6 jours
+    WRONG: 1, // 1 jour
+    HOURS_4: 4, // 4 heures
+  };
+
   static calculateNextReview(
     progress: FlashcardProgress,
     quality: ReviewQuality
-  ): FlashcardProgressUpdate {
-    // Validation des valeurs d'entrée
-    const currentEF = progress.easiness_factor ?? 2.5;
-    const currentInterval = progress.interval ?? 0;
-    const currentRepetitions = progress.repetitions ?? 0;
+  ): Partial<FlashcardProgress> {
+    const now = new Date();
+    const fourHoursLater = new Date(now.getTime() + 4 * 60 * 60 * 1000);
 
-    // Calcul du nouveau facteur de facilité
-    const newEf = Math.max(1.3, currentEF + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02)));
-
-    // Calcul de l'intervalle
-    let newInterval: number;
-    let newRepetitions = currentRepetitions;
-
+    // Gérer les réponses incorrectes
     if (quality <= ReviewQuality.Wrong) {
-      newInterval = 0;
-      newRepetitions = Math.max(0, currentRepetitions - 1);
-    } else if (quality === ReviewQuality.Hard) {
-      newInterval = Math.max(1, Math.floor(currentInterval * 0.5));
-      // Garder le même nombre de répétitions
-    } else {
-      if (currentInterval === 0) {
-        newInterval = 1;
-      } else if (currentInterval === 1) {
-        newInterval = 6;
-      } else {
-        newInterval = Math.round(currentInterval * newEf);
-      }
-      newRepetitions += 1;
+      return {
+        easiness_factor: Math.max(
+          this.MIN_EASE_FACTOR,
+          progress.easiness_factor - this.EASE_FACTOR_DECREASE
+        ),
+        interval: 1,
+        repetitions: 0,
+        due_date: fourHoursLater,
+        last_reviewed: now,
+      };
     }
 
-    // Calcul des dates
-    const now = new Date();
-    const dueDate = new Date();
+    // Calculer le nouveau facteur de facilité
+    let efModifier = 0;
+    if (quality === ReviewQuality.Perfect) {
+      efModifier = this.EASE_FACTOR_INCREASE;
+    } else if (quality === ReviewQuality.Easy) {
+      efModifier = this.EASE_FACTOR_INCREASE / 2;
+    } else if (quality === ReviewQuality.Hard) {
+      efModifier = -this.EASE_FACTOR_DECREASE / 2;
+    }
 
-    if (quality <= ReviewQuality.Wrong) {
-      // Pour les réponses incorrectes : révision dans 4 heures
-      dueDate.setHours(dueDate.getHours() + 4);
+    const newEF = Math.max(this.MIN_EASE_FACTOR, progress.easiness_factor + efModifier);
+
+    // Calculer le nouvel intervalle
+    let newInterval: number;
+    if (progress.repetitions === 0) {
+      newInterval = this.INTERVALS.FIRST;
+    } else if (progress.repetitions === 1) {
+      newInterval = this.INTERVALS.SECOND;
     } else {
-      // Pour les autres réponses : révision selon l'intervalle calculé
-      dueDate.setDate(dueDate.getDate() + newInterval);
+      newInterval = Math.round(progress.interval * newEF);
+    }
+
+    // Ajuster l'intervalle pour les réponses difficiles
+    if (quality === ReviewQuality.Hard) {
+      newInterval = Math.max(1, Math.round(newInterval * this.HARD_INTERVAL_MODIFIER));
     }
 
     return {
-      easiness_factor: Number(newEf.toFixed(2)), // Arrondir à 2 décimales
+      easiness_factor: Number(newEF.toFixed(2)),
       interval: newInterval,
-      repetitions: newRepetitions,
-      due_date: dueDate.toISOString(),
-      last_reviewed: now.toISOString(),
+      repetitions: progress.repetitions + 1,
+      due_date: this.addDays(now, newInterval),
+      last_reviewed: now,
     };
+  }
+
+  private static addDays(date: Date, days: number): Date {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + Math.max(1, Math.ceil(days)));
+    return newDate;
   }
 }

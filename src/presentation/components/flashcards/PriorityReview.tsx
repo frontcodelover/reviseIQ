@@ -1,4 +1,5 @@
 import { ReviewQuality } from '@/domain/entities/FlashcardProgress';
+import { FlashcardProgressUpdate } from '@/domain/entities/FlashcardProgress';
 import { SpacedRepetitionService } from '@/domain/services/SpacedRepetitionService';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { cn } from '@/lib/utils';
@@ -10,8 +11,6 @@ import { useFlashcardPriority } from '@/presentation/hooks/useFlashcardPriority'
 import { useProfile } from '@/presentation/hooks/useProfile';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { SessionStats } from './SessionStats';
 
 export function PriorityReview() {
   const navigate = useNavigate();
@@ -36,13 +35,19 @@ export function PriorityReview() {
 
       const nextReview = SpacedRepetitionService.calculateNextReview(currentCard, quality);
 
-      // Mettre à jour la progression dans la base de données
-      await flashcardProgressRepository.updateFlashcardProgress({
-        ...nextReview,
+      const progressUpdate: FlashcardProgressUpdate = {
         id: currentCard.id,
         flashcard_id: currentCard.flashcard_id,
         user_id: currentCard.user_id,
-      });
+        easiness_factor: nextReview.easiness_factor ?? currentCard.easiness_factor,
+        interval: nextReview.interval ?? currentCard.interval,
+        repetitions: nextReview.repetitions ?? currentCard.repetitions,
+        due_date: nextReview.due_date ?? new Date(),
+        last_reviewed: nextReview.last_reviewed ?? new Date(),
+      };
+
+      // Mettre à jour la progression dans la base de données
+      await flashcardProgressRepository.updateFlashcardProgress(progressUpdate);
 
       // Marquer la carte comme révisée
       setReviewedCards((prev) => new Set([...prev, currentCard.id]));
@@ -143,6 +148,7 @@ export function PriorityReview() {
   return (
     <div className="space-y-6">
       {/* Header avec progression */}
+
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">Révision Prioritaire</h2>
         <div className="flex items-center gap-2">
@@ -181,20 +187,13 @@ export function PriorityReview() {
               Révéler la réponse
             </Button>
           ) : (
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 gap-2">
               <Button
                 variant="destructive"
                 onClick={() => handleReview(ReviewQuality.BlackOut)}
                 className="w-full"
               >
                 Je ne sais pas 😅
-              </Button>
-              <Button
-                variant="default"
-                onClick={() => handleReview(ReviewQuality.Hard)}
-                className="w-full"
-              >
-                Difficile 🤔
               </Button>
               <Button
                 variant="default"
