@@ -1,10 +1,15 @@
+import { ReviewQuality } from '@/domain/entities/FlashcardProgress';
+import { SpacedRepetitionService } from '@/domain/services/SpacedRepetitionService';
+import { supabase } from '@/infrastructure/backend/SupabaseClient';
+import { appContainer } from '@/infrastructure/config/AppContainer';
 import { DockNavigate } from '@/presentation/components/dashboard/dock/DockNavigate';
 import { CreateFlashcards } from '@/presentation/components/dashboard/flashcards/display/CreateFlashcards';
 import { EndCard } from '@/presentation/components/dashboard/flashcards/display/EndFlashcard';
 import { FlashcardCard } from '@/presentation/components/dashboard/flashcards/display/FlashcardDisplay';
 import { useFlashcardsStore } from '@/presentation/components/dashboard/flashcards/display/store/useFlashcards.store';
+import { Button } from '@/presentation/components/ui/button';
 import { Progress } from '@/presentation/components/ui/progress';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
@@ -12,9 +17,37 @@ interface GetFlashcardsProps {
   isOwner: boolean;
 }
 
+// Types existants...
+export interface FlashcardProgress {
+  id: string;
+  flashcard_id: string;
+  user_id: string;
+  easiness_factor: number;
+  interval: number;
+  repetitions: number;
+  due_date: Date;
+  last_reviewed: Date | null;
+  created_at: Date;
+}
+
+// Type pour la mise à jour de la progression
+export interface FlashcardProgressUpdateData {
+  id: string;
+  flashcard_id: string;
+  user_id: string;
+  easiness_factor: number;
+  interval: number;
+  repetitions: number;
+  due_date: Date;
+  last_reviewed: Date | null;
+}
+
+// ... autres types existants
+
 export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
   const { id: deckId } = useParams<{ id: string }>();
   const { t } = useTranslation();
+  const [userId, setUserId] = useState<string | null>(null);
 
   const {
     flashcards,
@@ -33,6 +66,19 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
     handleShuffle,
     resetState,
   } = useFlashcardsStore();
+
+  // Ajouter cette effet pour récupérer l'userId
+  useEffect(() => {
+    const getUserId = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        setUserId(user.id);
+      }
+    };
+    getUserId();
+  }, []);
 
   // Calculer currentCard en dehors des conditions
   const currentCard = useMemo(() => {
@@ -81,6 +127,61 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [currentIndex, showAnswer, flashcards.length, setCurrentIndex, setShowAnswer]);
+
+  const handleReview = async (quality: ReviewQuality) => {
+    // Vérification plus stricte des valeurs requises
+    if (!currentCard?.id || !userId) {
+      console.warn('Données manquantes pour la révision:', {
+        cardId: currentCard?.id,
+        userId,
+      });
+      return;
+    }
+
+    if (typeof currentCard.id !== 'string') {
+      console.warn("L'ID de la carte doit être un nombre:", currentCard.id);
+      return;
+    }
+
+    try {
+      const flashcardProgressRepo = appContainer.getFlashcardProgressRepository();
+
+      // Récupérer ou créer la progression
+      let progress = await flashcardProgressRepo.getFlashcardProgress(currentCard.id, userId);
+
+      if (!progress) {
+        progress = await flashcardProgressRepo.createFlashcardProgress(currentCard.id, userId);
+      }
+
+      // Vérification supplémentaire après création
+      if (!progress) {
+        throw new Error('Impossible de créer ou récupérer la progression');
+      }
+
+      // Utiliser directement la méthode statique
+      const updatedProgress = SpacedRepetitionService.calculateNextReview(progress, quality);
+
+      // Mettre à jour la progression avec le bon typage
+      const progressUpdate: FlashcardProgressUpdateData = {
+        ...progress, // Garde les champs existants
+        ...updatedProgress, // Applique les nouveaux calculs
+        id: progress.id,
+        flashcard_id: currentCard.id,
+        user_id: userId,
+        last_reviewed: updatedProgress.last_reviewed ?? null,
+        due_date: updatedProgress.due_date ?? new Date(),
+      };
+
+      await flashcardProgressRepo.updateFlashcardProgress(progressUpdate);
+
+      // Passer à la carte suivante
+      setCurrentIndex(currentIndex + 1);
+      setShowAnswer(false);
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour de la progression:', error);
+      // TODO: Ajouter une notification d'erreur pour l'utilisateur
+    }
+  };
 
   if (loading) {
     return (
@@ -134,6 +235,27 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
               </div>
             </div>
           </FlashcardCard>
+        </div>
+      )}
+      {showAnswer && (
+        <div className="mt-4 flex justify-center gap-2">
+          {Object.values(ReviewQuality)
+            .filter((value) => typeof value === 'number')
+            .map((quality) => (
+              <Button
+                key={quality}
+                onClick={() => handleReview(quality as ReviewQuality)}
+                variant={quality < 3 ? 'destructive' : 'default'}
+                size="sm"
+              >
+                {quality === ReviewQuality.BlackOut && '😵 Oublié'}
+                {quality === ReviewQuality.Wrong && '❌ Incorrect'}
+                {quality === ReviewQuality.Hard && '😓 Difficile'}
+                {quality === ReviewQuality.Good && '👍 Bien'}
+                {quality === ReviewQuality.Easy && '😊 Facile'}
+                {quality === ReviewQuality.Perfect && '✨ Parfait'}
+              </Button>
+            ))}
         </div>
       )}
       {!isLastCard && (

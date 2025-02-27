@@ -1,3 +1,4 @@
+import ErrorBoundary from '@/presentation/components/ErrorBoundary';
 import QuizMode from '@/presentation/components/quiz/QuizMode';
 import { AuthProvider } from '@/presentation/context/AuthContext';
 import Home from '@/presentation/pages/Home';
@@ -22,6 +23,8 @@ import LayoutAuth from '@/presentation/shared/LayoutAuth';
 import LayoutDashboard from '@/presentation/shared/LayoutDashboard';
 import React from 'react';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
+
+import { PriorityReview } from '../components/flashcards/PriorityReview';
 
 export const router = createBrowserRouter([
   {
@@ -98,6 +101,14 @@ export const router = createBrowserRouter([
             path: 'folders/:id',
             element: <SinglePageFolder />,
             loader: folderLoader as unknown as undefined,
+          },
+          {
+            path: 'priority-review',
+            element: (
+              <ErrorBoundary>
+                <PriorityReview />
+              </ErrorBoundary>
+            ),
           },
           { path: 'folders/new', element: <CreateFolder /> },
           { path: 'folders/:id/generate-ai', element: <GenerateWithIa /> },

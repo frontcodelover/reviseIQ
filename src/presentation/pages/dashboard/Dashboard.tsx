@@ -41,7 +41,6 @@ export function Dashboard() {
       <Greetings />
 
       <GetRandomFolder />
-
       <section className="space-y-4">
         <h3 className="text-2xl font-semibold">{t('dashboard.lastPublicFolders')}</h3>
         <ListHomeFolders />

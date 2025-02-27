@@ -4,10 +4,12 @@ import { BadgeService } from '@/domain/services/BadgeService';
 import { FlashcardService } from '@/domain/services/FlashcardService';
 import { FolderService } from '@/domain/services/FolderService';
 import { LogService } from '@/domain/services/LogService';
+import { SpacedRepetitionService } from '@/domain/services/SpacedRepetitionService';
 import { UserService } from '@/domain/services/UserService';
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { SupabaseAvatarRepository } from '@/infrastructure/backend/SupabaseAvatarRepository';
 import { SupabaseBadgeRepository } from '@/infrastructure/backend/SupabaseBadgeRepository';
+import { SupabaseFlashcardProgressRepository } from '@/infrastructure/backend/SupabaseFlashcardProgressRepository';
 import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
 import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
 import { SupabaseLogRepository } from '@/infrastructure/backend/SupabaseLogRepository';
@@ -21,6 +23,7 @@ class AppContainer {
   private logRepository: SupabaseLogRepository;
   private badgeRepository: SupabaseBadgeRepository;
   private avatarRepository: SupabaseAvatarRepository;
+  private flashcardProgressRepository: SupabaseFlashcardProgressRepository;
 
   private authService: AuthService;
   private userService: UserService;
@@ -29,8 +32,10 @@ class AppContainer {
   private logService: LogService;
   private badgeService: BadgeService;
   private avatarService: AvatarService;
+  private spacedRepetitionService: SpacedRepetitionService;
 
   constructor() {
+    // Initialisation des repositories
     this.authRepository = new SupabaseAuthRepository();
     this.flashcardRepository = new SupabaseFlashCardRepository();
     this.folderRepository = new SupabaseFolderRepository();
@@ -38,7 +43,9 @@ class AppContainer {
     this.logRepository = new SupabaseLogRepository();
     this.badgeRepository = new SupabaseBadgeRepository();
     this.avatarRepository = new SupabaseAvatarRepository();
+    this.flashcardProgressRepository = new SupabaseFlashcardProgressRepository();
 
+    // Initialisation des services
     this.authService = new AuthService(this.authRepository);
     this.userService = new UserService(this.userRepository);
     this.flashcardService = new FlashcardService(this.flashcardRepository);
@@ -46,8 +53,10 @@ class AppContainer {
     this.logService = new LogService(this.logRepository);
     this.badgeService = new BadgeService(this.badgeRepository);
     this.avatarService = new AvatarService(this.avatarRepository);
+    this.spacedRepetitionService = new SpacedRepetitionService();
   }
 
+  // Services existants
   getAuthService(): AuthService {
     return this.authService;
   }
@@ -74,6 +83,14 @@ class AppContainer {
 
   getAvatarService(): AvatarService {
     return this.avatarService;
+  }
+
+  getSpacedRepetitionService(): SpacedRepetitionService {
+    return this.spacedRepetitionService;
+  }
+
+  getFlashcardProgressRepository(): SupabaseFlashcardProgressRepository {
+    return this.flashcardProgressRepository;
   }
 }
 
