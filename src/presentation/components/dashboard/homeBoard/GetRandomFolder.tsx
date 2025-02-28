@@ -1,6 +1,6 @@
 import { Folder } from '@/domain/entities/Folder';
 import { appContainer } from '@/infrastructure/config/AppContainer';
-import { RandomCard } from '@/presentation/components/dashboard/folders/RandomCard';
+import { RandomCard } from '@/presentation/components/dashboard/homeBoard/RandomCard';
 import { Spinner } from '@/presentation/components/dashboard/shared/Spinner';
 import { Alert, AlertDescription } from '@/presentation/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
