@@ -5,7 +5,7 @@ export const FolderSchema = z.object({
   name: z.string(),
   description: z.string().nullable(),
   user_id: z.string(),
-  lang: z.enum(['fr', 'en']),
+  lang: z.string(),
   thema: z.string().nullable(),
   created_at: z.string(),
   flashcardsCount: z.number(),

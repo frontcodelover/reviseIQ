@@ -1,15 +1,19 @@
 import { appContainer } from '@/infrastructure/config/AppContainer';
-import { useQuery } from 'react-query';
-import { FolderSchema, type Folder } from '@/presentation/components/dashboard/community/Folder.schema';
-import { Pagination } from '@/presentation/components/dashboard/shared/Pagination';
+import {
+  type Folder,
+  FolderSchema,
+} from '@/presentation/components/dashboard/community/Folder.schema';
 import { FoldersDataTable } from '@/presentation/components/dashboard/community/FoldersDataTable';
-import { useListPublicFoldersStore } from './store/ListPublicFoldersState.store';
+import { Pagination } from '@/presentation/components/dashboard/shared/Pagination';
 import { Spinner } from '@/presentation/components/dashboard/shared/Spinner';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from 'react-query';
+
+import { useListPublicFoldersStore } from './store/ListPublicFoldersState.store';
 
 export default function ListPublicFolders() {
   const { page, setPage, limit, setLimit } = useListPublicFoldersStore();
-const { t } = useTranslation();
+  const { t } = useTranslation();
   const {
     data: response,
     isLoading,
@@ -35,7 +39,7 @@ const { t } = useTranslation();
           description: folder.description ?? null,
           thema: folder.thema ?? null,
           user_id: folder.user_id || '',
-          lang: (folder.lang as 'fr' | 'en') || 'fr',
+          lang: folder.lang || 'fr',
           created_at: folder.created_at || new Date().toISOString(),
         };
 
@@ -53,26 +57,18 @@ const { t } = useTranslation();
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center p-4">
-				 <Spinner className="text-black dark:text-white h-8 w-8" />
+      <div className="flex items-center justify-center p-4">
+        <Spinner className="h-8 w-8 text-black dark:text-white" />
       </div>
     );
   }
 
   if (error) {
-    return (
-      <div className="p-4 text-red-500 bg-red-50 rounded-md">
-        {(error as Error).message}
-      </div>
-    );
+    return <div className="rounded-md bg-red-50 p-4 text-red-500">{(error as Error).message}</div>;
   }
 
   if (!response?.data) {
-    return (
-      <div className="p-4 text-gray-500">
-        Aucun dossier public trouvé
-      </div>
-    );
+    return <div className="p-4 text-gray-500">Aucun dossier public trouvé</div>;
   }
 
   return (

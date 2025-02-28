@@ -3,12 +3,18 @@ import { Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-export function NewFolderBtn() {
+// Définition explicite du type de la prop
+export interface NewFolderBtnProps {
+  onFolderCreated: () => Promise<void>;
+}
+
+export function NewFolderBtn({ onFolderCreated }: NewFolderBtnProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleClick = async () => {
     navigate('/dashboard/folders/new');
+    await onFolderCreated();
   };
 
   return (
