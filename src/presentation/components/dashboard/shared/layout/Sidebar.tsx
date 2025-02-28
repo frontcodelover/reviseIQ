@@ -20,7 +20,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ className, ...props }: React.ComponentProps<typeof Sidebar>) {
   const { t } = useTranslation();
   const location = useLocation();
   const menu = MenuItems();
@@ -35,8 +35,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   };
 
   return (
-    <Sidebar {...props}>
-      <SidebarHeader>
+    <Sidebar
+      className={cn(
+        // Ajouter un fond d'écran explicite qui fonctionnera en mode mobile et desktop
+        'bg-background dark:bg-background',
+        className
+      )}
+      {...props}
+    >
+      <SidebarHeader className="bg-background dark:bg-background">
         <SidebarMenu>
           <div className="p-2">
             <SidebarMenuItem>
@@ -53,7 +60,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SearchForm />
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="bg-background dark:bg-background">
         {menu.navMain.map((group) => (
           <SidebarGroup key={group.title}>
             <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
@@ -101,7 +108,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroup>
         ))}
       </SidebarContent>
-      <div className="p-2">
+      <div className="bg-background p-2 dark:bg-background">
         <SidebarFooter />
       </div>
       <SidebarRail />
