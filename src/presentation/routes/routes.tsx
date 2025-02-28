@@ -24,7 +24,7 @@ import LayoutDashboard from '@/presentation/shared/LayoutDashboard';
 import React from 'react';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import { PriorityReview } from '../components/flashcards/PriorityReview';
+import { PriorityReview } from '../components/dashboard/flashcards/review/PriorityReview';
 
 export const router = createBrowserRouter([
   {
