@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils';
 import { MenuItems } from '@/presentation/components/dashboard/shared/layout/MenuItems';
 import Notification from '@/presentation/components/dashboard/shared/layout/Notification';
-import { SearchForm } from '@/presentation/components/dashboard/shared/layout/Search.form';
 import { SidebarFooter } from '@/presentation/components/dashboard/shared/layout/SidebarFooter';
 import {
   Sidebar,
@@ -35,14 +34,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
   };
 
   return (
-    <Sidebar
-      className={cn(
-        // Ajouter un fond d'écran explicite qui fonctionnera en mode mobile et desktop
-        'bg-background dark:bg-background',
-        className
-      )}
-      {...props}
-    >
+    <Sidebar className={cn('bg-background dark:bg-background', className)} {...props}>
       <SidebarHeader className="bg-background dark:bg-background">
         <SidebarMenu>
           <div className="p-2">
@@ -57,7 +49,6 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
             </SidebarMenuItem>
           </div>
         </SidebarMenu>
-        <SearchForm />
       </SidebarHeader>
 
       <SidebarContent className="bg-background dark:bg-background">

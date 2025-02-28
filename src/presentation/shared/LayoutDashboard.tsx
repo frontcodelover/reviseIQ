@@ -46,7 +46,7 @@ export function LayoutDashboard({ children, className }: LayoutDashboardProps) {
           className={cn(
             'flex w-full flex-1 flex-col gap-4 overflow-x-auto pb-8',
             'overscroll-x-none',
-            'px-4 sm:p-6 sm:pb-8 md:mx-auto md:max-w-7xl',
+            'mt-6 px-4 sm:p-6 sm:pb-8 md:mx-auto md:max-w-7xl',
             className
           )}
           style={{ WebkitOverflowScrolling: 'touch' }}
