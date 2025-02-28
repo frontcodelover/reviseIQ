@@ -1,6 +1,6 @@
+import { FlashcardProgressUpdateData, GetFlashcardsProps } from '@/domain/entities/Flashcard';
 import { ReviewQuality } from '@/domain/entities/FlashcardProgress';
 import { SpacedRepetitionService } from '@/domain/services/SpacedRepetitionService';
-import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { DockNavigate } from '@/presentation/components/dashboard/dock/DockNavigate';
 import { CreateFlashcards } from '@/presentation/components/dashboard/flashcards/display/CreateFlashcards';
@@ -12,37 +12,6 @@ import { Progress } from '@/presentation/components/ui/progress';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-
-interface GetFlashcardsProps {
-  isOwner: boolean;
-}
-
-// Types existants...
-export interface FlashcardProgress {
-  id: string;
-  flashcard_id: string;
-  user_id: string;
-  easiness_factor: number;
-  interval: number;
-  repetitions: number;
-  due_date: Date;
-  last_reviewed: Date | null;
-  created_at: Date;
-}
-
-// Type pour la mise à jour de la progression
-export interface FlashcardProgressUpdateData {
-  id: string;
-  flashcard_id: string;
-  user_id: string;
-  easiness_factor: number;
-  interval: number;
-  repetitions: number;
-  due_date: Date;
-  last_reviewed: Date | null;
-}
-
-// ... autres types existants
 
 export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
   const { id: deckId } = useParams<{ id: string }>();
@@ -67,14 +36,15 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
     resetState,
   } = useFlashcardsStore();
 
-  // Ajouter cette effet pour récupérer l'userId
+  // Utiliser le repository au lieu d'appeler directement supabase
   useEffect(() => {
     const getUserId = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user) {
-        setUserId(user.id);
+      try {
+        const userRepository = appContainer.getUserService();
+        const id = await userRepository.getUserId();
+        setUserId(id);
+      } catch (error) {
+        console.error("Erreur lors de la récupération de l'ID utilisateur:", error);
       }
     };
     getUserId();

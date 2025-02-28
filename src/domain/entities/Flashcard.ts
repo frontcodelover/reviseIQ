@@ -15,3 +15,30 @@ export type FlashcardUpdate = {
   answer?: string;
   wrongAnswers?: string[];
 };
+
+export interface GetFlashcardsProps {
+  isOwner: boolean;
+}
+
+export interface FlashcardProgress {
+  id: string;
+  flashcard_id: string;
+  user_id: string;
+  easiness_factor: number;
+  interval: number;
+  repetitions: number;
+  due_date: Date;
+  last_reviewed: Date | null;
+  created_at: Date;
+}
+
+export interface FlashcardProgressUpdateData {
+  id: string;
+  flashcard_id: string;
+  user_id: string;
+  easiness_factor: number;
+  interval: number;
+  repetitions: number;
+  due_date: Date;
+  last_reviewed: Date | null;
+}
