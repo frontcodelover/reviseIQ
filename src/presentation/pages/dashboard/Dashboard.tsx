@@ -37,7 +37,7 @@ export function Dashboard() {
   if (!profile) return null;
 
   return (
-    <div className="flex min-h-screen flex-col space-y-6 p-6">
+    <div className="flex flex-col space-y-6 p-6">
       <Greetings />
 
       <GetRandomFolder />

@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 
 import { ThemaLabelKeys } from '../folders/form/themaLabel';
 import { type Folder } from './Folder.schema';
+import { ScrollableTable } from './ScrollableTable';
 
 type SortField = 'name' | 'created_at' | 'thema';
 type SortOrder = 'asc' | 'desc';
@@ -58,8 +59,9 @@ export function FoldersDataTable({ folders, sortField, sortOrder, onSort }: Fold
     );
   };
 
+  // Utiliser le conteneur ScrollableTable au lieu d'un div directement
   return (
-    <div className="w-full rounded-md border">
+    <ScrollableTable>
       <Table>
         <TableHeader>
           <TableRow>
@@ -76,7 +78,7 @@ export function FoldersDataTable({ folders, sortField, sortOrder, onSort }: Fold
         <TableBody>
           {folders.map((folder) => (
             <TableRow key={folder.id}>
-              <TableCell className="font-medium">
+              <TableCell className="max-w-xs truncate font-medium">
                 <Link to={`/dashboard/folders/${folder.id}`} className="hover:underline">
                   {folder.name}
                 </Link>
@@ -92,6 +94,6 @@ export function FoldersDataTable({ folders, sortField, sortOrder, onSort }: Fold
           ))}
         </TableBody>
       </Table>
-    </div>
+    </ScrollableTable>
   );
 }

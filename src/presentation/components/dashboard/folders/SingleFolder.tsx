@@ -6,7 +6,7 @@ import { Skeleton } from '@/presentation/components/ui/skeleton';
 import { useAuth } from '@/presentation/context/AuthContext';
 import { AlertCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useQuery, useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 
 interface SingleFolderProps {
   id: string | undefined;
@@ -63,7 +63,7 @@ export function SingleFolder({ id }: SingleFolderProps) {
   }
 
   return (
-    <div className="flex w-full flex-col space-y-6">
+    <div className="mt-2 flex w-full flex-col space-y-6">
       {folder && <h2 className="text-center text-2xl font-medium">{folder.name}</h2>}
       <GetFlashcards isOwner={isOwner} />
     </div>

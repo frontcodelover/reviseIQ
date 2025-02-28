@@ -14,7 +14,7 @@ export function ListMostLikedFolders() {
 
   if (isLoading) {
     return (
-      <div className="mx-auto space-y-4">
+      <div className="mx-auto w-full space-y-4 overflow-x-auto">
         <Spinner className="h-8 w-8 text-black dark:text-white" />
       </div>
     );
@@ -33,7 +33,7 @@ export function ListMostLikedFolders() {
       <h2 className="text-2xl font-bold tracking-tight">
         {t('dashboard.folder.mostLikedFolders')}
       </h2>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid w-auto gap-4 md:grid-cols-2 lg:grid-cols-3">
         {data?.map((folder) => <CardFolderRank key={folder.id} {...folder} />)}
       </div>
     </div>

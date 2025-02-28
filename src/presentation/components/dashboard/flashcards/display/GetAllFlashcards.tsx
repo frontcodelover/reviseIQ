@@ -2,6 +2,7 @@ import { FlashcardProgressUpdateData, GetFlashcardsProps } from '@/domain/entiti
 import { ReviewQuality } from '@/domain/entities/FlashcardProgress';
 import { SpacedRepetitionService } from '@/domain/services/SpacedRepetitionService';
 import { appContainer } from '@/infrastructure/config/AppContainer';
+import { cn } from '@/lib/utils';
 import { DockNavigate } from '@/presentation/components/dashboard/dock/DockNavigate';
 import { CreateFlashcards } from '@/presentation/components/dashboard/flashcards/display/CreateFlashcards';
 import { EndCard } from '@/presentation/components/dashboard/flashcards/display/EndFlashcard';
@@ -175,34 +176,44 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
   }
 
   return (
-    <div className="mt-12 flex min-h-[40vh] flex-col items-center justify-center gap-6">
+    <div className="mt-8 flex w-full flex-col items-center justify-center gap-4 px-2 sm:px-4 md:mt-12 md:gap-6">
       {isLastCard ? (
         <EndCard onRestart={handleRestart} />
       ) : (
-        <div className="relative w-[90vh]">
+        <div className="relative w-full max-w-[600px] md:max-w-[90vh]">
           <FlashcardCard onClick={() => setShowAnswer(!showAnswer)} showAnswer={showAnswer}>
             <div className="backface-hidden absolute h-full w-full">
-              <div className="flex h-full flex-col items-center justify-center rounded-lg p-6">
-                <h2 className="mb-4 text-center text-2xl font-medium">
+              <div className="flex h-full flex-col items-center justify-center rounded-lg p-4 md:p-6">
+                <h2 className="mb-2 text-center text-xl font-medium md:mb-4 md:text-2xl">
                   {t('flashcard.question')} 🤔
                 </h2>
-                <p className="text-center text-lg">{currentCard?.question}</p>
+                <p className="text-center text-base md:text-lg">{currentCard?.question}</p>
               </div>
             </div>
 
             <div className="backface-hidden rotate-y-180 absolute h-full w-full">
-              <div className="flex h-full flex-col items-center justify-center rounded-lg p-6">
-                <h2 className="mb-4 text-center text-2xl font-medium">
+              <div className="flex h-full flex-col items-center justify-center rounded-lg p-4 md:p-6">
+                <h2 className="mb-2 text-center text-xl font-medium md:mb-4 md:text-2xl">
                   {t('flashcard.answer')} ✅
                 </h2>
-                <p className="w-[90%] text-center text-lg">{currentCard?.answer}</p>
+                <p className="max-h-[60vh] w-full overflow-y-auto text-center text-base md:text-lg">
+                  {currentCard?.answer}
+                </p>
               </div>
             </div>
           </FlashcardCard>
         </div>
       )}
+
+      {!isLastCard && (
+        <Progress
+          value={((currentIndex + 1) / flashcards.length) * 100}
+          className="w-full max-w-md md:max-w-2xl"
+        />
+      )}
+
       {showAnswer && (
-        <div className="mt-4 flex justify-center gap-2">
+        <div className="mt-2 flex flex-wrap justify-center gap-2 px-2 md:mt-4">
           {Object.values(ReviewQuality)
             .filter((value) => typeof value === 'number')
             .map((quality) => (
@@ -211,6 +222,10 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
                 onClick={() => handleReview(quality as ReviewQuality)}
                 variant={quality < 3 ? 'destructive' : 'default'}
                 size="sm"
+                className={cn(
+                  'px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm',
+                  quality === ReviewQuality.Perfect && 'bg-green-600 hover:bg-green-700'
+                )}
               >
                 {quality === ReviewQuality.BlackOut && '😵 Oublié'}
                 {quality === ReviewQuality.Wrong && '❌ Incorrect'}
@@ -222,32 +237,31 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
             ))}
         </div>
       )}
-      {!isLastCard && (
-        <>
-          <Progress
-            value={((currentIndex + 1) / flashcards.length) * 100}
-            className="w-full max-w-2xl"
-          />
-          <div className="space-y-2 text-center">
-            <p className="text-sm text-muted-foreground">{t('flashcard.hint')}</p>
-          </div>
 
-          <DockNavigate
-            setCurrentIndex={(value: number | ((prev: number) => number)) =>
-              typeof value === 'function'
-                ? setCurrentIndex(value(currentIndex))
-                : setCurrentIndex(value)
-            }
-            setShowAnswer={(value: boolean | ((prev: boolean) => boolean)) =>
-              typeof value === 'function' ? setShowAnswer(value(showAnswer)) : setShowAnswer(value)
-            }
-            currentIndex={currentIndex}
-            flashcards={flashcards}
-            deckId={deckId}
-            handleShuffle={handleShuffle}
-            isOwner={isOwner}
-          />
-        </>
+      {!isLastCard && (
+        <div className="flex w-full justify-center">
+          <div className="w-full max-w-2xl overflow-x-auto">
+            <div className="flex min-w-max justify-center">
+              <DockNavigate
+                setCurrentIndex={(value: number | ((prev: number) => number)) =>
+                  typeof value === 'function'
+                    ? setCurrentIndex(value(currentIndex))
+                    : setCurrentIndex(value)
+                }
+                setShowAnswer={(value: boolean | ((prev: boolean) => boolean)) =>
+                  typeof value === 'function'
+                    ? setShowAnswer(value(showAnswer))
+                    : setShowAnswer(value)
+                }
+                currentIndex={currentIndex}
+                flashcards={flashcards}
+                deckId={deckId}
+                handleShuffle={handleShuffle}
+                isOwner={isOwner}
+              />
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
