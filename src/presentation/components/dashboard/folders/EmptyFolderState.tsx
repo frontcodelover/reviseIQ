@@ -8,7 +8,7 @@ export function EmptyFolderState() {
   return (
     <Alert>
       <Terminal className="h-4 w-4" />
-      <AlertTitle>{t('dashboard.folder.empty')}</AlertTitle>
+      <AlertTitle>Ooops</AlertTitle>
       <AlertDescription>{t('dashboard.folder.nofolder')}</AlertDescription>
     </Alert>
   );

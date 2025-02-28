@@ -1,30 +1,30 @@
 import { appContainer } from '@/infrastructure/config/AppContainer';
+import { formatDate } from '@/lib/FormatDate';
 import {
   type Folder,
   FolderSchema,
 } from '@/presentation/components/dashboard/community/Folder.schema';
-import { FoldersDataTable } from '@/presentation/components/dashboard/community/FoldersDataTable';
 import { FoldersFilters } from '@/presentation/components/dashboard/community/FoldersFilters';
 import { Pagination } from '@/presentation/components/dashboard/shared/Pagination';
 import { Spinner } from '@/presentation/components/dashboard/shared/Spinner';
-import { useCallback } from 'react';
+import { ArrowDown, ArrowUp } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 
+import { ThemaLabelKeys } from '../folders/form/themaLabel';
 import { useListPublicFoldersStore } from './store/ListPublicFoldersState.store';
 
-export default function ListPublicFolders() {
+export function ListPublicFolders() {
   const { page, setPage, limit, setLimit, searchQuery, sortField, sortOrder } =
     useListPublicFoldersStore();
   const { t } = useTranslation();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Cette fonction ne change pas entre les rendus, ce qui limite les re-rendus
   const fetchFolders = useCallback(async () => {
-    // Récupérer TOUS les dossiers depuis le service au lieu d'une page à la fois
-    // Nous ferons la pagination côté client
     const result = await appContainer.getFolderService().getPublicFolders(0, 999);
 
-    // Transformer et valider les données
     const foldersWithDetails = await Promise.all(
       result.data.map(async (folder): Promise<Folder> => {
         const flashcards = await appContainer.getFlashcardService().getFlashcardsList(folder.id!);
@@ -60,11 +60,10 @@ export default function ListPublicFolders() {
     isLoading,
     error,
   } = useQuery(['folders'], fetchFolders, {
-    staleTime: 5 * 60 * 1000, // Conserve les données pendant 5 minutes
-    cacheTime: 10 * 60 * 1000, // Garde en cache 10 minutes
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000, // 10 minutes
   });
 
-  // Séparation du traitement des données (filtrage, tri, pagination) de la requête
   const processData = useCallback(() => {
     if (!response?.allData) return { data: [], count: 0, filteredCount: 0 };
 
@@ -107,8 +106,39 @@ export default function ListPublicFolders() {
     };
   }, [response, page, limit, searchQuery, sortField, sortOrder]);
 
-  // Applique le traitement des données
-  const displayData = processData();
+  const displayData = useMemo(() => processData(), [processData]);
+
+  useEffect(() => {
+    if (scrollContainerRef.current && displayData) {
+      scrollContainerRef.current.scrollLeft = 0;
+    }
+  }, [displayData]);
+
+  // Fonction utilitaire pour les étiquettes de thèmes
+  const getThemaLabel = useCallback(
+    (thema: string | null): string => {
+      if (!thema) return t('dashboard.folder.thema.other');
+
+      const themaLabel = ThemaLabelKeys.find((label) => label.key === thema.toUpperCase());
+
+      return themaLabel ? t(themaLabel.i18nKey) : t('dashboard.folder.thema.other');
+    },
+    [t]
+  );
+
+  // Fonction de tri en-tête
+  const onSort = useCallback(
+    (field) => {
+      const { setSortField, setSortOrder } = useListPublicFoldersStore.getState();
+      if (field === sortField) {
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+      } else {
+        setSortField(field);
+        setSortOrder('asc');
+      }
+    },
+    [sortField, sortOrder]
+  );
 
   if (isLoading) {
     return (
@@ -136,9 +166,9 @@ export default function ListPublicFolders() {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2">
-        <div className="w-full">
+    <div className="mt-6 space-y-6">
+      <div className="flex flex-col items-start justify-between space-y-4 md:flex-row md:items-center md:space-y-0">
+        <div>
           <FoldersFilters />
         </div>
         <div className="text-right font-medium">
@@ -158,20 +188,99 @@ export default function ListPublicFolders() {
         </div>
       </div>
 
-      <FoldersDataTable
-        folders={displayData.data}
-        sortField={sortField}
-        sortOrder={sortOrder}
-        onSort={(field) => {
-          const { setSortField, setSortOrder } = useListPublicFoldersStore.getState();
-          if (field === sortField) {
-            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-          } else {
-            setSortField(field);
-            setSortOrder('asc');
-          }
-        }}
-      />
+      <div className="rounded-md border">
+        <div
+          ref={scrollContainerRef}
+          className="overflow-auto"
+          style={{
+            WebkitOverflowScrolling: 'touch',
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'thin',
+          }}
+        >
+          {/* Conteneur avec largeur minimale garantie */}
+          <div className="min-w-[100%] max-w-[87vw] md:w-full">
+            <div className="relative w-full">
+              <table className="w-full caption-bottom text-sm">
+                <thead className="[&_tr]:border-b">
+                  <tr className="border-b transition-colors hover:bg-muted/50">
+                    {/* En-têtes de colonnes */}
+                    <th
+                      onClick={() => onSort('name')}
+                      className="h-12 cursor-pointer px-4 text-left align-middle font-medium text-muted-foreground"
+                    >
+                      <div className="flex items-center gap-1">
+                        {t('dashboard.communityTable.name')}
+                        {sortField === 'name' &&
+                          (sortOrder === 'asc' ? (
+                            <ArrowUp className="h-4 w-4" />
+                          ) : (
+                            <ArrowDown className="h-4 w-4" />
+                          ))}
+                      </div>
+                    </th>
+                    <th
+                      onClick={() => onSort('thema')}
+                      className="h-12 cursor-pointer px-4 text-left align-middle font-medium text-muted-foreground"
+                    >
+                      <div className="flex items-center gap-1">
+                        {t('dashboard.communityTable.thema')}
+                        {sortField === 'thema' &&
+                          (sortOrder === 'asc' ? (
+                            <ArrowUp className="h-4 w-4" />
+                          ) : (
+                            <ArrowDown className="h-4 w-4" />
+                          ))}
+                      </div>
+                    </th>
+                    <th className="h-12 w-[10%] px-4 text-left align-middle font-medium text-muted-foreground">
+                      {t('dashboard.communityTable.creator')}
+                    </th>
+                    <th className="h-12 w-[5%] px-4 text-right align-middle font-medium text-muted-foreground">
+                      {t('dashboard.communityTable.flashcards')}
+                    </th>
+                    <th className="h-12 w-[10%] px-4 text-left align-middle font-medium text-muted-foreground">
+                      {t('dashboard.communityTable.lang')}
+                    </th>
+                    <th
+                      onClick={() => onSort('created_at')}
+                      className="h-12 cursor-pointer px-4 text-left align-middle font-medium text-muted-foreground"
+                    >
+                      <div className="flex items-center gap-1">
+                        {t('dashboard.communityTable.created')}
+                        {sortField === 'created_at' &&
+                          (sortOrder === 'asc' ? (
+                            <ArrowUp className="h-4 w-4" />
+                          ) : (
+                            <ArrowDown className="h-4 w-4" />
+                          ))}
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="[&_tr:last-child]:border-0">
+                  {displayData.data.map((folder) => (
+                    <tr key={folder.id} className="border-b transition-colors hover:bg-muted/50">
+                      <td className="max-w-xs truncate p-4 align-middle font-medium">
+                        <Link to={`/dashboard/folders/${folder.id}`} className="hover:underline">
+                          {folder.name}
+                        </Link>
+                      </td>
+                      <td className="p-4 align-middle">{getThemaLabel(folder.thema)}</td>
+                      <td className="p-4 align-middle">{folder.author?.firstname}</td>
+                      <td className="p-4 text-right align-middle">{folder.flashcardsCount}</td>
+                      <td className="p-4 align-middle">
+                        <div className="mx-auto h-5 w-5">{folder.lang}</div>
+                      </td>
+                      <td className="p-4 align-middle">{formatDate(folder.created_at)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <Pagination
         page={page}
@@ -186,3 +295,5 @@ export default function ListPublicFolders() {
     </div>
   );
 }
+
+export default ListPublicFolders;

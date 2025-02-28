@@ -17,9 +17,7 @@ export default function LayoutAuth({ children }: LayoutAuthProps) {
         backgroundPosition: 'center',
       }}
     >
-      <div className="container flex min-h-screen w-full items-center justify-center py-8">
-        {children}
-      </div>
+      <div className="container flex h-auto w-full items-center justify-center p-6">{children}</div>
     </div>
   );
 }

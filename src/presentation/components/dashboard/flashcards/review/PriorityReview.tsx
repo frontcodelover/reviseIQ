@@ -110,7 +110,7 @@ export function PriorityReview() {
   }
   if (priorityCards.length === 0) {
     return (
-      <Card className="p-6 text-center">
+      <Card className="mt-6 p-6 text-center">
         <h2 className="mb-2 text-xl font-semibold">Félicitations ! 🎉</h2>
         <p className="text-muted-foreground">
           Vous n'avez aucune carte prioritaire à réviser pour le moment.
@@ -125,7 +125,7 @@ export function PriorityReview() {
   // Vérifier s'il reste des cartes à réviser
   if (remainingCards.length === 0) {
     return (
-      <Card className="p-6 text-center">
+      <Card className="mt-6 p-6 text-center">
         <h2 className="mb-2 text-xl font-semibold">Session terminée ! 🎉</h2>
         <p className="text-muted-foreground">
           Vous avez révisé toutes les cartes de cette session.
@@ -155,12 +155,9 @@ export function PriorityReview() {
     <div className="space-y-6">
       {/* Header avec progression */}
 
-      <div className="flex items-center justify-between">
+      <div className="mt-6 flex items-center justify-between">
         <h2 className="text-2xl font-bold">Révision Prioritaire</h2>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">
-            Carte {currentIndex + 1} sur {remainingCards.length}
-          </span>
           <Button onClick={() => navigate('/dashboard')} size="sm" variant="outline">
             Terminer
           </Button>

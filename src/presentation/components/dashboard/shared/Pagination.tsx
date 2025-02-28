@@ -22,7 +22,7 @@ export function Pagination({ page, limit, total, onPageChange, onLimitChange }: 
   const { t } = useTranslation();
 
   return (
-    <div className="flex items-center justify-between gap-4 py-4">
+    <div className="m:flex-row flex flex-col items-center justify-between gap-4 py-4">
       <div className="flex items-center gap-2">
         <Button
           variant="outline"
