@@ -50,7 +50,6 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
     getUserId();
   }, []);
 
-  // Calculer currentCard en dehors des conditions
   const currentCard = useMemo(() => {
     const cards = isShuffled ? shuffledCards : flashcards;
     return cards[currentIndex];
@@ -116,25 +115,21 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
     try {
       const flashcardProgressRepo = appContainer.getFlashcardProgressRepository();
 
-      // Récupérer ou créer la progression
       let progress = await flashcardProgressRepo.getFlashcardProgress(currentCard.id, userId);
 
       if (!progress) {
         progress = await flashcardProgressRepo.createFlashcardProgress(currentCard.id, userId);
       }
 
-      // Vérification supplémentaire après création
       if (!progress) {
         throw new Error('Impossible de créer ou récupérer la progression');
       }
 
-      // Utiliser directement la méthode statique
       const updatedProgress = SpacedRepetitionService.calculateNextReview(progress, quality);
 
-      // Mettre à jour la progression avec le bon typage
       const progressUpdate: FlashcardProgressUpdateData = {
-        ...progress, // Garde les champs existants
-        ...updatedProgress, // Applique les nouveaux calculs
+        ...progress,
+        ...updatedProgress,
         id: progress.id,
         flashcard_id: currentCard.id,
         user_id: userId,
@@ -144,7 +139,6 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
 
       await flashcardProgressRepo.updateFlashcardProgress(progressUpdate);
 
-      // Passer à la carte suivante
       setCurrentIndex(currentIndex + 1);
       setShowAnswer(false);
     } catch (error) {

@@ -138,6 +138,7 @@
     "folderDay": "Le dossier du jour ⭐",
     "folderDayText": "Chaque jour nous mettons en avant un dossier public aléatoire pour vous inspirer et apprendre de nouvelles choses.",
     "noPublicFolder": "Il semblerait qu'il n'y ait pas de dossier public pour le moment.",
+
     "firstimeForm": {
       "title": "Complétez votre profil",
       "firstnameLabel": "Entrez votre prénom",
@@ -214,7 +215,16 @@
       "hundred": "100 par page",
       "next": "Suivant",
       "previous": "Précédent",
-      "to": "à"
+      "to": "à",
+      "searchPlaceholder": "Rechercher un dossier...",
+      "sortBy": "Trier par",
+      "sortAsc": "Tri croissant",
+      "sortDesc": "Tri décroissant",
+      "resetFilters": "Réinitialiser les filtres",
+      "noFoldersFound": "Aucun dossier ne correspond à votre recherche",
+      "noPublicFolders": "Aucun dossier public disponible",
+      "foundFolders": "dossiers trouvés",
+      "outOf": "sur"
     }
   },
   "notfound": {
