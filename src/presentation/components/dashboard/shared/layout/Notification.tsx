@@ -1,11 +1,15 @@
 import { BadgeData, BadgeDataSchema } from '@/domain/entities/Badge';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { Button } from '@/presentation/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/presentation/components/ui/dropdown-menu';
 import { useAuth } from '@/presentation/context/AuthContext';
 import { Bell } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
 
 function Notification() {
   const { user } = useAuth();
@@ -64,29 +68,33 @@ function Notification() {
   };
 
   return (
-    <div className="relative">
-      <div className="relative cursor-pointer" onClick={handleClick}>
-        {unreadBadges.length > 0 ? (
-          <Button
-            variant="outline"
-            size="icon" // Changé de 'sm' à 'icon'
-            onClick={() =>
-              toast(t('dashboard.congrats'), {
-                description: t('dashboard.congratsMessage'),
-              })
-            }
-          >
-            <Bell className="h-[1.2rem] w-[1.2rem] fill-yellow-500 stroke-yellow-600" />
-            <div className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-red-500" />
-          </Button>
-        ) : (
-          <Button variant="outline" size="icon">
-            {' '}
-            <Bell className="h-[1.2rem] w-[1.2rem]" />
-          </Button>
-        )}
-      </div>
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div className="relative cursor-pointer" onClick={handleClick}>
+          {unreadBadges.length > 0 ? (
+            <Button size="icon" variant="outline">
+              <Bell className="h-[1.2rem] w-[1.2rem] fill-yellow-500 stroke-yellow-600" />
+              <div className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-red-500" />
+            </Button>
+          ) : (
+            <Button variant="outline" size="icon">
+              <Bell className="h-[1.2rem] w-[1.2rem]" />
+            </Button>
+          )}
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="w-64 p-4">
+        <div className="flex items-center justify-center">
+          <p className="text-sm text-muted-foreground">
+            {unreadBadges.length > 0
+              ? t('dashboard.congratsMessage', { count: unreadBadges.length })
+              : t('dashboard.empty', {
+                  defaultValue: "Vous n'avez pas de notification",
+                })}
+          </p>
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
