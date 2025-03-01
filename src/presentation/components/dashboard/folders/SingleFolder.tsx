@@ -64,8 +64,12 @@ export function SingleFolder({ id }: SingleFolderProps) {
 
   return (
     <div className="mt-2 flex w-full flex-col space-y-6">
-      {folder && <h2 className="text-center text-2xl font-medium">{folder.name}</h2>}
-      <GetFlashcards isOwner={isOwner} />
+      {folder && (
+        <>
+          <h2 className="text-center text-2xl font-medium">{folder.name}</h2>
+          <GetFlashcards isOwner={isOwner} />
+        </>
+      )}
     </div>
   );
 }

@@ -178,7 +178,7 @@ export function GetFlashcards({ isOwner }: GetFlashcardsProps) {
   return (
     <div className="mt-8 flex w-full flex-col items-center justify-center gap-4 px-2 sm:px-4 md:mt-12 md:gap-6">
       {isLastCard ? (
-        <EndCard onRestart={handleRestart} />
+        <EndCard onRestart={handleRestart} deck_id={deckId} />
       ) : (
         <div className="relative w-full max-w-[600px] md:max-w-[90vh]">
           <FlashcardCard onClick={() => setShowAnswer(!showAnswer)} showAnswer={showAnswer}>

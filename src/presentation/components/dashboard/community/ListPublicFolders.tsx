@@ -13,6 +13,8 @@ import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
+// Assurez-vous d'avoir installé date-fns
+
 import { ThemaLabelKeys } from '../folders/form/themaLabel';
 import { useListPublicFoldersStore } from './store/ListPublicFoldersState.store';
 
@@ -32,6 +34,7 @@ export function ListPublicFolders() {
           ? await appContainer.getUserService().getUserProfile(folder.user_id)
           : null;
 
+        // Ne pas modifier la date, simplement l'utiliser telle quelle
         const folderData = {
           ...folder,
           id: folder.id || '',
@@ -41,11 +44,21 @@ export function ListPublicFolders() {
           thema: folder.thema ?? null,
           user_id: folder.user_id || '',
           lang: folder.lang || 'fr',
+          // S'assurer que created_at est une chaîne non-vide
           created_at: folder.created_at || new Date().toISOString(),
         };
 
-        // Validation avec Zod
-        return FolderSchema.parse(folderData);
+        // Validation avec gestion d'erreur
+        const result = FolderSchema.safeParse(folderData);
+        if (!result.success) {
+          console.error('Folder validation error:', result.error);
+          return {
+            ...folderData,
+            created_at: new Date().toISOString(),
+          } as Folder;
+        }
+
+        return result.data;
       })
     );
 

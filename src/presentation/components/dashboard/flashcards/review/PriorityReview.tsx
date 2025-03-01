@@ -6,11 +6,12 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/presentation/components/ui/button';
 import { Card } from '@/presentation/components/ui/card';
 import { Skeleton } from '@/presentation/components/ui/skeleton';
-import { useToast } from '@/presentation/hooks/use-toast';
 import { useFlashcardPriority } from '@/presentation/hooks/useFlashcardPriority';
 import { useProfile } from '@/presentation/hooks/useProfile';
 import { useState } from 'react';
+import ConfettiExplosion from 'react-confetti-explosion';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 export function PriorityReview() {
   const navigate = useNavigate();
@@ -19,7 +20,6 @@ export function PriorityReview() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [reviewedCards, setReviewedCards] = useState<Set<string>>(new Set());
   const [isAnswerRevealed, setIsAnswerRevealed] = useState(false);
-  const { toast } = useToast();
   const flashcardProgressRepository = appContainer.getFlashcardProgressRepository();
 
   // Calculer les cartes restantes avec vérification
@@ -58,10 +58,13 @@ export function PriorityReview() {
       );
 
       if (nextRemainingCards.length === 0) {
-        toast({
-          title: 'Session terminée !',
+        toast('Session terminée !', {
           description: `Vous avez révisé ${reviewedCards.size + 1} cartes.`,
-          duration: 3000,
+          style: {
+            backgroundColor: '#0c0a09',
+            color: '#fff',
+            border: '1px solid #27272a',
+          },
         });
 
         // Ajouter un délai avant la redirection
@@ -72,31 +75,23 @@ export function PriorityReview() {
               reviewedCount: reviewedCards.size + 1,
             },
           });
-        }, 2500); // Délai de 2,5 secondes avant la redirection
+        }, 2500);
 
-        return; // Sortir de la fonction pour éviter d'exécuter le code suivant
+        return;
       }
 
-      // Mettre à jour l'index en fonction des cartes restantes
-      setCurrentIndex(0); // Revenir au début des cartes restantes
+      setCurrentIndex(0);
       setIsAnswerRevealed(false);
 
-      toast({
-        description:
-          quality >= ReviewQuality.Good ? 'Bien joué ! 🎉' : 'Continuez à pratiquer ! 💪',
-        duration: 1500,
-      });
+      toast(quality >= ReviewQuality.Good ? 'Bien joué ! 🎉' : 'Continuez à pratiquer ! 💪');
     } catch (error) {
       console.error('Erreur lors de la révision:', error);
-      toast({
-        title: 'Erreur',
+      toast('Erreur', {
         description: 'Impossible de sauvegarder votre progression',
-        variant: 'destructive',
       });
     }
   };
 
-  // États conditionnels
   if (isLoading) return <Skeleton className="h-[200px] w-full" />;
   if (error) {
     return (
@@ -110,7 +105,8 @@ export function PriorityReview() {
   }
   if (priorityCards.length === 0) {
     return (
-      <Card className="mt-6 p-6 text-center">
+      <Card className="mt-6 flex flex-col items-center justify-center p-6">
+        <ConfettiExplosion />
         <h2 className="mb-2 text-xl font-semibold">Félicitations ! 🎉</h2>
         <p className="text-muted-foreground">
           Vous n'avez aucune carte prioritaire à réviser pour le moment.
@@ -122,10 +118,10 @@ export function PriorityReview() {
     );
   }
 
-  // Vérifier s'il reste des cartes à réviser
   if (remainingCards.length === 0) {
     return (
-      <Card className="mt-6 p-6 text-center">
+      <Card className="mt-6 flex flex-col items-center justify-center p-6">
+        <ConfettiExplosion />
         <h2 className="mb-2 text-xl font-semibold">Session terminée ! 🎉</h2>
         <p className="text-muted-foreground">
           Vous avez révisé toutes les cartes de cette session.
@@ -137,7 +133,6 @@ export function PriorityReview() {
     );
   }
 
-  // Vérifier s'il y a une carte courante valide
   const currentCard = remainingCards[currentIndex];
   if (!currentCard || !currentCard.flashcard) {
     return (
@@ -153,8 +148,6 @@ export function PriorityReview() {
 
   return (
     <div className="space-y-6">
-      {/* Header avec progression */}
-
       <div className="mt-6 flex items-center justify-between">
         <h2 className="text-2xl font-bold">Révision Prioritaire</h2>
         <div className="flex items-center gap-2">

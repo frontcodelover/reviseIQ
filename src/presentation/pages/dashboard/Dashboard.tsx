@@ -1,3 +1,4 @@
+//! need refactoring
 import { Badge } from '@/domain/entities/Badge';
 import { GetRandomFolder } from '@/presentation/components/dashboard/homeBoard/GetRandomFolder';
 import { Greetings } from '@/presentation/components/dashboard/homeBoard/Greetings';
@@ -8,6 +9,7 @@ import { Card, CardContent, CardTitle } from '@/presentation/components/ui/card'
 import { Skeleton } from '@/presentation/components/ui/skeleton';
 import { useAuth } from '@/presentation/context/AuthContext';
 import { useProfile } from '@/presentation/hooks/useProfile';
+import { PageContainer } from '@/presentation/shared/PageContainer';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -37,14 +39,12 @@ export function Dashboard() {
   if (!profile) return null;
 
   return (
-    <div className="flex flex-col space-y-6 p-6">
+    <PageContainer>
       <Greetings />
 
       <GetRandomFolder />
-      <section className="space-y-4">
-        <h3 className="text-2xl font-semibold">{t('dashboard.lastPublicFolders')}</h3>
-        <ListHomeFolders />
-      </section>
+
+      <ListHomeFolders />
 
       <LogsAndBadgesManager
         userId={userId}
@@ -53,7 +53,7 @@ export function Dashboard() {
         onLastBadgeUpdate={setLastBadge}
       />
 
-      <section className="space-y-4">
+      <section className="mt-6 space-y-4">
         <h3 className="text-2xl font-semibold">{t('dashboard.stats')}</h3>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -89,7 +89,7 @@ export function Dashboard() {
         </div>
       </section>
 
-      <section className="space-y-4">
+      <section className="mt-6 space-y-4">
         <h2 className="text-2xl font-semibold">Vos badges</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {badges.map((badge) => (
@@ -103,7 +103,7 @@ export function Dashboard() {
           ))}
         </div>
       </section>
-    </div>
+    </PageContainer>
   );
 }
 

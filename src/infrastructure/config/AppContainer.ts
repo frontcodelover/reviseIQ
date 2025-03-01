@@ -1,6 +1,7 @@
 import { AuthService } from '@/domain/services/AuthService';
 import { AvatarService } from '@/domain/services/AvatarService';
 import { BadgeService } from '@/domain/services/BadgeService';
+import { FavoriteService } from '@/domain/services/FavoriteService';
 import { FlashcardService } from '@/domain/services/FlashcardService';
 import { FolderService } from '@/domain/services/FolderService';
 import { LogService } from '@/domain/services/LogService';
@@ -9,6 +10,7 @@ import { UserService } from '@/domain/services/UserService';
 import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRepository';
 import { SupabaseAvatarRepository } from '@/infrastructure/backend/SupabaseAvatarRepository';
 import { SupabaseBadgeRepository } from '@/infrastructure/backend/SupabaseBadgeRepository';
+import { SupabaseFavoriteRepository } from '@/infrastructure/backend/SupabaseFavoriteRepository';
 import { SupabaseFlashcardProgressRepository } from '@/infrastructure/backend/SupabaseFlashcardProgressRepository';
 import { SupabaseFlashCardRepository } from '@/infrastructure/backend/SupabaseFlashcardRepository';
 import { SupabaseFolderRepository } from '@/infrastructure/backend/SupabaseFolderRespository';
@@ -24,6 +26,7 @@ class AppContainer {
   private badgeRepository: SupabaseBadgeRepository;
   private avatarRepository: SupabaseAvatarRepository;
   private flashcardProgressRepository: SupabaseFlashcardProgressRepository;
+  private favoriteRepository: SupabaseFavoriteRepository;
 
   private authService: AuthService;
   private userService: UserService;
@@ -33,6 +36,7 @@ class AppContainer {
   private badgeService: BadgeService;
   private avatarService: AvatarService;
   private spacedRepetitionService: SpacedRepetitionService;
+  private favoriteService: FavoriteService;
 
   constructor() {
     // Initialisation des repositories
@@ -44,6 +48,7 @@ class AppContainer {
     this.badgeRepository = new SupabaseBadgeRepository();
     this.avatarRepository = new SupabaseAvatarRepository();
     this.flashcardProgressRepository = new SupabaseFlashcardProgressRepository();
+    this.favoriteRepository = new SupabaseFavoriteRepository();
 
     // Initialisation des services
     this.authService = new AuthService(this.authRepository);
@@ -54,6 +59,7 @@ class AppContainer {
     this.badgeService = new BadgeService(this.badgeRepository);
     this.avatarService = new AvatarService(this.avatarRepository);
     this.spacedRepetitionService = new SpacedRepetitionService();
+    this.favoriteService = new FavoriteService(this.favoriteRepository);
   }
 
   // Services existants
@@ -91,6 +97,10 @@ class AppContainer {
 
   getFlashcardProgressRepository(): SupabaseFlashcardProgressRepository {
     return this.flashcardProgressRepository;
+  }
+
+  getFavoriteService(): FavoriteService {
+    return this.favoriteService;
   }
 }
 
