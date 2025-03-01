@@ -8,6 +8,11 @@
   "english": "English",
   "french": "French",
   "loading": "Loading...",
+  "breadcrumb": {
+    "item": "Item",
+    "flashcard": "Flashcard",
+    "folder": "Flashcard"
+  },
   "home": {
     "title": "Master any subject faster, transform your learning with smart <WaveImage>flashcards</WaveImage>.",
     "description": "Learn and revise your courses more effectively with ReviseIQ. <br />Create smart flashcards with AI to help you memorize faster.",
@@ -108,12 +113,16 @@
   },
   "dashboard": {
     "account": "Account",
+    "title": "Dashboard",
     "toggleTheme": "Toggle theme",
     "dark": "Dark",
     "light": "Light",
     "system": "System",
     "billing": "Billing",
     "top": "Top",
+    "priority-review": "Priority review",
+    "folders": "Folders",
+    "top-ranked": "Top folders ranking",
     "topTitle": "Top folders ranking",
     "home": "Home",
     "navigation": "Dashboard",
