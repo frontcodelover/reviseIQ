@@ -29,7 +29,7 @@ export function Greetings() {
   if (!profile) return null;
 
   return (
-    <div className="flex w-full flex-col space-y-2 rounded-xl py-4">
+    <div className="mb-6 flex w-full flex-col space-y-2 rounded-xl">
       <h1 className="truncate text-4xl font-semibold text-foreground">
         {t('dashboard.greetings')} {profile.firstname} 👋
       </h1>

@@ -41,16 +41,19 @@ export function ListHomeFolders() {
   }
 
   return (
-    <div className="flex flex-col space-y-6">
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {folders.map((folder) => (
-          <CardFolder key={folder.id} {...folder} />
-        ))}
-      </div>
+    <section className="mt-6 space-y-4">
+      <h3 className="text-2xl font-semibold">{t('dashboard.lastPublicFolders')}</h3>
+      <div className="flex flex-col space-y-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {folders.map((folder) => (
+            <CardFolder key={folder.id} {...folder} />
+          ))}
+        </div>
 
-      <Link to="/dashboard/community" className="text-right text-primary hover:underline">
-        + {t('dashboard.folder.moreFolder')}
-      </Link>
-    </div>
+        <Link to="/dashboard/community" className="text-right text-primary hover:underline">
+          + {t('dashboard.folder.moreFolder')}
+        </Link>
+      </div>
+    </section>
   );
 }
