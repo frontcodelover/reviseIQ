@@ -4,7 +4,10 @@ import { SupabaseAuthRepository } from '@/infrastructure/backend/SupabaseAuthRep
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { SupabaseUserRepository } from '@/infrastructure/backend/SupabaseUserRepository';
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+// ✅ Remplacer les hooks Next.js par ceux de next-intl
+import { useRouter as useNextRouter, usePathname as useNextPathname, useSearchParams } from 'next/navigation';
+import { useRouter, usePathname } from '@/i18n/navigation';
+import { useLocale } from 'next-intl';
 
 interface User {
   id: string;
@@ -25,11 +28,14 @@ interface AuthContextType extends AuthState {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // ✅ Utiliser les hooks de navigation Next.js
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  // ✅ Utiliser les hooks de navigation Next.js et next-intl
+  const nextRouter = useNextRouter();
+  const nextPathname = useNextPathname();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const locale = useLocale(); // ✅ Récupérer la locale actuelle
 
   const [mounted, setMounted] = useState(false);
 
@@ -42,6 +48,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     hasProfile: false,
     isPasswordRecovery: false,
   });
+
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
   const isRecoveryUrl = () => {
     // ✅ Utiliser les hooks de Next.js pour accéder aux paramètres de requête
@@ -108,8 +116,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       });
 
       if (shouldRedirect && !isPasswordRecovery && !isRecoveryUrl()) {
-        // ✅ Navigation Next.js
-        router.push(hasProfile ? '/dashboard' : '/first-time');
+        // ✅ Navigation avec la locale
+        router.push(hasProfile ? `/${locale}/dashboard` : `/${locale}/first-time`);
       }
     } catch (error) {
       console.error('❌ Erreur:', error);
@@ -131,18 +139,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         loading: false,
       }));
 
-      // ✅ Créer l'URL avec les paramètres Next.js
-      let redirectUrl = `/update-password`;
-      if (typeof window !== 'undefined') {
-        redirectUrl += window.location.search + window.location.hash;
-      }
-
-      router.push(redirectUrl);
+      // Ne pas ajouter de locale ici non plus
+      router.push(`/update-password${window.location.hash}`);
       return;
     }
 
     checkSession(false, false);
-  }, [mounted, pathname, searchParams]); // ✅ Dépendances Next.js
+  }, [mounted, pathname, searchParams, locale]); // ✅ Ajouter la locale aux dépendances
+
+  useEffect(() => {
+    // Vérifier si on est en mode récupération de mot de passe
+    const checkPasswordRecoveryMode = () => {
+      const hash = window.location.hash;
+      if (hash && hash.includes('access_token') && hash.includes('type=recovery')) {
+        setIsPasswordRecovery(true);
+        localStorage.setItem('passwordRecoveryMode', 'true');
+      } else {
+        setIsPasswordRecovery(localStorage.getItem('passwordRecoveryMode') === 'true');
+      }
+    };
+
+    checkPasswordRecoveryMode();
+
+    // ... reste du code useEffect ...
+  }, []);
 
   const signOut = async () => {
     try {
@@ -156,7 +176,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       hasProfile: false,
       isPasswordRecovery: false,
     });
-    router.push('/login');
+    // ✅ Rediriger avec la locale
+    router.push(`/${locale}/login`);
   };
 
   // Protection contre le rendu côté serveur
@@ -164,21 +185,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return null;
   }
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user: state.user,
-        loading: state.loading,
-        hasProfile: state.hasProfile,
-        isPasswordRecovery: state.isPasswordRecovery,
-        signOut,
-        checkSession,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-};
+  const value = {
+    user: state.user,
+    loading: state.loading,
+    hasProfile: state.hasProfile,
+    isPasswordRecovery: state.isPasswordRecovery,
+    signOut,
+    checkSession,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

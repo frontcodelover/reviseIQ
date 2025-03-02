@@ -79,8 +79,9 @@
     "revise": "Revise flashcards"
   },
   "auth": {
+    "title": "ReviseIQ",
     "signInWithGoogle": "Sign in with Google",
-    "baseline": "Want to succeed in your revisions and learn effectively? <br />ReviseIQ your best asset to succeed!",
+    "baseline": "Want to succeed in your revisions and learn effectively? ReviseIQ your best asset to succeed!",
     "password": "Password",
     "newPassword": "New password",
     "passwordConfirm": "Confirm password",
@@ -112,7 +113,11 @@
     "resetPassword": "Reset password",
     "resetPasswordDescription": "Enter your email address to reset your password, if the email address is valid, an email will be sent to you to reset your password.",
     "resetButton": "Send reset email",
-    "emailSended": "A password reset email has been sent, please check your inbox."
+    "emailSended": "A password reset email has been sent, please check your inbox.",
+    "backToLogin": "Back to login",
+    "processing": "Processing...",
+    "passwordSameAsOldError": "New password must be different from the old one.",
+    "updating": "Updating..."
   },
   "dashboard": {
     "account": "Account",

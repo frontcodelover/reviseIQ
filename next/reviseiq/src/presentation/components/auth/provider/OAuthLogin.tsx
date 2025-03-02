@@ -2,26 +2,63 @@
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { Button } from '@/presentation/components/ui/button';
 import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { useRouter } from '@/i18n/navigation';
+import { useLocale } from 'next-intl';
+import { useAuth } from '@/presentation/context/AuthContext';
+import { supabase } from '@/infrastructure/backend/SupabaseClient';
 
 function OAuthLogin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const t = useTranslations();
+  const router = useRouter();
+  const locale = useLocale();
+  const { user, checkSession } = useAuth();
+
+  // Surveiller les changements d'état d'authentification avec Supabase
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        // Mettre à jour l'état d'authentification dans notre contexte
+        await checkSession();
+
+        // Rediriger vers le tableau de bord
+        router.push('/dashboard');
+      }
+    });
+
+    // Nettoyer l'écouteur lors du démontage
+    return () => {
+      authListener?.subscription.unsubscribe();
+    };
+  }, [checkSession, router]);
+
+  // Vérifier également si l'utilisateur est déjà connecté
+  useEffect(() => {
+    // Si l'utilisateur est déjà connecté, rediriger vers le dashboard
+    if (user) {
+      router.push('/dashboard');
+    }
+  }, [user, router]);
 
   const handleProviderLogin = async (provider: 'google') => {
     setLoading(true);
     setError('');
     try {
+      // Lancer la procédure de connexion OAuth
+      // La redirection se fera via l'écouteur d'événements onAuthStateChange
       await appContainer.getAuthService().signInWithProvider(provider);
+
+      // Note: Ici nous ne faisons pas de redirection directe car le flux OAuth
+      // redirige l'utilisateur vers le fournisseur puis revient sur notre site
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message || `Erreur lors de la connexion avec ${provider}`);
+        setError(err.message || t('auth.errorConnectingWith', { provider }));
       } else {
-        setError(`Erreur lors de la connexion avec ${provider}`);
+        setError(t('auth.errorConnectingWith', { provider }));
       }
-    } finally {
       setLoading(false);
     }
   };

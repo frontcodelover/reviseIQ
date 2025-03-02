@@ -84,7 +84,8 @@
     "revise": "Réviser les flashcards"
   },
   "auth": {
-    "baseline": "Envie de réussir d'apprendre efficacement ?<br /> ReviseIQ votre meilleur atout pour réussir !",
+    "title": "ReviseIQ",
+    "baseline": "Envie de réussir d'apprendre efficacement ? ReviseIQ votre meilleur atout pour réussir !",
     "or": "ou",
     "signInWithGoogle": "Se connecter avec Google",
     "signup": "S'insrire gratuitement",
@@ -117,7 +118,11 @@
     "resetPassword": "Réinitialiser le mot de passe",
     "resetPasswordDescription": "Entrez votre adresse email pour réinitialiser votre mot de passe, si l'adresse email est valide, un email vous sera envoyé pour réinitialiser votre mot de passe.",
     "resetButton": "Envoyer l'email de réinitialisation",
-    "emailSended": "Un email de réinitialisation de mot de passe a été envoyé, veuillez vérifier votre boîte de réception."
+    "emailSended": "Un email de réinitialisation de mot de passe a été envoyé, veuillez vérifier votre boîte de réception.",
+    "backToLogin": "Se connecter",
+    "processing": "Traitement en cours...",
+    "passwordSameAsOldError": "Le nouveau mot de passe doit être différent de l'ancien.",
+    "updating": "Mise à jour..."
   },
   "dashboard": {
     "account": "Compte",
