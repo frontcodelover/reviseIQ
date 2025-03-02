@@ -1,10 +1,23 @@
+'use client';
 import { Button } from '@/presentation/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import { usePathname } from '@/i18n/navigation';
+import { LocaleLink } from '../ui/locale-link';
+import { useParams } from 'next/navigation';
 
 export function Hero() {
   const t = useTranslations();
+  const pathname = usePathname();
+  const params = useParams();
+
+  // Débogage - vérifier la configuration
+  console.log('Pathname dans Hero:', pathname);
+  console.log('Params dans Hero:', params);
+
+  // ✅ Utiliser un lien sans préfixe pour tester
+  const signupUrl = '/signup';
+  console.log('URL de signup calculée:', signupUrl);
 
   return (
     <div className='my-20 h-full'>
@@ -12,16 +25,17 @@ export function Hero() {
         <div className='flex flex-col items-center justify-center gap-8 py-20 lg:py-40'>
           <div className='flex flex-col gap-4'>
             <h1 className='max-w-3xl text-center text-4xl font-semibold tracking-tighter md:text-6xl lg:text-7xl'>{t('home.title')}</h1>
-            <p className='max-w-2xl text-center text-lg leading-relaxed tracking-tight text-muted-foreground md:text-xl'>{t('home.description')}</p>
+            <p className='max-w-3xl text-center text-lg leading-relaxed tracking-tight text-muted-foreground md:text-xl'>{t('home.description')}</p>
           </div>
 
           <div className='flex flex-row gap-3'>
-            <Link href='/signup'>
+            {/* ✅ Utiliser le lien sans préfixe */}
+            <LocaleLink href={signupUrl}>
               <Button size='lg' className='gap-2 px-8 py-6 text-lg font-medium'>
                 {t('home.cta')}
                 <ArrowRight className='h-5 w-5' />
               </Button>
-            </Link>
+            </LocaleLink>
           </div>
 
           <div className='flex items-center gap-4'>

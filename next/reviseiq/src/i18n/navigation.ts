@@ -1,12 +1,10 @@
 import { createNavigation } from 'next-intl/navigation';
+import { locales, defaultLocale } from './config';
 
 // Configuration pour l'internationalisation
-const routing = {
-  locales: ['en', 'fr'] as const,
-  defaultLocale: 'fr' as const,
-  // IMPORTANT: Doit correspondre à celle du middleware ('never')
-  localePrefix: 'never',
-};
-
-// Exportation des fonctions de navigation
-export const { Link, redirect, usePathname, useRouter, getPathname } = createNavigation(routing);
+export const { Link, redirect, usePathname, useRouter, getPathname } = createNavigation({
+  locales,
+  defaultLocale,
+  // Nous utilisons cette option pour que next-intl gère automatiquement les préfixes de locale
+  localePrefix: 'always',
+});
