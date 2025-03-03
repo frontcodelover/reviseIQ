@@ -2,7 +2,7 @@ import { AuthRepository } from '@/domain/repositories/AuthRepository';
 import { supabase } from '@/infrastructure/backend/SupabaseClient';
 import { User } from '@/domain/entities/User';
 import { Provider } from '@supabase/supabase-js';
-import { getLocale } from 'next-intl/server';
+import { getCurrentLocale } from '@/lib/locale'; // ✅ Nouveau import
 
 export class SupabaseAuthRepository implements AuthRepository {
   // Authentication methods
@@ -40,11 +40,15 @@ export class SupabaseAuthRepository implements AuthRepository {
   }
 
   async signInWithProvider(provider: string): Promise<void> {
-    const locale = await getLocale(); // Obtenez la locale actuelle
+    const locale = getCurrentLocale(); // ✅ Utiliser la nouvelle fonction
     const { error } = await supabase.auth.signInWithOAuth({
       provider: provider as Provider,
       options: {
         redirectTo: `${window.location.origin}/${locale}/auth/callback`, // Utilisez une URL de callback gérée par next-auth
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
       },
     });
 

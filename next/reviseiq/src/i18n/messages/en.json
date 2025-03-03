@@ -121,6 +121,7 @@
   },
   "dashboard": {
     "account": "Account",
+    "signout": "Sign out",
     "title": "Dashboard",
     "toggleTheme": "Toggle theme",
     "dark": "Dark",

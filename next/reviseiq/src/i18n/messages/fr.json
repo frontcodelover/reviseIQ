@@ -126,6 +126,7 @@
   },
   "dashboard": {
     "account": "Compte",
+		"signout": "Déconnexion",
     "title": "Tableau de bord",
     "folders": "Dossiers",
     "top-ranked": "Classement",

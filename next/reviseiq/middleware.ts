@@ -1,11 +1,10 @@
-import createIntlMiddleware from 'next-intl/middleware';
+import createMiddleware from 'next-intl/middleware';
 import { locales, defaultLocale } from './src/i18n/config';
 
-export default createIntlMiddleware({
+export default createMiddleware({
   locales,
   defaultLocale,
-  // ✅ DOIT correspondre à la configuration dans navigation.ts
-  localePrefix: 'always', // ou 'never', mais le même que dans navigation.ts
+  localePrefix: 'always',
 });
 
 export const config = {
