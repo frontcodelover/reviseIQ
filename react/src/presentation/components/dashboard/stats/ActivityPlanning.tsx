@@ -38,9 +38,9 @@ function ActivityCalendar({ data }: ActivityCalendarProps) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className="absolute inset-0 z-10 cursor-pointer">
-                  <span className="z-10 flex h-full items-center justify-center">
+                  
                     {date.getDate()}
-                  </span>
+                 
                 </div>
               </TooltipTrigger>
               <TooltipContent>
