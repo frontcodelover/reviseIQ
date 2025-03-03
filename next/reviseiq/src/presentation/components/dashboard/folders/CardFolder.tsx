@@ -15,7 +15,7 @@ export function CardFolder({ id, name, thema, lang, user_id, created_at }: Folde
 
   return (
     <Card className='flex w-full flex-col justify-between'>
-      <CardContent className='pt-6'>
+      <CardContent>
         <div className='space-y-2'>
           <Link href={`/dashboard/folders/${id}`} className='text-lg font-semibold hover:underline'>
             {name}

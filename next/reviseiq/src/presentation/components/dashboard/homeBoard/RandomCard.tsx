@@ -9,17 +9,17 @@ export function RandomCard({ id, name, lang, user_id }: Folder) {
   const t = useTranslations();
 
   return (
-    <Card className="flex h-full max-w-96 flex-col gap-2 p-4">
-      <CardContent className="flex h-full flex-col justify-between gap-1 p-0">
-        <Link to={`/dashboard/folders/${id}`} className="text-base font-medium hover:underline">
+    <Card className='flex h-full max-w-96 flex-col gap-2 p-4'>
+      <CardContent className='flex h-full flex-col justify-between gap-1 p-0'>
+        <Link href={`/dashboard/folders/${id}`} className='text-base font-medium hover:underline'>
           {name}
         </Link>
       </CardContent>
 
       {!isLoading && profile && (
-        <CardFooter className="flex items-center gap-4 p-0">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-medium">{t('language')}</span>
+        <CardFooter className='flex items-center gap-4 p-0'>
+          <div className='flex items-center gap-2'>
+            <span className='text-xs font-medium'>{t('language')}</span>
             <div>{lang}</div>
           </div>
         </CardFooter>

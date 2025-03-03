@@ -26,7 +26,7 @@ export function DynamicBreadcrumb({ className }: DynamicBreadcrumbProps) {
                 <BreadcrumbPage>{item.label}</BreadcrumbPage>
               ) : (
                 <BreadcrumbLink asChild>
-                  <Link to={item.path}>{item.label}</Link>
+                  <Link href={item.path}>{item.label}</Link>
                 </BreadcrumbLink>
               )}
             </BreadcrumbItem>

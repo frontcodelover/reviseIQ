@@ -1,27 +1,26 @@
+'use client';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { formatDate } from '@/lib/FormatDate';
-import {
-  type Folder,
-  FolderSchema,
-} from '@/presentation/components/dashboard/community/Folder.schema';
+import { type Folder, FolderSchema } from '@/presentation/components/dashboard/community/Folder.schema';
 import { FoldersFilters } from '@/presentation/components/dashboard/community/FoldersFilters';
 import { Pagination } from '@/presentation/components/dashboard/shared/Pagination';
 import { Spinner } from '@/presentation/components/dashboard/shared/Spinner';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
+import { useTranslations } from 'next-intl';
+import { useQuery } from '@tanstack/react-query';
+import { LocaleLink as Link } from '../../ui/locale-link';
 
 // Assurez-vous d'avoir installé date-fns
 
 import { ThemaLabelKeys } from '../folders/form/themaLabel';
 import { useListPublicFoldersStore } from './store/ListPublicFoldersState.store';
 
+type SortField = 'name' | 'thema' | 'created_at';
+
 export function ListPublicFolders() {
-  const { page, setPage, limit, setLimit, searchQuery, sortField, sortOrder } =
-    useListPublicFoldersStore();
-  const { t } = useTranslation();
+  const { page, setPage, limit, setLimit, searchQuery, sortField, sortOrder } = useListPublicFoldersStore();
+  const t = useTranslations();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const fetchFolders = useCallback(async () => {
@@ -30,9 +29,7 @@ export function ListPublicFolders() {
     const foldersWithDetails = await Promise.all(
       result.data.map(async (folder): Promise<Folder> => {
         const flashcards = await appContainer.getFlashcardService().getFlashcardsList(folder.id!);
-        const profile = folder.user_id
-          ? await appContainer.getUserService().getUserProfile(folder.user_id)
-          : null;
+        const profile = folder.user_id ? await appContainer.getUserService().getUserProfile(folder.user_id) : null;
 
         // Ne pas modifier la date, simplement l'utiliser telle quelle
         const folderData = {
@@ -59,7 +56,7 @@ export function ListPublicFolders() {
         }
 
         return result.data;
-      })
+      }),
     );
 
     return {
@@ -72,9 +69,11 @@ export function ListPublicFolders() {
     data: response,
     isLoading,
     error,
-  } = useQuery(['folders'], fetchFolders, {
+  } = useQuery({
+    queryKey: ['folders'],
+    queryFn: fetchFolders,
     staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
   });
 
   const processData = useCallback(() => {
@@ -136,12 +135,12 @@ export function ListPublicFolders() {
 
       return themaLabel ? t(themaLabel.i18nKey) : t('dashboard.folder.thema.other');
     },
-    [t]
+    [t],
   );
 
   // Fonction de tri en-tête
   const onSort = useCallback(
-    (field) => {
+    (field: SortField) => {
       const { setSortField, setSortOrder } = useListPublicFoldersStore.getState();
       if (field === sortField) {
         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
@@ -150,45 +149,41 @@ export function ListPublicFolders() {
         setSortOrder('asc');
       }
     },
-    [sortField, sortOrder]
+    [sortField, sortOrder],
   );
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-4">
-        <Spinner className="h-8 w-8 text-black dark:text-white" />
+      <div className='flex items-center justify-center p-4'>
+        <Spinner className='h-8 w-8 text-black dark:text-white' />
       </div>
     );
   }
 
   if (error) {
-    return <div className="rounded-md bg-red-50 p-4 text-red-500">{(error as Error).message}</div>;
+    return <div className='rounded-md bg-red-50 p-4 text-red-500'>{(error as Error).message}</div>;
   }
 
   if (!displayData.data || displayData.data.length === 0) {
     return (
-      <div className="space-y-4">
+      <div className='space-y-4'>
         <FoldersFilters />
-        <div className="rounded-md border p-8 text-center text-gray-500">
-          {searchQuery
-            ? t('dashboard.communityTable.noFoldersFound')
-            : t('dashboard.communityTable.noPublicFolders')}
-        </div>
+        <div className='rounded-md border p-8 text-center text-gray-500'>{searchQuery ? t('dashboard.communityTable.noFoldersFound') : t('dashboard.communityTable.noPublicFolders')}</div>
       </div>
     );
   }
 
   return (
-    <div className="mt-6 space-y-6">
-      <div className="flex flex-col items-start justify-between space-y-4 md:flex-row md:items-center md:space-y-0">
+    <div className='mt-6 space-y-6'>
+      <div className='flex flex-col items-start justify-between space-y-4 md:flex-row md:items-center md:space-y-0'>
         <div>
           <FoldersFilters />
         </div>
-        <div className="text-right font-medium">
+        <div className='text-right font-medium'>
           {searchQuery ? (
             <span>
               {displayData.filteredCount} {t('dashboard.communityTable.foundFolders')}
-              <span className="text-gray-500">
+              <span className='text-gray-500'>
                 {' '}
                 {t('dashboard.communityTable.outOf')} {displayData.count}
               </span>
@@ -201,10 +196,10 @@ export function ListPublicFolders() {
         </div>
       </div>
 
-      <div className="rounded-md border">
+      <div className='rounded-md border'>
         <div
           ref={scrollContainerRef}
-          className="overflow-auto"
+          className='overflow-auto'
           style={{
             WebkitOverflowScrolling: 'touch',
             msOverflowStyle: 'none',
@@ -212,80 +207,50 @@ export function ListPublicFolders() {
           }}
         >
           {/* Conteneur avec largeur minimale garantie */}
-          <div className="min-w-[100%] max-w-[87vw] md:w-full">
-            <div className="relative w-full">
-              <table className="w-full caption-bottom text-sm">
-                <thead className="[&_tr]:border-b">
-                  <tr className="border-b transition-colors hover:bg-muted/50">
+          <div className='min-w-[100%] max-w-[87vw] md:w-full'>
+            <div className='relative w-full'>
+              <table className='w-full caption-bottom text-sm'>
+                <thead className='[&_tr]:border-b'>
+                  <tr className='border-b transition-colors hover:bg-muted/50'>
                     {/* En-têtes de colonnes */}
-                    <th
-                      onClick={() => onSort('name')}
-                      className="h-12 cursor-pointer px-4 text-left align-middle font-medium text-muted-foreground"
-                    >
-                      <div className="flex items-center gap-1">
+                    <th onClick={() => onSort('name')} className='h-12 cursor-pointer px-4 text-left align-middle font-medium text-muted-foreground'>
+                      <div className='flex items-center gap-1'>
                         {t('dashboard.communityTable.name')}
-                        {sortField === 'name' &&
-                          (sortOrder === 'asc' ? (
-                            <ArrowUp className="h-4 w-4" />
-                          ) : (
-                            <ArrowDown className="h-4 w-4" />
-                          ))}
+                        {sortField === 'name' && (sortOrder === 'asc' ? <ArrowUp className='h-4 w-4' /> : <ArrowDown className='h-4 w-4' />)}
                       </div>
                     </th>
-                    <th
-                      onClick={() => onSort('thema')}
-                      className="h-12 cursor-pointer px-4 text-left align-middle font-medium text-muted-foreground"
-                    >
-                      <div className="flex items-center gap-1">
+                    <th onClick={() => onSort('thema')} className='h-12 cursor-pointer px-4 text-left align-middle font-medium text-muted-foreground'>
+                      <div className='flex items-center gap-1'>
                         {t('dashboard.communityTable.thema')}
-                        {sortField === 'thema' &&
-                          (sortOrder === 'asc' ? (
-                            <ArrowUp className="h-4 w-4" />
-                          ) : (
-                            <ArrowDown className="h-4 w-4" />
-                          ))}
+                        {sortField === 'thema' && (sortOrder === 'asc' ? <ArrowUp className='h-4 w-4' /> : <ArrowDown className='h-4 w-4' />)}
                       </div>
                     </th>
-                    <th className="h-12 w-[10%] px-4 text-left align-middle font-medium text-muted-foreground">
-                      {t('dashboard.communityTable.creator')}
-                    </th>
-                    <th className="h-12 w-[5%] px-4 text-right align-middle font-medium text-muted-foreground">
-                      {t('dashboard.communityTable.flashcards')}
-                    </th>
-                    <th className="h-12 w-[10%] px-4 text-left align-middle font-medium text-muted-foreground">
-                      {t('dashboard.communityTable.lang')}
-                    </th>
-                    <th
-                      onClick={() => onSort('created_at')}
-                      className="h-12 cursor-pointer px-4 text-left align-middle font-medium text-muted-foreground"
-                    >
-                      <div className="flex items-center gap-1">
+                    <th className='h-12 w-[10%] px-4 text-left align-middle font-medium text-muted-foreground'>{t('dashboard.communityTable.creator')}</th>
+                    <th className='h-12 w-[5%] px-4 text-right align-middle font-medium text-muted-foreground'>{t('dashboard.communityTable.flashcards')}</th>
+                    <th className='h-12 w-[10%] px-4 text-left align-middle font-medium text-muted-foreground'>{t('dashboard.communityTable.lang')}</th>
+                    <th onClick={() => onSort('created_at')} className='h-12 cursor-pointer px-4 text-left align-middle font-medium text-muted-foreground'>
+                      <div className='flex items-center gap-1'>
                         {t('dashboard.communityTable.created')}
-                        {sortField === 'created_at' &&
-                          (sortOrder === 'asc' ? (
-                            <ArrowUp className="h-4 w-4" />
-                          ) : (
-                            <ArrowDown className="h-4 w-4" />
-                          ))}
+                        {sortField === 'created_at' && (sortOrder === 'asc' ? <ArrowUp className='h-4 w-4' /> : <ArrowDown className='h-4 w-4' />)}
                       </div>
                     </th>
                   </tr>
                 </thead>
-                <tbody className="[&_tr:last-child]:border-0">
+                <tbody className='[&_tr:last-child]:border-0'>
                   {displayData.data.map((folder) => (
-                    <tr key={folder.id} className="border-b transition-colors hover:bg-muted/50">
-                      <td className="max-w-xs truncate p-4 align-middle font-medium">
-                        <Link to={`/dashboard/folders/${folder.id}`} className="hover:underline">
+                    <tr key={folder.id} className='border-b transition-colors hover:bg-muted/50'>
+                      <td className='max-w-xs truncate p-4 align-middle font-medium'>
+                        <Link href={`/dashboard/folders/${folder.id}`} className='hover:underline'>
                           {folder.name}
                         </Link>
                       </td>
-                      <td className="p-4 align-middle">{getThemaLabel(folder.thema)}</td>
-                      <td className="p-4 align-middle">{folder.author?.firstname}</td>
-                      <td className="p-4 text-right align-middle">{folder.flashcardsCount}</td>
-                      <td className="p-4 align-middle">
-                        <div className="mx-auto h-5 w-5">{folder.lang}</div>
+                      <td className='p-4 align-middle'>{getThemaLabel(folder.thema)}</td>
+                      <td className='p-4 align-middle'>{folder.author?.firstname}</td>
+                      <td className='p-4 text-right align-middle'>{folder.flashcardsCount}</td>
+                      <td className='p-4 align-middle'>
+                        <div className='mx-auto h-5 w-5'>{folder.lang}</div>
                       </td>
-                      <td className="p-4 align-middle">{formatDate(folder.created_at)}</td>
+                      <td className='p-4 align-middle'>{formatDate(folder.created_at)}</td>
                     </tr>
                   ))}
                 </tbody>

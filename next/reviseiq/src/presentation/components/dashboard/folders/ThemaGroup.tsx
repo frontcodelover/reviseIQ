@@ -79,7 +79,7 @@ export function ThemaGroup({ thema, decks, onDeckDeleted }: ThemaGroupProps) {
                 <div key={deck.id} className='flex items-center justify-between gap-4 px-8 py-2'>
                   <div className='flex items-center gap-2'>
                     <CornerDownRight className='h-4 w-4 text-muted-foreground' />
-                    <Link to={`/dashboard/folders/${deck.id}`} className='font-medium hover:underline'>
+                    <Link href={`/dashboard/folders/${deck.id}`} className='font-medium hover:underline'>
                       {deck.name}
                     </Link>
                   </div>
