@@ -166,7 +166,11 @@ abbr[title] {
 
   .rotate-y-180 {
     transform: rotateY(180deg);
-  }
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+}
 }
 
 /* Styles pour react-phone-input-2 */
