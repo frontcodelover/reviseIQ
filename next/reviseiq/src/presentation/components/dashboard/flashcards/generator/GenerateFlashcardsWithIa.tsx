@@ -70,7 +70,6 @@ export function GenerateFlashCardWithIa() {
     setError(null);
 
     try {
-      // const result = await appContainer.getFlashcardService().generateFlashcards(topic, number, savedLanguage, level);
       const result = await generateFlashcardAction(topic, number, savedLanguage, level);
 
       // Assuming the service returns a JSON string, parse it
