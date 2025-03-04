@@ -15,6 +15,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import { useParams } from 'next/navigation';
 import { useLanguage } from '@/hooks/useLanguage';
+import { generateFlashcardAction } from '@/presentation/actions/generate-flashcard.action';
 
 export function GenerateFlashCardWithIa() {
   const t = useTranslations();
@@ -69,7 +70,8 @@ export function GenerateFlashCardWithIa() {
     setError(null);
 
     try {
-      const result = await appContainer.getFlashcardService().generateFlashcards(topic, number, savedLanguage, level);
+      // const result = await appContainer.getFlashcardService().generateFlashcards(topic, number, savedLanguage, level);
+      const result = await generateFlashcardAction(topic, number, savedLanguage, level);
 
       // Assuming the service returns a JSON string, parse it
       const parsedResult = typeof result === 'string' ? JSON.parse(result) : result;
