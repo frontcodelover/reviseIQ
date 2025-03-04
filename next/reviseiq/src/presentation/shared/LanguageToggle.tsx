@@ -1,30 +1,29 @@
 'use client';
+
 import { Button } from '@/presentation/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/presentation/components/ui/dropdown-menu';
 import { Languages } from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import { usePathname, useRouter } from '@/i18n/navigation';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter, usePathname } from '@/i18n/navigation';
+import { useEffect } from 'react';
 
 export function LanguageToggle() {
   const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
+  const currentLocale = useLocale();
 
-  const changeLanguage = (locale: string) => {
-    // Extraction du chemin actuel sans la locale
-    // Pour une URL comme /fr/dashboard, on veut garder /dashboard
-    // Pour /en/settings, on veut garder /settings
+  // Synchroniser la locale avec le localStorage au chargement et aux changements
+  useEffect(() => {
+    localStorage.setItem('i18nextLng', currentLocale);
+  }, [currentLocale]);
 
-    const segments = window.location.pathname.split('/');
-    // Enlever le premier élément (vide) et la locale
-    segments.splice(0, 2);
-    // Reconstruire le chemin sans locale
-    const pathWithoutLocale = '/' + segments.join('/');
+  const changeLanguage = (newLocale: string) => {
+    // Sauvegarder la nouvelle langue dans le localStorage
+    localStorage.setItem('i18nextLng', newLocale);
 
-    console.log(`Changement vers ${locale}, chemin sans locale: ${pathWithoutLocale}`);
-
-    // Redirection directe
-    window.location.href = `/${locale}${pathWithoutLocale}`;
+    // Utiliser le router de next-intl pour la navigation
+    router.push(pathname, { locale: newLocale });
   };
 
   return (
@@ -36,8 +35,12 @@ export function LanguageToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
-        <DropdownMenuItem onClick={() => changeLanguage('fr')}>Français</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeLanguage('en')}>English</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => changeLanguage('fr')} className={currentLocale === 'fr' ? 'bg-accent' : ''}>
+          Français
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => changeLanguage('en')} className={currentLocale === 'en' ? 'bg-accent' : ''}>
+          English
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

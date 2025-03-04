@@ -1,7 +1,7 @@
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { useAuth } from '@/presentation/context/AuthContext';
 import { useCallback, useEffect, useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function useFolderFavorite(deck_id: string) {
   const { user } = useAuth();

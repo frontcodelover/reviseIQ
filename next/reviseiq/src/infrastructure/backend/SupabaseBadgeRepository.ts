@@ -6,10 +6,7 @@ import { RealtimeChannel } from '@supabase/supabase-js';
 export class SupabaseBadgeRepository implements BadgeRepository {
   private channel: RealtimeChannel | null = null;
 
-  async checkAndUnlockBadges(
-    userId: string,
-    stats: { flashcards_viewed: number; folders_viewed: number }
-  ) {
+  async checkAndUnlockBadges(userId: string, stats: { flashcards_viewed: number; folders_viewed: number }) {
     // Récupérer tous les badges
     const { data: badges, error: badgeError } = await supabase.from('badges').select('*');
 
@@ -19,16 +16,10 @@ export class SupabaseBadgeRepository implements BadgeRepository {
     }
 
     // Récupérer les badges déjà débloqués par l'utilisateur
-    const { data: unlockedBadges, error: userBadgeError } = await supabase
-      .from('user_badges')
-      .select('badge_id')
-      .eq('user_id', userId);
+    const { data: unlockedBadges, error: userBadgeError } = await supabase.from('user_badges').select('badge_id').eq('user_id', userId);
 
     if (userBadgeError) {
-      console.error(
-        'Erreur lors de la récupération des badges utilisateur :',
-        userBadgeError.message
-      );
+      console.error('Erreur lors de la récupération des badges utilisateur :', userBadgeError.message);
       return;
     }
 
@@ -39,9 +30,7 @@ export class SupabaseBadgeRepository implements BadgeRepository {
       if (unlockedBadgeIds.includes(badge.id)) continue;
 
       // Remplacer les variables dans les critères de déblocage
-      const criteria = badge.criteria
-        .replace('flashcards_viewed', stats.flashcards_viewed.toString())
-        .replace('folders_viewed', stats.folders_viewed.toString());
+      const criteria = badge.criteria.replace('flashcards_viewed', stats.flashcards_viewed.toString()).replace('folders_viewed', stats.folders_viewed.toString());
 
       // Évaluer les critères de déblocage
       const criteriaMet = this.evaluateCriteria(criteria);
@@ -60,11 +49,7 @@ export class SupabaseBadgeRepository implements BadgeRepository {
   }
 
   async fetchUnreadBadges(userId: string): Promise<BadgeData[]> {
-    const { data, error } = await supabase
-      .from('user_badges')
-      .select('*')
-      .eq('user_id', userId)
-      .eq('is_read', false);
+    const { data, error } = await supabase.from('user_badges').select('*').eq('user_id', userId).eq('is_read', false);
 
     if (error) {
       console.error('Erreur de fetch:', error);
@@ -74,12 +59,10 @@ export class SupabaseBadgeRepository implements BadgeRepository {
     // Valider les données avec Zod
     const validatedData = data?.map((item) => BadgeDataSchema.safeParse(item));
     const badges: BadgeData[] = [];
-
     validatedData?.forEach((result) => {
+      console.log(result);
       if (result?.success) {
         badges.push(result.data);
-      } else {
-        console.error('Erreur de validation BadgeData:', result?.error);
       }
     });
 
@@ -98,7 +81,7 @@ export class SupabaseBadgeRepository implements BadgeRepository {
               description,
               image_url
             )
-          `
+          `,
       )
       .eq('user_id', userId);
 
@@ -177,7 +160,7 @@ export class SupabaseBadgeRepository implements BadgeRepository {
                 }
               });
           }
-        }
+        },
       )
       .subscribe();
   }
@@ -192,10 +175,7 @@ export class SupabaseBadgeRepository implements BadgeRepository {
   async markBadgesAsRead(userId: string, badgeIds: string[]): Promise<void> {
     if (badgeIds.length === 0) return;
 
-    const { error } = await supabase
-      .from('user_badges')
-      .update({ is_read: true })
-      .in('id', badgeIds);
+    const { error } = await supabase.from('user_badges').update({ is_read: true }).in('id', badgeIds);
 
     if (error) {
       console.error('Erreur lors de la mise à jour des badges:', error);

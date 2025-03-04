@@ -3,7 +3,7 @@ import { FavoriteButton } from '@/presentation/components/dashboard/shared/Favor
 import { Button } from '@/presentation/components/ui/button';
 import { Card } from '@/presentation/components/ui/card';
 import ConfettiExplosion from 'react-confetti-explosion';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 interface EndCardProps {
   onRestart: () => void;
@@ -11,26 +11,24 @@ interface EndCardProps {
 }
 
 export function EndCard({ onRestart, deck_id }: EndCardProps) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   return (
-    <div className="min-h-[40vh] w-[calc(100%-10vw)]">
-      <Card className="flex flex-col items-center justify-center gap-10 p-10">
-        <div className="flex flex-col items-center gap-2">
-          <h3 className="text-2xl font-bold">{t('flashcard.congratulations')} 🎉</h3>
+    <div className='min-h-[40vh] w-[calc(100%-10vw)]'>
+      <Card className='flex flex-col items-center justify-center gap-10 p-10'>
+        <div className='flex flex-col items-center gap-2'>
+          <h3 className='text-2xl font-bold'>{t('flashcard.congratulations')} 🎉</h3>
           <ConfettiExplosion particleCount={100} duration={4000} />
-          <p className="text-center text-lg text-muted-foreground">
-            {t('flashcard.congratulationsMessage')}
-          </p>
+          <p className='text-center text-lg text-muted-foreground'>{t('flashcard.congratulationsMessage')}</p>
         </div>
-        <div className="flex flex-col items-center justify-center gap-4">
-          <h4 className="text-lg font-semibold">{t('flashcard.likeThisDeck')}</h4>
+        <div className='flex flex-col items-center justify-center gap-4'>
+          <h4 className='text-lg font-semibold'>{t('flashcard.likeThisDeck')}</h4>
           <LikeDislike />
         </div>
-        <div className="flex flex-col items-center justify-center gap-4">
-          <h4 className="text-lg font-semibold">{t('flashcard.addToFavorite')}</h4>
+        <div className='flex flex-col items-center justify-center gap-4'>
+          <h4 className='text-lg font-semibold'>{t('flashcard.addToFavorite')}</h4>
           <FavoriteButton deck_id={deck_id ?? ''} />
         </div>
-        <Button onClick={onRestart} className="w-full sm:w-auto">
+        <Button onClick={onRestart} className='w-full sm:w-auto'>
           {t('flashcard.startAgain')}
         </Button>
       </Card>

@@ -11,8 +11,10 @@
   "changeLanguage": "Change language",
   "breadcrumb": {
     "item": "Item",
+    "new": "New",
     "flashcard": "Flashcard",
-    "folder": "Flashcard"
+    "folder": "Flashcard",
+    "generate-ai": "Generate with AI"
   },
   "home": {
     "title": "Master any subject faster, transform your learning with smart flashcards.",
@@ -22,6 +24,8 @@
   },
   "flashcard": {
     "question": "Question",
+    "questionPlaceholder": "Enter your question",
+    "answerPlaceholder": "Enter your answer",
     "answer": "Answer",
     "edit": "Edit",
     "delete": "Delete",
@@ -49,6 +53,11 @@
     "easy": "Easy",
     "medium": "Medium",
     "hard": "Hard",
+    "createWithIa": "With AI",
+    "createManual": "Manually",
+    "uploadDocument": "Upload a PDF document",
+    "optionChoose": "Choose an option to create your flashcards",
+    "selectOption": "Select an option",
     "chooseDifficulty": "Choose the difficulty",
     "subject": "Subject of your flashcards",
     "likeThisDeck": "Do you like this deck?",
@@ -163,6 +172,8 @@
       "themaLabel": "Theme",
       "somethingWentWrong": "Something went wrong while creating the folder",
       "mostLikedFolders": "Most liked folders",
+      "deleteConfirmTitle": "Delete folder",
+      "deleteConfirmMessage": "Are you sure you want to delete this folder? This action is irreversible.",
       "form": {
         "title": "Create a folder",
         "name": "Folder name",

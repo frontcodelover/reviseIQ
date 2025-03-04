@@ -1,3 +1,4 @@
+'use client';
 import { Folder } from '@/domain/entities/Folder';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { GetFlashcards } from '@/presentation/components/dashboard/flashcards/display/GetAllFlashcards';

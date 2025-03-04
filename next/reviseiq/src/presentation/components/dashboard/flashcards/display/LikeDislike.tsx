@@ -3,7 +3,7 @@ import { Button } from '@/presentation/components/ui/button';
 import { useProfile } from '@/presentation/hooks/useProfile';
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import { toast } from 'sonner';
 
 interface URLParams {

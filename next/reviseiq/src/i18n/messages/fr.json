@@ -11,8 +11,10 @@
   "changeLanguage": "Changer de langue",
   "breadcrumb": {
     "item": "Élément",
+		"new": "Nouveau",
     "flashcard": "Flashcard",
-    "folder": "Flashcard"
+    "folder": "Flashcard",
+		"generate-ai" : "Générer avec IA"
   },
   "home": {
     "title": "Apprenez de nouvelles compétences avec les flashcards intelligentes. ",
@@ -34,6 +36,8 @@
   },
   "flashcard": {
     "question": "Question",
+		"questionPlaceholder": "Entrez votre question",
+		"answerPlaceholder": "Entrez votre réponse",
     "answer": "Réponse",
     "edit": "Modifier",
     "delete": "Supprimer",
@@ -195,6 +199,8 @@
       "themaLabel": "Thème",
       "somethingWentWrong": "Quelque chose s'est mal passé lors de la récupération des dossiers",
       "mostLikedFolders": "Les dossiers les plus aimés",
+			"deleteConfirmTitle" : "Supprimer le dossier",
+			"deleteConfirmMessage" : "Êtes-vous sûr de vouloir supprimer ce dossier ?",
       "form": {
         "title": "Créer un dossier",
         "name": "Nom du dossier",

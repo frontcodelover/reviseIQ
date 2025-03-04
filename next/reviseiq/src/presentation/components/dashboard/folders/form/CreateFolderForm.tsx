@@ -1,15 +1,9 @@
+'use client';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { Thema } from '@/presentation/components/dashboard/folders/form/thema';
 import { ThemaKey } from '@/presentation/components/dashboard/folders/form/themaLabel';
 import { Button } from '@/presentation/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/presentation/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/presentation/components/ui/form';
 import { Input } from '@/presentation/components/ui/input';
 import { Switch } from '@/presentation/components/ui/switch';
 import { Textarea } from '@/presentation/components/ui/textarea';
@@ -18,7 +12,7 @@ import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from '@/i18n/navigation';
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -36,8 +30,8 @@ interface CreateFolderFormProps {
 
 export function CreateFolderForm({ onRefresh }: CreateFolderFormProps) {
   const lang = localStorage.getItem('i18nextLng') || 'fr';
-  const t  = useTranslations();
-  const navigate = useNavigate();
+  const t = useTranslations();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -67,7 +61,7 @@ export function CreateFolderForm({ onRefresh }: CreateFolderFormProps) {
         lang: values.lang,
       });
       onRefresh();
-      navigate(`/dashboard/folders/${id}`);
+      router.push(`/dashboard/folders/${id}`);
     } catch {
       setError(t('dashboard.folder.error.create'));
     } finally {
@@ -76,17 +70,17 @@ export function CreateFolderForm({ onRefresh }: CreateFolderFormProps) {
   };
 
   return (
-    <div className="flex flex-col space-y-6">
-      <h2 className="text-2xl font-bold">{t('dashboard.folder.createfolder')}</h2>
+    <div className='flex flex-col space-y-6'>
+      <h2 className='text-2xl font-bold'>{t('dashboard.folder.createfolder')}</h2>
 
-      <div className="rounded-lg border p-6">
-        {error && <div className="mb-4 text-sm text-destructive">{error}</div>}
+      <div className='rounded-lg border p-6'>
+        {error && <div className='mb-4 text-sm text-destructive'>{error}</div>}
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
             <FormField
               control={form.control}
-              name="name"
+              name='name'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t('dashboard.folder.form.nameplaceholder')}</FormLabel>
@@ -100,12 +94,12 @@ export function CreateFolderForm({ onRefresh }: CreateFolderFormProps) {
 
             <FormField
               control={form.control}
-              name="description"
+              name='description'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t('dashboard.folder.form.descriptionplaceholder')}</FormLabel>
                   <FormControl>
-                    <Textarea {...field} className="min-h-[100px]" />
+                    <Textarea {...field} className='min-h-[100px]' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -114,7 +108,7 @@ export function CreateFolderForm({ onRefresh }: CreateFolderFormProps) {
 
             <FormField
               control={form.control}
-              name="thema"
+              name='thema'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t('dashboard.folder.themaLabel')}</FormLabel>
@@ -128,9 +122,9 @@ export function CreateFolderForm({ onRefresh }: CreateFolderFormProps) {
 
             <FormField
               control={form.control}
-              name="isPublic"
+              name='isPublic'
               render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
+                <FormItem className='flex items-center gap-2'>
                   <FormLabel>{t('dashboard.folder.form.public')}</FormLabel>
                   <FormControl>
                     <Switch checked={field.value} onCheckedChange={field.onChange} />
@@ -139,10 +133,10 @@ export function CreateFolderForm({ onRefresh }: CreateFolderFormProps) {
               )}
             />
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type='submit' className='w-full' disabled={loading}>
               {loading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                   {t('dashboard.folder.form.loading')}
                 </>
               ) : (

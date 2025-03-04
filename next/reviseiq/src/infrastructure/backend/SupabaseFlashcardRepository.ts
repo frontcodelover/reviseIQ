@@ -40,7 +40,7 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
   }
 
   async generateFlashcards(topic: string, number: number, lang: string, level: string): Promise<Flashcard[]> {
-    const apiKey = process.env.MISTRAL_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_MISTRAL_API_KEY;
     if (!apiKey) {
       throw new Error('Clé API Mistral non définie');
     }
@@ -50,12 +50,12 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
 		[{
 		"question" : "...",
 		 "answer" : "...",
-		 "wrong_one" : "...",
-		 "wrong_two" : "...",
-		 "wrong_three" : "..."
-	}]'
-		Tu feras ça pour le nombre de flashcards demandé. Pour chaque flashcard tu devras générer 3 fausses réponses impérativement.
-		`;
+ 	 "wrong_one" : "...",
+	 	 "wrong_two" : "...",
+	 	 "wrong_three" : "..."
+ }]'
+	 	Tu feras ça pour le nombre de flashcards demandé. Pour chaque flashcard tu devras générer 3 fausses réponses impérativement.
+	 	`;
 
     try {
       const result = await client.chat.complete({
@@ -78,7 +78,7 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
   }
 
   async generateWithText(text: string, number: number, lang: string): Promise<Flashcard[]> {
-    const apiKey = process.env.MISTRAL_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_MISTRAL_API_KEY;
     if (!apiKey) {
       throw new Error('Clé API Mistral non définie');
     }

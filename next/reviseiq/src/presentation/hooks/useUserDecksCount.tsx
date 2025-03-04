@@ -1,3 +1,4 @@
+'use client';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { useState, useEffect } from 'react';
 
