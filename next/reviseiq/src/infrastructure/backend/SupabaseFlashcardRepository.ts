@@ -78,7 +78,7 @@ export class SupabaseFlashCardRepository implements FlashcardRepository {
   }
 
   async generateWithText(text: string, number: number, lang: string): Promise<Flashcard[]> {
-    const apiKey = process.env.NEXT_PUBLIC_MISTRAL_API_KEY;
+    const apiKey = process.env.MISTRAL_API_KEY;
     if (!apiKey) {
       throw new Error('Clé API Mistral non définie');
     }
