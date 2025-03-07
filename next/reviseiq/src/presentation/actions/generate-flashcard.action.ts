@@ -2,7 +2,8 @@
 
 import { appContainer } from "@/infrastructure/config/AppContainer";
 
-export const generateFlashcardAction = async (topic:string, number:number , savedLanguage:string, level:string) => {
+export const generateFlashcardAction = async (topic: string, number: number, savedLanguage: string, level: string) => {
+	console.log("generateFlashcardAction", topic, number, savedLanguage, level);
   try {
     return await appContainer.getFlashcardService().generateFlashcards(topic, number, savedLanguage, level);
     

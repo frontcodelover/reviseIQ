@@ -25,7 +25,7 @@ export function DockNavigate({ setCurrentIndex, setShowAnswer, currentIndex, fla
 
   return (
     <div className='fixed bottom-8 flex h-[60px] min-w-[300px] items-center justify-center gap-3 rounded-full border bg-background px-8 shadow-sm'>
-      <Link to='/dashboard/folders'>
+      <Link href='/dashboard/folders'>
         <IconButton tooltipText={t('flashcard.backFolders')}>
           <Folder className='h-5 w-5' />
         </IconButton>
@@ -78,7 +78,7 @@ export function DockNavigate({ setCurrentIndex, setShowAnswer, currentIndex, fla
       </IconButton>
 
       {flashcards[0]?.ia_generated ? (
-        <Link to={`/dashboard/folders/${deckId}/quiz`}>
+        <Link href={`/dashboard/folders/${deckId}/quiz`}>
           <IconButton tooltipText={t('flashcard.quizMode')}>
             <FileQuestion className='h-5 w-5' />
           </IconButton>
