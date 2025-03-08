@@ -1,9 +1,10 @@
+'use client';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { Button } from '@/presentation/components/ui/button';
 import { Input } from '@/presentation/components/ui/input';
 import { Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
 import { z } from 'zod';
 
 const FlashcardSchema = z.object({
@@ -16,10 +17,8 @@ type Flashcard = z.infer<typeof FlashcardSchema>;
 
 export function GenerateFlashcardManual() {
   const { id: deckId } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const [flashcards, setFlashcards] = useState<Flashcard[]>([
-    { id: Date.now(), question: '', answer: '' },
-  ]);
+  const router = useRouter();
+  const [flashcards, setFlashcards] = useState<Flashcard[]>([{ id: Date.now(), question: '', answer: '' }]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,9 +27,7 @@ export function GenerateFlashcardManual() {
   };
 
   const updateFlashcard = (id: number, field: 'question' | 'answer', value: string) => {
-    setFlashcards((cards) =>
-      cards.map((card) => (card.id === id ? { ...card, [field]: value } : card))
-    );
+    setFlashcards((cards) => cards.map((card) => (card.id === id ? { ...card, [field]: value } : card)));
   };
 
   const removeFlashcard = (id: number) => {
@@ -52,7 +49,7 @@ export function GenerateFlashcardManual() {
           });
         }
       }
-      navigate(`/dashboard/folders/${deckId}`);
+      router.push(`/dashboard/folders/${deckId}`);
     } catch {
       setError('Erreur lors de la création des flashcards');
     } finally {
@@ -61,52 +58,30 @@ export function GenerateFlashcardManual() {
   };
 
   return (
-    <div className="flex flex-col space-y-6 p-4">
-      <h2 className="text-2xl font-bold text-foreground">Créer manuellement</h2>
+    <div className='flex flex-col space-y-6 p-4'>
+      <h2 className='text-2xl font-bold text-foreground'>Créer manuellement</h2>
 
-      {error && <div className="rounded-md bg-destructive/10 p-4 text-destructive">{error}</div>}
+      {error && <div className='rounded-md bg-destructive/10 p-4 text-destructive'>{error}</div>}
 
-      <div className="space-y-4">
+      <div className='space-y-4'>
         {flashcards.map((card) => (
-          <div key={card.id} className="flex items-center gap-4">
-            <Input
-              type="text"
-              placeholder="Question"
-              value={card.question}
-              onChange={(e) => updateFlashcard(card.id, 'question', e.target.value)}
-              className="flex-1"
-            />
-            <Input
-              type="text"
-              placeholder="Réponse"
-              value={card.answer}
-              onChange={(e) => updateFlashcard(card.id, 'answer', e.target.value)}
-              className="flex-1"
-            />
-            <Button
-              variant="destructive"
-              size="icon"
-              onClick={() => removeFlashcard(card.id)}
-              className="shrink-0"
-            >
-              <Trash2 className="h-4 w-4" />
+          <div key={card.id} className='flex items-center gap-4'>
+            <Input type='text' placeholder='Question' value={card.question} onChange={(e) => updateFlashcard(card.id, 'question', e.target.value)} className='flex-1' />
+            <Input type='text' placeholder='Réponse' value={card.answer} onChange={(e) => updateFlashcard(card.id, 'answer', e.target.value)} className='flex-1' />
+            <Button variant='destructive' size='icon' onClick={() => removeFlashcard(card.id)} className='shrink-0'>
+              <Trash2 className='h-4 w-4' />
             </Button>
           </div>
         ))}
       </div>
 
-      <div className="flex flex-col space-y-4">
-        <Button variant="outline" onClick={addFlashcard} className="w-full">
-          <Plus className="mr-2 h-4 w-4" />
+      <div className='flex flex-col space-y-4'>
+        <Button variant='outline' onClick={addFlashcard} className='w-full'>
+          <Plus className='mr-2 h-4 w-4' />
           Ajouter une carte
         </Button>
 
-        <Button
-          variant="default"
-          onClick={handleSubmit}
-          disabled={loading || flashcards.length === 0}
-          className="w-full"
-        >
+        <Button variant='default' onClick={handleSubmit} disabled={loading || flashcards.length === 0} className='w-full'>
           {loading ? 'Sauvegarde...' : 'Sauvegarder les flashcards'}
         </Button>
       </div>
