@@ -8,18 +8,26 @@ import { ThumbsUp } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { LocaleLink as Link } from '../../ui/locale-link';
 
-export function CardFolderRank({ id, name, thema, lang, user_id, created_at, score }: Folder) {
-  const { profile, isLoading } = useProfileUserById(user_id || '');
+interface CardFolderRankProps extends Folder {
+  score?: number;
+}
+
+export function CardFolderRank({ id, name, thema, lang, user_id, created_at, score }: CardFolderRankProps) {
+  const { profile, isLoading } = useProfileUserById(user_id ?? '');
   const t = useTranslations();
 
   const translatedThema = thema ? t(`dashboard.folder.thema.${thema.toLowerCase()}`) : t('dashboard.folder.thema.other');
 
+  const getInitial = (firstname: string | undefined | null): string => {
+    return firstname?.charAt(0)?.toUpperCase() ?? '?';
+  };
+
   return (
     <Card className='flex w-full flex-col justify-between'>
-      <CardContent className='pt-6'>
+      <CardContent>
         <div className='space-y-2'>
-          <div className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <Link to={`/dashboard/folders/${id}`} className='text-lg font-semibold hover:underline'>
+          <div className='flex flex-row items-center justify-between space-y-0'>
+            <Link href={`/dashboard/folders/${id}`} className='text-lg font-semibold hover:underline'>
               {name}
             </Link>
             <div className='flex items-center space-x-2 text-sm text-muted-foreground'>
@@ -43,12 +51,12 @@ export function CardFolderRank({ id, name, thema, lang, user_id, created_at, sco
         ) : profile ? (
           <div className='flex items-center gap-4'>
             <Avatar className='h-10 w-10 rounded-lg'>
-              <AvatarImage src={profile.avatar} alt={`${profile.firstname}'s avatar`} className='object-cover' />
-              <AvatarFallback>{profile.firstname?.charAt(0).toUpperCase()}</AvatarFallback>
+              <AvatarImage src={profile.avatar ?? ''} alt={`${profile.firstname ?? 'User'}'s avatar`} className='object-cover' />
+              <AvatarFallback>{getInitial(profile.firstname)}</AvatarFallback>
             </Avatar>
             <div className='space-y-1'>
               <p className='text-sm text-muted-foreground'>
-                {t('dashboard.folder.by')} {profile.firstname}
+                {t('dashboard.folder.by')} {profile.firstname ?? ''}
               </p>
               <p className='text-xs text-muted-foreground'>{created_at ? formatDate(created_at) : ''}</p>
             </div>
@@ -57,7 +65,7 @@ export function CardFolderRank({ id, name, thema, lang, user_id, created_at, sco
 
         <div className='flex items-center gap-2'>
           <span className='text-sm'>{t('language')}:</span>
-          <span className='text-sm font-semibold'>{lang.toUpperCase()}</span>
+          <span className='text-sm font-semibold'>{(lang || '').toUpperCase()}</span>
         </div>
       </CardFooter>
     </Card>

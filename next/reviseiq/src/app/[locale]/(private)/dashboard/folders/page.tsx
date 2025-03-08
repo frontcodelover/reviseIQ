@@ -1,6 +1,7 @@
 import UserDecks from '@/presentation/components/dashboard/folders/userDecks';
 import { PageContainer } from '@/presentation/shared/PageContainer';
 import { useTranslations } from 'next-intl';
+
 export default function Folders() {
   const t = useTranslations();
 

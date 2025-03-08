@@ -1,34 +1,41 @@
+'use client';
 import { User } from '@/domain/entities/User';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { useQuery } from '@tanstack/react-query';
 
-export const useProfileUserById = (userId: string) => {
-  const { data, isLoading, error, ...rest } = useQuery<User, Error>({
+interface ProfileResult {
+  profile: User | null;
+  isLoading: boolean;
+  error: Error | null;
+}
+
+export const useProfileUserById = (userId: string): ProfileResult => {
+  const { data, isLoading, error, ...rest } = useQuery({
     queryKey: ['userProfile', userId],
-    queryFn: async () => {
+    queryFn: async (): Promise<User> => {
       try {
         const profile = await appContainer.getUserService().getUserProfile(userId);
         if (!profile) {
           throw new Error('Profil non trouvé');
         }
         return profile;
-      } catch {
-        throw new Error('Erreur lors de la récupération du profil');
+      } catch (err) {
+        throw new Error('Erreur lors de la récupération du profil' + err);
       }
     },
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     retry: 2,
     enabled: Boolean(userId),
-    onSettled: (data, error) => {
-      if (error) {
-        console.error('Error fetching profile:', error);
-      }
-    },
   });
 
+  // Gestion des erreurs au niveau du composant
+  if (error) {
+    console.error('Error fetching profile:', error);
+  }
+
   return {
-    profile: data,
+    profile: data || null,
     isLoading,
     error,
     ...rest,

@@ -1,10 +1,10 @@
+'use client';
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { CardFolderRank } from '@/presentation/components/dashboard/rank/CardFolderRank';
 import { Spinner } from '@/presentation/components/dashboard/shared/Spinner';
 import { Alert, AlertDescription } from '@/presentation/components/ui/alert';
 import { useTranslations } from 'next-intl';
 import { useQuery } from '@tanstack/react-query';
-
 
 export function ListMostLikedFolders() {
   const t = useTranslations();
@@ -13,7 +13,7 @@ export function ListMostLikedFolders() {
     queryFn: async () => {
       const result = await appContainer.getFolderService().getMostLikedFolders();
       return result;
-    }
+    },
   });
 
   if (isLoading) {

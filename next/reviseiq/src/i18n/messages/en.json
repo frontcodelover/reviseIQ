@@ -18,7 +18,8 @@
     "folder": "Flashcard",
     "generate-ai": "Generate with AI",
     "generate-manual": "Generate manually",
-    "upload-document": "Upload a document"
+    "upload-document": "Upload a document",
+    "top-ranked": "Top folders ranking"
   },
   "home": {
     "title": "Master any subject faster, transform your learning with smart flashcards.",

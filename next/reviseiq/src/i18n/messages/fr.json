@@ -18,7 +18,8 @@
     "folder": "Flashcard",
     "generate-ai": "Générer avec IA",
 		"generate-manual": "Ajout manuel",
-		"upload-document": "Importer un document"
+		"upload-document": "Importer un document",
+		"top-ranked": "Classement"
   },
   "home": {
     "title": "Apprenez de nouvelles compétences avec les flashcards intelligentes. ",
