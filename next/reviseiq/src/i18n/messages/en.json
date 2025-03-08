@@ -8,13 +8,17 @@
   "english": "English",
   "french": "French",
   "loading": "Loading...",
+  "deleting": "Deleting...",
+  "delete": "Delete",
   "changeLanguage": "Change language",
   "breadcrumb": {
     "item": "Item",
     "new": "New",
     "flashcard": "Flashcard",
     "folder": "Flashcard",
-    "generate-ai": "Generate with AI"
+    "generate-ai": "Generate with AI",
+    "generate-manual": "Generate manually",
+    "upload-document": "Upload a document"
   },
   "home": {
     "title": "Master any subject faster, transform your learning with smart flashcards.",
@@ -163,6 +167,7 @@
     "empty": "You haven't any notifications yet.",
     "folder": {
       "yourfolder": "Your folders",
+      "deleteConfirmDescription": "Are you sure you want to delete this folder? This action is irreversible.",
       "createfolder": "Create a folder",
       "nofolder": "You haven't created any folder yet.",
       "publicfolder": "Public",

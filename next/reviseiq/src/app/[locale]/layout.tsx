@@ -18,9 +18,9 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export default async function RootLayout({ children, params: { locale } }: { children: ReactNode; params: { locale: string } }) {
+export default async function RootLayout({ children, params: { locale } }: { children: ReactNode; params: { locale: 'fr' | 'en' } }) {
   // Vérification de la validité de la locale
-  if (!locales.includes(locale as any)) {
+  if (!locales.includes(locale )) {
     notFound();
   }
 

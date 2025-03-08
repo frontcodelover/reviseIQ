@@ -107,10 +107,10 @@ export function ThemaGroup({ thema, decks, onDeckDeleted }: ThemaGroupProps) {
               {isDeleting ? (
                 <>
                   <Spinner className='mr-2 h-4 w-4' />
-                  {t('common.deleting')}
+                  {t('deleting')}
                 </>
               ) : (
-                t('common.delete')
+                t('delete')
               )}
             </Button>
           </DialogFooter>

@@ -8,13 +8,17 @@
   "english": "Anglais",
   "french": "Français",
   "loading": "Chargement...",
+	"deleting": "Suppression...",
+	"delete" : "Supprimer",
   "changeLanguage": "Changer de langue",
   "breadcrumb": {
     "item": "Élément",
-		"new": "Nouveau",
+    "new": "Nouveau",
     "flashcard": "Flashcard",
     "folder": "Flashcard",
-		"generate-ai" : "Générer avec IA"
+    "generate-ai": "Générer avec IA",
+		"generate-manual": "Ajout manuel",
+		"upload-document": "Importer un document"
   },
   "home": {
     "title": "Apprenez de nouvelles compétences avec les flashcards intelligentes. ",
@@ -36,8 +40,8 @@
   },
   "flashcard": {
     "question": "Question",
-		"questionPlaceholder": "Entrez votre question",
-		"answerPlaceholder": "Entrez votre réponse",
+    "questionPlaceholder": "Entrez votre question",
+    "answerPlaceholder": "Entrez votre réponse",
     "answer": "Réponse",
     "edit": "Modifier",
     "delete": "Supprimer",
@@ -130,7 +134,7 @@
   },
   "dashboard": {
     "account": "Compte",
-		"signout": "Déconnexion",
+    "signout": "Déconnexion",
     "title": "Tableau de bord",
     "folders": "Dossiers",
     "top-ranked": "Classement",
@@ -161,7 +165,6 @@
     "folderDay": "Le dossier du jour ⭐",
     "folderDayText": "Chaque jour nous mettons en avant un dossier public aléatoire pour vous inspirer et apprendre de nouvelles choses.",
     "noPublicFolder": "Il semblerait qu'il n'y ait pas de dossier public pour le moment.",
-
     "firstimeForm": {
       "title": "Complétez votre profil",
       "firstnameLabel": "Entrez votre prénom",
@@ -190,6 +193,7 @@
     },
     "folder": {
       "yourfolder": "Vos dossiers",
+      "deleteConfirmDescription": "Êtes-vous sûr de vouloir supprimer ce dossier ?",
       "createfolder": "Créer un dossier",
       "nofolder": "Il semblerait que vous n'avez pas encore créé de dossier.",
       "publicfolder": "Public",
@@ -199,8 +203,8 @@
       "themaLabel": "Thème",
       "somethingWentWrong": "Quelque chose s'est mal passé lors de la récupération des dossiers",
       "mostLikedFolders": "Les dossiers les plus aimés",
-			"deleteConfirmTitle" : "Supprimer le dossier",
-			"deleteConfirmMessage" : "Êtes-vous sûr de vouloir supprimer ce dossier ?",
+      "deleteConfirmTitle": "Supprimer le dossier",
+      "deleteConfirmMessage": "Êtes-vous sûr de vouloir supprimer ce dossier ?",
       "form": {
         "title": "Créer un dossier",
         "name": "Nom du dossier",
