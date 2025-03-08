@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
-import { locales, defaultLocale } from '@/i18n/config';
+import { locales } from '@/i18n/config';
+import { ThemeProvider } from '@/presentation/context/ThemeProvider';
 import { Inter } from 'next/font/google';
 import { AuthProvider } from '@/presentation/context/AuthContext';
 import Providers from '../providers';
@@ -36,11 +37,13 @@ export default async function RootLayout({ children, params: { locale } }: { chi
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <Providers>
-          <NextIntlClientProvider locale={locale} messages={messages}>
-            <AuthProvider>{children}</AuthProvider>
-          </NextIntlClientProvider>
-        </Providers>
+        <ThemeProvider>
+          <Providers>
+            <NextIntlClientProvider locale={locale} messages={messages}>
+              <AuthProvider>{children}</AuthProvider>
+            </NextIntlClientProvider>
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );
