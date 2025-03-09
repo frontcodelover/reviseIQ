@@ -15,7 +15,8 @@ interface SingleFolderProps {
 
 export function SingleFolder({ id }: SingleFolderProps) {
   const [isOwner, setIsOwner] = useState(false);
-  const { user } = useAuth();
+	const { user } = useAuth();
+	console.log('USER',user);
   const user_id = user?.id ?? null;
 
   const {

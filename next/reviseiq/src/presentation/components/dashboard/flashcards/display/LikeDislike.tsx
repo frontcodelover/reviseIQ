@@ -63,7 +63,7 @@ export function LikeDislike() {
       const toastMessage = isPositive ? "J'aime ajouté" : "Je n'aime pas ajouté";
       const toastIcon = isPositive ? '👍' : '👎';
 
-      toast(toastMessage, {
+      toast.success(toastMessage, {
         description: 'Votre vote a été enregistré avec succès',
         icon: toastIcon,
         className: isPositive

@@ -59,7 +59,7 @@ export function PriorityReview() {
       const nextRemainingCards = priorityCards.filter((card) => !reviewedCards.has(card.id) && card.flashcard && card.id !== currentCard.id);
 
       if (nextRemainingCards.length === 0) {
-        toast('Session terminée !', {
+        toast.success('Session terminée !', {
           description: `Vous avez révisé ${reviewedCards.size + 1} cartes.`,
           style: {
             backgroundColor: '#0c0a09',
@@ -88,10 +88,10 @@ export function PriorityReview() {
       setCurrentIndex(0);
       setIsAnswerRevealed(false);
 
-      toast(quality >= ReviewQuality.Good ? 'Bien joué ! 🎉' : 'Continuez à pratiquer ! 💪');
+      toast.success(quality >= ReviewQuality.Good ? 'Bien joué ! 🎉' : 'Continuez à pratiquer ! 💪');
     } catch (error) {
       console.error('Erreur lors de la révision:', error);
-      toast('Erreur', {
+      toast.error('Erreur', {
         description: 'Impossible de sauvegarder votre progression',
       });
     }

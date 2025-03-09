@@ -213,6 +213,8 @@
       "revisions": "Révisions"
     },
     "folder": {
+			"addToFavorites": "Ajouter aux favoris",
+			"removeFromFavorites": "Retirer des favoris",
       "yourfolder": "Vos dossiers",
       "deleteConfirmDescription": "Êtes-vous sûr de vouloir supprimer ce dossier ?",
       "createfolder": "Créer un dossier",

@@ -187,6 +187,8 @@
       "revisions": "Revisions"
     },
     "folder": {
+      "addToFavorites": "Ajouter aux favoris",
+      "removeFromFavorites": "Retirer des favoris",
       "yourfolder": "Your folders",
       "deleteConfirmDescription": "Are you sure you want to delete this folder? This action is irreversible.",
       "createfolder": "Create a folder",

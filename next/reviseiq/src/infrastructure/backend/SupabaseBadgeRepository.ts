@@ -7,6 +7,26 @@ export class SupabaseBadgeRepository implements BadgeRepository {
   private channel: RealtimeChannel | null = null;
 
   async checkAndUnlockBadges(userId: string, stats: { flashcards_viewed: number; folders_viewed: number }) {
+    console.log('Stats reçues:', stats);
+
+    // Récupérer d'abord les statistiques actuelles de l'utilisateur
+    const { data: userStats, error: statsError } = await supabase.from('usage_logs').select('action, count').eq('user_id', userId);
+
+		console.log('userStats:', userStats);
+
+    if (statsError) {
+      console.error('Erreur lors de la récupération des stats:', statsError);
+      return;
+    }
+
+    // Calcul des totaux réels
+    const actualStats = {
+      flashcards_viewed: userStats?.find((s) => s.action === 'flashcards_viewed')?.count || 0,
+      folders_viewed: userStats?.find((s) => s.action === 'folder_viewed')?.count || 0,
+    };
+
+    console.log('Stats actuelles:', actualStats);
+
     // Récupérer tous les badges
     const { data: badges, error: badgeError } = await supabase.from('badges').select('*');
 
@@ -14,6 +34,8 @@ export class SupabaseBadgeRepository implements BadgeRepository {
       console.error('Erreur lors de la récupération des badges :', badgeError.message);
       return;
     }
+
+    console.log('Badges disponibles:', badges); // Déboguer les badges
 
     // Récupérer les badges déjà débloqués par l'utilisateur
     const { data: unlockedBadges, error: userBadgeError } = await supabase.from('user_badges').select('badge_id').eq('user_id', userId);
@@ -29,11 +51,17 @@ export class SupabaseBadgeRepository implements BadgeRepository {
     for (const badge of badges || []) {
       if (unlockedBadgeIds.includes(badge.id)) continue;
 
+      console.log('Vérification du badge:', badge); // Déboguer le badge en cours
+      console.log('Critères originaux:', badge.criteria); // Déboguer les critères
+
       // Remplacer les variables dans les critères de déblocage
-      const criteria = badge.criteria.replace('flashcards_viewed', stats.flashcards_viewed.toString()).replace('folders_viewed', stats.folders_viewed.toString());
+      const criteria = badge.criteria.replace(/flashcards_viewed/g, actualStats.flashcards_viewed.toString()).replace(/folders_viewed/g, actualStats.folders_viewed.toString());
+
+      console.log('Critères évalués:', criteria); // Déboguer les critères après remplacement
 
       // Évaluer les critères de déblocage
       const criteriaMet = this.evaluateCriteria(criteria);
+      console.log('Critères remplis:', criteriaMet); // Déboguer le résultat
       if (criteriaMet) {
         // Débloquer le badge pour l'utilisateur
         const { error: insertError } = await supabase.from('user_badges').insert({
@@ -106,9 +134,19 @@ export class SupabaseBadgeRepository implements BadgeRepository {
 
   private evaluateCriteria(criteria: string): boolean {
     try {
+      // Vérification de sécurité supplémentaire
+      if (!criteria.match(/^[0-9\s><=!&|()]+$/)) {
+        console.error('Critères invalides:', criteria);
+        return false;
+      }
+
       // Utiliser une fonction pour évaluer les critères
       const func = new Function('return ' + criteria);
-      return func();
+      const result = func();
+
+      console.log(`Évaluation de "${criteria}" => ${result}`);
+
+      return Boolean(result);
     } catch (error) {
       const errorMessage = (error as Error).message;
       console.error("Erreur lors de l'évaluation des critères :", errorMessage);

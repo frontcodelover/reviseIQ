@@ -80,15 +80,20 @@ export function Dashboard() {
       <section className='mt-6 space-y-4'>
         <h2 className='text-2xl font-semibold'>Vos badges</h2>
         <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-          {badges.map((badge, index) => (
-            <Card key={`${badge.id}-${index}`}>
-              <CardContent className='flex flex-col items-center space-y-4 p-6'>
-                <Image src={badge.image_url} alt={badge.name} width={64} height={64} className='object-contain' />
-                <CardTitle className='text-center'>{badge.name}</CardTitle>
-                <p className='text-center text-sm text-muted-foreground'>{badge.description}</p>
-              </CardContent>
-            </Card>
-          ))}
+          {Array.from(new Set(badges.map((badge) => badge.id))).map((badgeId) => {
+            const badge = badges.find((b) => b.id === badgeId);
+            if (!badge) return null;
+
+            return (
+              <Card key={badge.id}>
+                <CardContent className='flex flex-col items-center space-y-4 p-6'>
+                  <Image src={badge.image_url} alt={badge.name} width={64} height={64} className='object-contain' />
+                  <CardTitle className='text-center'>{badge.name}</CardTitle>
+                  <p className='text-center text-sm text-muted-foreground'>{badge.description}</p>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </section>
     </PageContainer>
