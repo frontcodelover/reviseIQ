@@ -19,7 +19,8 @@
     "generate-ai": "Generate with AI",
     "generate-manual": "Generate manually",
     "upload-document": "Upload a document",
-    "top-ranked": "Top folders ranking"
+    "top-ranked": "Top folders ranking",
+    "priority-review": "Review"
   },
   "home": {
     "title": "Master any subject faster, transform your learning with smart flashcards.",
@@ -166,6 +167,25 @@
     "congrats": "Congratulations 🎉",
     "congratsMessage": "You have unlocked a new badge 🎉",
     "empty": "You haven't any notifications yet.",
+    "reviewPage": {
+      "congrats": "Congratulations!",
+      "noCards": "You have no flashcards to review.",
+      "backToDashboard": "Back to dashboard",
+      "endSession": "End session",
+      "allReviewed": "All flashcards have been reviewed.",
+      "loadingError": "An error occurred while loading the flashcards. Please try again.",
+      "error": "An error occurred",
+      "reload": "Reload",
+      "end": "Session ended",
+      "priorityReview": "Priority review",
+      "errorHappen": "An error occurred while reviewing the flashcards.",
+      "tryAgain": "Please try again.",
+      "showAnswer": "Show answer",
+      "idontknow": "I don't know",
+      "iknow": "I know",
+      "difficulty": "Difficulty",
+      "revisions": "Revisions"
+    },
     "folder": {
       "yourfolder": "Your folders",
       "deleteConfirmDescription": "Are you sure you want to delete this folder? This action is irreversible.",

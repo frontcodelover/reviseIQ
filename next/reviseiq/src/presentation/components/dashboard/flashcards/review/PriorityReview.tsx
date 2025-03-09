@@ -1,3 +1,4 @@
+'use client';
 import { ReviewQuality } from '@/domain/entities/FlashcardProgress';
 import { FlashcardProgressUpdate } from '@/domain/entities/FlashcardProgress';
 import { SpacedRepetitionService } from '@/domain/services/SpacedRepetitionService';
@@ -10,11 +11,15 @@ import { useFlashcardPriority } from '@/presentation/hooks/useFlashcardPriority'
 import { useProfile } from '@/presentation/hooks/useProfile';
 import { useState } from 'react';
 import ConfettiExplosion from 'react-confetti-explosion';
-import { useNavigate } from 'react-router-dom';
+import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 export function PriorityReview() {
-  const navigate = useNavigate();
+  const router = useRouter();
+  const params = useParams();
+  const locale = params?.locale || 'fr';
+  const t = useTranslations();
   const { profile } = useProfile();
   const { priorityCards, isLoading, error, refetch } = useFlashcardPriority(profile?.user_id ?? '');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,9 +28,7 @@ export function PriorityReview() {
   const flashcardProgressRepository = appContainer.getFlashcardProgressRepository();
 
   // Calculer les cartes restantes avec vérification
-  const remainingCards = priorityCards.filter(
-    (card) => !reviewedCards.has(card.id) && card.flashcard
-  );
+  const remainingCards = priorityCards.filter((card) => !reviewedCards.has(card.id) && card.flashcard);
 
   const handleReveal = () => setIsAnswerRevealed(true);
 
@@ -53,9 +56,7 @@ export function PriorityReview() {
       setReviewedCards((prev) => new Set([...prev, currentCard.id]));
 
       // Vérifier s'il reste des cartes à réviser
-      const nextRemainingCards = priorityCards.filter(
-        (card) => !reviewedCards.has(card.id) && card.flashcard && card.id !== currentCard.id
-      );
+      const nextRemainingCards = priorityCards.filter((card) => !reviewedCards.has(card.id) && card.flashcard && card.id !== currentCard.id);
 
       if (nextRemainingCards.length === 0) {
         toast('Session terminée !', {
@@ -69,12 +70,16 @@ export function PriorityReview() {
 
         // Ajouter un délai avant la redirection
         setTimeout(() => {
-          navigate('/dashboard', {
-            state: {
+          // Sauvegarder les données dans localStorage
+          localStorage.setItem(
+            'reviewSession',
+            JSON.stringify({
               message: 'Session de révision terminée ! 🎉',
               reviewedCount: reviewedCards.size + 1,
-            },
-          });
+            }),
+          );
+
+          router.push(`/${locale}/dashboard`);
         }, 2500);
 
         return;
@@ -92,27 +97,25 @@ export function PriorityReview() {
     }
   };
 
-  if (isLoading) return <Skeleton className="h-[200px] w-full" />;
+  if (isLoading) return <Skeleton className='h-[200px] w-full' />;
   if (error) {
     return (
-      <div className="p-4 text-center">
-        <p className="text-red-500">Une erreur est survenue</p>
-        <Button onClick={refetch} className="mt-2">
-          Réessayer
+      <div className='p-4 text-center'>
+        <p className='text-red-500'>{t('dashboard.reviewPage.errorHappen')}</p>
+        <Button onClick={refetch} className='mt-2'>
+          {t('dashboard.reviewPage.tryAgain')}
         </Button>
       </div>
     );
   }
   if (priorityCards.length === 0) {
     return (
-      <Card className="mt-6 flex flex-col items-center justify-center p-6">
+      <Card className='mt-6 flex flex-col items-center justify-center p-6'>
         <ConfettiExplosion />
-        <h2 className="mb-2 text-xl font-semibold">Félicitations ! 🎉</h2>
-        <p className="text-muted-foreground">
-          Vous n'avez aucune carte prioritaire à réviser pour le moment.
-        </p>
-        <Button onClick={() => navigate('/dashboard')} className="mt-4">
-          Retour au tableau de bord
+        <h2 className='mb-2 text-xl font-semibold'>{t('dashboard.reviewPage.congrats')}</h2>
+        <p className='text-muted-foreground'>{t('dashboard.reviewPage.noCards')}</p>
+        <Button onClick={() => router.push(`/${locale}/dashboard`)} className='mt-4'>
+          {t('dashboard.reviewPage.backToDashboard')}
         </Button>
       </Card>
     );
@@ -120,14 +123,12 @@ export function PriorityReview() {
 
   if (remainingCards.length === 0) {
     return (
-      <Card className="mt-6 flex flex-col items-center justify-center p-6">
+      <Card className='mt-6 flex flex-col items-center justify-center p-6'>
         <ConfettiExplosion />
-        <h2 className="mb-2 text-xl font-semibold">Session terminée ! 🎉</h2>
-        <p className="text-muted-foreground">
-          Vous avez révisé toutes les cartes de cette session.
-        </p>
-        <Button onClick={() => navigate('/dashboard')} className="mt-4">
-          Retour au tableau de bord
+        <h2 className='mb-2 text-xl font-semibold'>{t('dashboard.reviewPage.endSession')}</h2>
+        <p className='text-muted-foreground'>{t('dashboard.reviewPage.allReviewed')}</p>
+        <Button onClick={() => router.push(`/${locale}/dashboard`)} className='mt-4'>
+          {t('dashboard.reviewPage.backToDashboard')}
         </Button>
       </Card>
     );
@@ -136,67 +137,54 @@ export function PriorityReview() {
   const currentCard = remainingCards[currentIndex];
   if (!currentCard || !currentCard.flashcard) {
     return (
-      <Card className="p-6 text-center">
-        <h2 className="mb-2 text-xl font-semibold">Erreur de chargement</h2>
-        <p className="text-muted-foreground">Impossible de charger la carte. Veuillez réessayer.</p>
-        <Button onClick={refetch} className="mt-4">
-          Recharger
+      <Card className='p-6 text-center'>
+        <h2 className='mb-2 text-xl font-semibold'>{t('dashboard.reviewPage.loadingError')}</h2>
+        <p className='text-muted-foreground'>{t('dashboard.reviewPage.error')}</p>
+        <Button onClick={refetch} className='mt-4'>
+          {t('dashboard.reviewPage.reload')}
         </Button>
       </Card>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="mt-6 flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Révision Prioritaire</h2>
-        <div className="flex items-center gap-2">
-          <Button onClick={() => navigate('/dashboard')} size="sm" variant="outline">
-            Terminer
+    <div className='space-y-6'>
+      <div className='mt-6 flex items-center justify-between'>
+        <h2 className='text-2xl font-bold'> {t('dashboard.reviewPage.priorityReview')}</h2>
+        <div className='flex items-center gap-2'>
+          <Button onClick={() => router.push(`/${locale}/dashboard`)} size='sm' variant='outline'>
+            {t('dashboard.reviewPage.end')}
           </Button>
         </div>
       </div>
 
       {/* Carte principale avec vérification */}
-      <Card className="overflow-hidden">
-        <div className="p-6">
-          <div className="mb-4 space-y-2">
-            <h3 className="text-lg font-medium">Question :</h3>
-            <p className="text-lg">{currentCard.flashcard.question}</p>
+      <Card className='overflow-hidden'>
+        <div className='p-6'>
+          <div className='mb-4 space-y-2'>
+            <h3 className='text-lg font-medium'>{t('flashcard.question')} :</h3>
+            <p className='text-lg'>{currentCard.flashcard.question}</p>
           </div>
 
-          <div
-            className={cn(
-              'mt-6 space-y-2',
-              !isAnswerRevealed && 'blur-sm transition-all hover:blur-none'
-            )}
-          >
-            <h3 className="text-lg font-medium">Réponse :</h3>
-            <p className="text-lg">{currentCard.flashcard.answer}</p>
+          <div className={cn('mt-6 space-y-2', !isAnswerRevealed && 'blur-sm transition-all hover:blur-none')}>
+            <h3 className='text-lg font-medium'>{t('flashcard.answer')}</h3>
+            <p className='text-lg'>{currentCard.flashcard.answer}</p>
           </div>
         </div>
 
         {/* Actions */}
-        <div className="border-t bg-muted/50 p-4">
+        <div className='border-t bg-muted/50 p-4'>
           {!isAnswerRevealed ? (
-            <Button onClick={handleReveal} className="w-full">
-              Révéler la réponse
+            <Button onClick={handleReveal} className='w-full'>
+              {t('dashboard.reviewPage.showAnswer')}
             </Button>
           ) : (
-            <div className="grid grid-cols-2 gap-2">
-              <Button
-                variant="destructive"
-                onClick={() => handleReview(ReviewQuality.BlackOut)}
-                className="w-full"
-              >
-                Je ne sais pas 😅
+            <div className='grid grid-cols-2 gap-2'>
+              <Button variant='destructive' onClick={() => handleReview(ReviewQuality.BlackOut)} className='w-full'>
+                {t('dashboard.reviewPage.idontknow')}
               </Button>
-              <Button
-                variant="default"
-                onClick={() => handleReview(ReviewQuality.Perfect)}
-                className="w-full"
-              >
-                Je sais ! 🎉
+              <Button variant='default' onClick={() => handleReview(ReviewQuality.Perfect)} className='w-full'>
+                {t('dashboard.reviewPage.iknow')}
               </Button>
             </div>
           )}
@@ -204,14 +192,18 @@ export function PriorityReview() {
       </Card>
 
       {/* Barre de progression */}
-      <div className="mt-4">
-        <div className="mb-2 flex justify-between text-sm">
-          <span>Difficulté: {currentCard.easiness_factor.toFixed(1)}</span>
-          <span>Révisions: {currentCard.repetitions}</span>
+      <div className='mt-4'>
+        <div className='mb-2 flex justify-between text-sm'>
+          <span>
+            {t('dashboard.reviewPage.difficulty')} {currentCard.easiness_factor.toFixed(1)}
+          </span>
+          <span>
+            {t('dashboard.reviewPage.revisions')} {currentCard.repetitions}
+          </span>
         </div>
-        <div className="h-1 w-full overflow-hidden rounded-full bg-muted">
+        <div className='h-1 w-full overflow-hidden rounded-full bg-muted'>
           <div
-            className="h-full bg-primary transition-all"
+            className='h-full bg-primary transition-all'
             style={{
               width: `${Math.min((currentCard.easiness_factor / 2.5) * 100, 100)}%`,
             }}

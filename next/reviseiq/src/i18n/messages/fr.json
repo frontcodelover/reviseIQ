@@ -8,8 +8,8 @@
   "english": "Anglais",
   "french": "Français",
   "loading": "Chargement...",
-	"deleting": "Suppression...",
-	"delete" : "Supprimer",
+  "deleting": "Suppression...",
+  "delete": "Supprimer",
   "changeLanguage": "Changer de langue",
   "breadcrumb": {
     "item": "Élément",
@@ -17,9 +17,10 @@
     "flashcard": "Flashcard",
     "folder": "Flashcard",
     "generate-ai": "Générer avec IA",
-		"generate-manual": "Ajout manuel",
-		"upload-document": "Importer un document",
-		"top-ranked": "Classement"
+    "generate-manual": "Ajout manuel",
+    "upload-document": "Importer un document",
+    "top-ranked": "Classement",
+		"priority-review": "Révision"
   },
   "home": {
     "title": "Apprenez de nouvelles compétences avec les flashcards intelligentes. ",
@@ -191,6 +192,25 @@
       "contactInfo": "Informations de contact",
       "phoneHelper": "Votre numéro de téléphone ne sera pas partagé avec les autres utilisateurs. (optionnel)",
       "profile": "Quel est votre profil ?"
+    },
+    "reviewPage": {
+      "congrats": "Félicitations ! 🎉",
+      "noCards": "Vous n'avez aucune carte prioritaire à réviser pour le moment.",
+      "backToDashboard": "Retour au tableau de bord",
+      "endSession": "Session terminée ! 🎉",
+      "allReviewed": "Vous avez révisé toutes les cartes de cette session.",
+      "loadingError": "Erreur de chargement",
+      "error": "Impossible de charger la carte. Veuillez réessayer.",
+      "reload": "Recharger",
+      "end": "Terminer la session",
+      "priorityReview": "Révision prioritaire",
+      "errorHappen": "Une erreur est survenue",
+      "tryAgain": "Veuillez réessayer",
+      "showAnswer": "Afficher la réponse",
+      "idontknow": "Je ne sais pas 😅",
+      "iknow": "Je sais ! 😎",
+      "difficulty": "Difficulté",
+      "revisions": "Révisions"
     },
     "folder": {
       "yourfolder": "Vos dossiers",
