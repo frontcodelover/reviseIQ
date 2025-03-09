@@ -1,3 +1,4 @@
+'use client';
 //! need to implement logic to handle the form submission
 import { Avatar, AvatarFallback, AvatarImage } from '@/presentation/components/ui/avatar';
 import { Button } from '@/presentation/components/ui/button';
