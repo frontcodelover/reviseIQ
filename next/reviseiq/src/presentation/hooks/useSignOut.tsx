@@ -2,11 +2,9 @@
 
 import { appContainer } from '@/infrastructure/config/AppContainer';
 import { useRouter } from '@/i18n/navigation';
-import { useLocale } from 'next-intl';
 
 export const useHandleSignOut = () => {
   const router = useRouter();
-  const locale = useLocale();
 
   const handleSignOut = async () => {
     try {

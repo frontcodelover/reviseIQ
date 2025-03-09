@@ -56,8 +56,8 @@ export function useFolderFavorite(deck_id: string) {
       setIsFavorite(!isFavorite);
 
       // Invalidate queries to force data refresh
-      queryClient.invalidateQueries(['folders']);
-      queryClient.invalidateQueries(['userFavorites']);
+      queryClient.invalidateQueries({ queryKey: ['folders'] });
+      queryClient.invalidateQueries({ queryKey: ['userFavorites'] });
     } catch (error) {
       console.error('Error toggling favorite status:', error);
     } finally {

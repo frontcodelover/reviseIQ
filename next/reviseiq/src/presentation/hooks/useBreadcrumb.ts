@@ -2,22 +2,11 @@
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
-import { useParams } from 'next/navigation';
 
 export interface BreadcrumbItem {
   label: string;
   path: string;
   isActive: boolean;
-}
-
-interface MatchData {
-  name?: string;
-  title?: string;
-  label?: string;
-  folder?: { name?: string };
-  flashcard?: { question?: string };
-  question?: string;
-  [key: string]: unknown;
 }
 
 const routeTranslationMap: Record<string, string> = {
@@ -30,44 +19,9 @@ const routeTranslationMap: Record<string, string> = {
   stats: 'dashboard.stats',
 };
 
-function extractItemName(data: MatchData | unknown): string | undefined {
-  if (!data || typeof data !== 'object') {
-    return undefined;
-  }
-
-  const typedData = data as MatchData;
-
-  if (typedData.name) {
-    return typedData.name;
-  }
-
-  if (typedData.folder?.name) {
-    return typedData.folder.name;
-  }
-
-  if (typedData.title) {
-    return typedData.title;
-  }
-
-  if (typedData.label) {
-    return typedData.label;
-  }
-
-  if (typedData.flashcard?.question) {
-    return typedData.flashcard.question.length > 20 ? `${typedData.flashcard.question.substring(0, 20)}...` : typedData.flashcard.question;
-  }
-
-  if (typedData.question) {
-    return typedData.question.length > 20 ? `${typedData.question.substring(0, 20)}...` : typedData.question;
-  }
-
-  return undefined;
-}
-
 export function useBreadcrumb(): BreadcrumbItem[] {
   const pathname = usePathname();
   const t = useTranslations();
-  const params = useParams();
 
   return useMemo(() => {
     // Supprimer la locale du chemin si présente

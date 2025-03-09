@@ -7,7 +7,7 @@ import { Button } from '@/presentation/components/ui/button';
 import { Card, CardContent } from '@/presentation/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/presentation/components/ui/collapsible';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/presentation/components/ui/dialog';
-import { useToast } from '@/presentation/hooks/use-toast';
+import { toast } from 'sonner';
 import { ChevronDown, CornerDownRight, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -24,7 +24,6 @@ export interface ThemaGroupProps {
 export function ThemaGroup({ thema, decks, onDeckDeleted }: ThemaGroupProps) {
   const { isThemaOpen, toggleThema } = useUserDeckStore();
   const isOpen = isThemaOpen(thema);
-  const { toast } = useToast();
   const t = useTranslations();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deckToDelete, setDeckToDelete] = useState<Folder | null>(null);
@@ -41,17 +40,18 @@ export function ThemaGroup({ thema, decks, onDeckDeleted }: ThemaGroupProps) {
     setIsDeleting(true);
     try {
       await appContainer.getFolderService().deleteFolder(deckToDelete.id);
-      toast({
-        title: t('dashboard.folder.deleteSuccess'),
-        description: t('dashboard.folder.deleteSuccessDescription', { name: deckToDelete.name }),
+      toast.success(t('dashboard.folder.deleteSuccess'), {
+        description: t('dashboard.folder.deleteSuccessDescription', {
+          name: deckToDelete.name,
+        }),
+        duration: 3000,
       });
-      onDeckDeleted(); // Déclencher le rechargement des dossiers
+      await onDeckDeleted();
     } catch (error) {
       console.error('Erreur lors de la suppression:', error);
-      toast({
-        variant: 'destructive',
-        title: t('dashboard.folder.deleteError'),
+      toast.error(t('dashboard.folder.deleteError'), {
         description: t('dashboard.folder.deleteErrorDescription'),
+        duration: 3000,
       });
     } finally {
       setIsDeleting(false);
