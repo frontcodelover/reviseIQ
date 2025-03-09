@@ -20,7 +20,7 @@
     "generate-manual": "Ajout manuel",
     "upload-document": "Importer un document",
     "top-ranked": "Classement",
-		"priority-review": "Révision"
+    "priority-review": "Révision"
   },
   "home": {
     "title": "Apprenez de nouvelles compétences avec les flashcards intelligentes. ",
@@ -213,8 +213,10 @@
       "revisions": "Révisions"
     },
     "folder": {
-			"addToFavorites": "Ajouter aux favoris",
-			"removeFromFavorites": "Retirer des favoris",
+      "addToFavorites": "Ajouter aux favoris",
+      "removeFromFavorites": "Retirer des favoris",
+      "deleteSuccess": "Dossier supprimé",
+      "deleteSuccessDescription": "Le dossier a été supprimé avec succès.",
       "yourfolder": "Vos dossiers",
       "deleteConfirmDescription": "Êtes-vous sûr de vouloir supprimer ce dossier ?",
       "createfolder": "Créer un dossier",
