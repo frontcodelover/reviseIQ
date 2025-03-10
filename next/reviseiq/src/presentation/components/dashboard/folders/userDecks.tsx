@@ -15,7 +15,6 @@ export function UserDecks() {
   return (
     <div className='flex flex-col gap-4'>
       <div className='mb-4 flex justify-end gap-4'>
-        {/* Assurez-vous que le type correspond exactement */}
         <NewFolderBtn onFolderCreated={fetchUserDecks} />
       </div>
 

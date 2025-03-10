@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 import { ChevronDown, CornerDownRight, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { LocaleLink as Link } from '../../ui/locale-link';
+import { LocaleLink as Link } from '@/presentation/components/ui/locale-link';
 
 import { useUserDeckStore } from './store/userDecksStore';
 
