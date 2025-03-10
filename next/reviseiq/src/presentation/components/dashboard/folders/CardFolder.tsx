@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter } from '@/presentation/components/ui/card
 import { Skeleton } from '@/presentation/components/ui/skeleton';
 import { useProfileUserById } from '@/presentation/hooks/useProfileUserById';
 import { useTranslations } from 'next-intl';
-import { LocaleLink as Link } from '../../ui/locale-link';
+import { LocaleLink as Link } from '@/presentation/components/ui/locale-link';
 
 export function CardFolder({ id, name, thema, lang, user_id, created_at }: Folder) {
   const { profile, isLoading } = useProfileUserById(user_id || '');

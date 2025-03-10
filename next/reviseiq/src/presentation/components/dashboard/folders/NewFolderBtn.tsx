@@ -5,7 +5,6 @@ import { Plus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 
-// Définition explicite du type de la prop
 export interface NewFolderBtnProps {
   onFolderCreated: () => Promise<void>;
 }
@@ -15,8 +14,7 @@ export function NewFolderBtn({ onFolderCreated }: NewFolderBtnProps) {
   const router = useRouter();
 
   const handleClick = async () => {
-    // Utilisation du router de Next.js pour la navigation
-    await router.push('/dashboard/folders/new');
+    router.push('/dashboard/folders/new');
     await onFolderCreated();
   };
 
