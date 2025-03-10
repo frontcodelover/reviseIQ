@@ -6,14 +6,18 @@ import { Alert, AlertDescription } from '@/presentation/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useQuery } from '@tanstack/react-query';
-import { LocaleLink as Link } from '../../ui/locale-link';
+import { LocaleLink as Link } from '@/presentation/components/ui/locale-link';
 
 export function ListHomeFolders() {
   const t = useTranslations();
 
-  const { data: folders, isLoading, error } = useQuery<Folder[]>({
+  const {
+    data: folders,
+    isLoading,
+    error,
+  } = useQuery<Folder[]>({
     queryKey: ['lastPublicFolders'],
-    queryFn: () => appContainer.getFolderService().getLastPublicFolders()
+    queryFn: () => appContainer.getFolderService().getLastPublicFolders(),
   });
 
   if (isLoading) {
@@ -47,7 +51,7 @@ export function ListHomeFolders() {
           ))}
         </div>
 
-        <Link to='/dashboard/community' className='text-right text-primary hover:underline'>
+        <Link href='/dashboard/community' className='text-right text-primary hover:underline'>
           + {t('dashboard.folder.moreFolder')}
         </Link>
       </div>
