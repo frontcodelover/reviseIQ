@@ -94,7 +94,6 @@ export const useFlashcardsStore = create<FlashcardsState>()((set, get) => ({
 
   fetchFlashcards: async (deckId: string) => {
     try {
-      // Réinitialiser le state avant de charger les nouvelles flashcards
       set({
         flashcards: [],
         currentIndex: 0,
@@ -125,17 +124,12 @@ export const useFlashcardsStore = create<FlashcardsState>()((set, get) => ({
     const state = get();
     if (state.isLastCard && !state.hasLoggedCompletion && state.flashcards.length > 0) {
       try {
-        // Vérifier que nous avons un userId
         if (!state.userId) {
-          await get().fetchUserId(); // Récupérer l'userId si non disponible
+          await get().fetchUserId();
         }
 
         if (state.userId) {
-          await appContainer.getLogService().logAction(
-            state.userId, // Utiliser l'userId au lieu du deckId
-            'flashcards_viewed', // Action
-            state.flashcards.length, // Nombre de flashcards complétées
-          );
+          await appContainer.getLogService().logAction(state.userId, 'flashcards_viewed', state.flashcards.length);
           set({ hasLoggedCompletion: true });
         } else {
           throw new Error('Impossible de logger la complétion: utilisateur non identifié');
