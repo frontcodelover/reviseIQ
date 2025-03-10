@@ -10,7 +10,7 @@ import { AlertCircle, CheckCircle2, XCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
-import { LocaleLink as Link } from '../../ui/locale-link';
+import { LocaleLink as Link } from '@/presentation/components/ui/locale-link';
 
 export default function QuizMode() {
   const { id: deckId } = useParams<{ id: string }>();
@@ -166,7 +166,7 @@ export default function QuizMode() {
             <p className='text-muted-foreground'>{score === quiz.questions.length ? t('quiz.congrats') : t('quiz.continue')}</p>
           </CardContent>
           <CardFooter className='flex justify-center gap-4'>
-            <Link to={`/dashboard/folders/${deckId}`} className='block w-full'>
+            <Link href={`/dashboard/folders/${deckId}`} className='block w-full'>
               <Button size='lg' className='w-full'>
                 {t('quiz.revise')}
               </Button>
